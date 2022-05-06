@@ -24,17 +24,17 @@ class DemoData extends IcoHandler
      */
     public function __construct()
     {
-        $this->init(); 
+        $this->init();
     }
 
     /**
      * Initialize The DemoData
      */
     public function init()
-    {  
+    {
         $check_dt = \IcoHandler::checkDB();
-        if(empty($check_dt)){       
-       
+        if(empty($check_dt)){
+
             if (file_exists(storage_path('installed')) && !request()->is('install/*') && Schema::hasTable('settings')) {
                 $site_db = (float) get_setting('site_db_version', 1001); $lang_db = (float) get_setting('lang_db_version', 1001);
 
@@ -59,9 +59,9 @@ class DemoData extends IcoHandler
                 if(BaseTranslate::db_version > $lang_db) {
                     BaseTranslate::import_translate(true);
                     Language::firstOrCreate([
-                        'name' => 'English', 
-                        'label' => 'English', 
-                        'short' => 'EN', 
+                        'name' => 'English',
+                        'label' => 'English',
+                        'short' => 'EN',
                         'code' => 'en',
                     ]);
                     if (get_setting('lang_last_update_en', null) == null) {
@@ -456,16 +456,16 @@ class DemoData extends IcoHandler
     protected function apiSecret()
     {
         if (get_setting('site_api_key', null) == null) {
-            add_setting('site_api_key', str_random(24));
+            add_setting('site_api_key', Str::random(24));
         }
         if (get_setting('site_api_secret', null) == null) {
-            add_setting('site_api_secret', str_random(4).gdmn(1).str_random(4));
+            add_setting('site_api_secret', Str::random(4).gdmn(1).Str::random(4));
         }
         if (get_setting('token'.'lite_credible', null) == null) {
-            add_setting('token'.'lite_credible', str_random(48));
+            add_setting('token'.'lite_credible', Str::random(48));
         }
         if (get_setting('nio_lkey', null) == null) {
-                add_setting('nio_lkey', str_random(32));
+                add_setting('nio_lkey', Str::random(32));
         }
     }
     private function add_purchase_settings()

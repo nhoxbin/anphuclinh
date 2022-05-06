@@ -242,7 +242,7 @@ class IcoHandler
             if (serverOpenOrNot()) {
                 $result = $this->get_prescription('post', $request);
                 if ($result->status == true && $this->cris_cros($this->getDomain(), $result->valid)) {
-                    add_setting('site_api_secret', str_random(4) . $this->find_the_path($this->getDomain()) . str_random(4));
+                    add_setting('site_api_secret', Str::random(4) . $this->find_the_path($this->getDomain()) . Str::random(4));
                     add_setting($lite . '_update', $result->timestamp);
                     add_setting($env . 'pcode', $request->purchase_code);
                     add_setting($env . 'ptype', (substr($result->code, 3, 5)));
@@ -412,7 +412,7 @@ class IcoHandler
     public static function new_random()
     {
         $old = substr(app_key(), 0, 4);
-        return $old . str_random(24);
+        return $old . Str::random(24);
     }
 
     /* @function get_html_split_regex()  @version v1.0 */

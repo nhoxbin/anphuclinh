@@ -23,7 +23,7 @@ use App\Http\Controllers\Controller;
 
 class SocialAuthController extends Controller
 {
-    // Available social login 
+    // Available social login
     protected $available = ['facebook', 'google'];
     /**
      * Redirect to the Service for Login
@@ -37,7 +37,7 @@ class SocialAuthController extends Controller
             return redirect()->route('login');
         }
         if (
-            (get_setting('site_api_fb_id', env('FB_CLIENT_ID', '')) != '' && get_setting('site_api_fb_secret', env('FB_CLIENT_SECRET', '')) != '') || 
+            (get_setting('site_api_fb_id', env('FB_CLIENT_ID', '')) != '' && get_setting('site_api_fb_secret', env('FB_CLIENT_SECRET', '')) != '') ||
             (get_setting('site_api_google_id', env('GOOGLE_CLIENT_ID', '')) != '' && get_setting('site_api_google_secret', env('GOOGLE_CLIENT_SECRET', '')) != '')
             ) {
                 return Socialite::driver($social)->redirect();
@@ -55,16 +55,16 @@ class SocialAuthController extends Controller
     {
         try {
             $user = Socialite::driver($social)->user();
-            
+
             if(empty($user)){
                 session()->flash('info', __('Sorry, Something is wrong, please login via your email & password!'));
                 return redirect()->route('login');
             }
-            
+
             $name = $user->getName();
             $email = $user->getEmail();
             $id = $user->getId();
-            
+
             //check if user already exists
             $checkUser = User::where(['email'=> $email, 'social_id' => $id])->first();
             if($checkUser){
@@ -80,7 +80,7 @@ class SocialAuthController extends Controller
                 return redirect()->route('login');;
             }
             $notice = "You have not registered yet in our platform. You can sign up with your ".ucfirst($social)." account.";
-            // show the confirm form 
+            // show the confirm form
             return view('auth.social', compact('user', 'social', 'notice'));
         } catch (\Exception $e) {
             session()->flash('warning', __('Sorry, Something is wrong, please login via your email & password!!'));
@@ -100,15 +100,15 @@ class SocialAuthController extends Controller
             'email' => 'required|email|unique:users',
             'social_id' => 'required',
         ]);
-        $password = str_random(12);
+        $password = Str::random(12);
         $createUser = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($password),
             'role' => 'user',
             'lastLogin' => date("Y-m-d H:i:s"),
-        ]);        
-        
+        ]);
+
         if($createUser){
             UserMeta::create([
                 'userId' => $createUser->id
@@ -122,7 +122,7 @@ class SocialAuthController extends Controller
 
             Auth::login($createUser, true);
             $this->save_activity();
-            
+
             return redirect()->route('home');
         }else{
             return redirect()->route('home');
@@ -189,7 +189,7 @@ class SocialAuthController extends Controller
             Auth::login($user);
 
             if ($user->meta) {
-                $user->meta->email_token = str_random(65);
+                $user->meta->email_token = Str::random(65);
                 $user->meta->email_expire = now()->addMinutes(75);
                 $user->meta->save();
             }

@@ -10,9 +10,6 @@
 |
 */
 
-use App\Models\KYC;
-use App\Services\KYCService;
-
 if (application_installed()) {
     Route::get('/install/final', function () {
         return redirect('/');

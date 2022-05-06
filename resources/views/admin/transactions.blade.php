@@ -20,7 +20,7 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="page-nav-wrap">
                     <div class="page-nav-bar justify-content-between bg-lighter">
                         <div class="page-nav w-100 w-lg-auto">
@@ -271,8 +271,8 @@
                     </div>
                     @endif
                 </div>
-                
-                @if($trnxs->total() > 0) 
+
+                @if($trnxs->total() > 0)
                 <table class="data-table admin-tnx">
                     <thead>
                         <tr class="data-item data-head">
@@ -287,7 +287,7 @@
                     </thead>
                     <tbody>
                         @foreach($trnxs as $trnx)
-                        @php 
+                        @php
                             $text_danger = ( $trnx->tnx_type=='refund' || ($trnx->tnx_type=='transfer' && $trnx->extra=='sent') ) ? ' text-danger' : '';
                         @endphp
                         <tr class="data-item" id="tnx-item-{{ $trnx->id }}">
@@ -303,28 +303,28 @@
                                 </div>
                             </td>
                             <td class="data-col dt-token">
-                                <span class="lead token-amount{{ $text_danger }}">{{ (starts_with($trnx->total_tokens, '-') ? '' : '+').$trnx->total_tokens }}</span>
+                                <span class="lead token-amount{{ $text_danger }}">{{ (str_starts_with($trnx->total_tokens, '-') ? '' : '+').$trnx->total_tokens }}</span>
                                 <span class="sub sub-symbol">{{ token('symbol') }}</span>
                             </td>
                             <td class="data-col dt-amount">
-                                @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus') 
+                                @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
                                     <span class="lead amount-pay">{{ '~' }}</span>
-                                @else 
+                                @else
                                 <span class="lead amount-pay{{ $text_danger }}">{{ to_num($trnx->amount, 'max') }}</span>
                                 <span class="sub sub-symbol">{{ strtoupper($trnx->currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->currency_rate, 'max').' '.strtoupper($trnx->currency) }}"></em></span>
                                 @endif
                             </td>
                             <td class="data-col dt-usd-amount{{ $text_danger }}">
-                                @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus') 
+                                @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
                                     <span class="lead amount-receive">{{ '~' }}</span>
-                                @else 
+                                @else
                                 <span class="lead amount-receive{{ $text_danger }}">{{ to_num($trnx->base_amount, 'auto') }}</span>
                                 <span class="sub sub-symbol">{{ strtoupper($trnx->base_currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->base_currency_rate, 'max').' '.strtoupper($trnx->base_currency) }}"></em></span>
                                 @endif
                             </td>
                             <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">
-                                    @if ($trnx->tnx_type=='bonus' && $trnx->added_by!=set_added_by('0')) 
+                                    @if ($trnx->tnx_type=='bonus' && $trnx->added_by!=set_added_by('0'))
                                         {{ 'Added by '.transaction_by($trnx->added_by) }}
                                     @elseif($trnx->tnx_type == 'refund')
                                         {{ $trnx->details }}
@@ -338,12 +338,12 @@
                                     @endif
                                 </span>
                                 @if($trnx->tnx_type == 'refund')
-                                    @php 
+                                    @php
                                     $extra = (is_json($trnx->extra, true) ?? $trnx->extra);
                                     @endphp
                                     <span class="sub sub-email"><a href="{{ route('admin.transactions.view', ($extra->trnx ?? $trnx->id)) }}">View Transaction</a></span>
                                 @else
-                                    <span class="sub sub-email">{{ set_id($trnx->user) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '' }}"></em></span> 
+                                    <span class="sub sub-email">{{ set_id($trnx->user) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '' }}"></em></span>
                                 @endif
                             </td>
                             <td class="data-col data-type">
@@ -353,7 +353,7 @@
                             <td class="data-col text-right">
                                 @if($trnx->status == 'deleted')
                                 <a href="{{ route('admin.transactions.view', $trnx->id) }}" target="_blank" class="btn btn-light-alt btn-xs btn-icon"><em class="ti ti-eye"></em></a>
-                                @else 
+                                @else
                                 <div class="relative d-inline-block">
                                     <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a>
                                     <div class="toggle-class dropdown-content dropdown-content-top-left">
@@ -395,7 +395,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                @else 
+                @else
                     <div class="bg-light text-center rounded pdt-5x pdb-5x">
                         <p><em class="ti ti-server fs-24"></em><br>{{ ($is_page=='all') ? 'No transaction found!' : 'No '.$is_page.' transaction here!' }}</p>
                         <p><a class="btn btn-primary btn-auto" href="{{ route('admin.transactions') }}">View All Transactions</a></p>
@@ -409,7 +409,7 @@
                             <ul class="btn-grp guttar-10px pagination-btn">
                                 @if($pagi->previousPageUrl())
                                 <li><a href="{{ $pagi->previousPageUrl() }}" class="btn ucap btn-auto btn-sm btn-light-alt">Prev</a></li>
-                                @endif 
+                                @endif
                                 @if($pagi->nextPageUrl())
                                 <li><a href="{{ $pagi->nextPageUrl() }}" class="btn ucap btn-auto btn-sm btn-light-alt">Next</a></li>
                                 @endif

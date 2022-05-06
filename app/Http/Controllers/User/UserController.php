@@ -405,7 +405,7 @@ class UserController extends Controller
                         $userMeta->pwd_temp = Hash::make($request->input('new-password'));
                         $cd = Carbon::now();
                         $userMeta->email_expire = $cd->copy()->addMinutes(60);
-                        $userMeta->email_token = str_random(65);
+                        $userMeta->email_token = Str::random(65);
                         if ($userMeta->save()) {
                             try {
                                 $user->notify(new PasswordChange($user, $userMeta));

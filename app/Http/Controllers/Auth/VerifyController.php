@@ -34,7 +34,7 @@ class VerifyController extends Controller
         $user = Auth::user();
         $chk = $cd->copy()->addMinutes(10);
 
-        $user->meta->email_token = str_random(65);
+        $user->meta->email_token = Str::random(65);
         $user->meta->email_expire = $cd->copy()->addMinutes(75);
         $user->meta->save();
 

@@ -3,7 +3,7 @@
 * Reset 2FA
 *
 * Send Email to user for verify his/her email address
-* 
+*
 * @package TokenLite
 * @author Softnio
 * @version 1.1
@@ -20,7 +20,7 @@ class Reset2FA extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    // Set Data 
+    // Set Data
     public $user;
     /**
      * Create a new notification instance.
@@ -53,7 +53,7 @@ class Reset2FA extends Notification implements ShouldQueue
     {
         $from_name = email_setting('from_name', get_setting('site_name'));
         $from_email = email_setting('from_email', get_setting('site_email'));
-        
+
         $support = get_setting('site_support_email') != '' ? get_setting('site_support_email') : $from_email;
 
         $et = EmailTemplate::get_template('users-reset-2fa-email');
@@ -66,7 +66,7 @@ class Reset2FA extends Notification implements ShouldQueue
         $message = ($et->message != '') ? str_replace("\n", "<br>",replace_shortcode($et->message)) : $et->message;
 
         if ($this->user) {
-            $this->user->meta->email_token = str_random(65);
+            $this->user->meta->email_token = Str::random(65);
             $this->user->meta->email_expire = now()->addMinutes(75);
             $this->user->meta->save();
         }

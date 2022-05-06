@@ -141,7 +141,7 @@ class TokenController extends Controller
         } catch (\Exception $e) {
             $ret['modal'] = '<a href="#" class="modal-close" data-dismiss="modal"><em class="ti ti-close"></em></a><div class="popup-body"><h3 class="alert alert-danger text-center">'.$this->handler->accessMessage().'</h3></div>';
         }
-        
+
         if ($request->ajax()) {
             return response()->json($ret);
         }
@@ -258,7 +258,7 @@ class TokenController extends Controller
             $id = $request->get('tnx_id');
             $pay_token = $request->get('token');
             if($pay_token != null){
-                $pay_token = (starts_with($pay_token, 'EC-') ? str_replace('EC-', '', $pay_token) : $pay_token);
+                $pay_token = (str_starts_with($pay_token, 'EC-') ? str_replace('EC-', '', $pay_token) : $pay_token);
             }
             $apv_name = ucfirst($url);
             if(!empty($id)){

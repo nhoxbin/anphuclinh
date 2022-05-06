@@ -218,7 +218,7 @@ class AdminController extends Controller
                         $userMeta->pwd_temp = Hash::make($request->input('new-password'));
                         $cd = Carbon::now();
                         $userMeta->email_expire = $cd->copy()->addMinutes(60);
-                        $userMeta->email_token = str_random(65);
+                        $userMeta->email_token = Str::random(65);
                         if ($userMeta->save()) {
                            try {
                                 $user->notify(new PasswordChange($user, $userMeta));
@@ -320,15 +320,15 @@ class AdminController extends Controller
             return redirect()->route('admin.system')->with($error);
         }
         if($request->skip && $request->skip=='reg'){
-            Cookie::queue(Cookie::make('ico_nio_reg_skip', 1, 1440)); 
+            Cookie::queue(Cookie::make('ico_nio_reg_skip', 1, 1440));
             $last = (int)get_setting('piks_ger_oin_oci', 0);
             add_setting('piks_ger_oin_oci', $last + 1);
             return redirect()->route('admin.home');
         }
         if($request->revoke && $request->revoke=='license'){
             delete_setting(['env_pcode','nio_lkey','nio_email','env_uname', 'env_ptype']);
-            add_setting('tokenlite_update', time()); add_setting('tokenlite_credible', str_random(48)); 
-            add_setting('site_api_secret', str_random(16));
+            add_setting('tokenlite_update', time()); add_setting('tokenlite_credible', Str::random(48));
+            add_setting('site_api_secret', Str::random(16));
             Cookie::queue(Cookie::forget('ico_nio_reg_skip'));
             return redirect()->route('admin.home');
         }

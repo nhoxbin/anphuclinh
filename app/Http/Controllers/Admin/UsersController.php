@@ -158,7 +158,7 @@ class UsersController extends Controller
                 $ret['msg'] = 'warning';
                 $ret['message'] = __("You do not have enough permissions to perform requested operation.");
             } else {
-                $req_password = $request->input('password') ? $request->input('password') : str_random(12);
+                $req_password = $request->input('password') ? $request->input('password') : Str::random(12);
                 $password = Hash::make($req_password);
                 $lastLogin = date("Y-m-d H:i:s");
                 $user = User::create([
@@ -172,13 +172,13 @@ class UsersController extends Controller
                 if ($user) {
                     $user->email_verified_at = isset($request->email_req) ? null : date('Y-m-d H:i:s');
                     $user->registerMethod = 'Internal';
-                    // $user->referral = ($user->id.'.'.str_random(50));
+                    // $user->referral = ($user->id.'.'.Str::random(50));
                     $user->save();
                     $meta = UserMeta::create([
                         'userId' => $user->id,
                     ]);
                     $meta->notify_admin = ($request->input('role')=='user')?0:1;
-                    $meta->email_token = str_random(65);
+                    $meta->email_token = Str::random(65);
                     $meta->email_expire = now()->addMinutes(75);
                     $meta->save();
 
@@ -266,7 +266,7 @@ class UsersController extends Controller
     {
         $id = $request->input('uid');
         $type = $request->input('req_type');
-        
+
         if(!super_access()) {
             $up = User::where('id', $id)->first();
             if($up) {
@@ -316,7 +316,7 @@ class UsersController extends Controller
             return response()->json($result);
         }
         if ($type == 'reset_pwd') {
-            $pwd = str_random(15);
+            $pwd = Str::random(15);
             $up = User::where('id', $id)->first();
             $up->password = Hash::make($pwd);
 

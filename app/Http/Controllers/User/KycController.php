@@ -322,7 +322,7 @@ class KycController extends Controller
             } else {
                 try {
                     $file = $request->file('kyc_file_upload');
-                    $name = (auth()->check() ? set_id(auth()->id()) : str_random(10)) . '-' . $request->input('docType') . '-' . time() . '.' . $file->getClientOriginalExtension();
+                    $name = (auth()->check() ? set_id(auth()->id()) : Str::random(10)) . '-' . $request->input('docType') . '-' . time() . '.' . $file->getClientOriginalExtension();
                     $save_file = $file->storeAs('kyc-files', $name);
                     $ret['msg'] = 'success';
                     $ret['message'] = __('messages.upload.success', ['what' => "Document"]);

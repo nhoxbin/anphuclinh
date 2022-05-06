@@ -11,7 +11,7 @@
                         <div class="col-md col-sm-6"><strong class="text-dark">{{ ucfirst($tnx->tnx_type) }}</strong></div>
                         <div class="col-md col-sm-6"><span class="text-dark">{{ get_stage($tnx->stage, 'name') }}</span></div>
                         <div class="col-md col-sm-6 order-sm-2 order-md-1"><span class="text-light"><a href="{{ route('admin.transactions.view', $tnx->id) }}" target="_blank">{{ $tnx->tnx_id }}</a></span></div>
-                        <div class="col-md col-sm-6 order-sm-1 order-md-2"><strong class="text-dark">{{ (starts_with($tnx->total_tokens, '-') ? '' : '+').$tnx->total_tokens }}</strong></div>
+                        <div class="col-md col-sm-6 order-sm-1 order-md-2"><strong class="text-dark">{{ (str_starts_with($tnx->total_tokens, '-') ? '' : '+').$tnx->total_tokens }}</strong></div>
                         <div class="col-md col-sm-6 order-sm-3"><span class="text-light small">{{ to_num($tnx->amount, 'max').' '.strtoupper($tnx->currency) }} <em class="fas fa-info-circle fs-11" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ $tnx->currency_rate.' '.strtoupper($tnx->currency) }}"></em></span></div>
                     </li>
                     @empty

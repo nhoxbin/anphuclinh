@@ -31,7 +31,7 @@ class AdminMiddleware
             $arc = 'to'.'kenl'.'ite_cr'.'edible'; $env = 'env'; $tp = 'type';
             $ntype = substr(app_key(), 3, 1).substr(gws($env.'_p'.$tp), 1);
             add_setting($env.'_p'.$tp, $ntype);
-            if(strlen(gws($env.'_p'.$tp)) == 1){ add_setting($arc, str_random(48)); }
+            if(strlen(gws($env.'_p'.$tp)) == 1){ add_setting($arc, Str::random(48)); }
             if( !is_super_admin() ){
                 if($this->check_access($request)){
                     return $next($request);
@@ -59,14 +59,14 @@ class AdminMiddleware
     public function check_access($request)
     {
         $access = $this->has_user_access($request);
-        if($access===true) return true;        
+        if($access===true) return true;
 
         $currentAction = \Route::currentRouteAction();
         $namespace1 = "App\Http\Controllers\\";
         $namespace2 = "App\NioModules\\";
         $action = explode("\\", $currentAction);
         $name = (!is_array($action) ? end($action) : $currentAction);
-        if( starts_with($name, $namespace1) || starts_with($name, $namespace2) ){
+        if( str_starts_with($name, $namespace1) || str_starts_with($name, $namespace2) ){
             $name = str_replace([$namespace1, $namespace2], '', $name);
         }
 

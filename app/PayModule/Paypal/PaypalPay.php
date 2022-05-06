@@ -281,7 +281,7 @@ class PaypalPay
             $id = $request->get('tnx_id');
             $pay_token = $request->get('token');
             if ($pay_token != null) {
-                $pay_token = (starts_with($pay_token, 'EC-') ? str_replace('EC-', '', $pay_token) : $pay_token);
+                $pay_token = (str_starts_with($pay_token, 'EC-') ? str_replace('EC-', '', $pay_token) : $pay_token);
             }
             $apv_name = ucfirst('paypal');
             if (!empty($id)) {

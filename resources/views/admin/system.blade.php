@@ -44,7 +44,7 @@
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The main URL of your application set in .env file."></em>
 									</td>
 									<td>
-										{{ site_info('url_app') }} 
+										{{ site_info('url_app') }}
 										{!! (site_info('url_app')!=site_info('url') ? '<em class="ml-1 fas fa-info-circle fs-12 text-danger" data-toggle="tooltip" data-placement="top" title="URL does not match. Site App URL should be match with site main URL."></em>' : '') !!}
 									</td>
 								</tr>
@@ -145,10 +145,10 @@
 								<tr>
 									<th colspan="3"><h4 class="text-primary">Available Payment Module</h4></th>
 								</tr>
-								@php 
+								@php
 									$pay_modules = json_decode(gws('active_payment_modules'), true);
 									$module_names = array_keys($pay_modules); $modules = array_map('strtolower', $module_names);
-									$module_exist = is_payment_method_exist('array'); 
+									$module_exist = is_payment_method_exist('array');
 								@endphp
 								@foreach($modules as $name)
 								<tr>
@@ -157,7 +157,7 @@
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="Available payment module in the application."></em>
 									</td>
 									<td>
-										{{ (isset($module_exist->$name->status) ? ucfirst($module_exist->$name->status) : '') }} 
+										{{ (isset($module_exist->$name->status) ? ucfirst($module_exist->$name->status) : '') }}
 										<code class="ml-2{{ ($pay_modules[ucfirst($name)]['type']=='core') ? ' text-primary' : '' }}">{{ ucfirst($pay_modules[ucfirst($name)]['type']).'/v'.$pay_modules[ucfirst($name)]['version'] }}</code>
 									</td>
 								</tr>
@@ -202,7 +202,7 @@
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="Envato license type based on your provided purchase code."></em>
 									</td>
 									<td>
-										{!! (gws('env_ptype') && nio_status()) ? (starts_with(gws('env_ptype'), 1) ? '<span class="text-success">Regular License</span>' : '<span class="text-purple">Extended License</span>') : '<span class="text-danger">Invalid license or not active yet</span>' !!}
+										{!! (gws('env_ptype') && nio_status()) ? (str_starts_with(gws('env_ptype'), 1) ? '<span class="text-success">Regular License</span>' : '<span class="text-purple">Extended License</span>') : '<span class="text-danger">Invalid license or not active yet</span>' !!}
 									</td>
 								</tr>
 								<tr>
@@ -226,7 +226,7 @@
 								</tr>
 								@endif
 							</table>
-							
+
 							<div class="gaps gaps-1-5x"></div>
 							<table class="table table-bordered-plain table-lg table-plain-info fs-13">
 								<tr>
@@ -251,7 +251,7 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The version of PHP installed on your hosting server."></em>
 									</td>
-									<td> 
+									<td>
 										{!! phpversion() !!}
 									</td>
 								</tr>
@@ -260,8 +260,8 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The version of cURL on your server."></em>
 									</td>
-									<td> 
-										{!! (!empty(curl_version()) ? curl_version()['version'].', '.curl_version()['ssl_version'] : '-')  !!} 
+									<td>
+										{!! (!empty(curl_version()) ? curl_version()['version'].', '.curl_version()['ssl_version'] : '-')  !!}
 									</td>
 								</tr>
 								<tr>
@@ -269,7 +269,7 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The version of MySQL installed on your hosting server."></em>
 									</td>
-									<td> 
+									<td>
 										@php
 										$results = DB::select( DB::raw("select version()") );
     									$mysql_version = isset($results[0]->{'version()'}) ? $results[0]->{'version()'} : '*.*.*';
@@ -282,7 +282,7 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The largest file size that can be contained in one post."></em>
 									</td>
-									<td> 
+									<td>
 										{{ ini_get('post_max_size').'B' }} {!! ((int)ini_get('post_max_size') < 32 ? '<em class="ml-1 fas fa-info-circle fs-11 text-light" data-toggle="tooltip" data-placement="top" title="Recommend is 32MB or above."></em>' : '') !!}
 									</td>
 								</tr>
@@ -291,7 +291,7 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The largest file size that can be contained in one post."></em>
 									</td>
-									<td> 
+									<td>
 										{{ ini_get('upload_max_filesize').'B' }} {!! ((int)ini_get('upload_max_filesize') < 8 ? '<em class="ml-1 fas fa-info-circle fs-11 text-light" data-toggle="tooltip" data-placement="top" title="Recommend is 8MB or above."></em>' : '') !!}
 									</td>
 								</tr>
@@ -300,7 +300,7 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The maximum amount of memory (RAM) that your site can use at one time."></em>
 									</td>
-									<td> 
+									<td>
 										{{ ini_get('memory_limit').'B' }} {!! ((int)ini_get('memory_limit') < 256 ? '<em class="ml-1 fas fa-info-circle fs-11 text-light" data-toggle="tooltip" data-placement="top" title="Recommend is 256MB or above."></em>' : '') !!}
 									</td>
 								</tr>
@@ -309,7 +309,7 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The amount of time (in seconds) that your site will spend on a single operation before timing out (to avoid server lockups)"></em>
 									</td>
-									<td> 
+									<td>
 										{{ ini_get('max_execution_time') }} {!! ((int)ini_get('max_execution_time') < 300 ? '<em class="ml-1 fas fa-info-circle fs-11 text-light" data-toggle="tooltip" data-placement="top" title="Recommend is 300 or above."></em>' : '') !!}
 									</td>
 								</tr>
@@ -318,7 +318,7 @@
 									<td width="24" class="text-center">
 										<em class="ti ti-help-alt fs-11" data-toggle="tooltip" data-placement="top" title="The maximum number of variables your server can use for a single function to avoid overloads."></em>
 									</td>
-									<td> 
+									<td>
 										{{ ini_get('max_input_vars') }} {!! ((int)ini_get('max_input_vars') < 1500 ? '<em class="ml-1 fas fa-info-circle fs-11 text-light" data-toggle="tooltip" data-placement="top" title="Recommend is 1500 or above."></em>' : '') !!}
 									</td>
 								</tr>

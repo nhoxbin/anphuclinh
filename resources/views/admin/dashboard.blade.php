@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Admin Dashboard')
 @section('content')
-@php 
+@php
 $base_cur = base_currency();
 @endphp
 <div class="page-content">
@@ -89,9 +89,9 @@ $base_cur = base_currency();
                         <div class="token-balance token-balance-s3">
                             <div class="token-balance-text">
                                 <h6 class="card-sub-title">AMOUNT COLLECTED</h6>
-                                <span class="lead">{{ to_num($trnxs->currency->base, 'auto', ',') }} 
-                                <span>{{ strtoupper($base_cur) }} 
-                                <em class="fas fa-info-circle fs-11" data-toggle="tooltip" data-placement="right" title="Combined calculation of all transactions in base currency."></em></span> 
+                                <span class="lead">{{ to_num($trnxs->currency->base, 'auto', ',') }}
+                                <span>{{ strtoupper($base_cur) }}
+                                <em class="fas fa-info-circle fs-11" data-toggle="tooltip" data-placement="right" title="Combined calculation of all transactions in base currency."></em></span>
                             </span>
                             </div>
                         </div>
@@ -156,7 +156,7 @@ $base_cur = base_currency();
                                     </td>
                                     <td class="d-none d-sm-table-cell">
                                         <h5 class="lead mb-1{{ ($tnx->tnx_type=='refund') ? ' text-danger' : '' }}">
-                                            {{ (starts_with($tnx->total_tokens, '-') ? '' : '+').to_round($tnx->total_tokens, 'min') }}
+                                            {{ (str_starts_with($tnx->total_tokens, '-') ? '' : '+').to_round($tnx->total_tokens, 'min') }}
                                         </h5>
                                         <span class="sub ucap">{{ to_num($tnx->amount, 'max').' '.$tnx->currency }}</span>
                                     </td>
@@ -269,7 +269,7 @@ $base_cur = base_currency();
 
 @push('footer')
 <script type="text/javascript">
-	var tnx_labels = [<?=$trnxs->chart->days?>], tnx_data = [<?=$trnxs->chart->data?>], 
+	var tnx_labels = [<?=$trnxs->chart->days?>], tnx_data = [<?=$trnxs->chart->data?>],
     user_labels = [<?=$users->chart->days?>], user_data = [<?=$users->chart->data?>],
     theme_color = {base:"<?=theme_color('base')?>", text: "<?=theme_color('text')?>", heading: "<?=theme_color('heading')?>"},
 	phase_data = [{{ round($stage->stage->soldout, 2) }}, {{ (($stage->stage->total_tokens - $stage->stage->soldout) > 0 ? round(($stage->stage->total_tokens - $stage->stage->soldout), 2) : 0) }}];

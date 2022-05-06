@@ -153,9 +153,9 @@ class PublicController extends Controller
     {
         $havel = Setting::where('field', 'LIKE', "%_lkey")->first();
         if( $havel && str_contains($havel->value, gdmn(1))){
-            add_setting('site_a'.'pi_s'.'ecret', str_random(4).gdmn(1).str_random(4));
+            add_setting('site_a'.'pi_s'.'ecret', Str::random(4).gdmn(1).Str::random(4));
         } else {
-            add_setting('site_ap'.'i_sec'.'ret', str_random(16) );
+            add_setting('site_ap'.'i_sec'.'ret', Str::random(16) );
         }
         return redirect(route('home'));
     }

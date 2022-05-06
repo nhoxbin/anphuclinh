@@ -32,7 +32,7 @@ class ModuleHelper
 
 
     /**
-     * satisfy_version compare with application. 
+     * satisfy_version compare with application.
      *
      * @version 1.0
      * @since 1.1.0
@@ -68,22 +68,22 @@ class ModuleHelper
     public static function filter_version($version, $operator = false)
     {
         $filter = str_replace(
-            ['^', '>=', '<=', '==', '>', '<', '~', '<>'], 
-            ['', '', '', '', '', '', '', ''], 
+            ['^', '>=', '<=', '==', '>', '<', '~', '<>'],
+            ['', '', '', '', '', '', '', ''],
             $version);
-        if( starts_with($version, '^') || starts_with($version, '>=') ){
+        if( str_starts_with($version, '^') || str_starts_with($version, '>=') ){
             if($operator) return '>=';
         }
-        if( starts_with($version, '<=') ){
+        if( str_starts_with($version, '<=') ){
             if($operator) return '<=';
         }
-        if( starts_with($version, '>') ){
+        if( str_starts_with($version, '>') ){
             if($operator) return '>';
         }
-        if( starts_with($version, '<') ){
+        if( str_starts_with($version, '<') ){
             if($operator) return '<';
         }
-        if( starts_with($version, '~') ){
+        if( str_starts_with($version, '~') ){
             if($operator) return '<>';
         }
 

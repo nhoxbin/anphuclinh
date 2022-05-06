@@ -84,7 +84,7 @@ class AddressValidation
      */
     private function btcAddress($address)
     {
-        if (starts_with(strtolower($address), 'bc1') || starts_with(strtolower($address), 'tb1')) {
+        if (str_starts_with(strtolower($address), 'bc1') || str_starts_with(strtolower($address), 'tb1')) {
             return true;
         }
         $decoded = $this->btc_decodeBase58($address);

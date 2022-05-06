@@ -40,7 +40,7 @@ class PaymentMethodController extends Controller
         $gateway = PaymentMethod::Currency;
         $methods = $this->module->module_views();
 
-        // Init the currency rate 
+        // Init the currency rate
         $auto_check = get_setting('pmc_auto_rate_' . base_currency(), false);
         if($auto_check == false){
             $auto_rate = (new PaymentMethod())->automatic_rate_check(30, true);
@@ -96,7 +96,7 @@ class PaymentMethodController extends Controller
         $response['msg'] = 'info';
         $response['message'] = __('messages.nothing');
 
-        if ((!starts_with($type, 'currency')) && $type !== null) {
+        if ((!str_starts_with($type, 'currency')) && $type !== null) {
             $response = $this->module->save_module_data($type, $request);
             if($response == false){
                 $response['msg'] = 'info';

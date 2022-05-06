@@ -14,7 +14,7 @@
                         <div class="input-wrap">
                             <input name="name" id="name" class="input-bordered" value="{{ $template->name }}" type="text" readonly="readonly">
                         </div>
-                        
+
                     </div>
                     <div class="input-item input-with-label">
                         <label for="subject" class="input-item-label">Template Subject</label>
@@ -54,11 +54,11 @@
                             <input type="checkbox" class="input-switch" name="regards" value="1" {{ $template->regards == 'true' ? 'checked' : '' }} id="regards">
                         </div>
                         <label for="regards">Global</label>
-                        <span class="text-info">You can use these shortcut: [[site_name]], [[site_email]], [[user_name]] 
+                        <span class="text-info">You can use these shortcut: [[site_name]], [[site_email]], [[user_name]]
                             @if($template->slug == 'send-user-email')
                             , [[message]]
                             @endif
-                            @if(starts_with($template->slug, 'order-'))
+                            @if(str_starts_with($template->slug, 'order-'))
                             , [[order_id]], [[order_details]], [[token_symbol]], [[token_name]], [[payment_from]], [[payment_gateway]], [[payment_amount]], [[total_tokens]]
                             @endif
                         </span> <br>

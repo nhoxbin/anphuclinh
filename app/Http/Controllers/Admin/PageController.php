@@ -125,7 +125,7 @@ class PageController extends Controller
                 $ret['msg'] = 'success';
                 $ret['message'] = __('messages.upload.success', ['what' => "White Paper"]);
                 $ret['file_name'] = $name;
-                if (! is_dir($old) && ! starts_with($old, 'assets')) {
+                if (! is_dir($old) && ! str_starts_with($old, 'assets')) {
                     unlink($old);
                 }
             }

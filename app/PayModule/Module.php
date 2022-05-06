@@ -285,7 +285,7 @@ class Module
                 if (file_exists($path) && is_file($path) && is_dir($module_path . $ds . $dir)) {
                     $file = File::get($path);
                     $item = json_decode($file);
-                    if ($item->status == true && ModuleHelper::satisfy_version($item->requires)) { // 
+                    if ($item->status == true && ModuleHelper::satisfy_version($item->requires)) { //
                         if ($dir == $item->alias) {
                             $modules[$dir] = array('type' => $item->type, 'version' => $item->version);
                         } else {
@@ -310,7 +310,7 @@ class Module
     }
 
     /**
-     * array_orderby for serialize 
+     * array_orderby for serialize
      *
      * @version 1.0
      * @since 1.1.0

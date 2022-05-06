@@ -17,14 +17,14 @@ class Maintenance
     */
     public function handle($request, Closure $next)
     {
-        if( $request->ajax() && isset($request->app) ){ 
+        if( $request->ajax() && isset($request->app) ){
             $handle = new IcoHandler();
             if( $request->current !== route('admin.niolite') ){
                 $response = ['thanks' => $handle->check_body()];
             }else{ $response = true; }
             return response()->json($response);
         }
-        if( application_installed(true) == false ) return $next($request);
+        if (application_installed(true) == false) return $next($request);
         if (application_installed(true) && get_setting('site_maintenance') == 1 && (!$request->is('/') && !$request->is('admin') && !$request->is('admin/*') && !$request->is('/log-out'))) {
             return response()->view('errors.maintenance', [], 500);
         }

@@ -168,7 +168,7 @@ class RegisterController extends Controller
             $meta = UserMeta::create([ 'userId' => $user->id ]);
 
             $meta->notify_admin = ($type=='user')?0:1;
-            $meta->email_token = str_random(65);
+            $meta->email_token = Str::random(65);
             $cd = Carbon::now(); //->toDateTimeString();
             $meta->email_expire = $cd->copy()->addMinutes(75);
             $meta->save();

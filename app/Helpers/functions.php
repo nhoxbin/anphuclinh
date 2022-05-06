@@ -855,8 +855,8 @@ if (!function_exists('have_permission')) {
     {
         $permission = true;
         if (gws('site_admin_management', 0)) {
-            $check = (starts_with($type, 'user') || starts_with($type, 'tranx') || starts_with($type, 'kyc') ||
-                starts_with($type, 'stage') || starts_with($type, 'setting') || starts_with($type, 'withdraw')) ? 'manage_' . $type : $type;
+            $check = (str_starts_with($type, 'user') || str_starts_with($type, 'tranx') || str_starts_with($type, 'kyc') ||
+                str_starts_with($type, 'stage') || str_starts_with($type, 'setting') || str_starts_with($type, 'withdraw')) ? 'manage_' . $type : $type;
             $access = GlobalMeta::has_access($check);
             $permission = (!empty($access)) ? $access : false;
         }

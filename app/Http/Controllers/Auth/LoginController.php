@@ -101,8 +101,8 @@ class LoginController extends Controller
     }
 
     /**
-     * Return how much time attempts to login 
-     * 
+     * Return how much time attempts to login
+     *
      * @version 1.0.0
      * @param Illuminate\Http\Request as $request
      * @return integer
@@ -205,7 +205,7 @@ class LoginController extends Controller
             }
         } else {
             return redirect(url('/login'));
-            // return view('intro'); 
+            // return view('intro');
         }
     }
 

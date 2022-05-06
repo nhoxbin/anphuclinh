@@ -259,9 +259,9 @@ class KycController extends Controller
                 $delete = KYC::find($id);
                 if ($delete != null && !str_contains($delete->document, ".env") && !str_contains($delete->document, "../")) {
                     if ($delete->document != null || $delete->document2 != null) {
-                        if (starts_with($delete->document, 'kyc-files') && file_exists(storage_path('app/' . $delete->document))) {
+                        if (str_starts_with($delete->document, 'kyc-files') && file_exists(storage_path('app/' . $delete->document))) {
                             (is_file(storage_path('app/' . $delete->document)) ? unlink(storage_path('app/' . $delete->document)) : '');
-                        } elseif (starts_with($delete->document, 'kyc-files') && file_exists(storage_path('app/' . $delete->document2))) {
+                        } elseif (str_starts_with($delete->document, 'kyc-files') && file_exists(storage_path('app/' . $delete->document2))) {
                             (is_file(storage_path('app/' . $delete->document)) ? unlink(storage_path('app/' . $delete->document2)) : '');
                         }
                     }
