@@ -1,6 +1,6 @@
 <?php
 
-$enviroment = env('KYC_DEBUG', false) ? 'cloud' : 'demo';
+$enviroment = env('KYC_DEBUG', false) ? 'demo' : 'cloud';
 
 return [
     'key'      => env('KYC_KEY', ''),

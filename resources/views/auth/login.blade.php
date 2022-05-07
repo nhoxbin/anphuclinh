@@ -11,12 +11,10 @@
 <div class="page-ath-form">
     <h2 class="page-ath-heading">{{ __('Sign in') }}<small>{{ __('with your') }} {{ site_info('name') }}
             {{ __('Account') }}</small></h2>
-    <form id="loginForm" class="login-form validate validate-modern"
+    <form class="login-form validate validate-modern"
         action="{{ (is_maintenance() ? route('admin.login') : route('login')) }}" method="POST">
         @csrf
-        <div id="recaptcha-container"></div>
         @include('layouts.messages')
-        @if(request()->otp == '0')
         <div class="input-item">
             <input id="email" type="email" placeholder="{{ __('Your Email') }}" data-msg-required="{{ __('Required.') }}"
                 class="input-bordered{{ $errors->has('email') ? ' input-error' : '' }}" name="email"
@@ -28,31 +26,6 @@
                 data-msg-minlength="{{ __('At least :num chars.', ['num' => 6]) }}"
                 class="input-bordered{{ $errors->has('password') ? ' input-error' : '' }}" name="password" required>
         </div>
-        @else
-        <div class="tab">
-            <div class="input-item">
-                <input id="email" type="email" placeholder="{{ __('Your Email') }}" data-msg-required="{{ __('Required.') }}"
-                    class="input-bordered{{ $errors->has('email') ? ' input-error' : '' }}" name="email"
-                    value="{{ old('email') }}" required autofocus>
-            </div>
-            <div class="input-item">
-                <input type="password" placeholder="{{ __('Password') }}" minlength="6"
-                    data-msg-required="{{ __('Required.') }}"
-                    data-msg-minlength="{{ __('At least :num chars.', ['num' => 6]) }}"
-                    class="input-bordered{{ $errors->has('password') ? ' input-error' : '' }}" name="password" required>
-            </div>
-        </div>
-        <div class="tab">
-            <div class="alert alert-primary" role="alert">
-                Vui lòng nhập mã OTP được gửi đến điện thoại của bạn.
-            </div>
-            <div class="form-group">
-                <input class="form-control" name="verification" id="verification" type="text" value="{{ old('verification') }}" placeholder="{{ __('Input verification code') }}" required>
-                <span id="alert-code" class="text-danger" style="display: none">{{ __('INVALID_CODE') }}</span>
-            </div>
-        </div>
-        @endif
-
         @if(! is_maintenance())
         <div class="d-flex justify-content-between align-items-center">
             <div class="input-item text-left">
@@ -69,11 +42,7 @@
         @if( recaptcha() )
             <input type="hidden" name="recaptcha" id="recaptcha">
         @endif
-        @if(request()->otp == '0')
         <button type="submit" class="btn btn-primary btn-block">{{__('Sign In')}}</button>
-        @else
-        <button type="button" onclick="nextPrev(1)" class="btn btn-primary btn-block">{{__('Sign In')}}</button>
-        @endif
     </form>
     @if(! is_maintenance())
     @if(Schema::hasTable('settings'))

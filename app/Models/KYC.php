@@ -57,6 +57,12 @@ class KYC extends Model
         //
     }
 
+    public function getDocumentDobAttribute()
+    {
+        $arr_dob = explode('/', $this->dob);
+        return date('d-m-Y', mktime(0, 0, 0, $arr_dob[0], $arr_dob[1], $arr_dob[2]));
+    }
+
     public static function documents($name=null)
     {
         $names = [

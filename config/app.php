@@ -165,18 +165,18 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        // RachidLaasri\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
-        Ixudra\Curl\CurlServiceProvider::class,
+        RachidLaasri\LaravelInstaller\Providers\LaravelInstallerServiceProvider::class,
         /*
          * Package Service Providers...
          */
+        Ixudra\Curl\CurlServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\EMailServiceProvider::class,
