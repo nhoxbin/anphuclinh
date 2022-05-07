@@ -67,20 +67,20 @@ class KYCService
                                                     ->post();
 
                                                 if ($curl_search->errorCode != 0) {
-                                                    $msg = $curl_search->error_message;
+                                                    $msg = __($curl_search->error_message);
                                                 } else {
                                                     /* if (!empty($curl_search->result[0]->result_data)) {
                                                         $msg = 'Bạn đã KYC trước đó, vui lòng kiểm tra lại!';
                                                     } */
                                                 }
                                             } else {
-                                                $msg = 'Thông tin trên giấy tờ đã có trên hệ thống, không thể KYC lần 2!';
+                                                $msg = 'Thông tin trên giấy tờ đã có trên hệ thống, không thể xác thực!';
                                             }
                                         }
                                     }
                                 }
                             } else {
-                                $msg = $curl_card->invalidMessage;
+                                $msg = __($curl_card->invalidMessage);
                             }
                         }
                     } else {
@@ -88,7 +88,7 @@ class KYCService
                     }
                 }
             } else {
-                $msg = $curl_card->errorMessage;
+                $msg = __($curl_card->errorMessage);
             }
 
             // Thêm ảnh
@@ -114,7 +114,7 @@ class KYCService
                         $msg = 'Có lỗi xảy ra khi thêm dữ liệu ảnh, vui lòng liên hệ Admin để fix! Cảm ơn bạn đã sử dụng hệ thống.';
                     }
                 } else {
-                    $msg = $curl_images->error_message;
+                    $msg = __($curl_images->error_message);
                 }
             }
 
@@ -131,10 +131,10 @@ class KYCService
 
                 if ($curl_face_matching->errorCode == 0) {
                     if ($curl_face_matching->data->match != 1 || ((float) $curl_face_matching->data->matching) < 80) {
-                        $msg = $curl_face_matching->data->invalidMessage;
+                        $msg = __($curl_face_matching->data->invalidMessage);
                     }
                 } else {
-                    $msg = $curl_face_matching->errorMessage;
+                    $msg = __($curl_face_matching->errorMessage);
                 }
             }
 
