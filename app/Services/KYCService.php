@@ -29,62 +29,55 @@ class KYCService
                 if (isset($curl_card->Exception)) {
                     $msg = $curl_card->Exception;
                 } else {
-                    if (
-                        (str_starts_with($curl_card->data[0]->type, '9') && str_starts_with($curl_card->data[1]->type, '9')) ||
-                        (str_starts_with($curl_card->data[0]->type, '12') && str_starts_with($curl_card->data[1]->type, '12'))
-                    ) {
-                        foreach ($curl_card->data as $value) {
-                            if ($value->invalidCode == 0) {
-                                if (str_ends_with($value->type, 'id_card_front')) {
-                                    $info = $value->info;
-                                    if ($info->id_confidence < 0.85
-                                    || $info->name_confidence < 0.85
-                                    || $info->dob_confidence < 0.85) {
-                                        $msg = 'Thông tin trên giấy tờ không rõ, vui lòng cung cấp lại!';
+                    foreach ($curl_card->data as $value) {
+                        if ($value->invalidCode == 0) {
+                            if (str_ends_with($value->type, 'id_card_front')) {
+                                $info = $value->info;
+                                if ($info->id_confidence < 0.85
+                                || $info->name_confidence < 0.85
+                                || $info->dob_confidence < 0.85) {
+                                    $msg = 'Thông tin trên giấy tờ không rõ, vui lòng cung cấp lại!';
+                                } else {
+                                    if ($info->id != $kuser->documentId
+                                    || mb_strtolower($info->name) != mb_strtolower($kuser->firstName)
+                                    || $info->dob != $kuser->documentDob
+                                    ) {
+                                        $msg = 'Thông tin trên giấy tờ không đúng với thông tin bạn cung cấp';
                                     } else {
-                                        if ($info->id != $kuser->documentId
-                                        || mb_strtolower($info->name) != mb_strtolower($kuser->firstName)
-                                        || $info->dob != $kuser->documentDob
-                                        ) {
-                                            $msg = 'Thông tin trên giấy tờ không đúng với thông tin bạn cung cấp';
-                                        } else {
-                                            $dob = explode('-', $info->dob);
-                                            $documentDob = date('m/d/Y', mktime(0,0,0, $dob[0], $dob[1], $dob[2]));
-                                            $duplicate_kyc = KYC::where([
-                                                'documentId' => $info->id,
-                                                'firstName'  => $info->name,
-                                                'dob'        => $documentDob,
-                                            ])->latest()->first();
-                                            if (!$duplicate_kyc || $duplicate_kyc->status == 'pending') {
-                                                // search face trên hệ thống kyc xem nếu trùng thì ko cho tiếp tục kyc
-                                                $curl_search = Curl::to(config('kyc.endpoint') . '/api/v2/face_search/search')
-                                                    ->withHeader(config('kyc.auth'))
-                                                    ->withContentType('application/json')
-                                                    ->withData([
-                                                        'image' => ['base64' => base64_encode(file_get_contents(storage_path('app/' . $kuser->document3)))]
-                                                    ])
-                                                    ->asJson()
-                                                    ->post();
+                                        $dob = explode('-', $info->dob);
+                                        $documentDob = date('m/d/Y', mktime(0,0,0, $dob[0], $dob[1], $dob[2]));
+                                        $duplicate_kyc = KYC::where([
+                                            'documentId' => $info->id,
+                                            'firstName'  => $info->name,
+                                            'dob'        => $documentDob,
+                                        ])->latest()->first();
+                                        if (!$duplicate_kyc || $duplicate_kyc->status == 'pending') {
+                                            // search face trên hệ thống kyc xem nếu trùng thì ko cho tiếp tục kyc
+                                            $curl_search = Curl::to(config('kyc.endpoint') . '/api/v2/face_search/search')
+                                                ->withHeader(config('kyc.auth'))
+                                                ->withContentType('application/json')
+                                                ->withData([
+                                                    'image' => ['base64' => base64_encode(file_get_contents(storage_path('app/' . $kuser->document3)))]
+                                                ])
+                                                ->asJson()
+                                                ->post();
 
-                                                if ($curl_search->errorCode != 0) {
-                                                    $msg = __($curl_search->error_message);
-                                                } else {
-                                                    /* if (!empty($curl_search->result[0]->result_data)) {
-                                                        $msg = 'Bạn đã KYC trước đó, vui lòng kiểm tra lại!';
-                                                    } */
-                                                }
+                                            if ($curl_search->errorCode != 0) {
+                                                $msg = __($curl_search->error_message);
                                             } else {
-                                                $msg = 'Thông tin trên giấy tờ đã có trên hệ thống, không thể xác thực!';
+                                                /* if (!empty($curl_search->result[0]->result_data)) {
+                                                    $msg = 'Bạn đã KYC trước đó, vui lòng kiểm tra lại!';
+                                                } */
                                             }
+                                        } else {
+                                            $msg = 'Thông tin trên giấy tờ đã có trên hệ thống, không thể xác thực!';
                                         }
                                     }
                                 }
-                            } else {
-                                $msg = __($curl_card->invalidMessage);
                             }
+                        } else {
+                            $msg = __($curl_card->invalidMessage);
                         }
-                    } else {
-                        $msg = 'Cả 2 mặt đều phải chung 1 loại cmnd/cccd!';
                     }
                 }
             } else {
