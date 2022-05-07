@@ -19,11 +19,11 @@ if (application_installed()) {
     });
 }
 
-Route::get('test', function () {
+/* Route::get('test', function () {
     $kyc = KYC::latest()->first();
     $kyc_service = new KYCService();
     $kyc_service->handle($kyc);
-});
+}); */
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {
     if ($password == 'UzqTNEkK0') {
