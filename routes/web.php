@@ -80,7 +80,7 @@ Route::post('admin/login/2fa', function () {
 // }
 
 // User Routes
-Route::prefix('user')->middleware(['auth', 'user', 'verify_user', 'g2fa'])->name('user.')->group(function () {
+Route::prefix('user')->middleware(['auth', 'user', 'g2fa'])->name('user.')->group(function () {
     Route::get('/', 'User\UserController@index')->name('home');
     Route::get('/account', 'User\UserController@account')->name('account');
     Route::get('/account/activity', 'User\UserController@account_activity')->name('account.activity');
