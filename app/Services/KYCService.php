@@ -152,7 +152,7 @@ class KYCService
                 'req_type' => 'update_kyc_status',
                 'kyc_id' => $kuser->id,
                 'notes' => __($msg ?? 'Có lỗi xảy ra khi KYC. Vui lòng liên hệ Admin để được giải quyết.'),
-                'status' => $msg ? 'approved' : 'rejected'
+                'status' => !$msg ? 'approved' : 'rejected'
             ]);
             $kyc_controller = new KycController();
             $kyc_controller->update($request);
