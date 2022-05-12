@@ -32,7 +32,7 @@
                             <tbody>
                                 @foreach($pages as $page)
                                 <tr class="page-{{ $page->id }}">
-                                    <td><h5>{{ str_limit($page->title, 25) }}</h5></td>
+                                    <td><h5>{{ substr($page->title, 25) }}</h5></td>
                                     <td><p>{{ $page->menu_title }}</p></td>
                                     <td class="text-right">
                                         <ul>

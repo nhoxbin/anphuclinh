@@ -66,7 +66,6 @@ class LoginController extends Controller
         if (recaptcha()) {
             $this->checkReCaptcha($request->recaptcha);
         }
-
         $this->validateLogin($request);
         $attempt = $this->hasTooManyLoginAttempts($request);
 
