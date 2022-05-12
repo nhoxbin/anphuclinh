@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="js">
-<head>
+<html>
+    <head>
     <meta charset="utf-8">
     <meta name="apps" content="{{ site_whitelabel('apps') }}">
     <meta name="author" content="{{ site_whitelabel('author') }}">
@@ -10,192 +11,505 @@
     <link rel="shortcut icon" href="{{ site_favicon() }}">
     <title>@yield('title') | {{ site_whitelabel('title') }}</title>
     <link rel="stylesheet" href="{{ asset(style_theme('vendor')) }}">
-    <link rel="stylesheet" href="{{ asset(style_theme('user')) }}">
-    @stack('header')
-@if(get_setting('site_header_code', false))
-    {{ html_string(get_setting('site_header_code')) }}
-@endif
-</head>
-<body class="user-dashboard page-user theme-modern">
-    <div class="topbar-wrap">
-        <div class="topbar is-sticky">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center">
-                    <ul class="topbar-nav d-lg-none">
-                        <li class="topbar-nav-item relative">
-                            <a class="toggle-nav" href="#">
-                                <div class="toggle-icon">
-                                    <span class="toggle-line"></span>
-                                    <span class="toggle-line"></span>
-                                    <span class="toggle-line"></span>
-                                    <span class="toggle-line"></span>
-                                </div>
-                            </a>
-                        </li>{{-- .topbar-nav-item --}}
-                    </ul>{{-- .topbar-nav --}}
+    {{-- <link rel="stylesheet" href="{{ asset(style_theme('admin')) }}"> --}}
 
-                    <a class="topbar-logo" href="{{ url('/') }}">
-                        <img height="40" src="{{ site_whitelabel('logo-light') }}" srcset="{{ site_whitelabel('logo-light2x') }}" alt="{{ site_whitelabel('name') }}">
-                    </a>
-                    <ul class="topbar-nav">
-                        <li class="topbar-nav-item relative">
-                            <span class="user-welcome d-none d-lg-inline-block">{{__('Welcome!')}} {{ auth()->user()->name }}</span>
-                            <a class="toggle-tigger user-thumb" href="#"><em class="ti ti-user"></em></a>
-                            <div class="toggle-class dropdown-content dropdown-content-right dropdown-arrow-right user-dropdown">
-                                {!! UserPanel::user_balance() !!}
-                                {!! UserPanel::user_menu_links() !!}
-                                {!! UserPanel::user_logout_link() !!}
+        <!-- bootstrap css -->
+        <link rel="stylesheet" href="{{asset('assets1/css/bootstrap.min.css')}}" type="text/css" media="all" />
+        <!-- animate css -->
+        <link rel="stylesheet" href="{{asset('assets1/css/animate.min.css')}}" type="text/css" media="all" />
+        <!-- owl carousel css -->
+        <link rel="stylesheet" href="{{asset('assets1/css/owl.carousel.min.css')}}"  type="text/css" media="all" />
+        <link rel="stylesheet" href="{{asset('assets1/css/owl.theme.default.min.css')}}"  type="text/css" media="all" />
+        <!-- boxicons css -->
+        <link rel='stylesheet' href='{{asset('assets1/css/icofont.min.css')}}' type="text/css" media="all" />
+        <!-- flaticon css -->
+        <link rel='stylesheet' href='{{asset('assets1/css/flaticon.css')}}' type="text/css" media="all" />
+        <!-- style css -->
+        <link rel="stylesheet" href="{{asset('assets1/css/style.css')}}" type="text/css" media="all" />
+        <!-- responsive css -->
+        <link rel="stylesheet" href="{{asset('assets1/css/responsive.css')}}" type="text/css" media="all" />
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <!-- Preloader -->
+        <div class="preloader">
+            <div class="preloader-wrapper">
+                <div class="preloader-content">
+                    <img src="{{asset('assets1/images/preloader-logo.png')}}" alt="logo">
+                    <h3>Online Banking</h3>
+                </div>
+            </div>
+        </div>
+        <style>
+            /* .header-bg:before{
+                background-color: #18aa43 !important;
+            } */
+            .feature-card{
+                -webkit-box-shadow: 0 3px 0 0 #ffcf84;
+                box-shadow: 0 3px 0 0 #ffcf84;
+            }
+            .body-content{
+                padding-top: 20px;
+                background-color: #f2f6ff;
+                background-position: 50% -500%;
+                min-height: 100vh;
+                position: relative;
+                border-radius: 10px 10px 0 0;
+            }
+            .preloader:before,.sidebar-profile-wallet{
+                background: #26b24c;
+            }
+            .add-card,.option-card,.feature-card{
+                padding: 30px 15px;
+                background-position: center;
+                background-size: cover;
+                border-radius: 8px;
+                opacity: 0.9 !important;
+            }
+            .header-bg-1{
+                background-size:cover;
+                background-position: top; 
+            }
+            .add-card,.option-card,.feature-card h3,p{
+                color: #fff !important;
+            }
+            .header-bg:before{
+                background: unset !important;
+            }
+        </style>
+        <!-- Preloader -->
+
+        <!-- Header-bg -->
+        <div class="header-bg header-bg-1" style="background-image: url({{asset('images/header.jpg')}})"></div>
+        <!-- Header-bg -->
+
+        <!-- Appbar -->
+        <div class="fixed-top">
+            <div class="appbar-area sticky-black">
+                <div class="container">
+                    <div class="appbar-container">
+                        <div class="appbar-item appbar-actions">
+                            <div class="appbar-action-item">
+                                <a href="#" class="appbar-action-bar" data-bs-toggle="modal" data-bs-target="#sidebarDrawer"><i class="flaticon-menu"></i></a>
                             </div>
-                        </li>{{-- .topbar-nav-item --}}
-                    </ul>{{-- .topbar-nav --}}
-                </div>
-            </div>{{-- .container --}}
-        </div>{{-- .topbar --}}
-
-        <div class="navbar">
-            <div class="container">
-                <div class="navbar-innr">
-                    <ul class="navbar-menu" id="main-nav">
-                        <li><a href="{{ route('user.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
-                        <li><a href="{{ route('user.token') }}"><em class="ikon ikon-coins"></em> {{__('Buy Token')}}</a></li>
-                        @if(get_page('distribution', 'status') == 'active')
-                        <li><a href="{{ route('public.pages', 'distribution') }}"><em class="ikon ikon-distribution"></em> {{ get_page('distribution', 'title') }}</a></li>
-                        @endif
-                        <li><a href="{{ route('user.transactions') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
-                        @if(nio_module()->has('Withdraw') && has_route('withdraw:user.index'))
-                        <li{!! ((is_page('withdraw'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('withdraw:user.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
-                        </li>
-                        @endif
-                        <li><a href="{{ route('user.account') }}"><em class="ikon ikon-user"></em> {{__('Profile')}}</a></li>
-                        @if(gws('user_mytoken_page') == 1)
-                        <li><a href="{{ route('user.token.balance') }}"><em class="ikon ikon-my-token"></em> {{ __('My Token') }}</a></li>
-                        @endif
-                        @if(gws('main_website_url') != NULL)
-                        <li><a href="{{gws('main_website_url')}}" target="_blank"><em class="ikon ikon-home-link"></em> {{__('Main Site')}}</a></li>
-                        @endif
-                    </ul>
-                    @if(!is_kyc_hide())
-                    <ul class="navbar-btns">
-                        @if(isset(Auth::user()->kyc_info->status) && Auth::user()->kyc_info->status == 'approved')
-                        <li><span class="badge badge-outline badge-success badge-lg"><em class="text-success ti ti-files mgr-1x"></em><span class="text-success">{{__('KYC Approved')}}</span></span></li>
-                        @else
-                        <li><a href="{{ route('user.kyc') }}" class="btn btn-sm btn-outline btn-light"><em class="text-primary ti ti-files"></em><span>{{__('KYC Application')}}</span></a></li>
-                        @endif
-                    </ul>
-                    @endif
-                </div>{{-- .navbar-innr --}}
-            </div>{{-- .container --}}
-        </div>{{-- .navbar --}}
-    </div>{{-- .topbar-wrap --}}
-
-    <div class="page-content">
-        <div class="container">
-            <div class="row">
-                @php
-                $has_sidebar = isset($has_sidebar) ? $has_sidebar : false;
-                $col_side_cls = ($has_sidebar) ? 'col-lg-4' : 'col-lg-12';
-                $col_cont_cls = ($has_sidebar) ? 'col-lg-8' : 'col-lg-12';
-                $col_cont_cls2 = isset($content_class) ? css_class($content_class) : null;
-                $col_side_cls2 = isset($aside_class) ? css_class($aside_class) : null;
-                @endphp
-
-                <div class="main-content {{ empty($col_cont_cls2) ? $col_cont_cls : $col_cont_cls2 }}">
-                    @if(!has_wallet() && gws('token_wallet_req')==1 && !empty(token_wallet()))
-                    <div class="d-lg-none">
-                        {!! UserPanel::add_wallet_alert() !!}
-                    </div>
-                    @endif
-                    @yield('content')
-                </div>
-
-                @if ($has_sidebar==true)
-                <div class="aside sidebar-right {{ empty($col_side_cls2) ? $col_side_cls : $col_side_cls2 }}">
-                    @if(!has_wallet() && gws('token_wallet_req')==1 && !empty(token_wallet()))
-                    <div class="d-none d-lg-block">
-                        {!! UserPanel::add_wallet_alert() !!}
-                    </div>
-                    @endif
-                    <div class="account-info card">
-                        <div class="card-innr">
-                            {!! UserPanel::user_account_status() !!}
-                            @if(!empty(token_wallet()))
-                            <div class="gaps-2-5x"></div>
-                            {!! UserPanel::user_account_wallet() !!}
-                            @endif
+                        </div>
+                        <div class="appbar-item appbar-brand me-auto">
+                            <img src="{{asset('assets1/images/logo-new.png')}}" alt="">
+                            <a href="index.html">
+                                <img src="{{asset('assets1/images/logo.png')}}" alt="logo" class="main-logo">
+                                <img src="{{asset('assets1/images/logo-hover.png')}}" alt="logo" class="hover-logo">
+                            </a>
+                        </div>
+                        <div class="appbar-item appbar-options">
+                            <div class="appbar-option-item appbar-option-notification">
+                                <a href="notifications.html"><i class="flaticon-bell"></i></a>
+                                <span class="option-badge">5</span>
+                            </div>
+                            <div class="appbar-option-item appbar-option-profile">
+                                <a href="settings.html"><img src="{{asset('assets1/images/profile.jpg')}}" alt="profile"></a>
+                            </div>
                         </div>
                     </div>
-                    {!! (!is_page(get_slug('referral')) ? UserPanel::user_referral_info('') : '') !!}
-                    @if(!is_kyc_hide())
-                    {!! UserPanel::user_kyc_info('') !!}
-                    @endif
-                </div>{{-- .col --}}
-                @else
-                    @stack('sidebar')
-                @endif
-
+                </div>
             </div>
-        </div>{{-- .container --}}
-    </div>{{-- .page-content --}}
+        </div>
+        <!-- Appbar -->
 
-    <div class="footer-bar">
-        <div class="container">
-            @if(is_show_social('site'))
-            <div class="row justify-content-center">
-                <div class="col-lg-5 text-center order-lg-last text-lg-right pdb-2x pb-lg-0">
-                    {!! UserPanel::social_links() !!}
-                </div>
-                <div class="col-lg-7">
-                    <div class="d-flex align-items-center justify-content-center justify-content-lg-start guttar-15px pdb-1-5x pb-lg-2">
-                        {!! UserPanel::copyrights('div') !!}
-                        {!! UserPanel::language_switcher() !!}
-                    </div>
-                    {!! UserPanel::footer_links(null, ['class'=>'align-items-center justify-content-center justify-content-lg-start']) !!}
-                </div>
-            </div>{{-- .row --}}
-            @else 
-            <div class="row align-items-center justify-content-center">
-                <div class="col-lg-7">
-                    {!! UserPanel::footer_links(null, ['class'=>'guttar-20px']) !!}
-                </div>
-                <div class="col-lg-5 mt-2 mt-sm-0">
-                    <div class="d-flex justify-content-between justify-content-lg-end align-items-center guttar-15px">
-                        {!! UserPanel::copyrights('div') !!}
-                        {!! UserPanel::language_switcher() !!}
-                    </div>
-                </div>
-            </div>{{-- .row --}}
-            @endif
-        </div>{{-- .container --}}
-    </div>{{-- .footer-bar --}}
-    @yield('modals')
-    <div id="ajax-modal"></div>
-    <div class="page-overlay">
-        <div class="spinner"><span class="sp sp1"></span><span class="sp sp2"></span><span class="sp sp3"></span></div>
-    </div>
+        <!-- Body-content -->
+        <!-- Body-content -->
 
-@if(gws('theme_custom'))
-    <link rel="stylesheet" href="{{ asset(style_theme('custom')) }}">
-@endif
-    <script>
-        var base_url = "{{ url('/') }}";
-        {!! (has_route('transfer:user.send')) ? 'user_token_send = "'.route('transfer:user.send').'",' : '' !!}
-        {!! (has_route('withdraw:user.request')) ? 'user_token_withdraw = "'.route('withdraw:user.request').'",' : '' !!}
-        {!! (has_route('user.ajax.account.wallet')) ? 'user_wallet_address = "'.route('user.ajax.account.wallet').'",' : '' !!}
-        csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        var msg_wrong = "{{ __('Something is Wrong!') }}", msg_cancel_order = "{{ __('Do you really cancel your order?') }}", msg_unable_process = "{{ __('Unable process request!') }}", msg_sure = "{{ __('Are you sure?') }}", msg_unable_perform = "{{ __('Unable to perform!') }}", msg_use_modern_browser = "{{ __('Please use a modern browser to properly view this template!') }}", num_fmt = {{ (gws('token_number_format', 0)) ? 'true' : 'false' }};
-    </script>
-    <script src="{{ asset('assets/js/jquery.bundle.js').css_js_ver() }}"></script>
-    <script src="{{ asset('assets/js/script.js').css_js_ver() }}"></script>
-    <script src="{{ asset('assets/js/app.js').css_js_ver() }}"></script>
-    @stack('footer')
-    <script type="text/javascript">
-        @if (session('resent'))
-        show_toast("success","{{ __('A fresh verification link has been sent to your email address.') }}");
-        @endif
-    </script>
-    @if(get_setting('site_footer_code', false))
-    {{ html_string(get_setting('site_footer_code')) }}
-    @endif
-</body>
+        <!-- Footer -->
+        <footer class="footer-bg">
+            <div class="container">
+                <p>Copyright © 2021 Oban. Designed & Developed By <a href="https://envytheme.com/" target="_blank">EnvyTheme</a></p>
+            </div>
+        </footer>
+        <!-- Footer -->
+
+        <!-- Navbar -->
+        <div class="app-navbar">
+            <div class="container">
+                <div class="navbar-content ">
+                    @if(gup('tranx')||gup('view_tranx'))
+                    <div class="navbar-content-item">
+                        <a href="{{ route('admin.home') }}" class="active">
+                            <i class="flaticon-house"></i>
+                            Dashboard
+                        </a>
+                    </div>
+                    @endif
+                    @if(gup('tranx')||gup('view_tranx'))
+                    <div class="navbar-content-item">
+                        <a href="{{ route('admin.transactions', 'pending') }}">
+                            <i class="flaticon-invoice"></i>
+                            Transactions
+                        </a>
+                    </div>
+                    @endif
+                    @if(nio_module()->has('Withdraw') && has_route('withdraw:admin.index') && gup('withdraw'))
+                    <div class="navbar-content-item">
+                        <a href="{{ route('admin.transactions', 'pending') }}">
+                            <i class="ikon ikon-wallet"></i>
+                            Withdraw
+                        </a>
+                    </div>
+                    @endif
+                    @if(gup('kyc')||gup('view_kyc'))
+                        <div class="navbar-content-item">
+                        <a href="{{ route('admin.kycs', 'pending') }}">
+                            <i class="flaticon-menu-1"></i>
+                            KYC List
+                        </a>
+                    </div>
+                    @endif
+                    @if(gup('user')||gup('view_user'))
+                    <div class="navbar-content-item">
+                        <a href="{{ route('admin.users', 'user') }}">
+                            <i class="flaticon-credit-card"></i>
+                            Users List
+                        </a>
+                    </div>
+                    @endif
+                    @if(gup('stage'))
+                    <div class="navbar-content-item">
+                        <a href="{{ route('admin.stages') }}">
+                            <i class="flaticon-settings"></i>
+                            ICO/STO Stage
+                        </a>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <!-- Navbar -->
+
+        <!-- Add-balance-modal -->
+        <div class="modal fade" id="addBalance" tabindex="-1" aria-labelledby="addBalance" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <i class="flaticon-plus color-blue"></i>
+                                <h5 class="modal-title">Add Balance</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group mb-15">
+                                    <label for="input1" class="form-label">From</label>
+                                    <input type="email" class="form-control" id="input1" placeholder="Payoneer Account">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label for="input2" class="form-label">Enter Amount</label>
+                                    <input type="email" class="form-control" id="input2" placeholder="$ 458.00">
+                                </div>
+                                <button type="submit" class="btn main-btn main-btn-lg full-width">Deposit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add-balance-modal -->
+        
+        <!-- Withdraw-modal -->
+        <div class="modal fade" id="withdraw" tabindex="-1" aria-labelledby="withdraw" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <i class="flaticon-down-arrow color-blue"></i>
+                                <h5 class="modal-title">Withdraw</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group mb-15">
+                                    <label for="input3" class="form-label">From</label>
+                                    <input type="email" class="form-control" id="input3" placeholder="Saving(***1580)">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label for="input4" class="form-label">To</label>
+                                    <input type="email" class="form-control" id="input4" placeholder="Alicia Williams">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label for="input5" class="form-label">Enter Amount</label>
+                                    <input type="email" class="form-control" id="input5" placeholder="$ 458.00">
+                                </div>
+                                <button type="submit" class="btn main-btn main-btn-lg full-width">Send</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Withdraw-modal -->
+
+        <!-- Send-money-modal -->
+        <div class="modal fade" id="sendMoney" tabindex="-1" aria-labelledby="sendMoney" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <i class="flaticon-right-arrow color-yellow"></i>
+                                <h5 class="modal-title">Send Money</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group mb-15">
+                                    <label for="input6" class="form-label">From</label>
+                                    <input type="email" class="form-control" id="input6" placeholder="Saving(***1580)">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label for="input7" class="form-label">To</label>
+                                    <input type="email" class="form-control" id="input7" placeholder="Bank ID">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label for="input8" class="form-label">Enter Amount</label>
+                                    <input type="email" class="form-control" id="input8" placeholder="$ 458.00">
+                                </div>
+                                <button type="submit" class="btn main-btn main-btn-lg full-width">Send</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Send-money-modal -->
+
+        <!-- Exchange-modal -->
+        <div class="modal fade" id="exchange" tabindex="-1" aria-labelledby="exchange" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <i class="flaticon-exchange-arrows color-red"></i>
+                                <h5 class="modal-title">Exchange</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group mb-15">
+                                    <label for="input9" class="form-label">From</label>
+                                    <input type="email" class="form-control" id="input9" placeholder="EUR">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label for="input10" class="form-label">To</label>
+                                    <input type="email" class="form-control" id="input10" placeholder="USD">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label for="input11" class="form-label">Enter Amount</label>
+                                    <input type="email" class="form-control" id="input11" placeholder="$ 458.00">
+                                </div>
+                                <button type="submit" class="btn main-btn main-btn-lg full-width">Send</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Exchange-modal -->
+
+        <!-- AddCard-modal -->
+        <div class="modal fade" id="addCard" tabindex="-1" aria-labelledby="addCard" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <h5 class="modal-title">Add A New Card</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group mb-15">
+                                    <div class="form-card-upload">
+                                        <label class="card-upload-thumb" for="uploadCard">
+                                            <i class="flaticon-camera"></i>
+                                        </label>
+                                        <input type="file" id="uploadCard" class="d-none">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label class="form-label">Card Type</label>
+                                    <input type="email" class="form-control" placeholder="Mastercard">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label class="form-label">Card Number</label>
+                                    <input type="email" class="form-control" placeholder="****  ****  ****  ****">
+                                </div>
+                                <div class="form-group mb-15 overflow-hidden">
+                                    <div class="row gx-2">
+                                        <div class="col-6">
+                                            <label class="form-label">Expiry Date</label>
+                                            <div class="row gx-2">
+                                                <div class="col-6">
+                                                    <select class="form-control">
+                                                        <option value="1">01</option>
+                                                        <option value="2">02</option>
+                                                        <option value="3">03</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <select class="form-control">
+                                                        <option value="1">01</option>
+                                                        <option value="2">02</option>
+                                                        <option value="3">03</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">CVV</label>
+                                            <input type="email" class="form-control" placeholder="453">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn main-btn full-width">Add Card</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- AddCard-modal -->
+
+        <!-- View-card-modal -->
+        <div class="modal fade" id="viewCard" tabindex="-1" aria-labelledby="viewCard" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <h5 class="modal-title">Edit Card</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group mb-15">
+                                    <div class="form-card-uploaded"> <!-- "form-card-uploaded" class is used for already uploaded card. -->
+                                        <img src="{{asset('assets1/images/card-1.png')}}" alt="card">
+                                        <label class="form-card-uploaded-edit" for="editUploadCard">
+                                            <i class="flaticon-camera"></i>
+                                        </label>
+                                        <input type="file" id="editUploadCard" class="d-none">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label class="form-label">Card Type</label>
+                                    <input type="email" class="form-control" placeholder="Mastercard" value="Credit Card">
+                                </div>
+                                <div class="form-group mb-15">
+                                    <label class="form-label">Card Number</label>
+                                    <input type="email" class="form-control" placeholder="****  ****  ****  ****" value="0123 4567 8901 2345">
+                                </div>
+                                <div class="form-group mb-15 overflow-hidden">
+                                    <div class="row gx-2">
+                                        <div class="col-6">
+                                            <label class="form-label">Expiry Date</label>
+                                            <div class="row gx-2">
+                                                <div class="col-6">
+                                                    <select class="form-control">
+                                                        <option value="1">01</option>
+                                                        <option value="2">02</option>
+                                                        <option value="3">03</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <select class="form-control">
+                                                        <option value="1">01</option>
+                                                        <option value="2">02</option>
+                                                        <option value="3">03</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label">CVV</label>
+                                            <input type="email" class="form-control" placeholder="453" value="3334">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn main-btn full-width">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- View-card-modal -->
+
+        <!-- Delete-card-modal -->
+        <div class="modal fade" id="deleteCard" tabindex="-1" aria-labelledby="deleteCard" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-animatezoom">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <h5 class="modal-title">Delete Card</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body modal-body-center">
+                            <form class="text-center">
+                                <h3>Are You Sure You Want To Delete This Card?</h3>
+                                <button type="submit" class="btn main-btn main-btn-red main-btn-lg full-width">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Delete-card-modal -->
+
+        <!-- Menu-modal -->
+        @yield('content')
+        <!-- Menu-modal -->
+
+        <!-- Scroll-top -->
+        <div class="scroll-top" id="scrolltop">
+            <div class="scroll-top-inner">
+                <i class="icofont-long-arrow-up"></i>
+            </div>
+        </div>
+        <!-- Scroll-top -->
+
+
+        <!-- essential js -->
+        <script src="{{asset('assets1/js/jquery-3.5.1.min.js')}}"></script>
+        <script src="{{asset('assets1/js/bootstrap.bundle.min.js')}}"></script>
+        <!-- owl carousel js -->
+        <script src="{{asset('assets1/js/owl.carousel.min.js')}}"></script>
+        <!-- form ajazchimp js -->
+        <script src="{{asset('assets1/js/jquery.ajaxchimp.min.js')}}"></script>
+        <!-- form validator js  -->
+        <script src="{{asset('assets1/js/form-validator.min.js')}}"></script>
+        <!-- contact form js -->
+        <script src="{{asset('assets1/js/contact-form-script.js')}}"></script>
+        <!-- main js -->
+        <script src="{{asset('assets1/js/script.js')}}"></script>
+        <script>
+            $(document).ready(function(){
+                $('.drop-toggle').click(function(e){
+                    e.preventDefault();
+                    console.log($(this).next());
+                    $(this).next().toggleClass('d-none');
+                })
+            })
+        </script>
+    </body>
 </html>

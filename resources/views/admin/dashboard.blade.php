@@ -1,278 +1,504 @@
 @extends('layouts.admin')
 @section('title', 'Admin Dashboard')
 @section('content')
-@php
-$base_cur = base_currency();
-@endphp
-<div class="page-content">
-	<div class="container">
-        @include('vendor.notice')
-        @include('layouts.messages')
-		<div class="row">
-			<div class="col-lg-4 col-md-6">
-                <div class="card height-auto">
-                    <div class="card-innr">
-                        <div class="tile-header">
-                            <h6 class="tile-title">Token Sale - {{ $stage->stage->name }}</h6>
-                        </div>
-                        <div class="tile-data">
-                            <span class="tile-data-number">{{ to_num($stage->stage->total_tokens, 0, ',', false) }}</span>
-                            <span class="tile-data-status tile-data-active" title="Sales %" data-toggle="tooltip" data-placement="right">{{ $stage->trnxs->percent }}%</span>
-                        </div>
-                        <div class="tile-footer">
-                            <div class="tile-recent">
-                                <span class="tile-recent-number">{{ to_num($stage->trnxs->last_week, 0, ',', false) }}</span>
-                                <span class="tile-recent-text">since last week</span>
+@include('components.menu')
+<div class="body-content body-content-lg" style="background-image: url({{asset('images/bg.jpg')}})"> <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
+    <div class="container">
+        <!-- Add-card -->
+        <div class="add-card section-to-header mb-30" style="background-image: url({{asset('images/button.png')}})">
+            <div class="add-card-inner">
+                <div class="add-card-item add-card-info">
+                    <p>Ví hoa hồng</p>
+                    <h3 style="color: #fff">0 VNĐ</h3>
+                </div>
+                <div class="add-card-item add-balance" data-bs-toggle="modal" data-bs-target="#addBalance">
+                    <a href="#"><i class="flaticon-plus"></i></a>
+                    <p>Add Balance</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add-card -->
+        <!-- Option-section -->
+        <div class="option-section mb-15">
+            <div class="row gx-3">
+                <div class="col pb-15">
+                    <div class="option-card option-card-violet" style="background-image: url({{asset('images/button.png')}})">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#withdraw">
+                            <div class="option-card-icon">
+                                <i class="flaticon-down-arrow"></i>
                             </div>
-                            <div class="tile-link">
-                                <a href="{{ route('admin.stages') }}" class="link link-thin link-ucap link-dim">View</a>
+                            <p>Mua hàng</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col pb-15">
+                    <div class="option-card option-card-yellow" style="background-image: url({{asset('images/button.png')}})">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#sendMoney">
+                            <div class="option-card-icon">
+                                <i class="flaticon-right-arrow"></i>
                             </div>
+                            <p>Rút tiền</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col pb-15">
+                    <div class="option-card option-card-blue" style="background-image: url({{asset('images/button.png')}})">
+                        <a href="my-cards.html">
+                            <div class="option-card-icon">
+                                <i class="flaticon-credit-card"></i>
+                            </div>
+                            <p>Chuyển điểm</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col pb-15">
+                    <div class="option-card option-card-red" style="background-image: url({{asset('images/button.png')}})">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#exchange">
+                            <div class="option-card-icon">
+                                <i class="flaticon-exchange-arrows"></i>
+                            </div>
+                            <p>Nhận điểm</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Option-section -->
+        <!-- Feature-section -->
+        <div class="feature-section mb-15">
+            <div class="row gx-3">
+                <div class="col col-sm-6 pb-15">
+                    <a href="" class="feature-card feature-card-red" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-income"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Chuyển điểm</p>
+                            {{-- <h3>$485.50</h3> --}}
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-sm-3 pb-15">
+                    <a href="" class="feature-card feature-card-blue" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-expenses"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Mạng xã hội</p>
+                            {{-- <h3>$95.50</h3> --}}
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-sm-3 pb-15">
+                    <a href="" class="feature-card feature-card-violet" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-invoice"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Sàn TMĐT EVI-SHOP</p>
+                            {{-- <h3>$75.00</h3> --}}
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-savings"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Hoa hồng</p>
+                            <h3>0 VNĐ</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-savings"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Điểm</p>
+                            <h3>0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-savings"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Tỉ giá chuyển đổi / điểm</p>
+                            <h3>0 VNĐ</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-savings"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Doanh số</p>
+                            <h3>0 VNĐ</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-savings"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Cấp</p>
+                            <h3>0</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-savings"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p style="height: 45px;display: flex;align-items: center;">Xem danh sách đại lý</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card height-auto">
-                    <div class="card-innr">
-                        <ul class="tile-nav nav">
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#view-kycs">KYC</a></li>
-                        	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#view-users">User</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="view-users">
-                                <div class="tile-header">
-                                    <h6 class="tile-title">Total Users</h6>
-                                </div>
-                                <div class="tile-data">
-                                    <span class="tile-data-number">{{ to_num($users->all, 0, ',', false) }}</span>
-                                    <span class="tile-data-status tile-data-active" title="Verified" data-toggle="tooltip" data-placement="right">{{ $users->verified }}%</span>
-                                </div>
-                                <div class="tile-footer">
-                                    <div class="tile-recent">
-                                        <span class="tile-recent-number">{{ to_num($users->last_week, 0, ',', false) }}</span>
-                                        <span class="tile-recent-text">since last week</span>
-                                    </div>
-                                    <div class="tile-link">
-                                        <a href="{{ route('admin.users') }}" class="link link-thin link-ucap link-dim">View</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="view-kycs">
-                                <div class="tile-header">
-                                    <h6 class="tile-title">Total KYC</h6>
-                                </div>
-                                <div class="tile-data">
-                                    <span class="tile-data-number">{{ to_num($users->kyc_submit, 0, ',', false) }}</span>
-                                    <span class="tile-data-status tile-data-active" title="Approved" data-toggle="tooltip" data-placement="right">{{ $users->kyc_approved }}%</span>
-                                </div>
-                                <div class="tile-footer">
-                                    <div class="tile-recent">
-                                        <span class="tile-recent-number">{{ to_num($users->kyc_last_week, 0, ',', false) }}</span>
-                                        <span class="tile-recent-text">since last week</span>
-                                    </div>
-                                    <div class="tile-link">
-                                        <a href="{{ route('admin.kycs') }}" class="link link-thin link-ucap link-dim">View</a>
-                                    </div>
-                                </div>
-                            </div>
+        </div>
+        <!-- Feature-section -->
+        <!-- Transaction-section -->
+        {{-- <div class="transaction-section pb-15">
+            <div class="section-header">
+                <h2>Transactions</h2>
+                <div class="view-all">
+                    <a href="transactions.html">View All</a>
+                </div>
+            </div>
+            <div class="transaction-card mb-15">
+                <a href="transaction-details.html">
+                    <div class="transaction-card-info">
+                        <div class="transaction-info-thumb">
+                            <img src="{{asset('assets1/images/user-2.jpg')}}" alt="user">
+                        </div>
+                        <div class="transaction-info-text">
+                            <h3>Brenda Davis</h3>
+                            <p>Transfer</p>
+                        </div>
+                    </div>
+                    <div class="transaction-card-det negative-number">
+                        -$185.00
+                    </div>
+                </a>
+            </div>
+            <div class="transaction-card mb-15">
+                <a href="transaction-details.html">
+                    <div class="transaction-card-info">
+                        <div class="transaction-info-thumb">
+                            <img src="{{asset('assets1/images/user-cm-logo-1.png')}}" alt="user">
+                        </div>
+                        <div class="transaction-info-text">
+                            <h3>Appstore Purchase</h3>
+                            <p>App Purchase</p>
+                        </div>
+                    </div>
+                    <div class="transaction-card-det">
+                        -$159.99
+                    </div>
+                </a>
+            </div>
+            <div class="transaction-card mb-15">
+                <a href="transaction-details.html">
+                    <div class="transaction-card-info">
+                        <div class="transaction-info-thumb">
+                            <img src="{{asset('assets1/images/user-1.jpg')}}" alt="user">
+                        </div>
+                        <div class="transaction-info-text">
+                            <h3>Martin Neely</h3>
+                            <p>Transfer</p>
+                        </div>
+                    </div>
+                    <div class="transaction-card-det">
+                        +$170.00
+                    </div>
+                </a>
+            </div>
+            <div class="transaction-card mb-15">
+                <a href="transaction-details.html">
+                    <div class="transaction-card-info">
+                        <div class="transaction-info-thumb">
+                            <img src="{{asset('assets1/images/user-3.jpg')}}" alt="user">
+                        </div>
+                        <div class="transaction-info-text">
+                            <h3>Mary McMillian</h3>
+                            <p>Transfer</p>
+                        </div>
+                    </div>
+                    <div class="transaction-card-det">
+                        +$2573.00
+                    </div>
+                </a>
+            </div>
+        </div> --}}
+        <!-- Transaction-section -->
+        <!-- Monthly-bill-section -->
+        {{-- <div class="monthly-bill-section pb-15">
+            <div class="section-header">
+                <h2>Monthly Bills</h2>
+                <div class="view-all">
+                    <a href="monthly-bills.html">View All</a>
+                </div>
+            </div>
+            <div class="row gx-3">
+                <div class="col-6 pb-15">
+                    <div class="monthly-bill-card monthly-bill-card-green">
+                        <div class="monthly-bill-thumb">
+                            <img src="{{asset('assets1/images/cm-logo-1.png')}}" alt="logo">
+                        </div>
+                        <div class="monthly-bill-body">
+                            <h3><a href="#">Envato.com</a></h3>
+                            <p>Debit Services Subscribtion</p>
+                        </div>
+                        <div class="monthly-bill-footer monthly-bill-action">
+                            <a href="#" class="btn main-btn">Pay Now</a>
+                            <p class="monthly-bill-price">$99.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pb-15">
+                    <div class="monthly-bill-card monthly-bill-card-green">
+                        <div class="monthly-bill-thumb">
+                            <img src="{{asset('assets1/images/cm-logo-2.png')}}" alt="logo">
+                        </div>
+                        <div class="monthly-bill-body">
+                            <h3><a href="#">Oban.com</a></h3>
+                            <p>Credit Services Subscribtion</p>
+                        </div>
+                        <div class="monthly-bill-footer monthly-bill-action">
+                            <a href="#" class="btn main-btn">Pay Now</a>
+                            <p class="monthly-bill-price">$75.00</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pb-15">
+                    <div class="monthly-bill-card monthly-bill-card-green">
+                        <div class="monthly-bill-thumb">
+                            <img src="{{asset('assets1/images/cm-logo-3.png')}}" alt="logo">
+                        </div>
+                        <div class="monthly-bill-body">
+                            <h3><a href="#">Nezox.com</a></h3>
+                            <p>Internet Monthly Subscribtion</p>
+                        </div>
+                        <div class="monthly-bill-footer monthly-bill-action">
+                            <a href="#" class="btn main-btn">Pay Now</a>
+                            <p class="monthly-bill-price">$50.50</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pb-15">
+                    <div class="monthly-bill-card monthly-bill-card-green">
+                        <div class="monthly-bill-thumb">
+                            <img src="{{asset('assets1/images/cm-logo-4.png')}}" alt="logo">
+                        </div>
+                        <div class="monthly-bill-body">
+                            <h3><a href="#">Depan.com</a></h3>
+                            <p>Depan Monthly Subscribtion</p>
+                        </div>
+                        <div class="monthly-bill-footer monthly-bill-action">
+                            <a href="#" class="btn main-btn">Pay Now</a>
+                            <p class="monthly-bill-price">$100.99</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="token-statistics card card-token height-auto">
-                    <div class="card-innr">
-                        <ul class="tile-nav nav">
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#view-fiat">Fiat</a></li>
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#view-crypto">Crypto</a></li>
-                        </ul>
-                        <div class="token-balance token-balance-s3">
-                            <div class="token-balance-text">
-                                <h6 class="card-sub-title">AMOUNT COLLECTED</h6>
-                                <span class="lead">{{ to_num($trnxs->currency->base, 'auto', ',') }}
-                                <span>{{ strtoupper($base_cur) }}
-                                <em class="fas fa-info-circle fs-11" data-toggle="tooltip" data-placement="right" title="Combined calculation of all transactions in base currency."></em></span>
-                            </span>
+        </div> --}}
+        <!-- Monthly-bill-section -->
+        <!-- Card-section -->
+        {{-- <div class="card-section pb-15">
+            <div class="section-header">
+                <h2>My Cards</h2>
+                <div class="view-all">
+                    <a href="my-cards.html">View All</a>
+                </div>
+            </div>
+            <div class="payment-image-card pb-15">
+                <img src="{{asset('assets1/images/card-1.png')}}" alt="card">
+                <ul class="payment-uploaded-action">
+                    <li>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#viewCard">
+                            <i class="icofont-ui-edit"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCard">
+                            <i class="flaticon-trash"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div> --}}
+        <!-- Card-section -->
+        <!-- Send-money-section -->
+        {{-- <div class="send-money-section pb-15">
+            <div class="section-header">
+                <h2>Send Money</h2>
+                <div class="view-all">
+                    <a href="#">Add New</a>
+                </div>
+            </div>
+            <div class="row gx-3">
+                <div class="col pb-15">
+                    <div class="user-card">
+                        <a href="#">
+                            <div class="user-card-thumb">
+                                <img src="{{asset('assets1/images/user-1.jpg')}}" alt="user">
                             </div>
+                            <h3>Brittany</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col pb-15">
+                    <div class="user-card">
+                        <a href="#">
+                            <div class="user-card-thumb">
+                                <img src="{{asset('assets1/images/user-2.jpg')}}" alt="user">
+                            </div>
+                            <h3>Jablonski</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col pb-15">
+                    <div class="user-card">
+                        <a href="#">
+                            <div class="user-card-thumb">
+                                <img src="{{asset('assets1/images/user-4.jpg')}}" alt="user">
+                            </div>
+                            <h3>Patricia</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col pb-15">
+                    <div class="user-card">
+                        <a href="#">
+                            <div class="user-card-thumb">
+                                <img src="{{asset('assets1/images/user-3.jpg')}}" alt="user">
+                            </div>
+                            <h3>Chancey</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+        <!-- Send-money-section -->
+        <!-- Saving-goals-section -->
+        {{-- <div class="saving-goals-section pb-15">
+            <div class="section-header">
+                <h2>Saving Goals</h2>
+                <div class="view-all">
+                    <a href="my-savings.html">View All</a>
+                </div>
+            </div>
+            <div class="progress-card progress-card-red mb-15">
+                <div class="progress-card-info">
+                    <div class="circular-progress" data-note="50.85">
+                        <svg width="55" height="55" class="circle-svg">
+                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-path"></circle>
+                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-fill"></circle>
+                        </svg>
+                        <div class="percent">
+                            <span class="percent-int">0</span>%
                         </div>
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="view-crypto">
-                                <div class="token-balance token-balance-s2">
-                                    <ul class="token-balance-list">
-                                        <li class="token-balance-sub">
-                                            <span class="lead">{{ to_num($trnxs->currency->eth, 'auto') }}</span>
-                                            <span class="sub">ETH</span>
-                                        </li>
-                                        <li class="token-balance-sub">
-                                            <span class="lead">{{ to_num($trnxs->currency->btc, 'auto') }}</span>
-                                            <span class="sub">BTC</span>
-                                        </li>
-                                        <li class="token-balance-sub">
-                                            <span class="lead">{{ to_num($trnxs->currency->ltc, 'auto') }}</span>
-                                            <span class="sub">LTC</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade show" id="view-fiat">
-                                <div class="token-balance token-balance-s2">
-                                    <ul class="token-balance-list">
-                                        <li class="token-balance-sub">
-                                            <span class="lead">{{ to_num($trnxs->currency->usd, 'auto') }}</span>
-                                            <span class="sub">USD</span>
-                                        </li>
-                                        <li class="token-balance-sub">
-                                            <span class="lead">{{ to_num($trnxs->currency->eur, 'auto') }}</span>
-                                            <span class="sub">EUR</span>
-                                        </li>
-                                        <li class="token-balance-sub">
-                                            <span class="lead">{{ to_num($trnxs->currency->gbp, 'auto') }}</span>
-                                            <span class="sub">GBP</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="progress-info-text">
+                        <h3>New Gadget</h3>
+                        <p>Lifestyle</p>
+                    </div>
+                </div>
+                <div class="progress-card-amount">$250.00</div>
+            </div>
+            <div class="progress-card progress-card-blue mb-15">
+                <div class="progress-card-info">
+                    <div class="circular-progress" data-note="25">
+                        <svg width="55" height="55" class="circle-svg">
+                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-path"></circle>
+                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-fill"></circle>
+                        </svg>
+                        <div class="percent">
+                            <span class="percent-int">0</span>%
+                        </div>
+                    </div>
+                    <div class="progress-info-text">
+                        <h3>New Apartment</h3>
+                        <p>Living</p>
+                    </div>
+                </div>
+                <div class="progress-card-amount">$5000.00</div>
+            </div>
+            <div class="progress-card progress-card-green mb-15">
+                <div class="progress-card-info">
+                    <div class="circular-progress" data-note="75">
+                        <svg width="55" height="55" class="circle-svg">
+                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-path"></circle>
+                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-fill"></circle>
+                        </svg>
+                        <div class="percent">
+                            <span class="percent-int">0</span>%
+                        </div>
+                    </div>
+                    <div class="progress-info-text">
+                        <h3>Education</h3>
+                        <p>Lifestyle</p>
+                    </div>
+                </div>
+                <div class="progress-card-amount">$1250.00</div>
+            </div>
+        </div> --}}
+        <!-- Saving-goals-section -->
+        <!-- Latest-news-section -->
+        {{-- <div class="latest-news-section pb-15">
+            <div class="section-header">
+                <h2>Latest News</h2>
+                <div class="view-all">
+                    <a href="blogs.html">View All</a>
+                </div>
+            </div>
+            <div class="row gx-3">
+                <div class="col-6 pb-15">
+                    <div class="blog-card">
+                        <div class="blog-card-thumb">
+                            <a href="#">
+                                <img src="{{asset('assets1/images/blogs/blog-1.jpg')}}" alt="blog">
+                            </a>
+                        </div>
+                        <div class="blog-card-details">
+                            <ul class="blog-entry">
+                                <li>Smith Rob</li>
+                                <li>15 Jan, 2021</li>
+                            </ul>
+                            <h3><a href="#">Financing Loans Available To Small Businesses</a></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pb-15">
+                    <div class="blog-card">
+                        <div class="blog-card-thumb">
+                            <a href="#">
+                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
+                            </a>
+                        </div>
+                        <div class="blog-card-details">
+                            <ul class="blog-entry">
+                                <li>John Doe</li>
+                                <li>13 Jan, 2021</li>
+                            </ul>
+                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-5">
-                <div class="token-transaction card card-full-height">
-                    <div class="card-innr">
-                        <div class="card-head has-aside">
-                            <h4 class="card-title card-title-sm">Recent Transaction</h4>
-                            <div class="card-opt">
-                                <a href="{{ route('admin.transactions') }}" class="link ucap">View ALL <em class="fas fa-angle-right ml-2"></em></a>
-                            </div>
-                        </div>
-                        <table class="table tnx-table">
-                            <tbody>
-                            	@forelse($trnxs->all as $tnx)
-                                <tr>
-                                    <td>
-                                        <h5 class="lead mb-1">{{ $tnx->tnx_id}}</h5>
-                                        <span class="sub">{{ _date($tnx->tnx_time) }}</span>
-                                    </td>
-                                    <td class="d-none d-sm-table-cell">
-                                        <h5 class="lead mb-1{{ ($tnx->tnx_type=='refund') ? ' text-danger' : '' }}">
-                                            {{ (str_starts_with($tnx->total_tokens, '-') ? '' : '+').to_round($tnx->total_tokens, 'min') }}
-                                        </h5>
-                                        <span class="sub ucap">{{ to_num($tnx->amount, 'max').' '.$tnx->currency }}</span>
-                                    </td>
-                                    <td class="text-right">
-                                        <div class="data-state data-state-{{ __status($tnx->status, 'icon') }}"></div>
-                                    </td>
-                                </tr>
-                                @empty
-								<tr class="data-item text-center">
-									<td class="data-col" colspan="4">No available transaction!</td>
-								</tr>
-								@endif
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="token-sale-graph card card-full-height">
-                    <div class="card-innr">
-                        <div class="card-head has-aside">
-                            <h4 class="card-title card-title-sm">Token Sale Graph</h4>
-                            <div class="card-opt">
-                                <a href="{{ url()->current() }}" class="link ucap link-light toggle-tigger toggle-caret">{{ isset($_GET['chart']) ? $_GET['chart'] : 15 }} Days</a>
-								<div class="toggle-class dropdown-content">
-									<ul class="dropdown-list">
-										<li><a href="{{ url()->current() }}?chart=7">7 Days</a></li>
-										<li><a href="{{ url()->current() }}?chart=15">15 Days</a></li>
-										<li><a href="{{ url()->current() }}?chart=30">30 Days</a></li>
-									</ul>
-								</div>
-                            </div>
-                        </div>
-                        <div class="chart-tokensale chart-tokensale-long">
-                            <canvas id="tknSale"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div class="reg-statistic-graph card card-full-height">
-                    <div class="card-innr">
-                        <div class="card-head has-aside">
-                            <h4 class="card-title card-title-sm">Registration Statistics</h4>
-                            <div class="card-opt">
-                                <a href="{{ url()->current() }}" class="link ucap link-light toggle-tigger toggle-caret">{{ isset($_GET['user']) ? $_GET['user'] : 15 }} Days</a>
-                                <div class="toggle-class dropdown-content">
-                                    <ul class="dropdown-list">
-                                        <li><a href="{{ url()->current() }}?user=7">7 Days</a></li>
-                            			<li><a href="{{ url()->current() }}?user=15">15 Days</a></li>
-                            			<li><a href="{{ url()->current() }}?user=30">30 Days</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chart-statistics mb-0">
-                            <canvas id="regStatistics"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="card card-full-height">
-                    <div class="card-innr">
-                        <div class="phase-block guttar-20px">
-                            <div class="fake-class">
-                                <div class="card-head has-aside">
-                                    <h4 class="card-title card-title-sm">Stage - {{ $stage->stage->name }}</h4>
-                                </div>
-                                <ul class="phase-status">
-                                    <li>
-                                        <div class="phase-status-title">Total</div>
-                                        <div class="phase-status-subtitle">{{ to_num_token($stage->stage->total_tokens) }}</div>
-                                    </li>
-                                    <li>
-                                        <div class="phase-status-title">Sold</div>
-                                        <div class="phase-status-subtitle">{{ to_num_token($stage->stage->soldout) }} <span>*</span></div>
-                                    </li>
-                                    <li>
-                                        <div class="phase-status-title">Sale %</div>
-                                        <div class="phase-status-subtitle">{{ $stage->trnxs->percent }}% Sold</div>
-                                    </li>
-                                    <li>
-                                        <div class="phase-status-title">Unsold</div>
-                                        <div class="phase-status-subtitle">{{ to_num_token(($stage->stage->total_tokens - $stage->stage->soldout)) }}</div>
-                                    </li>
-                                </ul>
-                                <div class="notes">* Not included pending <strong>{{ to_num_token($stage->trnxs->pending) }}</strong> token sales.</div>
-                            </div>
-                            <div class="fake-class">
-                                <div class="chart-phase">
-                                    <div class="phase-status-total">
-                                        <span class="lead">{{ to_num($stage->stage->total_tokens, 0, ',', false) }}</span>
-                                        <span class="sub">{{ token_symbol() }}</span>
-                                    </div>
-                                    <div class="chart-tokensale-s2">
-                                        <canvas id="phaseStatus"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>{{-- .card --}}
-            </div>
-		</div>{{-- .row --}}
-	</div>{{-- .container --}}
-</div>{{-- .page-content --}}
-
+        </div> --}}
+        <!-- Latest-news-section -->
+    </div>
+</div>
 @endsection
-
-@push('footer')
-<script type="text/javascript">
-	var tnx_labels = [<?=$trnxs->chart->days?>], tnx_data = [<?=$trnxs->chart->data?>],
-    user_labels = [<?=$users->chart->days?>], user_data = [<?=$users->chart->data?>],
-    theme_color = {base:"<?=theme_color('base')?>", text: "<?=theme_color('text')?>", heading: "<?=theme_color('heading')?>"},
-	phase_data = [{{ round($stage->stage->soldout, 2) }}, {{ (($stage->stage->total_tokens - $stage->stage->soldout) > 0 ? round(($stage->stage->total_tokens - $stage->stage->soldout), 2) : 0) }}];
-</script>
-<script src="{{ asset('assets/js/admin.chart.js') }}"></script>
-@endpush
