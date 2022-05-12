@@ -2,6 +2,11 @@
 @section('title', 'Admin Dashboard')
 @section('content')
 @include('components.menu')
+<style>
+    .feature-card-details h3{
+        margin-top: 0 !important;
+    }
+</style>
 <div class="body-content body-content-lg" style="background-image: url({{asset('images/bg.jpg')}})"> <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
     <div class="container">
         <!-- Add-card -->

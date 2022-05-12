@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="{{ site_favicon() }}">
     <title>@yield('title') | {{ site_whitelabel('title') }}</title>
     <link rel="stylesheet" href="{{ asset(style_theme('vendor')) }}">
-    {{-- <link rel="stylesheet" href="{{ asset(style_theme('admin')) }}"> --}}
+    <link rel="stylesheet" href="{{ asset(style_theme('admin')) }}">
 
         <!-- bootstrap css -->
         <link rel="stylesheet" href="{{asset('assets1/css/bootstrap.min.css')}}" type="text/css" media="all" />

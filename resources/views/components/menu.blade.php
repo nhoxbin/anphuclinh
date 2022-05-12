@@ -22,7 +22,7 @@
             <div class="modal-body">
                 <div class="sidebar-nav">
                     <div class="sidebar-nav-item">
-                        <h3>Menu</h3>
+                        <h3 style="padding-left: 35px">Menu</h3>
                         <ul class="sidebar-nav-list">
                             <li><a href="{{ route('admin.home') }}"><i class="ikon ikon-dashboard"></i> Dashboard</a></li>
                         @if(gup('tranx')||gup('view_tranx'))
