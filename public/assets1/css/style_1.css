@@ -1,0 +1,80 @@
+.feature-card {
+    -webkit-box-shadow: 0 3px 0 0 #ffcf84;
+    box-shadow: 0 3px 0 0 #ffcf84;
+}
+.body-content {
+    padding-top: 20px;
+    background-color: #f2f6ff;
+    background-position: 50% -500%;
+    min-height: 100vh;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+}
+.preloader:before,
+.sidebar-profile-wallet {
+    background: #26b24c;
+}
+.add-card,
+.option-card,
+.user-card,
+.feature-card {
+    padding: 30px 15px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 8px;
+    opacity: 0.9 !important;
+}
+.header-bg-1 {
+    background-size: cover;
+    background-position: top;
+}
+.add-card,
+.option-card,
+.feature-card h3,
+p {
+    color: #fff !important;
+}
+.header-bg:before {
+    background: unset !important;
+}
+.page-content {
+    margin-top: 50px;
+}
+.btn-outline.btn-danger:hover,
+.btn-outline.btn-danger:focus,
+.btn-outline.btn-danger:active,
+.btn-outline.btn-info,
+.dt-status-md {
+    color: #000;
+}
+.has-dropdown > a:after {
+    right: 20px;
+}
+.modal-body {
+    overflow-x: hidden;
+}
+.navbar-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    padding: 10px 0;
+    margin-top: 20px;
+    height: auto;
+}
+.side-modal-dialog .modal-body {
+    max-height: unset;
+}
+.navbar-dropdown {
+    position: relative;
+    margin-top: 20px;
+    height: 0;
+    padding: 0;
+    margin: 0;
+}
+/* .user-card .button-item {
+    background-position: center;
+    background-size: cover;
+    border: none;
+    width: max-content;
+    margin: 0 auto;
+    padding: 2px 10px;
+} */

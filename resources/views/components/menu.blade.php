@@ -7,8 +7,8 @@
                         <img src="{{asset('assets1/images/profile.jpg')}}" alt="profile">
                     </div>
                     <div class="sidebar-profile-text">
-                        <h3>Brenda Davis</h3>
-                        <p><a href="tel:1545-8880">1545 8880</a></p>
+                        <h3>{{Auth::user()->name}}</h3>
+                        <p><a href="tel:1545-8880">{{Auth::user()->phone}}</a></p>
                     </div>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -52,7 +52,7 @@
                         @endif
                         @if(gup('setting'))
                         <li class="has-dropdown"><a class="drop-toggle" href=""><i class="ikon ikon-settings"></i> Settings</a>
-                            <ul class="navbar-dropdown d-none">
+                            <ul class="navbar-dropdown">
                                 <li><a href="{{ route('admin.stages.settings') }}">ICO/STO Setting</a></li>
                                 <li><a href="{{ route('admin.settings') }}">Website Setting</a></li>
                                 <li><a href="{{ route('admin.settings.referral') }}">Referral Setting</a></li>
@@ -68,6 +68,12 @@
                             </ul>
                         </li>
                         @endif
+                        <li>
+                            <form id="logout-form" action="{{ (is_maintenance() ? route('admin.logout') : route('logout')) }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                            <a href="javascript:;" onclick="document.getElementById('logout-form').submit()"><i class="ikon ikon-coins"></i> Logout</a>
+                        </li>
                         </ul>
                     </div>
                 </div>

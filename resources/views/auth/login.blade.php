@@ -16,7 +16,7 @@
         @csrf
         @include('layouts.messages')
         <div class="input-item">
-            <input id="email" type="email" placeholder="{{ __('Your Email') }}" data-msg-required="{{ __('Required.') }}"
+            <input id="email" type="text" placeholder="{{ __('Your Phone') }}" data-msg-required="{{ __('Required.') }}"
                 class="input-bordered{{ $errors->has('email') ? ' input-error' : '' }}" name="email"
                 value="{{ old('email') }}" required autofocus>
         </div>

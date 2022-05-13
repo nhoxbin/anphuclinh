@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="js">
-<html>
+<html lang="zxx">
     <head>
     <meta charset="utf-8">
     <meta name="apps" content="{{ site_whitelabel('apps') }}">
@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="{{ site_favicon() }}">
     <title>@yield('title') | {{ site_whitelabel('title') }}</title>
     <link rel="stylesheet" href="{{ asset(style_theme('vendor')) }}">
-    {{-- <link rel="stylesheet" href="{{ asset(style_theme('admin')) }}"> --}}
+    <link rel="stylesheet" href="{{ asset(style_theme('admin')) }}">
 
         <!-- bootstrap css -->
         <link rel="stylesheet" href="{{asset('assets1/css/bootstrap.min.css')}}" type="text/css" media="all" />
@@ -28,62 +28,25 @@
         <link rel="stylesheet" href="{{asset('assets1/css/style.css')}}" type="text/css" media="all" />
         <!-- responsive css -->
         <link rel="stylesheet" href="{{asset('assets1/css/responsive.css')}}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{asset('assets1/css/style_1.css?ver=14')}}" type="text/css" media="all" />
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
     </head>
-
-    <body>
+    <body  style="background-image: url({{asset('images/bg.jpg')}})">
         <!-- Preloader -->
         <div class="preloader">
             <div class="preloader-wrapper">
                 <div class="preloader-content">
-                    <img src="{{asset('assets1/images/preloader-logo.png')}}" alt="logo">
+                    <img src="{{asset('images/logo-new.png')}}" alt="logo">
                     <h3>Online Banking</h3>
                 </div>
             </div>
         </div>
-        <style>
-            /* .header-bg:before{
-                background-color: #18aa43 !important;
-            } */
-            .feature-card{
-                -webkit-box-shadow: 0 3px 0 0 #ffcf84;
-                box-shadow: 0 3px 0 0 #ffcf84;
-            }
-            .body-content{
-                padding-top: 20px;
-                background-color: #f2f6ff;
-                background-position: 50% -500%;
-                min-height: 100vh;
-                position: relative;
-                border-radius: 10px 10px 0 0;
-            }
-            .preloader:before,.sidebar-profile-wallet{
-                background: #26b24c;
-            }
-            .add-card,.option-card,.feature-card{
-                padding: 30px 15px;
-                background-position: center;
-                background-size: cover;
-                border-radius: 8px;
-                opacity: 0.9 !important;
-            }
-            .header-bg-1{
-                background-size:cover;
-                background-position: top; 
-            }
-            .add-card,.option-card,.feature-card h3,p{
-                color: #fff !important;
-            }
-            .header-bg:before{
-                background: unset !important;
-            }
-        </style>
         <!-- Preloader -->
 
         <!-- Header-bg -->
-        <div class="header-bg header-bg-1" style="background-image: url({{asset('images/header.jpg')}})"></div>
+        <div class="header-bg header-bg-1" style="background-image: url({{asset('images/header-bg.jpg')}})"></div>
         <!-- Header-bg -->
 
         <!-- Appbar -->
@@ -97,10 +60,10 @@
                             </div>
                         </div>
                         <div class="appbar-item appbar-brand me-auto">
-                            <img src="{{asset('assets1/images/logo-new.png')}}" alt="">
                             <a href="index.html">
-                                <img src="{{asset('assets1/images/logo.png')}}" alt="logo" class="main-logo">
-                                <img src="{{asset('assets1/images/logo-hover.png')}}" alt="logo" class="hover-logo">
+                                <img style="max-width:30px" src="{{asset('images/logo-new.png')}}" alt="">
+                                {{-- <img src="{{asset('assets1/images/logo.png')}}" alt="logo" class="main-logo">
+                                <img src="{{asset('assets1/images/logo-hover.png')}}" alt="logo" class="hover-logo"> --}}
                             </a>
                         </div>
                         <div class="appbar-item appbar-options">
@@ -507,7 +470,7 @@
                 $('.drop-toggle').click(function(e){
                     e.preventDefault();
                     console.log($(this).next());
-                    $(this).next().toggleClass('d-none');
+                    $(this).next().toggleClass('active');
                 })
             })
         </script>

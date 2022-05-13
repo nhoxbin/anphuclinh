@@ -270,4 +270,13 @@ class LoginController extends Controller
             $this->username() => [__('auth.failed')],
         ]);
     }
+
+    protected function credentials(AuthRequest $request)
+    {
+        if (is_numeric($request->email)) {
+            return ['phone' => $request->email, 'password' => $request->password];
+        } else {
+            return ['email' => $request->email, 'password' => $request->password];
+        }
+    }
 }
