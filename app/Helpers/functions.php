@@ -2240,7 +2240,7 @@ if (!function_exists('auto_p')) {
                                     if (!function_exists('get_lang')) {
                                     function get_lang($get = null)
                                     {
-                                    if (application_installed(true) && Schema::hasTable('languages')) {
+                                    if (Schema::hasTable('languages')) {
                                     $actived_lang = Language::where('status', 1)->get([
                                     'name', 'label', 'short',
                                     'code'

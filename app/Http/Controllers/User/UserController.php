@@ -54,12 +54,12 @@ class UserController extends Controller
             ]);
         } */
         $user = Auth::user();
-        $stage = active_stage();
-        $contribution = Transaction::user_contribution();
-        $tc = new \App\Helpers\TokenCalculate();
-        $active_bonus = $tc->get_current_bonus('active');
+        // $stage = active_stage();
+        // $contribution = Transaction::user_contribution();
+        // $tc = new \App\Helpers\TokenCalculate();
+        // $active_bonus = $tc->get_current_bonus('active');
 
-        return view('user.dashboard', compact('user', 'stage', 'active_bonus', 'contribution'));
+        return view('user.dashboard', compact('user'));
     }
 
 
