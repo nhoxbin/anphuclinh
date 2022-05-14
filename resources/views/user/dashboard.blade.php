@@ -1,10 +1,22 @@
-@extends('layouts.user')
+@extends('layouts.user-new')
 @section('title', 'Admin Dashboard')
 @section('content')
 @include('components.menu')
 <style>
     .feature-card-details h3{
         margin-top: 0 !important;
+    }
+    .user-card-thumb{
+        width: 75px;
+        height: 75px;
+    }
+    @media(max-width:995px){
+        .body-content-lg{
+            margin-top: 65px !important;
+        }
+        .user-card.first{
+            padding: 39px 15px;
+        }
     }
 </style>
 <div class="body-content body-content-lg" style="background-image: url({{asset('images/bg.jpg')}})"> <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
@@ -17,8 +29,8 @@
                     <h3 style="color: #fff">0 VNĐ</h3>
                 </div>
                 <div class="add-card-item add-balance" data-bs-toggle="modal" data-bs-target="#addBalance">
-                    <a href="#"><i class="flaticon-plus"></i></a>
-                    <p>Add Balance</p>
+                    <a href="#"><i class="flaticon-left-arrow-1"></i></a>
+                    <p>Rút tiền</p>
                 </div>
             </div>
         </div>
@@ -26,43 +38,33 @@
         <!-- Option-section -->
         <div class="option-section mb-15">
             <div class="row gx-3">
-                <div class="col pb-15">
+                <div class="col-6 pb-15 ">
                     <div class="option-card option-card-violet" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#withdraw">
                             <div class="option-card-icon">
-                                <i class="flaticon-down-arrow"></i>
-                            </div>
-                            <p>Mua hàng</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col pb-15">
-                    <div class="option-card option-card-yellow" style="background-image: url({{asset('images/button.png')}})">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#sendMoney">
-                            <div class="option-card-icon">
                                 <i class="flaticon-right-arrow"></i>
-                            </div>
-                            <p>Rút tiền</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col pb-15">
-                    <div class="option-card option-card-blue" style="background-image: url({{asset('images/button.png')}})">
-                        <a href="my-cards.html">
-                            <div class="option-card-icon">
-                                <i class="flaticon-credit-card"></i>
                             </div>
                             <p>Chuyển điểm</p>
                         </a>
                     </div>
                 </div>
-                <div class="col pb-15">
+                <div class="col-3 pb-15">
+                    <div class="option-card option-card-blue" style="background-image: url({{asset('images/button.png')}})">
+                        <a href="my-cards.html">
+                            <div class="option-card-icon">
+                                <i class="flaticon-full-signal"></i>
+                            </div>
+                            <p>Mạng xã hội</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-3 pb-15">
                     <div class="option-card option-card-red" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exchange">
                             <div class="option-card-icon">
                                 <i class="flaticon-exchange-arrows"></i>
                             </div>
-                            <p>Nhận điểm</p>
+                            <p>Sàn TMĐT EVI-SHOP</p>
                         </a>
                     </div>
                 </div>
@@ -72,43 +74,10 @@
         <!-- Feature-section -->
         <div class="feature-section mb-15">
             <div class="row gx-3">
-                <div class="col col-sm-6 pb-15">
-                    <a href="" class="feature-card feature-card-red" style="background-image: url({{asset('images/button.png')}})">
-                        <div class="feature-card-thumb">
-                            <i class="flaticon-income"></i>
-                        </div>
-                        <div class="feature-card-details">
-                            <p>Chuyển điểm</p>
-                            {{-- <h3>$485.50</h3> --}}
-                        </div>
-                    </a>
-                </div>
-                <div class="col col-sm-3 pb-15">
-                    <a href="" class="feature-card feature-card-blue" style="background-image: url({{asset('images/button.png')}})">
-                        <div class="feature-card-thumb">
-                            <i class="flaticon-expenses"></i>
-                        </div>
-                        <div class="feature-card-details">
-                            <p>Mạng xã hội</p>
-                            {{-- <h3>$95.50</h3> --}}
-                        </div>
-                    </a>
-                </div>
-                <div class="col col-sm-3 pb-15">
-                    <a href="" class="feature-card feature-card-violet" style="background-image: url({{asset('images/button.png')}})">
-                        <div class="feature-card-thumb">
-                            <i class="flaticon-invoice"></i>
-                        </div>
-                        <div class="feature-card-details">
-                            <p>Sàn TMĐT EVI-SHOP</p>
-                            {{-- <h3>$75.00</h3> --}}
-                        </div>
-                    </a>
-                </div>
-                <div class="col col-sm-6 pb-15">
+                <div class="col-6 col-sm-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
                         <div class="feature-card-thumb">
-                            <i class="flaticon-savings"></i>
+                            <i class="flaticon-income"></i>
                         </div>
                         <div class="feature-card-details">
                             <p>Hoa hồng</p>
@@ -116,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-sm-6 pb-15">
+                <div class="col-6 col-sm-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-savings"></i>
@@ -127,10 +96,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                <div class="col-6 col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green pd" style="background-image: url({{asset('images/button.png')}})">
                         <div class="feature-card-thumb">
-                            <i class="flaticon-savings"></i>
+                            <i class="flaticon-expenses"></i>
                         </div>
                         <div class="feature-card-details">
                             <p>Tỉ giá chuyển đổi / điểm</p>
@@ -138,10 +107,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-sm-6 pb-15">
+                <div class="col-6 col-sm-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
                         <div class="feature-card-thumb">
-                            <i class="flaticon-savings"></i>
+                            <i class="flaticon-invoice"></i>
                         </div>
                         <div class="feature-card-details">
                             <p>Doanh số</p>
@@ -149,10 +118,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-sm-6 pb-15">
+                <div class="col-12 col-sm-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
                         <div class="feature-card-thumb">
-                            <i class="flaticon-savings"></i>
+                            <i class="flaticon-credit-card"></i>
                         </div>
                         <div class="feature-card-details">
                             <p>Cấp</p>
@@ -160,10 +129,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col col-sm-6 pb-15">
+                <div class="col-12 col-sm-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
                         <div class="feature-card-thumb">
-                            <i class="flaticon-savings"></i>
+                            <i class="flaticon-menu-1"></i>
                         </div>
                         <div class="feature-card-details">
                             <p style="height: 45px;display: flex;align-items: center;">Xem danh sách đại lý</p>
@@ -353,8 +322,8 @@
                 </div> --}}
             </div>
             <div class="row gx-3">
-                <div class="col pb-15">
-                    <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
+                <div class="col-12 col-sm-6 pb-15">
+                    <div class="user-card first" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#">
                             <div class="user-card-thumb" style="background: unset">
                                 <img src="{{asset('images/products/icon-sp.png')}}" alt="user">
@@ -371,7 +340,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col pb-15">
+                <div class="col-12 col-sm-6 pb-15">
                     <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#">
                             <div class="user-card-thumb" style="background: unset">
@@ -389,7 +358,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col pb-15">
+                <div class="col-12 col-sm-6 pb-15">
                     <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#">
                             <div class="user-card-thumb" style="background: unset">
@@ -407,7 +376,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col pb-15">
+                <div class="col-12 col-sm-6 pb-15">
                     <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#">
                             <div class="user-card-thumb" style="background: unset">
@@ -501,7 +470,7 @@
                 </div>
             </div>
             <div class="row gx-3">
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
@@ -517,7 +486,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
@@ -533,7 +502,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
@@ -549,7 +518,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
@@ -565,7 +534,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
@@ -581,7 +550,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
@@ -597,7 +566,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
@@ -613,7 +582,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">

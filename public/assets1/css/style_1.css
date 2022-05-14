@@ -24,6 +24,15 @@
     border-radius: 8px;
     opacity: 0.9 !important;
 }
+@media (max-width: 995px) {
+    .option-card {
+        padding: 0px 0px;
+        min-height: 88px;
+    }
+    .feature-card.pd {
+        padding: 22px 15px;
+    }
+}
 .header-bg-1 {
     background-size: cover;
     background-position: top;
