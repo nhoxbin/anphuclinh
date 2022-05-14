@@ -356,8 +356,8 @@
                 <div class="col pb-15">
                     <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#">
-                            <div class="user-card-thumb">
-                                <img src="{{asset('assets1/images/user-1.jpg')}}" alt="user">
+                            <div class="user-card-thumb" style="background: unset">
+                                <img src="{{asset('images/products/icon-sp.png')}}" alt="user">
                             </div>
                             <h3 style="font-size: 16px" class="text-white mt-2">Gói Combo 3tr</h3>
                             <span class="price d-block mt-1 text-white" >3,000,000 VNĐ</span>
@@ -374,11 +374,11 @@
                 <div class="col pb-15">
                     <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#">
-                            <div class="user-card-thumb">
-                                <img src="{{asset('assets1/images/user-1.jpg')}}" alt="user">
+                            <div class="user-card-thumb" style="background: unset">
+                                <img src="{{asset('images/products/sua.png')}}" alt="user">
                             </div>
                             <h3 style="font-size: 16px" class="text-white mt-2">Sữa non Special New Crown +</h3>
-                            <span class="price d-block mt-1 text-white" >3,000,000 VNĐ</span>
+                            <span class="price d-block mt-1 text-white" >486,000 VNĐ</span>
                             <a class="d-block text-white mt-1" style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
                             background-position: center;
                             background-size: cover;
@@ -392,11 +392,29 @@
                 <div class="col pb-15">
                     <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
                         <a href="#">
-                            <div class="user-card-thumb">
-                                <img src="{{asset('assets1/images/user-1.jpg')}}" alt="user">
+                            <div class="user-card-thumb" style="background: unset">
+                                <img src="{{asset('images/products/hhx.png')}}" alt="user">
                             </div>
-                            <h3 style="font-size: 16px" class="text-white mt-2">Sữa non Special New Crown +</h3>
-                            <span class="price d-block mt-1 text-white" >3,000,000 VNĐ</span>
+                            <h3 style="font-size: 16px" class="text-white mt-2">Hoàn Hương Xuân</h3>
+                            <span class="price d-block mt-1 text-white" >680,000 VNĐ</span>
+                            <a class="d-block text-white mt-1" style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
+                            background-position: center;
+                            background-size: cover;
+                            border: none;
+                            width:max-content;
+                            margin:0 auto;
+                            padding: 2px 10px;" href="">Mua ngay</a>
+                        </a>
+                    </div>
+                </div>
+                <div class="col pb-15">
+                    <div class="user-card" style="background-image: url({{asset('images/button.png')}})">
+                        <a href="#">
+                            <div class="user-card-thumb" style="background: unset">
+                                <img src="{{asset('images/products/cumaxi.png')}}" alt="user">
+                            </div>
+                            <h3 style="font-size: 16px" class="text-white mt-2">Curmaxi Gold</h3>
+                            <span class="price d-block mt-1 text-white" >399,000 VNĐ</span>
                             <a class="d-block text-white mt-1" style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
                             background-position: center;
                             background-size: cover;
