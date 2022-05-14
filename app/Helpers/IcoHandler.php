@@ -508,7 +508,7 @@ class IcoHandler
     /* @function checkDB()  @version v1.1 */
     public static function checkDB()
     {
-        if (!application_installed(true)) return [];
+        // if (!application_installed(true)) return [];
         $tables = ['activities', 'email_templates', 'global_metas', 'ico_metas', 'ico_stages', 'kycs', 'migrations', 'pages', 'password_resets', 'payment_methods', 'settings', 'transactions', 'users', 'user_metas', 'referrals', 'languages', 'translates'];
         $result = NULL;
         $return = NULL;
