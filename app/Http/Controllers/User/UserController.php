@@ -47,12 +47,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        if( !$this->handler->check_body() && empty(app_key()) ){
+        /* if( !$this->handler->check_body() && empty(app_key()) ){
             Auth::logout();
             return redirect()->route('login')->with([
                 'warning' => $this->handler->accessMessage()
             ]);
-        }
+        } */
         $user = Auth::user();
         $stage = active_stage();
         $contribution = Transaction::user_contribution();

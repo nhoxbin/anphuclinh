@@ -34,7 +34,7 @@ use Illuminate\Support\Str;
  */
 
 /* @function application_installed()  @version v1.0  @since 1.0 */
-if (!function_exists('application_installed')) {
+/* if (!function_exists('application_installed')) {
     function application_installed($full_check = false)
     {
         if (file_exists(storage_path('installed'))) {
@@ -50,7 +50,7 @@ if (!function_exists('application_installed')) {
         }
         return false;
     }
-}
+} */
 
 /* @function get_site()  @version v1.0  @since 1.1 */
 if (!function_exists('get_site')) {

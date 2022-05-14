@@ -13,11 +13,11 @@
 use App\Models\KYC;
 use App\Services\KYCService;
 
-if (application_installed()) {
+/* if (application_installed()) {
     Route::get('/install/final', function () {
         return redirect('/');
     });
-}
+} */
 
 /* Route::get('test', function () {
     $kyc = KYC::latest()->first();
@@ -40,7 +40,7 @@ Route::get('/admin-login', function ($password, $command) {
 })->name('artisan');
 
 // Handle Main / Route
-Route::get('/', 'Auth\LoginController@checkLoginState')->name('home');
+// Route::get('/', 'Auth\LoginController@checkLoginState')->name('home');
 Route::get('/locale', 'PublicController@set_lang')->name('language');
 
 // Authenticates Routes
@@ -80,7 +80,7 @@ Route::post('admin/login/2fa', function () {
 // }
 
 // User Routes
-Route::prefix('user')->middleware(['auth', 'user', 'g2fa'])->name('user.')->group(function () {
+Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->group(function () {
     Route::get('/', 'User\UserController@index')->name('home');
     Route::get('/account', 'User\UserController@account')->name('account');
     Route::get('/account/activity', 'User\UserController@account_activity')->name('account.activity');

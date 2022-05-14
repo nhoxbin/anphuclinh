@@ -22,7 +22,7 @@ class Module
 
     function __construct()
     {
-        if (application_installed(true)) {
+        // if (application_installed(true)) {
             $default = [
                 'Manual' => array('type' => 'core', 'version' => '1.4.0'),
                 'Bank' => array('type' => 'core', 'version' => '1.3.0'),
@@ -32,7 +32,7 @@ class Module
             $get_modules = json_decode(gws('active_payment_modules'), TRUE);
             $set_modules = (!empty($get_modules) && is_array($get_modules)) ? array_keys($get_modules) : array_keys(json_decode($modules, TRUE));
             $this->active_payment_methods = $set_modules;
-        }
+        // }
     }
 
     /**

@@ -188,7 +188,7 @@ class LoginController extends Controller
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function checkLoginState(AuthRequest $request)
+    /* public function checkLoginState(AuthRequest $request)
     {
         if (application_installed(true) == false) {
             return redirect(url('/install'));
@@ -206,7 +206,7 @@ class LoginController extends Controller
             return redirect(url('/login'));
             // return view('intro');
         }
-    }
+    } */
 
     /**
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

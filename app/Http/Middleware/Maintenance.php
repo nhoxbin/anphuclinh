@@ -24,10 +24,10 @@ class Maintenance
             }else{ $response = true; }
             return response()->json($response);
         }
-        if (application_installed(true) == false) return $next($request);
+        /* if (application_installed(true) == false) return $next($request);
         if (application_installed(true) && get_setting('site_maintenance') == 1 && (!$request->is('/') && !$request->is('admin') && !$request->is('admin/*') && !$request->is('/log-out'))) {
             return response()->view('errors.maintenance', [], 500);
-        }
+        } */
         return $next($request);
     }
 }

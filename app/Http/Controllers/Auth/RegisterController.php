@@ -63,9 +63,9 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        if (application_installed(true) == false) {
+        /* if (application_installed(true) == false) {
             return redirect(url('/install'));
-        }
+        } */
         return view('auth.register');
     }
 

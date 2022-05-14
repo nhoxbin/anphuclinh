@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/stage', 'APIController@stage')->name('stage');
+/* Route::get('/stage', 'APIController@stage')->name('stage');
 Route::get('/stage/full', 'APIController@stage_full')->name('stage.full');
 
 Route::get('/bonus', 'APIController@bonuses')->name('bonus');
@@ -21,4 +21,4 @@ Route::get('/price', 'APIController@prices')->name('price');
 
 Route::any('/{any?}', function () {
     throw new App\Exceptions\APIException("Enter a valid endpoint", 400);
-})->where('any', '.*');
+})->where('any', '.*'); */

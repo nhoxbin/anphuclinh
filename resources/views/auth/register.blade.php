@@ -19,11 +19,11 @@ $check_users = \App\Models\User::count();
         @csrf
         <div id="recaptcha-container"></div>
         @include('layouts.messages')
-        @if(! is_maintenance() && application_installed(true) && ($check_users == 0) )
+        {{-- @if(! is_maintenance() && application_installed(true) && ($check_users == 0) )
             <div class="alert alert-info-alt">
                 Please register first your Super Admin account with adminstration privilege.
             </div>
-        @endif
+        @endif --}}
         <div class="tab">
             <div class="input-item">
                 <input type="text" placeholder="{{ __('Your Phone') }}" id="phone" class="input-bordered{{ $errors->has('phone') ? ' input-error' : '' }}" name="phone" value="{{ old('phone') }}" minlength="10" data-msg-required="{{ __('Required.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 10]) }}" required>
@@ -58,7 +58,7 @@ $check_users = \App\Models\User::count();
         </div>
         @endif
 
-        @if(( application_installed(true)) && ($check_users > 0))
+        {{-- @if(( application_installed(true)) && ($check_users > 0)) --}}
             @if(get_page_link('terms') || get_page_link('policy'))
             <div class="input-item text-left">
                 <input name="terms" class="input-checkbox input-checkbox-md" id="agree" type="checkbox" required="required" data-msg-required="{{ __("You should accept our terms and policy.") }}">
@@ -69,20 +69,20 @@ $check_users = \App\Models\User::count();
                 <label for="agree">{{__('By registering you agree to the terms and conditions.')}}</label>
             </div>
             @endif
-        @else
+        {{-- @else --}}
             <input name="terms" value="1" type="hidden">
         @endif
         @if( recaptcha() )
             <input type="hidden" name="recaptcha" id="recaptcha">
         @endif
-        @if (application_installed(true) && ($check_users == 0))
+        {{-- @if (application_installed(true) && ($check_users == 0))
             <button type="submit" class="btn btn-primary btn-block">{{ __('Complete Installation') }}</button>
-        @else
-            <button type="button" onclick="nextPrev(1)" class="btn btn-primary btn-block">{{ __('Create Account') }}</button>
+        @else --}}
         @endif
+        <button type="button" onclick="nextPrev(1)" class="btn btn-primary btn-block">{{ __('Create Account') }}</button>
     </form>
 
-    @if(application_installed(true) && ($check_users > 0) && Schema::hasTable('settings'))
+    {{-- @if(application_installed(true) && ($check_users > 0) && Schema::hasTable('settings')) --}}
         @if (
         (get_setting('site_api_fb_id', env('FB_CLIENT_ID', '')) != '' && get_setting('site_api_fb_secret', env('FB_CLIENT_SECRET', '')) != '') ||
         (get_setting('site_api_google_id', env('GOOGLE_CLIENT_ID', '')) != '' && get_setting('site_api_google_secret', env('GOOGLE_CLIENT_SECRET', '')) != '')
@@ -98,6 +98,6 @@ $check_users = \App\Models\User::count();
         <div class="form-note">
             {{__('Already have an account ?')}} <a href="{{ route('login') }}"> <strong>{{__('Sign in instead')}}</strong></a>
         </div>
-    @endif
+    {{-- @endif --}}
 </div>
 @endsection
