@@ -16,26 +16,19 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('status')->default('active');
-            $table->string('registerMethod')->nullable()->default('Email');
-            $table->string('social_id')->nullable();
-            $table->string('mobile')->nullable();
+            $table->string('mobile');
             $table->string('dateOfBirth')->nullable();
-            $table->string('nationality')->nullable();
+            $table->string('city');
             $table->dateTime('lastLogin');
-            $table->string('walletType')->nullable();
-            $table->string('walletAddress')->nullable();
             $table->enum('role', ['admin', 'manager', 'user'])->default('user');
-            $table->double('contributed')->nullable();
-            $table->double('tokenBalance')->nullable();
-            $table->string('referral')->nullable();
-            $table->text('referralInfo')->nullable();
+            $table->unsignedDouble('cash')->default(0);
+            $table->unsignedInteger('point')->default(0);
             $table->integer('google2fa')->default(0);
             $table->text('google2fa_secret')->nullable();
-            $table->enum('type', ['demo', 'main'])->default('main');
 
             $table->rememberToken();
             $table->timestamps();
