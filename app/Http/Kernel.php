@@ -19,8 +19,8 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-        \App\Http\Middleware\StatusMiddleware::class,
-        \App\Http\Middleware\Maintenance::class,
+        // \App\Http\Middleware\StatusMiddleware::class,
+        // \App\Http\Middleware\Maintenance::class,
     ];
 
     /**
@@ -63,12 +63,12 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'user' => \App\Http\Middleware\UserMiddleware::class,
-        'ico' => \App\Helpers\IcoHandler::class,
+        // 'ico' => \App\Helpers\IcoHandler::class,
         'super_admin' => \App\Http\Middleware\SuperAdmin::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        'stage' => \App\Http\Middleware\StageCheck::class,
+        // 'stage' => \App\Http\Middleware\StageCheck::class,
         'verify_user' => \App\Http\Middleware\EmailVerifyMiddleware::class,
-        'demo_user' => \App\Http\Middleware\CheckDemoUser::class,
+        // 'demo_user' => \App\Http\Middleware\CheckDemoUser::class,
         'g2fa' => \App\Http\Middleware\G2faMiddleware::class,
     ];
 

@@ -10,15 +10,6 @@
             <div class="card-innr">
                 <div class="card-head has-aside">
                     <h4 class="card-title">{{ ucfirst($is_page) }} Transactions</h4>
-                    <div class="card-opt">
-                        <ul class="btn-grp btn-grp-block guttar-20px">
-                            <li>
-                                <a href="#" class="btn btn-sm btn-auto btn-primary" data-toggle="modal" data-target="#addTnx">
-                                    <em class="fas fa-plus-circle"></em><span>Add <span class="d-none d-sm-inline-block">Tokens</span></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
 
                 <div class="page-nav-wrap">
@@ -39,7 +30,6 @@
                                 </div>
                             </form>
                         </div>
-                        @if(!empty(env_file()) && nio_status() && !empty(app_key()))
                         <div class="tools w-100 w-sm-auto">
                             <ul class="btn-grp guttar-8px">
                                 <li><a href="#" class="btn btn-light btn-sm btn-icon btn-outline bg-white advsearch-opt"> <em class="ti ti-panel"></em> </a></li>
@@ -85,9 +75,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @endif
                     </div>
-                    @if( !empty(env_file()) && nio_status() && !empty(app_key()) )
                     <div class="search-adv-wrap hide">
                         <form class="adv-search" id="adv-search" action="{{ route('admin.transactions') }}" method="GET" autocomplete="off">
                             <div class="row align-items-end guttar-20px guttar-vr-15px">
@@ -134,19 +122,6 @@
                                             <option {{ request()->get('state') == 'approved' ? 'selected' : '' }} value="approved">Approved</option>
                                             <option {{ request()->get('state') == 'canceled' ? 'selected' : '' }} value="canceled">Canceled</option>
                                             <option {{ request()->get('state') == 'deleted' ? 'selected' : '' }} value="deleted">Deleted</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-sm-4 col-mb-6">
-                                    <div class="input-wrap input-with-label">
-                                        <label class="input-item-label input-item-label-s2 text-exlight">Stage</label>
-                                        <select name="stg" class="select select-sm select-block select-bordered" data-dd-class="search-off">
-                                            <option value="">All Stage</option>
-                                            @forelse($stages as $stage)
-                                            <option {{ request()->get('stg') == $stage->id ? 'selected' : '' }} value="{{ $stage->id }}">{{ $stage->name }}</option>
-                                            @empty
-                                            <option value="">No active stage</option>
-                                            @endif
                                         </select>
                                     </div>
                                 </div>
@@ -216,7 +191,6 @@
                             </div>
                         </form>
                     </div>
-                    @endif
 
                     @if (request()->get('filter') || request()->s)
                     <div class="search-adv-result">
@@ -277,9 +251,7 @@
                     <thead>
                         <tr class="data-item data-head">
                             <th class="data-col tnx-status dt-tnxno">Tranx ID</th>
-                            <th class="data-col dt-token">Tokens</th>
                             <th class="data-col dt-amount">Amount</th>
-                            <th class="data-col dt-usd-amount">Base Amount</th>
                             <th class="data-col pm-gateway dt-account">Pay From</th>
                             <th class="data-col dt-type tnx-type">Type</th>
                             <th class="data-col"></th>
@@ -302,24 +274,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="data-col dt-token">
-                                <span class="lead token-amount{{ $text_danger }}">{{ (str_starts_with($trnx->total_tokens, '-') ? '' : '+').$trnx->total_tokens }}</span>
-                                <span class="sub sub-symbol">{{ token('symbol') }}</span>
-                            </td>
                             <td class="data-col dt-amount">
                                 @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
                                     <span class="lead amount-pay">{{ '~' }}</span>
                                 @else
-                                <span class="lead amount-pay{{ $text_danger }}">{{ to_num($trnx->amount, 'max') }}</span>
-                                <span class="sub sub-symbol">{{ strtoupper($trnx->currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->currency_rate, 'max').' '.strtoupper($trnx->currency) }}"></em></span>
-                                @endif
-                            </td>
-                            <td class="data-col dt-usd-amount{{ $text_danger }}">
-                                @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
-                                    <span class="lead amount-receive">{{ '~' }}</span>
-                                @else
-                                <span class="lead amount-receive{{ $text_danger }}">{{ to_num($trnx->base_amount, 'auto') }}</span>
-                                <span class="sub sub-symbol">{{ strtoupper($trnx->base_currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->base_currency_rate, 'max').' '.strtoupper($trnx->base_currency) }}"></em></span>
+                                <span class="lead amount-pay{{ $text_danger }}">{{ $trnx->amount }}</span>
+                                {{-- <span class="sub sub-symbol">{{ strtoupper($trnx->currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->currency_rate, 'max').' '.strtoupper($trnx->currency) }}"></em></span> --}}
                                 @endif
                             </td>
                             <td class="data-col dt-account">
@@ -435,143 +395,4 @@
         </div>{{-- .card --}}
     </div>{{-- .container --}}
 </div>{{-- .page-content --}}
-@endsection
-
-@section('modals')
-<div class="modal fade" id="addTnx">
-    <div class="modal-dialog modal-dialog-md modal-dialog-centered">
-        <div class="modal-content">
-            <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
-            <div class="popup-body popup-body-md">
-                <h3 class="popup-title">Manually Add Tokens</h3>
-                <form action="{{ route('admin.ajax.transactions.add') }}" method="POST" class="validate-modern" id="add_token" autocomplete="off">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label">Tranx Type</label>
-                                <div class="input-wrap">
-                                    <select name="type" class="select select-block select-bordered" required>
-                                        <option value="purchase">Purchase</option>
-                                        <option value="bonus">Bonus</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label w-sm-60">
-                                <label class="input-item-label">Tranx Date</label>
-                                <div class="input-wrap">
-                                    <input class="input-bordered date-picker" required="" type="text" name="tnx_date" value="{{ date('m/d/Y') }}">
-                                    <span class="input-icon input-icon-right date-picker-icon"><em class="ti ti-calendar"></em></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label">Token Added To</label>
-                                <div class="input-wrap">
-                                    <select name="user" required="" class="select-block select-bordered" data-dd-class="search-on">
-                                        @forelse($users as $user)
-                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @empty
-                                        <option value="">No user found</option>
-                                        @endif
-                                    </select>
-                                    <span class="input-note">Select account to add token.</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label">Token for Stage</label>
-                                <div class="input-wrap">
-                                    <select name="stage" class="select select-block select-bordered" required>
-                                        @forelse($stages as $stage)
-                                        <option value="{{ $stage->id }}">{{ $stage->name }}</option>
-                                        @empty
-                                        <option value="">No active stage</option>
-                                        @endif
-                                    </select>
-                                    <span class="input-note">Select Stage where from adjust tokens.</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label">Payment Gateway</label>
-                                <div class="input-wrap">
-                                    <select name="payment_method" class="select select-block select-bordered">
-                                        @foreach($pmethods as $pmn)
-                                        <option value="{{ $pmn->payment_method }}">{{ ucfirst($pmn->payment_method) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <span class="input-note">Select method for this transaction.</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label">Payment Amount</label>
-                                <div class="row flex-n guttar-10px">
-                                    <div class="col-7">
-                                        <div class="input-wrap">
-                                            <input class="input-bordered" type="number" name="amount" placeholder="Optional">
-                                        </div>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="input-wrap">
-                                            <select name="currency" class="select select-block select-bordered">
-                                                @foreach($pm_currency as $gt => $full)
-                                                @if(token('purchase_'.$gt) == 1)
-                                                <option value="{{ strtoupper($gt) }}"{{ base_currency()==$gt ? ' selected=""' : '' }}>{{ strtoupper($gt) }}</option>
-                                                @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="input-note">Amount calculate based on stage if leave blank.</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label">Payment Address</label>
-                                <div class="input-wrap">
-                                    <input class="input-bordered" type="text" name="wallet_address" placeholder="Optional">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label">Number of Token</label>
-                                <div class="input-wrap">
-                                    <input class="input-bordered" type="number" name="total_tokens" max="{{ active_stage()->max_purchase }}" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="input-item input-with-label">
-                                <label class="input-item-label d-none d-sm-inline-block">&nbsp;</label>
-                                <div class="input-wrap input-wrap-checkbox mt-sm-2">
-                                    <input id="auto-bonus" class="input-checkbox input-checkbox-md" type="checkbox" name="bonus_calc">
-                                    <label for="auto-bonus"><span>Bonus Adjusted from Stage</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Token</button>
-                    <div class="gaps-3x"></div>
-                    <div class="note note-plane note-light">
-                        <em class="fas fa-info-circle"></em>
-                        <p>If checked <strong>'Bonus Adjusted'</strong>, it will applied bonus based on selected stage (only for Purchase type).</p>
-                    </div>
-                </form>
-            </div>
-        </div>{{-- .modal-content --}}
-    </div>{{-- .modal-dialog --}}
-</div>
-{{-- Modal End --}}
-
 @endsection

@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 /**
- * Referral 
+ * Referral
  *
  * Referral Handler class
  * Copyright (C) 2019 Softnio
@@ -15,7 +15,7 @@ use App\Models\User;
 use App\Models\Setting;
 use App\Models\IcoStage;
 use App\Models\Referral;
-use App\Helpers\IcoHandler;
+// use App\Helpers\IcoHandler;
 use App\Models\Transaction;
 use App\Notifications\TnxStatus;
 use App\Helpers\TokenCalculate as TC;
@@ -55,7 +55,7 @@ class ReferralHelper
             if(!empty($user_id)) {
                 $get_user = User::where('id', $user_id)->select(['id', 'name', 'referral'])->first();
                 $refer_by   = $get_user->referral ?? false;
-                
+
                 if($lv > 0) {
                     $only[] = $get_user->id;
                     $full[$get_user->id] = ['level' => $lv, 'name' => $get_user->name, 'refer' => $get_user->referral ?? 0];
@@ -141,17 +141,17 @@ class ReferralHelper
 
     /* @function addReferralBonuses()  @version v1.0  @since 1.1.2 */
     protected function addReferralBonuses($user_id) {
-        $return = []; 
+        $return = [];
         $referrals = $this->getSettings('all');
         $prev_user = $refer_by = $is_allowed = null;
 
         foreach ($referrals as $ref) {
             $TNX = null;
             $level = 'lv'.$ref->level;
-        
+
             if(!empty($user_id)) {
                 $is_allowed = $this->isBonusAllow($level, $user_id);
-                
+
                 $refer_user = $this->getWhoRefer($user_id) ?? null;
                 $refer_by   = (isset($refer_user->id)) ? $refer_user->id : false;
 
@@ -162,11 +162,11 @@ class ReferralHelper
                         $refer_token = (double)(($TNX->user==$this->transaction->user) ? 0 : $TNX->total_tokens);
 
                         if($refer_by==false) {
-                            $refAcc = Referral::where(['user_id' => $TNX->user])->first(); 
+                            $refAcc = Referral::where(['user_id' => $TNX->user])->first();
                             $user_bonus = (isset($refAcc->user_bonus) ? ((double)$refAcc->user_bonus + $user_token) : $user_token);
                             $refer_bonus = (isset($refAcc->refer_bonus) ? ((double)$refAcc->refer_bonus + $refer_token) : $refer_token);
                             $updateRef = Referral::updateOrCreate(
-                                ['user_id' => $TNX->user], 
+                                ['user_id' => $TNX->user],
                                 ['user_bonus' => $user_bonus, 'refer_bonus' => $refer_bonus]
                             );
                             if($updateRef->refer_by==null) {
@@ -178,7 +178,7 @@ class ReferralHelper
                             $user_bonus = (isset($refAcc->user_bonus) ? ((double)$refAcc->user_bonus + $user_token) : $user_token);
                             $refer_bonus = (isset($refAcc->refer_bonus) ? ((double)$refAcc->refer_bonus + $refer_token) : $refer_token);
                             Referral::updateOrCreate(
-                                ['user_id' => $TNX->user, 'refer_by' => $refer_by], 
+                                ['user_id' => $TNX->user, 'refer_by' => $refer_by],
                                 ['user_bonus' => $user_bonus, 'refer_bonus' => $refer_bonus]
                             );
                         }
@@ -198,7 +198,7 @@ class ReferralHelper
         $refer = false;
         $user = (empty($user_id)) ? $this->transaction->user : $user_id;
         $get_user = User::where('id', $user)->select(['id', 'name', 'email', 'tokenBalance', 'referral'])->first();
-    
+
         if(!empty($get_user->referral) && (!$get_user->referee == null)){
             $refer = $get_user->referee ?? User::find($get_user->referral);
         }
@@ -242,7 +242,7 @@ class ReferralHelper
         $calc = $this->getSettings($level, 'calc');
         if($compare!=null){
             return ($calc == $compare) ? true : false;
-        } 
+        }
         return $calc;
     }
 
@@ -354,7 +354,7 @@ class ReferralHelper
         return ($settings) ? $settings : false;
     }
 
-    /* @function advanced_option()  @version v1.0  @since 1.1.2 */ 
+    /* @function advanced_option()  @version v1.0  @since 1.1.2 */
     public static function advanced_option() {
         $settings = []; $default = json_encode(['l1' => ['allow' => 'all_time', 'type' => 'percent', 'amount' => 0]]);
         return ($settings) ? $settings : false;

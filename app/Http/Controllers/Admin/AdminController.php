@@ -12,7 +12,7 @@ use Cookie;
 use Validator;
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Page;
+// use App\Models\Page;
 use App\Models\UserMeta;
 use App\Models\Activity;
 use App\Helpers\IcoHandler;
@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Notifications\PasswordChange;
 
 class AdminController extends Controller
@@ -33,22 +34,22 @@ class AdminController extends Controller
     {
         $get_tnx = ($request->get('chart') ? $request->get('chart') : 15) - 1;
         $get_user = ($request->get('user') ? $request->get('user') : 15) - 1;
-        $stage = \App\Models\IcoStage::dashboard();
+        // $stage = \App\Models\IcoStage::dashboard();
         $users = User::dashboard($get_user);
-        $trnxs = \App\Models\Transaction::dashboard($get_tnx);
+        $trnxs = Transaction::dashboard($get_tnx);
 
-        if(isset($request->user)){
+        /* if(isset($request->user)){
             $data = $users;
         }elseif(isset($request->chart)){
-            $data = $trnxs;
+            // $data = $trnxs;
         }else{
             $data = null;
         }
         if($request->ajax()){
             return response()->json((empty($data) ? [] : $data));
-        }
+        } */
 
-        return view('admin.dashboard', compact('stage', 'users', 'trnxs'));
+        return view('admin.dashboard', compact('users', 'trnxs'));
     }
 
     /**

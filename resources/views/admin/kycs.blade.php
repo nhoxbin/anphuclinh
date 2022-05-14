@@ -43,7 +43,6 @@
                                 </div>
                             </form>
                         </div>
-                        @if(!empty(env_file()) && nio_status() && !empty(app_key()))
                         <div class="tools w-100 w-sm-auto">
                             <ul class="btn-grp guttar-8px">
                                 <li><a href="#" class="btn btn-light btn-sm btn-icon btn-outline bg-white advsearch-opt"> <em class="ti ti-panel"></em> </a></li>
@@ -86,9 +85,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @endif
                     </div>
-                    @if(!empty(env_file()) && nio_status() && !empty(app_key()))
                     <div class="search-adv-wrap hide">
                         <form class="adv-search" id="adv-search" action="{{ route('admin.kycs') }}" method="GET" autocomplete="off">
                             <div class="adv-search">
@@ -148,7 +145,6 @@
                             </div>
                         </form>
                     </div>
-                    @endif
                     @if (request()->get('filter') || request()->s)
                     <div class="search-adv-result">
                         <div class="search-info">Found <span class="search-count">{{ $kycs->total() }}</span> Applications.</div>
@@ -167,8 +163,8 @@
                     </div>
                     @endif
                 </div>
-                
-                @if($kycs->total() > 0) 
+
+                @if($kycs->total() > 0)
                 <table class="data-table kyc-list">
                     <thead>
                         <tr class="data-item data-head">
@@ -193,16 +189,16 @@
                             <td class="data-col dt-doc-type">
                                 <span class="sub sub-s2 sub-dtype">{{ ucfirst($kyc->documentType) }}</span>
                             </td>
-                            
+
                             <td class="data-col dt-docs dt-doc-front">
                                 @if($kyc->document != NULL)
                                     @if(pathinfo(storage_path('app/'.$kyc->document), PATHINFO_EXTENSION) != 'pdf')
                                         <a href="{{ route('admin.kycs.file', ['file'=>$kyc->id, 'doc'=>1]) }}" class="image-popup">{{ ($kyc->documentType == 'nidcard') ? 'Front Side' : 'Document' }}</a>
-                                    @else 
+                                    @else
                                         {!! ($kyc->documentType == 'nidcard') ? '<a>Front Side</a>' : '<a>Document</a>' !!}
                                     @endif
                                     &nbsp; <a title="Download" href="{{ route('admin.kycs.file', ['file'=>$kyc->id, 'doc'=>1]) }}" target="_blank"><em class="fas fa-download"></em></a>
-                                @else 
+                                @else
                                 &nbsp;
                                 @endif
                             </td>
@@ -210,11 +206,11 @@
                                 @if($kyc->document2 != NULL)
                                     @if(pathinfo(storage_path('app/'.$kyc->document2), PATHINFO_EXTENSION) != 'pdf')
                                         <a href="{{ route('admin.kycs.file', ['file'=>$kyc->id, 'doc'=>2]) }}" class="image-popup">{{ ($kyc->documentType == 'nidcard') ? 'Back Side' : 'Proof' }}</a>
-                                    @else 
+                                    @else
                                         {!! ($kyc->documentType == 'nidcard') ? '<a>Back Side</a>' : '<a>Proof</a>' !!}
                                     @endif
                                     &nbsp; <a title="Download" href="{{ route('admin.kycs.file', ['file'=>$kyc->id, 'doc'=>2]) }}" target="_blank"><em class="fas fa-download"></em></a>
-                                @else 
+                                @else
                                 &nbsp;
                                 @endif
                             </td>
@@ -222,11 +218,11 @@
                                 @if($kyc->document3 != NULL)
                                     @if(pathinfo(storage_path('app/'.$kyc->document3), PATHINFO_EXTENSION) != 'pdf')
                                         <a href="{{ route('admin.kycs.file', ['file'=>$kyc->id, 'doc'=>3]) }}" class="image-popup">Proof</a>
-                                    @else 
+                                    @else
                                         <a>Proof</a>
                                     @endif
                                     &nbsp; <a title="Download" href="{{ route('admin.kycs.file', ['file'=>$kyc->id, 'doc'=>3]) }}" target="_blank"><em class="fas fa-download"></em></a>
-                                @else 
+                                @else
                                 &nbsp;
                                 @endif
                             </td>
@@ -260,7 +256,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                @else 
+                @else
                     <div class="bg-light text-center rounded pdt-5x pdb-5x">
                         <p><em class="ti ti-server fs-24"></em><br>{{ ($is_page=='all') ? 'No KYC application found!' : 'No '.$is_page.' KYC application here!' }}</p>
                         <p><a class="btn btn-primary btn-auto" href="{{ route('admin.kycs') }}">View All KYC Application</a></p>
@@ -274,7 +270,7 @@
                             <ul class="btn-grp guttar-10px pagination-btn">
                                 @if($pagi->previousPageUrl())
                                 <li><a href="{{ $pagi->previousPageUrl() }}" class="btn ucap btn-auto btn-sm btn-light-alt">Prev</a></li>
-                                @endif 
+                                @endif
                                 @if($pagi->nextPageUrl())
                                 <li><a href="{{ $pagi->nextPageUrl() }}" class="btn ucap btn-auto btn-sm btn-light-alt">Next</a></li>
                                 @endif

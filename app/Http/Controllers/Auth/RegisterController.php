@@ -15,7 +15,7 @@ use App\Models\User;
 use App\Models\Referral;
 use App\Models\UserMeta;
 use App\Helpers\ReCaptcha;
-use App\Helpers\IcoHandler;
+// use App\Helpers\IcoHandler;
 use Illuminate\Http\Request;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;

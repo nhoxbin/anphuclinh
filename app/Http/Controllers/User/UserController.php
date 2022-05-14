@@ -113,7 +113,7 @@ class UserController extends Controller
      * @since 1.1.2
      * @return void
      */
-    public function mytoken_balance()
+    /* public function mytoken_balance()
     {
         if(gws('user_mytoken_page')!=1) {
             return redirect()->route('user.home');
@@ -123,7 +123,7 @@ class UserController extends Controller
         $token_stages = Transaction::user_mytoken('stages');
         $user_modules = nio_module()->user_modules();
         return view('user.account-token', compact('user', 'token_account', 'token_stages', 'user_modules'));
-    }
+    } */
 
     /**
      * Activity delete

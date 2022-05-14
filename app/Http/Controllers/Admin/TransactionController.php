@@ -66,11 +66,11 @@ class TransactionController extends Controller
         $is_page = (empty($status) ? 'all' : $status);
         $pmethods = PaymentMethod::where('status', 'active')->get();
         $gateway = PaymentMethod::all()->pluck('payment_method');
-        $stages = IcoStage::whereNotIn('status', ['deleted'])->get();
+        // $stages = IcoStage::whereNotIn('status', ['deleted'])->get();
         $pm_currency = PaymentMethod::Currency;
         $users = User::where('status', 'active')->whereNotNull('email_verified_at')->where('role', '!=', 'admin')->get();
         $pagi = $trnxs->appends(request()->all());
-        return view('admin.transactions', compact('trnxs', 'users', 'stages', 'pmethods', 'pm_currency', 'gateway', 'is_page', 'pagi'));
+        return view('admin.transactions', compact('trnxs', 'users', 'pmethods', 'pm_currency', 'gateway', 'is_page', 'pagi'));
     }
 
     /**
@@ -114,7 +114,7 @@ class TransactionController extends Controller
         $trnx = Transaction::findOrFail($id);
         if ($trnx) {
             $status = $trnx->status;
-            if($status == 'approved') {                
+            if($status == 'approved') {
                 $ret['msg'] = 'info';
                 $ret['message'] = __('messages.trnx.admin.already_approved');
             } else {
@@ -177,7 +177,7 @@ class TransactionController extends Controller
                 $trnx->checked_time = date('Y-m-d H:i:s');
                 $trnx->save();
                 IcoStage::token_add_to_account($trnx, 'sub');
-                
+
                 try {
                     $trnx->tnxUser->notify((new TnxStatus($trnx, 'rejected-user')));
                     $ret['msg'] = 'success';
@@ -225,7 +225,7 @@ class TransactionController extends Controller
                 $token = round($request->input('token'), min_decimal());
                 $base_bonus = round($request->input('base_bonus'), min_decimal());
                 $token_bonus = round($request->input('token_bonus'), min_decimal());
-                
+
                 if(in_array($trnx->status, ['onhold', 'pending', 'canceled'])){
                     $old_status = $trnx->status;
 

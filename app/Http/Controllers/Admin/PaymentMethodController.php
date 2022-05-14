@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Admin;
  * @author Softnio
  * @version 1.0.3
  */
-use IcoHandler;
+// use IcoHandler;
 use App\Models\Setting;
 use App\PayModule\Module;
 use Illuminate\Http\Request;
@@ -39,12 +39,11 @@ class PaymentMethodController extends Controller
         $payments = PaymentMethod::get_data();
         $gateway = PaymentMethod::Currency;
         $methods = $this->module->module_views();
-
         // Init the currency rate
-        $auto_check = get_setting('pmc_auto_rate_' . base_currency(), false);
+        /* $auto_check = get_setting('pmc_auto_rate_' . base_currency(), false);
         if($auto_check == false){
             $auto_rate = (new PaymentMethod())->automatic_rate_check(30, true);
-        }
+        } */
 
         return view('admin.payments-methods', compact('payments', 'gateway', 'methods'));
     }

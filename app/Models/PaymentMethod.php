@@ -86,13 +86,6 @@ class PaymentMethod extends Model
             'xmr' => 'Monero',
         ];
 
-    public function __construct()
-    {
-        $auto_check = (60 * (int) get_setting('pm_automatic_rate_time', 60)); // 1 Hour
-
-        $this->save_default();
-        $this->automatic_rate_check($auto_check);
-    }
     /**
      *
      * Get the data
@@ -114,7 +107,7 @@ class PaymentMethod extends Model
             ];
             // dd($result);
             return ($everything == true ? $result : $result->secret);
-        }else{
+        } else {
             $all = self::all();
             $result = [];
             foreach ($all as $data) {
@@ -160,26 +153,6 @@ class PaymentMethod extends Model
 
     /**
      *
-     * Save the default
-     *
-     * @version 1.0.0
-     * @since 1.0
-     * @return void
-     */
-    public function save_default()
-    {
-        foreach (self::Currency as $key => $value) {
-            if (Setting::getValue('pmc_active_' . $key) == '') {
-                Setting::updateValue('pmc_active_' . $key, 1);
-            }
-            if (Setting::getValue('pmc_rate_' . $key) == '') {
-                Setting::updateValue('pmc_rate_' . $key, 1);
-            }
-        }
-    }
-
-    /**
-     *
      * Currency Symbol
      *
      * @version 1.0.0
@@ -218,7 +191,7 @@ class PaymentMethod extends Model
      * @since 1.0.0
      * @return void
      */
-    public function automatic_rate_check($between = 3600, $force = false)
+    /* public function automatic_rate_check($between = 3600, $force = false)
     {
         $check_time = get_setting('pm_exchange_auto_lastcheck', now()->subMinutes(10));
         $current_time = now();
@@ -236,7 +209,7 @@ class PaymentMethod extends Model
             Setting::updateValue( 'token_all_price', json_encode(token_calc(1, 'price')) );
             Setting::updateValue( 'pm_exchange_auto_lastcheck', now() );
         }
-    }
+    } */
 
     /**
      *

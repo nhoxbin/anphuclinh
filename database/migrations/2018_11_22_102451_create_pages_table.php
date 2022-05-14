@@ -25,6 +25,7 @@ class CreatePagesTable extends Migration
             $table->longText('description');
             $table->string('external_link')->nullable();
             $table->string('status')->default('active');
+            $table->string('lang')->default('en');
             $table->tinyInteger('public')->default(0);
             $table->timestamps();
         });
