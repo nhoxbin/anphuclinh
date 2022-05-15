@@ -46,17 +46,14 @@ $check_users = \App\Models\User::count();
                 <input type="email" placeholder="{{__('Your Email')}}" class="input-bordered{{ $errors->has('email') ? ' input-error' : '' }}" name="email" value="{{ old('email') }}"data-msg-required="{{ __('Required.') }}" data-msg-email="{{ __('Enter valid email.') }}" required>
             </div> --}}
             <div class="input-item">
-                <input type="text" placeholder="{{__('SĐT người giới thiệu')}}" class="input-bordered{{ $errors->has('ref') ? ' input-error' : '' }}" name="phone-ref" minlength="4" maxlength="12" required>
+                <input type="text" placeholder="{{__('SĐT người giới thiệu')}}" class="input-bordered{{ $errors->has('ref') ? ' input-error' : '' }}" name="phone_ref" minlength="4" maxlength="12">
             </div>
             <div class="input-item">
-                <select name="address" id="address" class="input-bordered">
+                <select name="province_id" id="province_id" class="input-bordered">
                     <option value="">-- Chọn Tỉnh Thành --</option>
-                    @forelse ($provinces as $province)
-                    <option value="{{$province->id}}">{{$province->name}}</option>
-                        
-                    @empty
-                        
-                    @endforelse
+                    @foreach ($provinces as $province)
+                        <option value="{{$province->id}}">{{$province->name}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="input-item">

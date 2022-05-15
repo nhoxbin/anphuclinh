@@ -41,7 +41,7 @@ class User extends Authenticatable // implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'email', 'password', 'lastLogin', 'role','point', 'address'
+        'name', 'phone', 'email', 'password', 'lastLogin', 'role', 'point', 'province_id'
     ];
 
     /**
@@ -115,6 +115,11 @@ class User extends Authenticatable // implements MustVerifyEmail
     public function logs()
     {
         return $this->belongsTo('App\Models\Activity', 'id', 'user_id');
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany('App\Models\Referral', 'user_id');
     }
 
     /**
@@ -237,18 +242,6 @@ class User extends Authenticatable // implements MustVerifyEmail
     public function referee()
     {
         return $this->belongsTo(self::class, 'referral', 'id');
-    }
-    /**
-     *
-     * Get Referrals
-     *
-     * @version 1.0.0
-     * @since 1.0.3
-     * @return void
-     */
-    public function referrals()
-    {
-        return $this->where('referral', $this->id)->get();
     }
 
     public function generateSecret()

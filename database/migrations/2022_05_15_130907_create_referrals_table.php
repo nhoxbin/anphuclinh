@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateReferralsTable extends Migration
 {
@@ -14,12 +14,10 @@ class CreateReferralsTable extends Migration
     public function up()
     {
         Schema::create('referrals', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('user_bonus')->default(0);
-            $table->integer('refer_by');
-            $table->integer('refer_bonus')->default(0);
-            $table->longText('meta_data')->nullable();
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate();
+            $table->foreignId('refer_by_id')->constrained('users')->cascadeOnUpdate();
+            $table->unsignedDouble('bonus');
             $table->timestamps();
         });
     }

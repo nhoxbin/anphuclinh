@@ -23,7 +23,19 @@ class Transaction extends Model
      */
     protected $table = 'transactions';
 
-    protected $fillable = ['tnx_id', 'tnx_type', 'tnx_time', 'tokens', 'bonus_on_base', 'bonus_on_token', 'total_bonus', 'total_tokens', 'stage', 'user', 'amount', 'receive_amount', 'receive_currency', 'base_amount', 'base_currency', 'base_currency_rate', 'currency', 'currency_rate', 'all_currency_rate', 'wallet_address', 'payment_method', 'payment_id', 'payment_to', 'checked_by', 'added_by', 'checked_time', 'details', 'extra', 'status', 'dist'
+    const TNX_TYPE = ['purchase', 'withdraw', 'point', 'bonus'];
+
+    protected $fillable = [
+        'tnx_id',
+        'tnx_type',
+        'user_id',
+        'amount',
+        'wallet_address',
+        'payment_method',
+        'payment_id',
+        'details',
+        'extra',
+        'status',
     ];
 
     /**
@@ -543,3 +555,117 @@ class Transaction extends Model
         return $amounts;
     }
 }
+        console.log("🚀 ~ file: Transaction.php ~ line 556 ~
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status",
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status)
+        console.log("🚀 ~ file: Transaction.php ~ line 556 ~
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status",
+        console.log("🚀 ~ file: Transaction.php ~ line 585 ~
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status",
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status)
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status)
+        console.log("🚀 ~ file: Transaction.php ~ line 613 ~
+        console.log("🚀 ~ file: Transaction.php ~ line 585 ~
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status",
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status)
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status",
+        console.log("🚀 ~ file: Transaction.php ~ line 585 ~
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status",
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status)
+        tnx_type
+        user_id
+        amount
+        wallet_address
+        payment_method
+        payment_id
+        details
+        extra
+        status)

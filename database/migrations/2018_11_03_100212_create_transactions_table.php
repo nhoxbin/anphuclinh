@@ -16,9 +16,9 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('tnx_id');
-            $table->enum('tnx_type', ['purchase', 'withdraw']);
-            $table->foreign('user_id')->constrained()->cascadeOnUpdate();
-            $table->double('amount')->nullable();
+            $table->enum('tnx_type', ['purchase', 'withdraw', 'point', 'bonus']);
+            $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
+            $table->unsignedDouble('amount');
             $table->string('wallet_address')->nullable(); // From Payment Controller
             $table->string('payment_method')->nullable(); // Selected Method
             $table->string('payment_id')->default(''); // From Payment Controller

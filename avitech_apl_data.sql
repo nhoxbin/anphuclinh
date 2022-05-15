@@ -289,20 +289,17 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '2018_11_03_091911_create_user_metas_table', 1),
 (6, '2018_11_03_100212_create_transactions_table', 1),
 (7, '2018_11_05_055256_create_kycs_table', 1),
-(8, '2018_11_08_110810_create_ico_stages_table', 1),
-(9, '2018_11_10_054817_create_ico_metas_table', 1),
-(10, '2018_11_12_090411_create_payment_methods_table', 1),
-(11, '2018_11_22_102451_create_pages_table', 1),
-(12, '2018_11_27_123445_create_email_templates_table', 1),
-(13, '2018_12_11_134112_create_global_metas_table', 1),
-(14, '2019_05_05_123232_create_referrals_table', 1),
-(15, '2019_07_16_133004_add_refund_column_in_transactions_table', 1),
-(16, '2019_08_28_124836_add_lang_column_in_pages_table', 1),
-(17, '2019_08_28_130012_create_languages_table', 1),
-(18, '2019_08_28_130334_create_translates_table', 1),
-(23, '2022_04_30_152027_create_jobs_table', 2),
-(24, '2022_05_03_225957_add_meta_columns_to_kycs_table', 2),
-(25, '2022_05_05_223627_create_failed_jobs_table', 2);
+(8, '2018_11_12_090411_create_payment_methods_table', 1),
+(9, '2018_11_22_102451_create_pages_table', 1),
+(10, '2018_11_27_123445_create_email_templates_table', 1),
+(11, '2018_12_11_134112_create_global_metas_table', 1),
+(12, '2019_05_05_123232_create_referrals_table', 1),
+(13, '2019_07_16_133004_add_refund_column_in_transactions_table', 1),
+(14, '2019_08_28_124836_add_lang_column_in_pages_table', 1),
+(15, '2019_08_28_130012_create_languages_table', 1),
+(16, '2019_08_28_130334_create_translates_table', 1),
+(17, '2022_04_30_152027_create_jobs_table', 2),
+(18, '2022_05_05_223627_create_failed_jobs_table', 2);
 
 -- --------------------------------------------------------
 
@@ -2240,46 +2237,6 @@ INSERT INTO `translates` (`id`, `key`, `name`, `text`, `pages`, `group`, `panel`
 --
 -- Table structure for table `users`
 --
-
-CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(191) NOT NULL,
-  `phone` varchar(13) DEFAULT NULL,
-  `email` varchar(191) NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(191) NOT NULL,
-  `status` varchar(191) NOT NULL DEFAULT 'active',
-  `registerMethod` varchar(191) DEFAULT 'Email',
-  `social_id` varchar(191) DEFAULT NULL,
-  `mobile` varchar(191) DEFAULT NULL,
-  `dateOfBirth` varchar(191) DEFAULT NULL,
-  `nationality` varchar(191) DEFAULT NULL,
-  `lastLogin` datetime NOT NULL,
-  `walletType` varchar(191) DEFAULT NULL,
-  `walletAddress` varchar(191) DEFAULT NULL,
-  `role` enum('admin','manager','user') NOT NULL DEFAULT 'user',
-  `contributed` double DEFAULT NULL,
-  `tokenBalance` double DEFAULT NULL,
-  `referral` varchar(191) DEFAULT NULL,
-  `referralInfo` text,
-  `google2fa` int(11) NOT NULL DEFAULT '0',
-  `google2fa_secret` text,
-  `type` enum('demo','main') NOT NULL DEFAULT 'main',
-  `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `password`, `status`, `registerMethod`, `social_id`, `mobile`, `dateOfBirth`, `nationality`, `lastLogin`, `walletType`, `walletAddress`, `role`, `contributed`, `tokenBalance`, `referral`, `referralInfo`, `google2fa`, `google2fa_secret`, `type`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Thiết Trần', '', 'info@antnet.vn', '2021-10-10 00:33:23', '$2y$10$HxbKL3PJ01jD9EuRT/tNU.whBD2MUVwefkLPvF9Mi182Up1JrxcMS', 'active', 'Email', NULL, '+84368537229', NULL, NULL, '2022-05-14 12:29:03', NULL, NULL, 'admin', NULL, NULL, NULL, NULL, 0, NULL, 'main', 'rCYRxcgHfqh59LDLYWmaGndoLztXEnVL8ltvNJNqhIocuy2T0OWs5U6xDAYI', '2021-10-10 00:33:23', '2022-05-14 05:29:03'),
-(2, 'Thiết Trần', '0368537229', 'xuanthiet1996@gmail.com', '2021-10-10 02:09:16', '$2y$10$HxbKL3PJ01jD9EuRT/tNU.whBD2MUVwefkLPvF9Mi182Up1JrxcMS', 'active', 'Email', NULL, NULL, NULL, NULL, '2022-04-28 10:29:12', NULL, NULL, 'user', 0.29, 10, NULL, NULL, 0, NULL, 'main', 'dsjgqtFe4Tua3dmODjJKkCiVQCeh3SWBgX3pS4QHkyykEyuJ8lZeWE8Bz5TV', '2021-10-10 01:32:08', '2022-04-28 03:29:12'),
-(3, 'Dương Thành Nhân', '0964008603', 'duongnhan2010@gmail.com', '2021-10-20 05:14:31', '$2y$10$MsEpTSkeVI97/Kkf/Vf2vuA3qVsAlSaouMlwjAZDkahmuYn//YyOi', 'active', 'Email', NULL, NULL, NULL, NULL, '2021-10-20 11:13:22', NULL, NULL, 'user', 2030, 70000, NULL, NULL, 0, NULL, 'main', 'dXUPtVWM2jVxKgqMXSefpunKVTwULmxoELgrhcnxct67kTaVTKw69W5bFvbH', '2021-10-20 04:13:12', '2021-10-20 04:18:23'),
-(4, 'Godfred sackey', NULL, 'godfredsackeysuccess2001@gmail.com', NULL, '$2y$10$64cIOAShmD9P6whJUsk3Q.2mOF0fM9pWqfbDZG84HROc9JuCILmre', 'active', 'Email', NULL, NULL, NULL, NULL, '2022-02-16 04:34:19', NULL, NULL, 'user', NULL, NULL, NULL, NULL, 0, NULL, 'main', 'qPCv8XaBgt11yReziJZCW5sq9M0OwduG81dIrG9MN8eR9sHMnm1pzdfYqo16', '2022-02-15 21:34:19', '2022-02-15 21:34:19'),
-(8, 'nguyen anh khoa', '+84365664356', 'binm8.4356@gmail.com', '2022-04-01 13:52:53', '$2y$10$k0U15QeF.pM6QBqp70UQ6ONunliiMWsatbDf99I8QtOqz/rtoPxIi', 'active', 'Email', NULL, '0365664356', '02/28/2019', '', '2022-05-14 09:21:11', '', '', 'user', NULL, NULL, NULL, NULL, 0, NULL, 'main', 'EU4denurEFFJhPeeWP6kpzSNe5gp6pIqOiwl4Iu5CvbMxyl4eSe1oFtDEuMv', '2022-04-28 12:52:02', '2022-05-14 02:21:11');
 
 -- --------------------------------------------------------
 
