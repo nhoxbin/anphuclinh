@@ -2639,18 +2639,9 @@ if (!function_exists('valid_kyc_file_ext')) {
     }
 }
 
-<<<<<<< HEAD
-                                    if (!function_exists('hide_opt_count')) {
-                                    function hide_opt_count()
-                                    {
-                                    return gws('opt_count_hide', 0) == 1 ? true : false;
-                                    }
-                                    }
-=======
 if (!function_exists('hide_opt_count')) {
     function hide_opt_count()
     {
         return gws('opt_count_hide', 0) == 1 ? true : false;
     }
 }
->>>>>>> origin/nhoxbin
