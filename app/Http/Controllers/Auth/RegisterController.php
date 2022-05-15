@@ -133,25 +133,26 @@ class RegisterController extends Controller
         } else {
             $ref = User::where('phone', $data['phone_ref'])->first();
         }
-        $have_user = User::where('role', 'admin')->count();
+        // $have_user = User::where('role', 'admin')->count();
+        $point = CalcPoint::getPoint('refer');
 
         $data['lastLogin'] = date('Y-m-d H:i:s');
         $data['phone'] = preg_replace('/^\+84/', '0', $data['phone']);
         $data['password'] = Hash::make($data['password']);
         $data['email_verified_at'] = now();
-        $data['point'] = 500;
+        $data['point'] = $point;
         $user = User::create($data);
         if (!is_null($ref)) {
             $user->referrals()->create([
                 'refer_by_id' => $ref->id,
-                'bonus' => CalcPoint::getPoint('refer')
+                'bonus' => $point
             ]);
         }
 
-        if ($user) {
+        /* if ($user) {
             if ($have_user <= 0) {
                 save_gmeta('site_super_admin', 1, $user->id);
-            }
+            } */
             // $this->create_referral_or_not($user->id,$data['phone-ref']);
             // $refer_blank = true;
             /* if (is_active_referral_system()) {
@@ -174,7 +175,7 @@ class RegisterController extends Controller
             /* if ($user->role == 'user' && $refer_blank == true) {
                 $this->create_referral_or_not($user->id);
             } */
-        }
+        // }
         return $user;
     }
 

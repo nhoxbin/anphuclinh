@@ -17,7 +17,7 @@ class CreateReferralsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate();
             $table->foreignId('refer_by_id')->constrained('users')->cascadeOnUpdate();
-            $table->unsignedDouble('bonus');
+            $table->unsignedInteger('bonus')->default(0);
             $table->timestamps();
         });
     }
