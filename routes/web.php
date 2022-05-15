@@ -155,12 +155,12 @@ Route::prefix('admin')->middleware(['g2fa'])->name('admin.')->group(function () 
         Route::post('/payment-methods/update', 'Admin\PaymentMethodController@update')->middleware(['super_admin', 'demo_user'])->name('payments.update');
         Route::post('/payment-methods/quick-update', 'Admin\PaymentMethodController@quick_update')->middleware(['super_admin', 'demo_user'])->name('payments.qupdate');
         Route::post('/kyc/view', 'Admin\KycController@ajax_show')->name('kyc.ajax_show');
-        Route::post('/stages/update', 'Admin\IcoController@update')->name('stages.update')->middleware('demo_user');
-        Route::post('/stages/pause', 'Admin\IcoController@pause')->name('stages.pause')->middleware('demo_user');
-        Route::post('/stages/active', 'Admin\IcoController@active')->name('stages.active')->middleware('demo_user');
-        Route::post('/stages/meta/update', 'Admin\IcoController@update_options')->name('stages.meta.update')->middleware('demo_user');
-        Route::post('/stages/settings/update', 'Admin\IcoController@update_settings')->name('stages.settings.update')->middleware('demo_user');
-        Route::post('/stages/actions', 'Admin\IcoController@stages_action')->name('stages.actions'); //v1.1.2
+        // Route::post('/stages/update', 'Admin\IcoController@update')->name('stages.update')->middleware('demo_user');
+        // Route::post('/stages/pause', 'Admin\IcoController@pause')->name('stages.pause')->middleware('demo_user');
+        // Route::post('/stages/active', 'Admin\IcoController@active')->name('stages.active')->middleware('demo_user');
+        // Route::post('/stages/meta/update', 'Admin\IcoController@update_options')->name('stages.meta.update')->middleware('demo_user');
+        // Route::post('/stages/settings/update', 'Admin\IcoController@update_settings')->name('stages.settings.update')->middleware('demo_user');
+        // Route::post('/stages/actions', 'Admin\IcoController@stages_action')->name('stages.actions'); //v1.1.2
         Route::post('/kyc/update', 'Admin\KycController@update')->name('kyc.update')->middleware('demo_user');
         Route::post('/transactions/update', 'Admin\TransactionController@update')->name('transactions.update')->middleware('demo_user');
 

@@ -2107,6 +2107,7 @@ if (!function_exists('auto_p')) {
     }
 }
 
+
 /* @function _joaat() @version v1.0 @since 1.1 */
 if (!function_exists('_joaat')) {
     function _joaat($string)
@@ -2195,43 +2196,41 @@ if (!function_exists('arr_convert')) {
 /* @function ico_stage_progress() @version v1.2 @since 1.0 */
 if (!function_exists('ico_stage_progress')) {
     /* function ico_stage_progress($type, $in_currency = 'token', $istage = null)
-    {
-        $stage = (empty($istage)) ? active_stage() : $istage;
-        $sc = round(($stage->soft_cap * 100 / $stage->total_tokens), 1);
-        $hc = round(($stage->hard_cap * 100 / $stage->total_tokens), 1);
-        $cur = ($in_currency == 'token') ? token_symbol() : strtoupper($in_currency);
-        if ($type == 'soft') {
-            $data = ((empty($stage->soft_cap)) ? 0 : (($sc >= 8 && $sc <= 42) ? round($sc, 2) : 8));
-        } elseif ($type == 'hard') {
-            $data = ((empty($stage->hard_cap)) ? 0 : (($hc >= 58 && $hc <=
-                92) ? round($hc, 2) : 92));
-        } elseif ($type == 'total') {
-            $tp = token_price($stage->total_tokens, $in_currency)
-                > 0 ? token_price($stage->total_tokens, $in_currency) : 0;
-            $data = ($in_currency == 'token' ? to_num_token($stage->total_tokens) : to_num(
-                $tp,
-                'auto'
-            ))
-                . ' ' . $cur;
-        } elseif ($type == 'raised') {
-            $tp = token_price($stage->soldout, $in_currency) > 0 ? token_price(
-                $stage->soldout,
-                $in_currency
-            ) : 0;
-            $data = ($in_currency == 'token' ? to_num_token($stage->soldout) : to_num(
-                $tp,
-                'auto'
-            )) . '
+                            {
+                            $stage = (empty($istage)) ? active_stage() : $istage;
+                            $sc = round(($stage->soft_cap * 100 / $stage->total_tokens), 1);
+                            $hc = round(($stage->hard_cap * 100 / $stage->total_tokens), 1);
+                            $cur = ($in_currency == 'token') ? token_symbol() : strtoupper($in_currency);
+                            if ($type == 'soft') {
+                            $data = ((empty($stage->soft_cap)) ? 0 : (($sc >= 8 && $sc <= 42) ? round($sc, 2) : 8)); }
+                                elseif ($type=='hard' ) { $data=((empty($stage->hard_cap)) ? 0 : (($hc >= 58 && $hc <=
+                                    92) ? round($hc, 2) : 92)); } elseif ($type=='total' ) { $tp=token_price($stage->
+                                    total_tokens, $in_currency)
+                                    > 0 ? token_price($stage->total_tokens, $in_currency) : 0;
+                                    $data = ($in_currency == 'token' ? to_num_token($stage->total_tokens) : to_num(
+                                    $tp,
+                                    'auto'
+                                    ))
+                                    . ' ' . $cur;
+                                    } elseif ($type == 'raised') {
+                                    $tp = token_price($stage->soldout, $in_currency) > 0 ? token_price(
+                                    $stage->soldout,
+                                    $in_currency
+                                    ) : 0;
+                                    $data = ($in_currency == 'token' ? to_num_token($stage->soldout) : to_num(
+                                    $tp,
+                                    'auto'
+                                    )) . '
                                     ' . $cur;
-        } elseif ($type == 'softtoken') {
-            $data = ($in_currency == 'token' ? to_num_token($stage->soft_cap) :
-                to_num(token_price($stage->soft_cap, $in_currency), 'auto')) . ' ' . $cur;
-        } elseif ($type == 'hardtoken') {
-            $data = ($in_currency == 'token' ? to_num_token($stage->hard_cap) :
-                to_num(token_price($stage->hard_cap, $in_currency), 'auto')) . ' ' . $cur;
-        }
-        return $data;
-    } */
+                                    } elseif ($type == 'softtoken') {
+                                    $data = ($in_currency == 'token' ? to_num_token($stage->soft_cap) :
+                                    to_num(token_price($stage->soft_cap, $in_currency), 'auto')) . ' ' . $cur;
+                                    } elseif ($type == 'hardtoken') {
+                                    $data = ($in_currency == 'token' ? to_num_token($stage->hard_cap) :
+                                    to_num(token_price($stage->hard_cap, $in_currency), 'auto')) . ' ' . $cur;
+                                    }
+                                    return $data;
+                                    } */
 }
 
 /* @function explode_user_for_demo() @version v1.0 @since 1.0 */
