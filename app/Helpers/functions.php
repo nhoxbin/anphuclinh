@@ -589,7 +589,7 @@ if (!function_exists('token_calc')) {
 
 /* @function _format()  @version v1.3.1  @since 1.0 */
 if (!function_exists('_format')) {
-    /* function _format($attr = [])
+    function _format($attr = [])
     {
         $number = isset($attr['number']) ? $attr['number'] : 0;
         $point = isset($attr['point']) ? $attr['point'] : '.';
@@ -613,7 +613,7 @@ if (!function_exists('_format')) {
         $ret = (substr($ret, -1)) == '.' ? str_replace('.', $end_rep, $ret) : $ret;
         $ret = ($zero_lead === false && (substr($ret, -3) === '.00')) ? str_replace('.00', '', $ret) : $ret;
         return $ret;
-    } */
+    }
 }
 /* @function admin_notice()  @version v1.0  @since 1.1.0 */
 if (!function_exists('admin_notice')) {
@@ -630,10 +630,10 @@ if (!function_exists('admin_notice')) {
 
 /* @function to_num()  @version v1.2.1  @since 1.0.3 */
 if (!function_exists('to_num')) {
-    /* function to_num($num, $decimal = 'max', $thousand = '', $trim = true, $point = '.', $zero_lead = false)
+    function to_num($num, $decimal = 'max', $thousand = '', $trim = true, $point = '.', $zero_lead = false)
     {
         return _format(['number' => $num, 'decimal' => $decimal, 'thousand' => $thousand, 'zero_lead' => $zero_lead, 'trim' => $trim, 'point' => $point, 'end' => true]);
-    } */
+    }
 }
 
 /* @function to_num_round()  @version v1.1.1  @since 1.1.2 */
