@@ -9,19 +9,18 @@
 @endpush
 @endif
 <div class="page-ath-form">
-    <h2 class="page-ath-heading">{{ __('Sign in') }}<small>{{ __('with your') }} {{ site_info('name') }}
-            {{ __('Account') }}</small></h2>
+    <h2 class="page-ath-heading">{{ __('Đăng nhập') }}<small>{{ __('Tài khoản ') }} {{ site_info('name') }} {{__(' của bạn')}}</small></h2>
     <form class="login-form validate validate-modern"
         action="{{ (is_maintenance() ? route('admin.login') : route('login')) }}" method="POST">
         @csrf
         @include('layouts.messages')
         <div class="input-item">
-            <input id="email" type="text" placeholder="{{ __('Your Phone') }}" data-msg-required="{{ __('Required.') }}"
+            <input id="email" type="text" placeholder="{{ __('Số điện thoại') }}" data-msg-required="{{ __('Required.') }}"
                 class="input-bordered{{ $errors->has('email') ? ' input-error' : '' }}" name="email"
                 value="{{ old('email') }}" required autofocus>
         </div>
         <div class="input-item">
-            <input type="password" placeholder="{{ __('Password') }}" minlength="6"
+            <input type="password" placeholder="{{ __('Mật khẩu') }}" minlength="6"
                 data-msg-required="{{ __('Required.') }}"
                 data-msg-minlength="{{ __('At least :num chars.', ['num' => 6]) }}"
                 class="input-bordered{{ $errors->has('password') ? ' input-error' : '' }}" name="password" required>
@@ -31,10 +30,10 @@
             <div class="input-item text-left">
                 <input class="input-checkbox input-checkbox-md" type="checkbox" name="remember" id="remember-me"
                     {{ old('remember') ? 'checked' : '' }}>
-                <label for="remember-me">{{ __('Remember Me') }}</label>
+                <label for="remember-me">{{ __('Ghi nhớ') }}</label>
             </div>
             <div>
-                <a href="{{ route('password.request') }}">{{ __('Forgot password?')}}</a>
+                <a href="{{ route('password.request') }}">{{ __('Quên mật khẩu?')}}</a>
                 <div class="gaps-2x"></div>
             </div>
         </div>
@@ -42,7 +41,7 @@
         @if( recaptcha() )
             <input type="hidden" name="recaptcha" id="recaptcha">
         @endif
-        <button type="submit" class="btn btn-primary btn-block">{{__('Sign In')}}</button>
+        <button type="submit" class="btn btn-primary btn-block">{{__('Đăng nhập')}}</button>
     </form>
     @if(! is_maintenance())
     @if(Schema::hasTable('settings'))
@@ -72,7 +71,7 @@
 
     <div class="gaps-4x"></div>
     <div class="form-note">
-        {{__('Don’t have an account?')}} <a href="{{ route('register') }}"> <strong>{{__('Sign up here')}}</strong></a>
+        {{__('Không có tài khoản?')}} <a href="{{ route('register') }}"> <strong>{{__('Đăng kí tại đây')}}</strong></a>
     </div>
     @endif
 </div>

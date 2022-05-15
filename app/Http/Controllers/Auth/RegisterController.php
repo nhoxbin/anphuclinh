@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 /**
  * Register Controller
  *
@@ -16,6 +17,7 @@ use App\Models\Referral;
 use App\Models\UserMeta;
 use App\Helpers\ReCaptcha;
 use App\Helpers\IcoHandler;
+use App\Helpers\UserPanel;
 use Illuminate\Http\Request;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;
@@ -77,11 +79,11 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        if(recaptcha()) {
+        if (recaptcha()) {
             $this->checkReCaptcha($request->recaptcha);
         }
         $have_user = User::where('role', 'admin')->count();
-        if( $have_user >= 1 && ! $this->handler->check_body() ){
+        if ($have_user >= 1 && !$this->handler->check_body()) {
             return back()->withInput()->with([
                 'warning' => $this->handler->accessMessage()
             ]);
@@ -90,9 +92,15 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
+        $ref_id = $request->input('phone-ref') ? $request->input('phone-ref') : '';
+        Referral::create([
+            'user_id' => $user->id,
+            'refer_by' => $ref_id
+        ]);
+
         $this->guard()->login($user);
 
-        return $this->registered($request, $user) ? : redirect($this->redirectPath());
+        return $this->registered($request, $user) ?: redirect($this->redirectPath());
     }
 
     /**
@@ -144,7 +152,7 @@ class RegisterController extends Controller
             }
             $user->email_verified_at = $email_verified;
             $refer_blank = true;
-            if(is_active_referral_system()) {
+            if (is_active_referral_system()) {
                 if (Cookie::has('ico_nio_ref_by')) {
                     $ref_id = (int) Cookie::get('ico_nio_ref_by');
                     $ref_user = User::where('id', $ref_id)->where('email_verified_at', '!=', null)->first();
@@ -161,14 +169,14 @@ class RegisterController extends Controller
                     }
                 }
             }
-            if($user->role=='user' && $refer_blank==true) {
+            if ($user->role == 'user' && $refer_blank == true) {
                 $this->create_referral_or_not($user->id);
             }
 
             $user->save();
-            $meta = UserMeta::create([ 'userId' => $user->id ]);
+            $meta = UserMeta::create(['userId' => $user->id]);
 
-            $meta->notify_admin = ($type=='user')?0:1;
+            $meta->notify_admin = ($type == 'user') ? 0 : 1;
             $meta->email_token = Str::random(65);
             $cd = Carbon::now(); //->toDateTimeString();
             $meta->email_expire = $cd->copy()->addMinutes(75);
@@ -193,7 +201,8 @@ class RegisterController extends Controller
      * @since 1.1.2
      * @return \App\Models\User
      */
-    protected function create_referral_or_not($user, $refer=0) {
-        Referral::create([ 'user_id' => $user, 'user_bonus' => 0, 'refer_by' => $refer, 'refer_bonus' => 0 ]);
+    protected function create_referral_or_not($user, $refer = 0)
+    {
+        Referral::create(['user_id' => $user, 'user_bonus' => 0, 'refer_by' => $refer, 'refer_bonus' => 0]);
     }
 }

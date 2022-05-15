@@ -11,6 +11,7 @@
     <title>@yield('title') | {{ site_whitelabel('title') }}</title>
     <link rel="stylesheet" href="{{ asset(style_theme('vendor')) }}">
     <link rel="stylesheet" href="{{ asset(style_theme('user')) }}">
+    <link rel="stylesheet" href="{{asset('assets1/css/style_1.css?ver=18')}}" type="text/css" media="all" />
     @if( recaptcha() )
     <script src="https://www.google.com/recaptcha/api.js?render={{ recaptcha('site') }}"></script>
     @endif
@@ -42,13 +43,18 @@ $header_logo = '<div class="page-ath-header"><a href="'.url('/').'" class="page-
             @yield('content')
 
             <div class="page-ath-footer">
-                @if(is_show_social('login'))
+                {{-- @if(is_show_social('login'))
                     {!! UserPanel::social_links('', ['class' => 'mb-3']) !!}
                     {!! UserPanel::footer_links(['lang' => true], ['class' => 'guttar-20px align-items-center']) !!}
                     {!! UserPanel::copyrights('div') !!}
                 @else
                     {!! UserPanel::footer_links(['lang' => true, 'copyright'=>true], ['class' => 'guttar-20px align-items-center']) !!}
-                @endif
+                @endif --}}
+                <ul class="footer-links guttar-20px align-items-center">
+                    <li>Quyền riêng tư và Chính sách</li>
+                    <li>Điều khoản và điều kiện</li>
+                    <li>© 2022 AN PHUC LINH. Tất cả các quyền</li>
+                </ul>
             </div>
         </div>
         @if ($auth_layout=='default' || $auth_layout=='alter')

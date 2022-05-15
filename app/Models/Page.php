@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Page Model
  *
@@ -8,6 +9,7 @@
  * @author Softnio
  * @version 1.0
  */
+
 namespace App\Models;
 
 use IcoData;

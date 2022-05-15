@@ -24,15 +24,6 @@
     border-radius: 8px;
     opacity: 0.9 !important;
 }
-@media (max-width: 995px) {
-    .option-card {
-        padding: 0px 0px;
-        min-height: 88px;
-    }
-    .feature-card.pd {
-        padding: 22px 15px;
-    }
-}
 .header-bg-1 {
     background-size: cover;
     background-position: top;
@@ -87,3 +78,36 @@ p {
     margin: 0 auto;
     padding: 2px 10px;
 } */
+.guttar-20px > li,
+.guttar-20px > div {
+    padding: 0 !important;
+    padding-left: 5px !important;
+}
+@media (max-width: 995px) {
+    .option-card {
+        padding: 0px 0px;
+        min-height: 88px;
+    }
+    .feature-card.pd {
+        padding: 22px 15px;
+    }
+    .page-ath-content {
+        justify-content: unset;
+        gap: 15px;
+        padding: 0 20px;
+        text-align: center;
+    }
+    .page-ath-form {
+        padding: 0;
+    }
+    .page-ath-footer {
+        padding: 0 10px;
+        padding-top: 30px;
+    }
+    .page-ath-header {
+        padding-top: 50px;
+    }
+    .page-ath-heading {
+        font-weight: bold;
+    }
+}
