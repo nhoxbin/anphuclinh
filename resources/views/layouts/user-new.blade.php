@@ -130,12 +130,12 @@
                             Thông báo
                         </a>
                     </div>
-                    <div class="navbar-content-item">
+                    {{-- <div class="navbar-content-item">
                         <a href="{{ route('admin.stages') }}">
                             <i class="flaticon-settings"></i>
                             Thiết lập
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -179,27 +179,17 @@
                     <div class="container">
                         <div class="modal-header">
                             <div class="modal-header-title">
-                                <i class="flaticon-down-arrow color-blue"></i>
-                                <h5 class="modal-title">Withdraw</h5>
+                                <i class="flaticon-plus color-blue"></i>
+                                <h5 class="modal-title">Nạp tiền</h5>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="form-group mb-15">
-                                    <label for="input3" class="form-label">From</label>
-                                    <input type="email" class="form-control" id="input3" placeholder="Saving(***1580)">
-                                </div>
-                                <div class="form-group mb-15">
-                                    <label for="input4" class="form-label">To</label>
-                                    <input type="email" class="form-control" id="input4" placeholder="Alicia Williams">
-                                </div>
-                                <div class="form-group mb-15">
-                                    <label for="input5" class="form-label">Enter Amount</label>
-                                    <input type="email" class="form-control" id="input5" placeholder="$ 458.00">
-                                </div>
-                                <button type="submit" class="btn main-btn main-btn-lg full-width">Send</button>
-                            </form>
+                        <div class="modal-body d-flex flex-column" style="max-height:unset">
+                            <a href=""><img src="{{asset('images/1sao.png')}}" alt="" style="max-width:400px;width:100%;height:111px;margin-bottom:10px"></a>
+                            <a href=""><img src="{{asset('images/1sao.png')}}" alt="" style="max-width:400px;width:100%;height:111px;margin-bottom:10px"></a>
+                            <a href=""><img src="{{asset('images/1sao.png')}}" alt="" style="max-width:400px;width:100%;height:111px;margin-bottom:10px"></a>
+                            <a href=""><img src="{{asset('images/1sao.png')}}" alt="" style="max-width:400px;width:100%;height:111px;margin-bottom:10px"></a>
+                            <a href=""><img src="{{asset('images/1sao.png')}}" alt="" style="max-width:400px;width:100%;height:111px;margin-bottom:10px"></a>
                         </div>
                     </div>
                 </div>

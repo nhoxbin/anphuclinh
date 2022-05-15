@@ -41,7 +41,7 @@ class User extends Authenticatable // implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'email', 'password', 'lastLogin', 'role',
+        'name', 'phone', 'email', 'password', 'lastLogin', 'role','point', 'address'
     ];
 
     /**
@@ -52,6 +52,7 @@ class User extends Authenticatable // implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
+
 
     /**
      * Send the password reset notification.

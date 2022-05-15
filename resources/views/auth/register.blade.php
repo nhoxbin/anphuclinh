@@ -49,6 +49,17 @@ $check_users = \App\Models\User::count();
                 <input type="text" placeholder="{{__('SĐT người giới thiệu')}}" class="input-bordered{{ $errors->has('ref') ? ' input-error' : '' }}" name="phone-ref" minlength="4" maxlength="12" required>
             </div>
             <div class="input-item">
+                <select name="address" id="address" class="input-bordered">
+                    <option value="">-- Chọn Tỉnh Thành --</option>
+                    @forelse ($provinces as $province)
+                    <option value="{{$province->id}}">{{$province->name}}</option>
+                        
+                    @empty
+                        
+                    @endforelse
+                </select>
+            </div>
+            <div class="input-item">
                 <input type="password" placeholder="{{__('Mật khẩu')}}" class="input-bordered{{ $errors->has('password') ? ' input-error' : '' }}" name="password" id="password" minlength="6" data-msg-required="{{ __('Required.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 6]) }}" required>
             </div>
             <div class="input-item">

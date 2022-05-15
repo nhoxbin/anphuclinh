@@ -614,8 +614,7 @@ class UserPanel
         $return = ($refers) ? '<div' . $g_id . ' class="referral-info card' . $g_cls . '"><div class="card-innr">' . $heading . $refers . '</div></div>' : '';
         return (get_page('referral', 'status') == 'active' ? $return : '');
     }
-    public static function get_user_by_phone($phone)
-    {
-        return $user_id = User::where('phone', $phone)->first()->id;
+    public static function get_id_user_by_phone($phone){
+        return $ref = User::where('phone',$phone)->first();
     }
 }

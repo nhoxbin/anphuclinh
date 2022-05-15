@@ -39,12 +39,16 @@
         <div class="option-section mb-15">
             <div class="row gx-3">
                 <div class="col-6 pb-15 ">
-                    <div class="option-card option-card-violet" style="background-image: url({{asset('images/button.png')}})">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#withdraw">
-                            <div class="option-card-icon">
+                    <div class="option-card option-card-violet" style="background-image: url({{asset('images/button.png')}});padding: 0;
+                    max-height: 136px;
+                    display: flex;
+                    align-items: center;">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#withdraw" style="padding: 14px 0">
+                            {{-- <div class="option-card-icon">
                                 <i class="flaticon-right-arrow"></i>
                             </div>
-                            <p>Chuyển điểm</p>
+                            <p>Chuyển điểm</p> --}}
+                            <img src="{{asset('images/dautu1-1.png')}}" alt="" style="width:90%;max-width:500px">
                         </a>
                     </div>
                 </div>
@@ -92,7 +96,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Điểm</p>
-                            <h3>0</h3>
+                            <h3>{{Auth::user()->point}}</h3>
                         </div>
                     </div>
                 </div>

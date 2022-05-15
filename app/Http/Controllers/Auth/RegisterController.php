@@ -16,10 +16,12 @@ use App\Models\User;
 use App\Models\Referral;
 use App\Models\UserMeta;
 use App\Helpers\ReCaptcha;
-// use App\Helpers\IcoHandler;
+use App\Helpers\UserPanel;
+use IcoHandler;
 use Illuminate\Http\Request;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;
+use App\Models\Province;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
@@ -67,7 +69,8 @@ class RegisterController extends Controller
         /* if (application_installed(true) == false) {
             return redirect(url('/install'));
         } */
-        return view('auth.register');
+        $provinces = Province::all();
+        return view('auth.register',compact('provinces'));
     }
 
     /**
@@ -78,6 +81,8 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+        $ref = UserPanel::get_id_user_by_phone($request->input('phone-ref'));
+        define('INCREASE_POINT',500);
         if (recaptcha()) {
             $this->checkReCaptcha($request->recaptcha);
         }
@@ -88,14 +93,18 @@ class RegisterController extends Controller
             ]);
         }
         $this->validator($request->all())->validate();
-
+        
+        
         event(new Registered($user = $this->create($request->all())));
 
-        $ref_id = $request->input('phone-ref') ? $request->input('phone-ref') : '';
-        Referral::create([
-            'user_id' => $user->id,
-            'refer_by' => $ref_id
-        ]);
+        
+        if($ref){
+            $ref->update(['point' => $ref->point + INCREASE_POINT]);
+            Referral::create([
+                'user_id' => $user->id,
+                'refer_by' => $ref->id
+            ]);
+        }
 
         $this->guard()->login($user);
 
@@ -114,13 +123,13 @@ class RegisterController extends Controller
         $term = get_page('terms', 'status') == 'active' ? 'required' : 'nullable';
         return Validator::make($data, [
             'name' => ['required', 'string', 'min:3', 'max:255'],
-            'phone' => ['required', 'numeric', 'digits_between:10,12', 'regex:/^[0+84]\d+/i'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'numeric', 'digits_between:10,12', 'regex:/^[0+84]\d+/i', 'unique:users'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'terms' => [$term],
         ], [
             'terms.required' => __('messages.agree'),
-            'email.unique' => 'The email address you have entered is already registered. Did you <a href="' . route('password.request') . '">forget your login</a> information?',
+            'phone.unique' => 'Số điện thoại đã tồn tại. Bạn đã quên <a href="' . route('password.request') . '">mật khẩu?</a>?',
         ]);
     }
 
@@ -139,8 +148,8 @@ class RegisterController extends Controller
         $email_verified = ($have_user >= 1) ? null : now();
         $user = User::create([
             'name' => strip_tags($data['name']),
-            'phone' => preg_replace('/^0/', '+84', $data['phone']),
-            'email' => $data['email'],
+            'phone' => preg_replace('/^\+84/', '0', $data['phone']),
+            // 'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'lastLogin' => date('Y-m-d H:i:s'),
             'role' => $type,
