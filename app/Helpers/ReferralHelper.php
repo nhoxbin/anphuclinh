@@ -58,12 +58,8 @@ class ReferralHelper
             if (!empty($user_id)) {
                 $get_user = User::where('id', $user_id)->select(['id', 'name', 'referral'])->first();
                 $refer_by   = $get_user->referral ?? false;
-
-<<<<<<< HEAD
-                if ($lv > 0) {
-=======
+                
                 if($lv > 0) {
->>>>>>> origin/nhoxbin
                     $only[] = $get_user->id;
                     $full[$get_user->id] = ['level' => $lv, 'name' => $get_user->name, 'refer' => $get_user->referral ?? 0];
                 }
@@ -149,6 +145,7 @@ class ReferralHelper
 
     /* @function addReferralBonuses()  @version v1.0  @since 1.1.2 */
 <<<<<<< HEAD
+<<<<<<< HEAD
     protected function addReferralBonuses($user_id)
     {
 =======
@@ -156,16 +153,25 @@ class ReferralHelper
 >>>>>>> origin/nhoxbin
         $return = [];
         $referrals = $this->getSettings('all');
+=======
+        $return = []; 
+	protected function addReferralBonuses($user_id)
+   	{        $referrals = $this->getSettings('all');
+>>>>>>> 9719110 (conflicts)
         $prev_user = $refer_by = $is_allowed = null;
 
         foreach ($referrals as $ref) {
             $TNX = null;
+<<<<<<< HEAD
 <<<<<<< HEAD
             $level = 'lv' . $ref->level;
 
             if (!empty($user_id)) {
 =======
             $level = 'lv'.$ref->level;
+=======
+            $level = 'lv' . $ref->level;
+>>>>>>> 9719110 (conflicts)
 
             if(!empty($user_id)) {
 >>>>>>> origin/nhoxbin
@@ -181,6 +187,7 @@ class ReferralHelper
                         $refer_token = (float)(($TNX->user == $this->transaction->user) ? 0 : $TNX->total_tokens);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                         if ($refer_by == false) {
                             $refAcc = Referral::where(['user_id' => $TNX->user])->first();
                             $user_bonus = (isset($refAcc->user_bonus) ? ((float)$refAcc->user_bonus + $user_token) : $user_token);
@@ -191,6 +198,12 @@ class ReferralHelper
                             $user_bonus = (isset($refAcc->user_bonus) ? ((double)$refAcc->user_bonus + $user_token) : $user_token);
                             $refer_bonus = (isset($refAcc->refer_bonus) ? ((double)$refAcc->refer_bonus + $refer_token) : $refer_token);
 >>>>>>> origin/nhoxbin
+=======
+                        if ($refer_by == false) {
+                            $refAcc = Referral::where(['user_id' => $TNX->user])->first();
+                            $user_bonus = (isset($refAcc->user_bonus) ? ((float)$refAcc->user_bonus + $user_token) : $user_token);
+                            $refer_bonus = (isset($refAcc->refer_bonus) ? ((float)$refAcc->refer_bonus + $refer_token) : $refer_token);
+>>>>>>> 9719110 (conflicts)
                             $updateRef = Referral::updateOrCreate(
                                 ['user_id' => $TNX->user],
                                 ['user_bonus' => $user_bonus, 'refer_bonus' => $refer_bonus]
@@ -228,10 +241,14 @@ class ReferralHelper
         $get_user = User::where('id', $user)->select(['id', 'name', 'email', 'tokenBalance', 'referral'])->first();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (!empty($get_user->referral) && (!$get_user->referee == null)) {
 =======
         if(!empty($get_user->referral) && (!$get_user->referee == null)){
 >>>>>>> origin/nhoxbin
+=======
+        if (!empty($get_user->referral) && (!$get_user->referee == null)) {
+>>>>>>> 9719110 (conflicts)
             $refer = $get_user->referee ?? User::find($get_user->referral);
         }
         return (!empty($refer)) ? $refer : false;
@@ -399,14 +416,20 @@ class ReferralHelper
 
     /* @function advanced_option()  @version v1.0  @since 1.1.2 */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9719110 (conflicts)
     public static function advanced_option()
     {
         $settings = [];
         $default = json_encode(['l1' => ['allow' => 'all_time', 'type' => 'percent', 'amount' => 0]]);
+<<<<<<< HEAD
 =======
     public static function advanced_option() {
         $settings = []; $default = json_encode(['l1' => ['allow' => 'all_time', 'type' => 'percent', 'amount' => 0]]);
 >>>>>>> origin/nhoxbin
+=======
+>>>>>>> 9719110 (conflicts)
         return ($settings) ? $settings : false;
     }
 }
