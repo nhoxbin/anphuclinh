@@ -16,8 +16,12 @@ use App\Models\User;
 use App\Models\Referral;
 use App\Models\UserMeta;
 use App\Helpers\ReCaptcha;
+<<<<<<< HEAD
 use App\Helpers\IcoHandler;
 use App\Helpers\UserPanel;
+=======
+// use App\Helpers\IcoHandler;
+>>>>>>> origin/nhoxbin
 use Illuminate\Http\Request;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;

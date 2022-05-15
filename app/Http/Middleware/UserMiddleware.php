@@ -18,15 +18,9 @@ class UserMiddleware
     {
         $user = Auth::user();
         if ($user->role == 'user') {
-            $check_dt = \IcoHandler::checkDB();
-            if(empty($check_dt)){
-                return $next($request);
-            } else {
-                return response()->view('errors.maintenance');
-            }
+            return $next($request);
         } else {
             if (Auth::check() && $user->role == 'admin') {
-                dd('t');
                 return $next($request);
                 // return redirect(route('admin.home'));
             } else {

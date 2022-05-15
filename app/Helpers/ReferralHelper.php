@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 /**
- * Referral 
+ * Referral
  *
  * Referral Handler class
  * Copyright (C) 2019 Softnio
@@ -15,7 +15,7 @@ use App\Models\User;
 use App\Models\Setting;
 use App\Models\IcoStage;
 use App\Models\Referral;
-use App\Helpers\IcoHandler;
+// use App\Helpers\IcoHandler;
 use App\Models\Transaction;
 use App\Notifications\TnxStatus;
 use App\Helpers\TokenCalculate as TC;
@@ -59,7 +59,11 @@ class ReferralHelper
                 $get_user = User::where('id', $user_id)->select(['id', 'name', 'referral'])->first();
                 $refer_by   = $get_user->referral ?? false;
 
+<<<<<<< HEAD
                 if ($lv > 0) {
+=======
+                if($lv > 0) {
+>>>>>>> origin/nhoxbin
                     $only[] = $get_user->id;
                     $full[$get_user->id] = ['level' => $lv, 'name' => $get_user->name, 'refer' => $get_user->referral ?? 0];
                 }
@@ -144,17 +148,27 @@ class ReferralHelper
     }
 
     /* @function addReferralBonuses()  @version v1.0  @since 1.1.2 */
+<<<<<<< HEAD
     protected function addReferralBonuses($user_id)
     {
+=======
+    protected function addReferralBonuses($user_id) {
+>>>>>>> origin/nhoxbin
         $return = [];
         $referrals = $this->getSettings('all');
         $prev_user = $refer_by = $is_allowed = null;
 
         foreach ($referrals as $ref) {
             $TNX = null;
+<<<<<<< HEAD
             $level = 'lv' . $ref->level;
 
             if (!empty($user_id)) {
+=======
+            $level = 'lv'.$ref->level;
+
+            if(!empty($user_id)) {
+>>>>>>> origin/nhoxbin
                 $is_allowed = $this->isBonusAllow($level, $user_id);
 
                 $refer_user = $this->getWhoRefer($user_id) ?? null;
@@ -166,10 +180,17 @@ class ReferralHelper
                         $user_token = (float)(($TNX->user == $this->transaction->user) ? $TNX->total_tokens : 0);
                         $refer_token = (float)(($TNX->user == $this->transaction->user) ? 0 : $TNX->total_tokens);
 
+<<<<<<< HEAD
                         if ($refer_by == false) {
                             $refAcc = Referral::where(['user_id' => $TNX->user])->first();
                             $user_bonus = (isset($refAcc->user_bonus) ? ((float)$refAcc->user_bonus + $user_token) : $user_token);
                             $refer_bonus = (isset($refAcc->refer_bonus) ? ((float)$refAcc->refer_bonus + $refer_token) : $refer_token);
+=======
+                        if($refer_by==false) {
+                            $refAcc = Referral::where(['user_id' => $TNX->user])->first();
+                            $user_bonus = (isset($refAcc->user_bonus) ? ((double)$refAcc->user_bonus + $user_token) : $user_token);
+                            $refer_bonus = (isset($refAcc->refer_bonus) ? ((double)$refAcc->refer_bonus + $refer_token) : $refer_token);
+>>>>>>> origin/nhoxbin
                             $updateRef = Referral::updateOrCreate(
                                 ['user_id' => $TNX->user],
                                 ['user_bonus' => $user_bonus, 'refer_bonus' => $refer_bonus]
@@ -206,7 +227,11 @@ class ReferralHelper
         $user = (empty($user_id)) ? $this->transaction->user : $user_id;
         $get_user = User::where('id', $user)->select(['id', 'name', 'email', 'tokenBalance', 'referral'])->first();
 
+<<<<<<< HEAD
         if (!empty($get_user->referral) && (!$get_user->referee == null)) {
+=======
+        if(!empty($get_user->referral) && (!$get_user->referee == null)){
+>>>>>>> origin/nhoxbin
             $refer = $get_user->referee ?? User::find($get_user->referral);
         }
         return (!empty($refer)) ? $refer : false;
@@ -373,10 +398,15 @@ class ReferralHelper
     }
 
     /* @function advanced_option()  @version v1.0  @since 1.1.2 */
+<<<<<<< HEAD
     public static function advanced_option()
     {
         $settings = [];
         $default = json_encode(['l1' => ['allow' => 'all_time', 'type' => 'percent', 'amount' => 0]]);
+=======
+    public static function advanced_option() {
+        $settings = []; $default = json_encode(['l1' => ['allow' => 'all_time', 'type' => 'percent', 'amount' => 0]]);
+>>>>>>> origin/nhoxbin
         return ($settings) ? $settings : false;
     }
 }

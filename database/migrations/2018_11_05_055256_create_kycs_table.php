@@ -30,6 +30,7 @@ class CreateKYCsTable extends Migration
             $table->string('country')->nullable();
             $table->string('telegram')->default('')->nullable();
             $table->string('documentType')->default('')->nullable();
+            $table->json('documentId');
             $table->string('document')->default('')->nullable();
             $table->string('document2')->default('')->nullable();
             $table->string('document3')->default('')->nullable();
@@ -39,6 +40,7 @@ class CreateKYCsTable extends Migration
             $table->integer('reviewedBy')->default(0);
             $table->datetime('reviewedAt')->nullable();
             $table->string('status')->default('pending');
+            $table->json('meta')->nullable();
             $table->timestamps();
         });
     }

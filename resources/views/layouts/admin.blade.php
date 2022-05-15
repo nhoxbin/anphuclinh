@@ -73,7 +73,7 @@
                             <a href="{{ route('admin.transactions', 'pending') }}"><em class="ikon ikon-transactions"></em> Transactions</a>
                         </li>
                         @endif
-                        @if(nio_module()->has('Withdraw') && has_route('withdraw:admin.index') && gup('withdraw'))
+                        @if(has_route('withdraw:admin.index') && gup('withdraw'))
                         <li {!! ((is_page('withdraw'))? ' class="active"' : '') !!}>
                             <a href="{{ route('withdraw:admin.index') }}"><em class="ikon ikon-wallet"></em> Withdraw</a>
                         </li>
@@ -88,15 +88,9 @@
                             <a href="{{ route('admin.users', 'user') }}"><em class="ikon ikon-user-list"></em> Users List</a>
                         </li>
                         @endif
-                        @if(gup('stage'))
-                        <li {!! ((is_page('stages'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('admin.stages') }}"><em class="ikon ikon-coins"></em> ICO/STO Stage</a>
-                        </li>
-                        @endif
                         @if(gup('setting'))
                         <li class="has-dropdown"><a class="drop-toggle" href="javascript:void(0)"><em class="ikon ikon-settings"></em> Settings</a>
                             <ul class="navbar-dropdown">
-                                <li><a href="{{ route('admin.stages.settings') }}">ICO/STO Setting</a></li>
                                 <li><a href="{{ route('admin.settings') }}">Website Setting</a></li>
                                 <li><a href="{{ route('admin.settings.referral') }}">Referral Setting</a></li>
                                 <li><a href="{{ route('admin.settings.email') }}">Mailing Setting</a></li>
@@ -121,7 +115,7 @@
             </div>{{-- .container --}}
         </div>{{-- .navbar --}}
     </div>{{-- .topbar-wrap --}}
-    
+
     @yield('content')
 
     <div class="footer-bar">
@@ -173,7 +167,7 @@
     }
 @endphp
     <script type="text/javascript">
-        var base_url = "{{ url('/') }}", {!! $admin_routes !!} csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
+        var base_url = "{{ url('/') }}", {!! $admin_routes !!} csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     </script>
     <script src="{{ asset('assets/js/jquery.bundle.js').css_js_ver() }}"></script>
     <script src="{{ asset('assets/js/script.js').css_js_ver() }}"></script>

@@ -76,8 +76,8 @@ $header_logo = '<div class="page-ath-header"><a href="'.url('/').'" class="page-
         csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         layouts_style = "modern";
     </script>
-    <script src="{{ asset('assets/js/jquery.bundle.js').css_js_ver() }}"></script>
-    <script src="{{ asset('assets/js/script.js').css_js_ver() }}"></script>
+    <script src="{{ asset('assets/js/jquery.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
     <script type="text/javascript">
         jQuery(function(){
             var $frv = jQuery('.validate');

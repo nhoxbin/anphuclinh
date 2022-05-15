@@ -5,7 +5,7 @@ namespace App\PayModule\Manual;
 use Auth;
 use Validator;
 use App\Models\IcoStage;
-use App\Helpers\IcoHandler;
+// use App\Helpers\IcoHandler;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\PayModule\ModuleHelper;
@@ -75,7 +75,7 @@ class ManualController extends Controller
                             $response['message'] = __('messages.trnx.reviewing');
                             $response['modal'] = view('modals.payment-review', compact('tnxns'))->render();
                         }
-                    } 
+                    }
                     else {
                         $response['msg'] = 'warning';
                         $response['message'] = __('messages.invalid.address');

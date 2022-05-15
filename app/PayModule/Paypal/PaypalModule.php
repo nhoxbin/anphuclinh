@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\PayModule\Paypal;
 
@@ -15,7 +15,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\IcoStage;
-use App\Helpers\IcoHandler;
+// use App\Helpers\IcoHandler;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
@@ -81,7 +81,7 @@ class PaypalModule implements PmInterface
         $data = json_decode($transaction->extra);
         $pm = get_pm(self::SLUG, true);
         $pay_url = (isset($data->url) ? $data->url : null);
-        
+
         $pay_address = ($pay_url == null ? route('user.token') : '<tr><td>Payment to </td><td>:</td><td><a href="'.$pay_url.'" target="_blank">'.$pm->title.'</a></td></tr>');
     }
 
@@ -141,7 +141,7 @@ class PaypalModule implements PmInterface
 	        $pmp->description = $request->input('details');
 	        $pmp->status = isset($request->status) ? 'active' : 'inactive';
 	        $pmp->data = json_encode($paypal_data);
-	            
+
 	        if ($pmp->save()) {
 	            $response['msg'] = 'success';
 	            $response['message'] = __('messages.update.success', ['what' => 'PayPal payment information']);

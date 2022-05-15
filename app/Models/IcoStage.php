@@ -351,7 +351,7 @@ class IcoStage extends Model
      * @since 1.0
      * @return void
      */
-    public static function token_add_to_account($trnx, $stage_action = '', $user_action = '')
+    /* public static function token_add_to_account($trnx, $stage_action = '', $user_action = '')
     {
         $stage = IcoStage::where('id', $trnx->stage)->first();
         $user = User::where('id', $trnx->user)->first();
@@ -384,7 +384,7 @@ class IcoStage extends Model
             return true;
         }
         return false;
-    }
+    } */
 
     /**
      *

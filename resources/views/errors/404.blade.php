@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="js">
 <head>
     <meta charset="utf-8">
-    <meta name="apps" content="{{ app_info() }}">
+    {{-- <meta name="apps" content="{{ app_info() }}"> --}}
     <meta name="author" content="Softnio">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Not Found</title>
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/vendor.bundle.css').css_js_ver() }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css').css_js_ver() }}">
 </head>
-@php 
+@php
 $bg_img = " style=\"background-image:url('".asset('assets/images/bg-error.png')."'\"";
 @endphp
 

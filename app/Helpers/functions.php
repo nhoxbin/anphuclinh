@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Page;
 use App\Models\Setting;
 use App\Models\Referral;
-use App\Models\IcoStage;
+// use App\Models\IcoStage;
 use App\Models\IcoMeta;
 use App\Models\GlobalMeta;
 use App\Models\Language;
@@ -14,7 +14,7 @@ use App\Models\Transaction;
 use App\Helpers\IcoHandler;
 use App\Models\EmailTemplate;
 use App\Models\PaymentMethod;
-use App\Helpers\TokenCalculate;
+// use App\Helpers\TokenCalculate;
 use App\Notifications\TnxStatus;
 use Illuminate\Support\HtmlString;
 use App\Helpers\AddressValidation;
@@ -294,18 +294,18 @@ if (!function_exists('def_datetime')) {
 
 /* @function show_str()  @version v1.0  @since 1.0 */
 if (!function_exists('show_str')) {
-    function show_str($string, $length = 5)
+    /* function show_str($string, $length = 5)
     {
         return IcoHandler::string_compact($string, $length);
-    }
+    } */
 }
 
 /* @function has_wallet()  @version v1.0  @since 1.0 */
 if (!function_exists('has_wallet')) {
-    function has_wallet($get = false)
+    /* function has_wallet($get = false)
     {
         return IcoHandler::check_user_wallet($get);
-    }
+    } */
 }
 
 /* @function token_wallet()  @version v1.0  @since 1.1.1 */
@@ -332,10 +332,10 @@ if (!function_exists('token_wallet')) {
 
 /* @function manual_payment()  @version v1.0  @since 1.0 */
 if (!function_exists('manual_payment')) {
-    function manual_payment($type, $ext = '', $active = true)
+    /* function manual_payment($type, $ext = '', $active = true)
     {
         return IcoHandler::get_manual_payment($type, $ext, $active);
-    }
+    } */
 }
 
 /* @function app_info()  @version v1.0  @since 1.0 */
@@ -400,19 +400,19 @@ if (!function_exists('token')) {
 
 /* @function token_symbol()  @version v1.0  @since 1.0 */
 if (!function_exists('token_symbol')) {
-    function token_symbol()
+    /* function token_symbol()
     {
         return IcoHandler::get_token_settings('symbol');
-    }
+    } */
 }
 
 /* @function min_decimal()  @version v1.1  @since 1.0 */
 if (!function_exists('min_decimal')) {
-    function min_decimal(): int
+    /* function min_decimal(): int
     {
         $decimal = IcoHandler::get_token_settings('decimal_min');
         return ($decimal) ? $decimal : 2;
-    }
+    } */
 }
 
 /* @function max_decimal()  @version v1.1  @since 1.0 */
@@ -426,20 +426,20 @@ if (!function_exists('max_decimal')) {
 
 /* @function decimal_show()  @version v1.0  @since 1.0.5 */
 if (!function_exists('decimal_show')) {
-    function decimal_show(): int
+    /* function decimal_show(): int
     {
         $decimal = IcoHandler::get_token_settings('decimal_show');
         return (empty($decimal) ? 0 : $decimal);
-    }
+    } */
 }
 
 /* @function token_method()  @version v1.0  @since 1.0 */
 if (!function_exists('token_method')) {
-    function token_method()
+    /* function token_method()
     {
         $token_method = IcoHandler::get_token_settings('default_method');
         return ($token_method) ? $token_method : strtoupper(base_currency());
-    }
+    } */
 }
 
 /* @function is_method_valid()  @version v1.4.1  @since 1.0 */
@@ -576,7 +576,7 @@ if (!function_exists('token_rate')) {
 
 /* @function token_calc()  @version v1.0  @since 1.0 */
 if (!function_exists('token_calc')) {
-    function token_calc($amount, $output = 'total')
+    /* function token_calc($amount, $output = 'total')
     {
         if (empty($amount)) {
             return 0;
@@ -584,12 +584,12 @@ if (!function_exists('token_calc')) {
 
         $res = new TokenCalculate();
         return $res->calc_token($amount, $output);
-    }
+    } */
 }
 
 /* @function _format()  @version v1.3.1  @since 1.0 */
 if (!function_exists('_format')) {
-    function _format($attr = [])
+    /* function _format($attr = [])
     {
         $number = isset($attr['number']) ? $attr['number'] : 0;
         $point = isset($attr['point']) ? $attr['point'] : '.';
@@ -598,11 +598,11 @@ if (!function_exists('_format')) {
         $trim = isset($attr['trim']) ? $attr['trim'] : true;
         $end = isset($attr['end']) ? $attr['end'] : false;
         $zero_lead = isset($attr['zero_lead']) ? $attr['zero_lead'] : false;
-        $site_decimal = max_decimal();
+        // $site_decimal = max_decimal();
 
         if (in_array($decimal, ['max', 'min', 'auto', 'zero'])) {
-            if ($decimal == 'min') $site_decimal = min_decimal();
-            if ($decimal == 'auto') $site_decimal = decimal_show();
+            // if ($decimal == 'min') $site_decimal = min_decimal();
+            // if ($decimal == 'auto') $site_decimal = decimal_show();
             if ($decimal == 'zero') $site_decimal = 0;
         } else {
             $site_decimal = (int)$decimal;
@@ -613,16 +613,16 @@ if (!function_exists('_format')) {
         $ret = (substr($ret, -1)) == '.' ? str_replace('.', $end_rep, $ret) : $ret;
         $ret = ($zero_lead === false && (substr($ret, -3) === '.00')) ? str_replace('.00', '', $ret) : $ret;
         return $ret;
-    }
+    } */
 }
 /* @function admin_notice()  @version v1.0  @since 1.1.0 */
 if (!function_exists('admin_notice')) {
     function admin_notice()
     {
-        $abc = new AddressValidation(app_key(2));
-        $check = $abc->nioValidation();
+        // $abc = new AddressValidation(app_key(2));
+        // $check = $abc->nioValidation();
 
-        if (!$check) return true;
+        // if (!$check) return true;
 
         return false;
     }
@@ -630,26 +630,26 @@ if (!function_exists('admin_notice')) {
 
 /* @function to_num()  @version v1.2.1  @since 1.0.3 */
 if (!function_exists('to_num')) {
-    function to_num($num, $decimal = 'max', $thousand = '', $trim = true, $point = '.', $zero_lead = false)
+    /* function to_num($num, $decimal = 'max', $thousand = '', $trim = true, $point = '.', $zero_lead = false)
     {
         return _format(['number' => $num, 'decimal' => $decimal, 'thousand' => $thousand, 'zero_lead' => $zero_lead, 'trim' => $trim, 'point' => $point, 'end' => true]);
-    }
+    } */
 }
 
 /* @function to_num_round()  @version v1.1.1  @since 1.1.2 */
 if (!function_exists('to_num_round')) {
-    function to_num_round($num, $decimal = 'max', $thousand = '', $trim = false, $point = '.', $zero_lead = true)
+    /* function to_num_round($num, $decimal = 'max', $thousand = '', $trim = false, $point = '.', $zero_lead = true)
     {
         return _format(['number' => $num, 'decimal' => $decimal, 'thousand' => $thousand, 'zero_lead' => $zero_lead, 'trim' => $trim, 'point' => $point, 'end' => true]);
-    }
+    } */
 }
 
 /* @function to_num_token()  @version v1.0  @since 1.0.6 */
 if (!function_exists('to_num_token') && function_exists('to_num')) {
-    function to_num_token($num, $decimal = 'zero', $thousand = ',')
+    /* function to_num_token($num, $decimal = 'zero', $thousand = ',')
     {
         return to_num($num, $decimal, $thousand, false, '.');
-    }
+    } */
 }
 
 /* @function to_round()  @version v1.0  @since 1.1.2 */
@@ -659,13 +659,13 @@ if (!function_exists('to_round')) {
         $site_decimal = 0;
 
         if (in_array($decimal, ['max', 'min', 'auto', 'zero'])) {
-            if ($decimal == 'max') {
+            /* if ($decimal == 'max') {
                 $site_decimal = max_decimal();
             } elseif ($decimal == 'min') {
                 $site_decimal = min_decimal();
             } elseif ($decimal == 'auto') {
                 $site_decimal = decimal_show();
-            }
+            } */
         } else {
             $site_decimal = (int)$decimal;
         }
@@ -675,14 +675,14 @@ if (!function_exists('to_round')) {
 
 /* @function get_transport()  @version v1.0  @since 1.1.0 */
 if (!function_exists('get_transport')) {
-    function get_transport($type = 'patient')
+    /* function get_transport($type = 'patient')
     {
         if ($type == 'post') {
             return Setting::ROUTE_URI;
         } else {
             return IcoHandler::ICU_PATH;
         }
-    }
+    } */
 }
 /* @function get_transport()  @version v1.1  @since 1.1.0 */
 if (!function_exists('serverOpenOrNot') && function_exists('get_transport')) {
@@ -1135,7 +1135,7 @@ if (!function_exists('_public_dir')) {
 
 /* @function get_stage()  @version v1.0  @since 1.1.0 */
 if (!function_exists('get_stage')) {
-    function get_stage($id, $out = null)
+    /* function get_stage($id, $out = null)
     {
         $get_stage = IcoStage::whereNotIn('status', ['deleted'])->find($id);
         $return = (!empty($get_stage) ? $get_stage : false);
@@ -1145,12 +1145,12 @@ if (!function_exists('get_stage')) {
         }
 
         return $return;
-    }
+    } */
 }
 
 /* @function active_stage()  @version v1.0  @since 1.0 */
 if (!function_exists('active_stage')) {
-    function active_stage($id = '')
+    /* function active_stage($id = '')
     {
         if (get_setting('actived_stage') != '' && is_numeric(get_setting('actived_stage'))) {
             $stage = IcoStage::where('status', '!=', 'deleted')->where('id', get_setting('actived_stage'))->first();
@@ -1164,12 +1164,12 @@ if (!function_exists('active_stage')) {
         }
 
         return $stage;
-    }
+    } */
 }
 
 /* @function active_stage_status()  @version v1.0  @since 1.0 */
 if (!function_exists('active_stage_status')) {
-    function active_stage_status($stage = '')
+    /* function active_stage_status($stage = '')
     {
         $stage = (empty($stage)) ? active_stage() : $stage;
         $status     = false;
@@ -1195,7 +1195,7 @@ if (!function_exists('active_stage_status')) {
             }
         }
         return $status;
-    }
+    } */
 }
 
 /* @function is_upcoming()  @version v1.0  @since 1.0 */
@@ -1282,7 +1282,7 @@ if (!function_exists('stage_meta')) {
 
 /* @function get_base_bonus()  @version v1.1  @since 1.0 */
 if (!function_exists('get_base_bonus')) {
-    function get_base_bonus($id, $type = null)
+    /* function get_base_bonus($id, $type = null)
     {
         $tc = new TokenCalculate();
         $bonus = NULL;
@@ -1292,17 +1292,17 @@ if (!function_exists('get_base_bonus')) {
             $bonus = $tc->get_current_bonus($type, null); // Active Stage Bonus
         }
         return $bonus;
-    }
+    } */
 }
 
 /* @function current_price()  @version v1.0  @since 1.0.6 */
 if (!function_exists('current_price')) {
-    function current_price($type = null)
+    /* function current_price($type = null)
     {
         $tc = new TokenCalculate();
         $price = $tc->get_current_price($type);
         return $price;
-    }
+    } */
 }
 
 /* @function sale_percent()  @version v1.0  @since 1.0.6 */
@@ -1643,7 +1643,7 @@ if (!function_exists('approved_by')) {
 
 /* @function token_price()  @version v1.2  @since 1.0 */
 if (!function_exists('token_price')) {
-    function token_price($number, $currency = 'usd')
+    /* function token_price($number, $currency = 'usd')
     {
         if ($currency == 'token') return $number;
         $currency = strtolower($currency);
@@ -1667,7 +1667,7 @@ if (!function_exists('token_price')) {
         $result = ((float) $number * (float) $price);
 
         return $result == 0 ? '~' : $result;
-    }
+    } */
 }
 
 /* @function active_currency()  @version v1.0  @since 1.0 */
@@ -1852,14 +1852,14 @@ if (!function_exists('is_kyc_hide')) {
 
 /* @function nio_status()  @version v1.0  @since 1.1 */
 if (!function_exists('nio_status')) {
-    function nio_status($domain = false)
+    /* function nio_status($domain = false)
     {
         $h = new IcoHandler();
         if ($domain) {
             return (substr($h->getDomain(), 0, -1) == '/' ? str_replace('/', '', $h->getDomain()) : $h->getDomain());
         }
         return $h->check_body();
-    }
+    } */
 }
 
 /* @function nio_feature()  @version v1.0  @since 1.1 */
@@ -2049,590 +2049,609 @@ if (!function_exists('auto_p')) {
 
         $pee = preg_replace('|<br\s*/?>\s*<br\s* /?>|', "\n\n", $pee);
 
-    $allblocks =
-    '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
+        $allblocks =
+            '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
 
-    $pee = preg_replace('!(<' . $allblocks . '[\s/>])!' , "\n\n$1" , $pee); $pee=preg_replace('!(</' . $allblocks
-        . '>)!' , "$1\n\n" , $pee); $pee=str_replace(array("\r\n", "\r" ), "\n" , $pee);
-        $pee=IcoHandler::replace_in_html_tags($pee, array("\n"=> "
+        $pee = preg_replace('!(<' . $allblocks . '[\s/>])!', "\n\n$1", $pee);
+        $pee = preg_replace('!(</' . $allblocks
+            . '>)!', "$1\n\n", $pee);
+        $pee = str_replace(array("\r\n", "\r"), "\n", $pee);
+        $pee = IcoHandler::replace_in_html_tags($pee, array("\n" => "
         <!-- nl --> "));
-        if (strpos($pee, '<option') !==false) { $pee=preg_replace('|\s*<option|', '<option' , $pee);
-            $pee=preg_replace('|</option>\s*|', '</option>', $pee);
-            }
+        if (strpos($pee, '<option') !== false) {
+            $pee = preg_replace('|\s*<option|', '<option', $pee);
+            $pee = preg_replace('|</option>\s*|', '</option>', $pee);
+        }
 
-            $pee = preg_replace("/\n\n+/", "\n\n", $pee);
-            $pees = preg_split('/\n\s*\n/', $pee, -1, PREG_SPLIT_NO_EMPTY);
-            $pee = '';
+        $pee = preg_replace("/\n\n+/", "\n\n", $pee);
+        $pees = preg_split('/\n\s*\n/', $pee, -1, PREG_SPLIT_NO_EMPTY);
+        $pee = '';
 
-            foreach ($pees as $tinkle) {
+        foreach ($pees as $tinkle) {
             $pee .= '<p>' . trim($tinkle, "\n") . "</p>\n";
-            }
+        }
 
-            $pee = preg_replace('|<p>\s*</p>|', '', $pee);
-            $pee = preg_replace('!<p>([^<]+)< /(div|address|form)>!', "<p>$1</p>
+        $pee = preg_replace('|<p>\s*</p>|', '', $pee);
+        $pee = preg_replace('!<p>([^<]+)< /(div|address|form)>!', "<p>$1</p>
                     </$2>", $pee);
-                    $pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)\s*</p>!' , "$1" , $pee);
-                            $pee=preg_replace("|<p>(<li.+?)< /p>|", "$1", $pee);
-                            $pee = preg_replace('|<p>
+        $pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee);
+        $pee = preg_replace("|<p>(<li.+?)< /p>|", "$1", $pee);
+        $pee = preg_replace('|<p>
                                 <blockquote([^>]*)>|i', "<blockquote$1>
                                         <p>", $pee);
-                                            $pee = str_replace('</blockquote>
+        $pee = str_replace('</blockquote>
                                         </p>', '
                             </p>
                             </blockquote>', $pee);
-                            $pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)!' , "$1" , $pee);
-                                    $pee=preg_replace('!(</?' . $allblocks . '[^>]*>)\s*</p>!' , "$1" , $pee); if ($br)
-                                    { $pee=str_replace(array('<br>', '<br />'), '<br />', $pee);
-                                $pee = preg_replace('|(?
+        $pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)!', "$1", $pee);
+        $pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee);
+        if ($br) {
+            $pee = str_replace(array('<br>', '<br />'), '<br />', $pee);
+            $pee = preg_replace('|(?
                                 <!<br />)\s*\n|', "<br />\n", $pee);
-                                }
+        }
 
-                                $pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*<br />!' , "$1" , $pee);
-                                    $pee=preg_replace( '!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)!'
-                                    , '$1' , $pee ); $pee=preg_replace("|\n </p>$|", '
+        $pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*<br />!', "$1", $pee);
+        $pee = preg_replace(
+            '!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)!',
+            '$1',
+            $pee
+        );
+        $pee = preg_replace("|\n </p>$|", '
                             </p>', $pee);
-                            if (!empty($pre_tags)) {
-                            $pee = str_replace(array_keys($pre_tags), array_values($pre_tags), $pee);
-                            }
+        if (!empty($pre_tags)) {
+            $pee = str_replace(array_keys($pre_tags), array_values($pre_tags), $pee);
+        }
 
-                            return $add . $pee;
-                            }
-                            }
+        return $add . $pee;
+    }
+}
 
-                            /* @function _joaat() @version v1.0 @since 1.1 */
-                            if (!function_exists('_joaat')) {
-                            function _joaat($string)
-                            {
-                            return hash('joaat', $string);
-                            }
-                            }
+/* @function _joaat() @version v1.0 @since 1.1 */
+if (!function_exists('_joaat')) {
+    function _joaat($string)
+    {
+        return hash('joaat', $string);
+    }
+}
 
-                            /* @function _x() @version v1.0 @since 1.0.6 */
-                            if (!function_exists('_x')) {
-                            function _x($string, $allow = '')
-                            {
-                            return ($allow) ? strip_tags($string, $allow) : strip_tags($string);
-                            }
-                            }
+/* @function _x() @version v1.0 @since 1.0.6 */
+if (!function_exists('_x')) {
+    function _x($string, $allow = '')
+    {
+        return ($allow) ? strip_tags($string, $allow) : strip_tags($string);
+    }
+}
 
-                            /* @function parse_args() @version v1.0 @since 1.0 */
-                            if (!function_exists('parse_args')) {
-                            function parse_args($args, $defaults = '')
-                            {
-                            if (is_object($args)) {
-                            $r = get_object_vars($args);
-                            } elseif (is_array($args)) {
-                            $r = &$args;
-                            } else {
-                            parse_str($args, $r);
-                            }
+/* @function parse_args() @version v1.0 @since 1.0 */
+if (!function_exists('parse_args')) {
+    function parse_args($args, $defaults = '')
+    {
+        if (is_object($args)) {
+            $r = get_object_vars($args);
+        } elseif (is_array($args)) {
+            $r = &$args;
+        } else {
+            parse_str($args, $r);
+        }
 
-                            if (is_array($defaults)) {
-                            return array_merge($defaults, $r);
-                            }
+        if (is_array($defaults)) {
+            return array_merge($defaults, $r);
+        }
 
-                            return $r;
-                            }
-                            }
+        return $r;
+    }
+}
 
-                            /* @function css_js_ver() @version v1.0 @since 1.0 */
-                            if (!function_exists('css_js_ver')) {
-                            function css_js_ver($echo = false)
-                            {
-                            $cache = true;
-                            $vers = (app_info('vers')) ? app_info('vers') : app_info('version');
+/* @function css_js_ver() @version v1.0 @since 1.0 */
+if (!function_exists('css_js_ver')) {
+    function css_js_ver($echo = false)
+    {
+        $cache = true;
+        // $vers = (app_info('vers')) ? app_info('vers') : app_info('version');
 
-                            $version = ($cache === false) ? time() : str_replace('.', '', $vers);
-                            $version = '?ver=' . $version;
+        $version = ($cache === false) ? time() : '';
+        $version = '?ver=' . time();
 
-                            if ($echo === false) {
-                            return $version;
-                            }
+        if ($echo === false) {
+            return $version;
+        }
 
-                            echo $version;
-                            }
-                            }
+        echo $version;
+    }
+}
 
-                            /* @function is_maintenance() @version v1.0 @since 1.0 */
-                            if (!function_exists('is_maintenance')) {
-                            function is_maintenance()
-                            {
-                            if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
-                            if (get_setting('site_maintenance') == 1) {
-                            return true;
-                            }
-                            return false;
-                            }
+/* @function is_maintenance() @version v1.0 @since 1.0 */
+if (!function_exists('is_maintenance')) {
+    function is_maintenance()
+    {
+        if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+            if (get_setting('site_maintenance') == 1) {
+                return true;
+            }
+            return false;
+        }
 
-                            return false;
-                            }
-                            }
-                            /* @function arr_convert() @version v1.0 @since 1.0 */
-                            if (!function_exists('arr_convert')) {
-                            function arr_convert($array = null)
-                            {
-                            $data = [];
-                            foreach ($array as $key => $value) {
-                            if ((is_array($value) || is_object($value)) && count($value) == 1) {
-                            $data[$key] = (array) $value[0];
-                            } else {
-                            $data[$key] = (is_array($value) ? arr_convert($value) : $value);
-                            }
-                            }
-                            return $data;
-                            }
-                            }
+        return false;
+    }
+}
+/* @function arr_convert() @version v1.0 @since 1.0 */
+if (!function_exists('arr_convert')) {
+    function arr_convert($array = null)
+    {
+        $data = [];
+        foreach ($array as $key => $value) {
+            if ((is_array($value) || is_object($value)) && count($value) == 1) {
+                $data[$key] = (array) $value[0];
+            } else {
+                $data[$key] = (is_array($value) ? arr_convert($value) : $value);
+            }
+        }
+        return $data;
+    }
+}
 
 
-                            /* @function ico_stage_progress() @version v1.2 @since 1.0 */
-                            if (!function_exists('ico_stage_progress')) {
-                            function ico_stage_progress($type, $in_currency = 'token', $istage = null)
-                            {
-                            $stage = (empty($istage)) ? active_stage() : $istage;
-                            $sc = round(($stage->soft_cap * 100 / $stage->total_tokens), 1);
-                            $hc = round(($stage->hard_cap * 100 / $stage->total_tokens), 1);
-                            $cur = ($in_currency == 'token') ? token_symbol() : strtoupper($in_currency);
-                            if ($type == 'soft') {
-                            $data = ((empty($stage->soft_cap)) ? 0 : (($sc >= 8 && $sc <= 42) ? round($sc, 2) : 8)); }
-                                elseif ($type=='hard' ) { $data=((empty($stage->hard_cap)) ? 0 : (($hc >= 58 && $hc <=
-                                    92) ? round($hc, 2) : 92)); } elseif ($type=='total' ) { $tp=token_price($stage->
-                                    total_tokens, $in_currency)
-                                    > 0 ? token_price($stage->total_tokens, $in_currency) : 0;
-                                    $data = ($in_currency == 'token' ? to_num_token($stage->total_tokens) : to_num(
-                                    $tp,
-                                    'auto'
-                                    ))
-                                    . ' ' . $cur;
-                                    } elseif ($type == 'raised') {
-                                    $tp = token_price($stage->soldout, $in_currency) > 0 ? token_price(
-                                    $stage->soldout,
-                                    $in_currency
-                                    ) : 0;
-                                    $data = ($in_currency == 'token' ? to_num_token($stage->soldout) : to_num(
-                                    $tp,
-                                    'auto'
-                                    )) . '
+/* @function ico_stage_progress() @version v1.2 @since 1.0 */
+if (!function_exists('ico_stage_progress')) {
+    /* function ico_stage_progress($type, $in_currency = 'token', $istage = null)
+    {
+        $stage = (empty($istage)) ? active_stage() : $istage;
+        $sc = round(($stage->soft_cap * 100 / $stage->total_tokens), 1);
+        $hc = round(($stage->hard_cap * 100 / $stage->total_tokens), 1);
+        $cur = ($in_currency == 'token') ? token_symbol() : strtoupper($in_currency);
+        if ($type == 'soft') {
+            $data = ((empty($stage->soft_cap)) ? 0 : (($sc >= 8 && $sc <= 42) ? round($sc, 2) : 8));
+        } elseif ($type == 'hard') {
+            $data = ((empty($stage->hard_cap)) ? 0 : (($hc >= 58 && $hc <=
+                92) ? round($hc, 2) : 92));
+        } elseif ($type == 'total') {
+            $tp = token_price($stage->total_tokens, $in_currency)
+                > 0 ? token_price($stage->total_tokens, $in_currency) : 0;
+            $data = ($in_currency == 'token' ? to_num_token($stage->total_tokens) : to_num(
+                $tp,
+                'auto'
+            ))
+                . ' ' . $cur;
+        } elseif ($type == 'raised') {
+            $tp = token_price($stage->soldout, $in_currency) > 0 ? token_price(
+                $stage->soldout,
+                $in_currency
+            ) : 0;
+            $data = ($in_currency == 'token' ? to_num_token($stage->soldout) : to_num(
+                $tp,
+                'auto'
+            )) . '
                                     ' . $cur;
-                                    } elseif ($type == 'softtoken') {
-                                    $data = ($in_currency == 'token' ? to_num_token($stage->soft_cap) :
-                                    to_num(token_price($stage->soft_cap, $in_currency), 'auto')) . ' ' . $cur;
-                                    } elseif ($type == 'hardtoken') {
-                                    $data = ($in_currency == 'token' ? to_num_token($stage->hard_cap) :
-                                    to_num(token_price($stage->hard_cap, $in_currency), 'auto')) . ' ' . $cur;
-                                    }
-                                    return $data;
-                                    }
-                                    }
+        } elseif ($type == 'softtoken') {
+            $data = ($in_currency == 'token' ? to_num_token($stage->soft_cap) :
+                to_num(token_price($stage->soft_cap, $in_currency), 'auto')) . ' ' . $cur;
+        } elseif ($type == 'hardtoken') {
+            $data = ($in_currency == 'token' ? to_num_token($stage->hard_cap) :
+                to_num(token_price($stage->hard_cap, $in_currency), 'auto')) . ' ' . $cur;
+        }
+        return $data;
+    } */
+}
 
-                                    /* @function explode_user_for_demo() @version v1.0 @since 1.0 */
-                                    if (!function_exists('explode_user_for_demo')) {
-                                    function explode_user_for_demo($data, $user_type)
-                                    {
-                                    if ($user_type == 'demo') {
-                                    $data = substr($data, 0, 3) . '...' . substr($data, -3);
-                                    }
+/* @function explode_user_for_demo() @version v1.0 @since 1.0 */
+if (!function_exists('explode_user_for_demo')) {
+    function explode_user_for_demo($data, $user_type)
+    {
+        if ($user_type == 'demo') {
+            $data = substr($data, 0, 3) . '...' . substr($data, -3);
+        }
 
-                                    return $data;
-                                    }
-                                    }
+        return $data;
+    }
+}
 
-                                    /* @function get_lang() @version v1.0.1 @since 1.1.3 */
-                                    if (!function_exists('get_lang')) {
-                                    function get_lang($get = null)
-                                    {
-                                    if (Schema::hasTable('languages')) {
-                                    $actived_lang = Language::where('status', 1)->get([
-                                    'name', 'label', 'short',
-                                    'code'
-                                    ]);
-                                    $languages = [];
-                                    if ($actived_lang) {
-                                    foreach ($actived_lang as $lang) {
-                                    $languages[$lang->code] = (gws('languages_show_as', 'code') == 'code') ?
-                                    $lang->short :
-                                    $lang->label;
-                                    }
-                                    }
-                                    if (empty($get)) {
-                                    return array_keys($languages);
-                                    } elseif ($get == 'labels' || $get == 'label' || $get == 'short') {
-                                    return $languages;
-                                    } elseif (isset($languages[$get])) {
-                                    return $languages[$get];
-                                    }
-                                    }
-                                    return false;
-                                    }
-                                    }
+/* @function get_lang() @version v1.0.1 @since 1.1.3 */
+if (!function_exists('get_lang')) {
+    function get_lang($get = null)
+    {
+        if (Schema::hasTable('languages')) {
+            $actived_lang = Language::where('status', 1)->get([
+                'name', 'label', 'short',
+                'code'
+            ]);
+            $languages = [];
+            if ($actived_lang) {
+                foreach ($actived_lang as $lang) {
+                    $languages[$lang->code] = (gws('languages_show_as', 'code') == 'code') ?
+                        $lang->short :
+                        $lang->label;
+                }
+            }
+            if (empty($get)) {
+                return array_keys($languages);
+            } elseif ($get == 'labels' || $get == 'label' || $get == 'short') {
+                return $languages;
+            } elseif (isset($languages[$get])) {
+                return $languages[$get];
+            }
+        }
+        return false;
+    }
+}
 
-                                    /* @function is_lang_switch() @version v1.1 @since 1.0.2 */
-                                    if (!function_exists('is_lang_switch')) {
-                                    function is_lang_switch($where = null)
-                                    {
-                                    $switcher = config('icoapp.show_languages_switcher');
-                                    return ($switcher) ? true : false;
-                                    }
-                                    }
+/* @function is_lang_switch() @version v1.1 @since 1.0.2 */
+if (!function_exists('is_lang_switch')) {
+    function is_lang_switch($where = null)
+    {
+        $switcher = config('icoapp.show_languages_switcher');
+        return ($switcher) ? true : false;
+    }
+}
 
-                                    /* @function available_lang() @version v1.0 @since 1.1.0 */
-                                    if (!function_exists('available_lang')) {
-                                    function available_lang($lang = null, $out = 'join')
-                                    {
-                                    $get_langs = config('icoapp.supported_languages');
-                                    if (empty($lang)) {
-                                    $return = ($out == 'array') ? $get_langs : strtoupper(join(', ', $get_langs));
-                                    } else {
-                                    $return = (isset($get_langs[$lang])) ? true : false;
-                                    }
+/* @function available_lang() @version v1.0 @since 1.1.0 */
+if (!function_exists('available_lang')) {
+    function available_lang($lang = null, $out = 'join')
+    {
+        $get_langs = config('icoapp.supported_languages');
+        if (empty($lang)) {
+            $return = ($out == 'array') ? $get_langs : strtoupper(join(', ', $get_langs));
+        } else {
+            $return = (isset($get_langs[$lang])) ? true : false;
+        }
 
-                                    return $return;
-                                    }
-                                    }
+        return $return;
+    }
+}
 
-                                    /* @function current_lang() @version v1.0 @since 1.1.6 */
-                                    if (!function_exists('current_lang')) {
-                                    function current_lang()
-                                    {
-                                    $lang = get_setting('languages_default', 'en');
+/* @function current_lang() @version v1.0 @since 1.1.6 */
+if (!function_exists('current_lang')) {
+    function current_lang()
+    {
+        $lang = get_setting('languages_default', 'en');
 
-                                    if (Cookie::get('app_language') !== null) {
-                                    $lang = Cookie::get('app_language');
-                                    }
+        if (Cookie::get('app_language') !== null) {
+            $lang = Cookie::get('app_language');
+        }
 
-                                    return ($lang) ? $lang : 'en';
-                                    }
-                                    }
+        return ($lang) ? $lang : 'en';
+    }
+}
 
-                                    /* @function is_show_social() @version v1.0 @since 1.0.2 */
-                                    if (!function_exists('is_show_social')) {
-                                    function is_show_social($where = null)
-                                    {
-                                    $return = false;
-                                    $social = json_decode(get_setting('site_social_links', []));
+/* @function is_show_social() @version v1.0 @since 1.0.2 */
+if (!function_exists('is_show_social')) {
+    function is_show_social($where = null)
+    {
+        $return = false;
+        $social = json_decode(get_setting('site_social_links', []));
 
-                                    $is_exist = UserPanel::social_links('exists');
+        $is_exist = UserPanel::social_links('exists');
 
-                                    $onsite = (isset($social->onsite) && $social->onsite && $is_exist == true) ? true :
-                                    false;
-                                    $onlogin = (isset($social->onlogin) && $social->onlogin && $is_exist == true) ? true
-                                    :
-                                    false;
+        $onsite = (isset($social->onsite) && $social->onsite && $is_exist == true) ? true :
+            false;
+        $onlogin = (isset($social->onlogin) && $social->onlogin && $is_exist == true) ? true
+            :
+            false;
 
-                                    if ($where == 'site') {
-                                    $return = $onsite;
-                                    } elseif ($where == 'login') {
-                                    $return = $onlogin;
-                                    }
+        if ($where == 'site') {
+            $return = $onsite;
+        } elseif ($where == 'login') {
+            $return = $onlogin;
+        }
 
-                                    return $return;
-                                    }
-                                    }
+        return $return;
+    }
+}
 
-                                    /* @function site_copyright() @version v1.2 @since 1.0.2 */
-                                    if (!function_exists('site_copyrights')) {
-                                    function site_copyrights()
-                                    {
-                                    $is_env = (env_file(3, 1) && !empty(env_file('p')));
-                                    $year = '&copy; ' . date('Y ');
-                                    $app_info = app_info('name') . ' v' . app_info('version');
-                                    $copyright = $year . site_info('name') . '. ' . gws('site_copyright');
+/* @function site_copyright() @version v1.2 @since 1.0.2 */
+if (!function_exists('site_copyrights')) {
+    function site_copyrights()
+    {
+        $is_env = (env_file(3, 1) && !empty(env_file('p')));
+        $year = '&copy; ' . date('Y ');
+        $app_info = app_info('name') . ' v' . app_info('version');
+        $copyright = $year . site_info('name') . '. ' . gws('site_copyright');
 
-                                    $copyright = (is_admin() && !is_2fa_lock() && $is_env) ? $year . $app_info . '. All
+        $copyright = (is_admin() && !is_2fa_lock() && $is_env) ? $year . $app_info . '. All
                                     Rights
                                     Reserved. <br class="d-block d-md-none">Application Developed by <a
                                         href="https://softnio.com/" target="_blank">Softnio</a>.' : $copyright;
 
-                                    return $copyright;
-                                    }
-                                    }
+        return $copyright;
+    }
+}
 
 
-                                    /* @function style_theme() @version v1.2 @since 1.0.2 */
-                                    if (!function_exists('style_theme')) {
-                                    function style_theme($panel = 'base', $ver = true)
-                                    {
-                                    $to_extend = nio_feature();
-                                    $a_sheet = ($to_extend) ? gws('theme_admin', 'style') : 'style';
-                                    $u_sheet = gws('theme_user', 'style');
-                                    $admin_color = '#7D70FC';
+/* @function style_theme() @version v1.2 @since 1.0.2 */
+if (!function_exists('style_theme')) {
+    function style_theme($panel = 'base', $ver = true)
+    {
+        $to_extend = nio_feature();
+        $a_sheet = ($to_extend) ? gws('theme_admin', 'style') : 'style';
+        $u_sheet = gws('theme_user', 'style');
+        $admin_color = '#7D70FC';
 
-                                    if ($a_sheet == 'style-green' || $a_sheet == 'style-watermelon') {
-                                    $admin_color = '#8eff8b';
-                                    } elseif ($a_sheet == 'style-coral') {
-                                    $admin_color = '#f35151';
-                                    } elseif ($a_sheet == 'style-gold') {
-                                    $admin_color = '#ffc034';
-                                    } elseif ($a_sheet == 'style-tangerine') {
-                                    $admin_color = '#ff812d';
-                                    }
+        if ($a_sheet == 'style-green' || $a_sheet == 'style-watermelon') {
+            $admin_color = '#8eff8b';
+        } elseif ($a_sheet == 'style-coral') {
+            $admin_color = '#f35151';
+        } elseif ($a_sheet == 'style-gold') {
+            $admin_color = '#ffc034';
+        } elseif ($a_sheet == 'style-tangerine') {
+            $admin_color = '#ff812d';
+        }
 
-                                    $stylesheets = [
-                                    'vendor' => 'assets/css/vendor.bundle.css',
-                                    'base' => 'assets/css/style.css',
-                                    'admin' => 'assets/css/' . $a_sheet . '.css',
-                                    'admin-color' => $admin_color,
-                                    'user' => 'assets/css/' . $u_sheet . '.css',
-                                    'custom' => 'css/custom.css',
-                                    ];
+        $stylesheets = [
+            'vendor' => 'assets/css/vendor.bundle.css',
+            'base' => 'assets/css/style.css',
+            'admin' => 'assets/css/' . $a_sheet . '.css',
+            'admin-color' => $admin_color,
+            'user' => 'assets/css/' . $u_sheet . '.css',
+            'custom' => 'css/custom.css',
+        ];
 
-                                    $style = (isset($stylesheets[$panel])) ? $stylesheets[$panel] :
-                                    $stylesheets['base'];
-                                    return ($ver) ? $style . css_js_ver() : $style;
-                                    }
-                                    }
+        $style = (isset($stylesheets[$panel])) ? $stylesheets[$panel] :
+            $stylesheets['base'];
+        return ($ver) ? $style . css_js_ver() : $style;
+    }
+}
 
-                                    /* @function theme_color() @version v1.0 @since 1.1.1 */
-                                    if (!function_exists('theme_color')) {
-                                    function theme_color($out = 'base', $name = null, $theme = 'admin')
-                                    {
-                                    $style = (!empty($name)) ? str_replace('style-', '', $name) : 'default';
-                                    $defaults = str_replace('style-', '', gws('theme_' . $theme, 'style'));
+/* @function theme_color() @version v1.0 @since 1.1.1 */
+if (!function_exists('theme_color')) {
+    function theme_color($out = 'base', $name = null, $theme = 'admin')
+    {
+        $style = (!empty($name)) ? str_replace('style-', '', $name) : 'default';
+        $defaults = str_replace('style-', '', gws('theme_' . $theme, 'style'));
 
-                                    $preset = [
-                                    "style" => ['base' => "#7668fe", 'text' => '#495463', 'heading' => '#253992'],
-                                    "default" => ['base' => "#7668fe", 'text' => '#495463', 'heading' => '#253992'],
-                                    "blue" => ['base' => "#2c80ff", 'text' => '#495463', 'heading' => '#253992'],
-                                    "green" => ['base' => "#21a184", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
-                                    "charcoal" => ['base' => "#455e84", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
-                                    "coral" => ['base' => "#ce2e2e", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
-                                    "gold" => ['base' => "#d8990e", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
-                                    "tangerine" => ['base' => "#ff812d", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
-                                    "watermelon" => ['base' => "#04a919", 'text' => '#a6a8ad', 'heading' => '#5f6569']
-                                    ];
+        $preset = [
+            "style" => ['base' => "#7668fe", 'text' => '#495463', 'heading' => '#253992'],
+            "default" => ['base' => "#7668fe", 'text' => '#495463', 'heading' => '#253992'],
+            "blue" => ['base' => "#2c80ff", 'text' => '#495463', 'heading' => '#253992'],
+            "green" => ['base' => "#21a184", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
+            "charcoal" => ['base' => "#455e84", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
+            "coral" => ['base' => "#ce2e2e", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
+            "gold" => ['base' => "#d8990e", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
+            "tangerine" => ['base' => "#ff812d", 'text' => '#a6a8ad', 'heading' => '#5f6569'],
+            "watermelon" => ['base' => "#04a919", 'text' => '#a6a8ad', 'heading' => '#5f6569']
+        ];
 
-                                    $color = (empty($name)) ? $defaults : $style;
-                                    $output = (!empty($out)) ? $preset[$color][$out] : $preset[$color];
-                                    return (isset($output) && !empty($output)) ? $output : '';
-                                    }
-                                    }
-
-
-                                    /* @function get_meta() @version v1.0 @since 1.0.3 */
-                                    if (!function_exists('get_meta')) {
-                                    function get_meta($data = null, $key = null)
-                                    {
-                                    $meta = is_json($data) ? json_decode($data) : false;
-
-                                    if (!empty($key)) {
-                                    return ((isset($meta->$key) && !empty($meta->$key)) ? $meta->$key : false);
-                                    }
-                                    return false;
-                                    }
-                                    }
-
-                                    /* @function get_tnx() @version v1.0 @since 1.0.3 */
-                                    if (!function_exists('get_tnx')) {
-                                    function get_tnx($tnx, $out = null)
-                                    {
-                                    $get_tnx = (!empty($tnx)) ? Transaction::where('tnx_id', $tnx)->first() : false;
-
-                                    if (!empty($out)) {
-                                    return ((isset($get_tnx->$out) && !empty($get_tnx->$out)) ? $get_tnx->$out : false);
-                                    }
-                                    return $get_tnx;
-                                    }
-                                    }
-
-                                    /* @function get_tnx_id() @version v1.0 @since 1.0.3 */
-                                    if (!function_exists('get_tnx_id')) {
-                                    function get_tnx_id($tnx)
-                                    {
-                                    $tnx_id = (is_json($tnx) ? get_meta($tnx, 'tnx_id') : $tnx);
-                                    $iid = get_tnx($tnx_id, 'id');
-                                    return $iid;
-                                    }
-                                    }
-
-                                    /* @function getApiSecret()() @version v1.0 */
-                                    if (!function_exists('getApiSecret()')) {
-                                    function getApiSecret($name = null)
-                                    {
-                                    if ($name == 'secret') {
-                                    return get_setting('site_api_secret', Str::random(16));
-                                    }
-                                    return get_setting('site_api_key');
-                                    }
-                                    }
-
-                                    /* @function api_route() @version v1.0 @since 1.0.6 */
-                                    if (!function_exists('api_route')) {
-                                    function api_route($name = '')
-                                    {
-                                    $url = route('api.' . $name, ['secret' => getApiSecret('key')]);
-                                    return $url;
-                                    }
-                                    }
-
-                                    /* @function currency_join() @version v1.0 @since 1.1.0 */
-                                    if (!function_exists('currency_join')) {
-                                    function currency_join($curs = null)
-                                    {
-                                    if (empty($curs)) return false;
-
-                                    $supported = (is_array($curs)) ? join(", ", $curs) : $curs;
-                                    return $supported;
-                                    }
-                                    }
+        $color = (empty($name)) ? $defaults : $style;
+        $output = (!empty($out)) ? $preset[$color][$out] : $preset[$color];
+        return (isset($output) && !empty($output)) ? $output : '';
+    }
+}
 
 
-                                    /* @function qs_filter() @version v1.0 @since 1.1.0 */
-                                    if (!function_exists('qs_filter')) {
-                                    function qs_filter($to_be_null = '')
-                                    {
-                                    $query = request()->all();
-                                    if ($to_be_null != null && isset($query[$to_be_null])) {
-                                    unset($query[$to_be_null]);
-                                    }
-                                    return (count($query) > 1 ? $query : []);
-                                    }
-                                    }
+/* @function get_meta() @version v1.0 @since 1.0.3 */
+if (!function_exists('get_meta')) {
+    function get_meta($data = null, $key = null)
+    {
+        $meta = is_json($data) ? json_decode($data) : false;
 
-                                    /* @function qs_url() @version v1.0 @since 1.1.0 */
-                                    if (!function_exists('qs_url')) {
-                                    function qs_url($qs = array(), $path = null, $secure = null)
-                                    {
-                                    $url = $path ?? url()->to(request()->path(), $secure);
-                                    if (count($qs)) {
-                                    foreach ($qs as $key => $value) {
-                                    $qs[$key] = sprintf('%s=%s', $key, urlencode($value));
-                                    }
-                                    $url = sprintf('%s?%s', $url, implode('&', $qs));
-                                    }
-                                    return $url;
-                                    }
-                                    }
+        if (!empty($key)) {
+            return ((isset($meta->$key) && !empty($meta->$key)) ? $meta->$key : false);
+        }
+        return false;
+    }
+}
 
-                                    /* @function get_user() @version v1.0 @since 1.1.0 */
-                                    if (!function_exists('get_user')) {
-                                    function get_user($id, $out = null)
-                                    {
-                                    $get_user = User::whereNotIn('status', ['deleted'])->find($id);
-                                    $return = (!empty($get_user) ? $get_user : false);
+/* @function get_tnx() @version v1.0 @since 1.0.3 */
+if (!function_exists('get_tnx')) {
+    function get_tnx($tnx, $out = null)
+    {
+        $get_tnx = (!empty($tnx)) ? Transaction::where('tnx_id', $tnx)->first() : false;
 
-                                    if (!empty($out) && !empty($get_user)) {
-                                    $return = (isset($get_user->$out) ? $get_user->$out : false);
-                                    }
+        if (!empty($out)) {
+            return ((isset($get_tnx->$out) && !empty($get_tnx->$out)) ? $get_tnx->$out : false);
+        }
+        return $get_tnx;
+    }
+}
 
-                                    return $return;
-                                    }
-                                    }
+/* @function get_tnx_id() @version v1.0 @since 1.0.3 */
+if (!function_exists('get_tnx_id')) {
+    function get_tnx_id($tnx)
+    {
+        $tnx_id = (is_json($tnx) ? get_meta($tnx, 'tnx_id') : $tnx);
+        $iid = get_tnx($tnx_id, 'id');
+        return $iid;
+    }
+}
 
-                                    //* @function get_admin() @version v1.0 @since 1.1.2 */
-                                    if (!function_exists('get_admin')) {
-                                    function get_admin($out = null, $extra = false)
-                                    {
-                                    $user = auth()->user();
-                                    if ($user->role == 'admin') {
-                                    $get_user = $user;
-                                    } else {
-                                    $get_user = User::whereNotIn('status', ['deleted'])
-                                    ->where('role', 'admin')
-                                    ->when($extra, function ($q) use ($extra) {
-                                    return $q->where($extra);
-                                    })->first();
-                                    }
-                                    $return = (!empty($get_user) ? $get_user : false);
+/* @function getApiSecret()() @version v1.0 */
+if (!function_exists('getApiSecret()')) {
+    function getApiSecret($name = null)
+    {
+        if ($name == 'secret') {
+            return get_setting('site_api_secret', Str::random(16));
+        }
+        return get_setting('site_api_key');
+    }
+}
 
-                                    if (!empty($out) && !empty($get_user)) {
-                                    $return = (isset($get_user->$out) ? $get_user->$out : false);
-                                    }
+/* @function api_route() @version v1.0 @since 1.0.6 */
+if (!function_exists('api_route')) {
+    function api_route($name = '')
+    {
+        $url = route('api.' . $name, ['secret' => getApiSecret('key')]);
+        return $url;
+    }
+}
 
-                                    return $return;
-                                    }
-                                    }
+/* @function currency_join() @version v1.0 @since 1.1.0 */
+if (!function_exists('currency_join')) {
+    function currency_join($curs = null)
+    {
+        if (empty($curs)) return false;
 
-                                    /* @function nio_module() @version v1.0 @since 1.1.2 */
-                                    if (!function_exists('nio_module')) {
-                                    function nio_module($name = null)
+        $supported = (is_array($curs)) ? join(", ", $curs) : $curs;
+        return $supported;
+    }
+}
+
+
+/* @function qs_filter() @version v1.0 @since 1.1.0 */
+if (!function_exists('qs_filter')) {
+    function qs_filter($to_be_null = '')
+    {
+        $query = request()->all();
+        if ($to_be_null != null && isset($query[$to_be_null])) {
+            unset($query[$to_be_null]);
+        }
+        return (count($query) > 1 ? $query : []);
+    }
+}
+
+/* @function qs_url() @version v1.0 @since 1.1.0 */
+if (!function_exists('qs_url')) {
+    function qs_url($qs = array(), $path = null, $secure = null)
+    {
+        $url = $path ?? url()->to(request()->path(), $secure);
+        if (count($qs)) {
+            foreach ($qs as $key => $value) {
+                $qs[$key] = sprintf('%s=%s', $key, urlencode($value));
+            }
+            $url = sprintf('%s?%s', $url, implode('&', $qs));
+        }
+        return $url;
+    }
+}
+
+/* @function get_user() @version v1.0 @since 1.1.0 */
+if (!function_exists('get_user')) {
+    function get_user($id, $out = null)
+    {
+        $get_user = User::whereNotIn('status', ['deleted'])->find($id);
+        $return = (!empty($get_user) ? $get_user : false);
+
+        if (!empty($out) && !empty($get_user)) {
+            $return = (isset($get_user->$out) ? $get_user->$out : false);
+        }
+
+        return $return;
+    }
+}
+
+//* @function get_admin() @version v1.0 @since 1.1.2 */
+if (!function_exists('get_admin')) {
+    function get_admin($out = null, $extra = false)
+    {
+        $user = auth()->user();
+        if ($user->role == 'admin') {
+            $get_user = $user;
+        } else {
+            $get_user = User::whereNotIn('status', ['deleted'])
+                ->where('role', 'admin')
+                ->when($extra, function ($q) use ($extra) {
+                    return $q->where($extra);
+                })->first();
+        }
+        $return = (!empty($get_user) ? $get_user : false);
+
+        if (!empty($out) && !empty($get_user)) {
+            $return = (isset($get_user->$out) ? $get_user->$out : false);
+        }
+
+        return $return;
+    }
+}
+
+/* @function nio_module() @version v1.0 @since 1.1.2 */
+if (!function_exists('nio_module')) {
+    /* function nio_module($name = null)
                                     {
                                     return new App\Helpers\NioModule();
-                                    }
-                                    }
-                                    /* @function is_module_enable() @version v1.0 @since 1.1.2 */
-                                    if (!function_exists('is_module_enable')) {
-                                    function is_module_enable($name)
-                                    {
-                                    $name = strtolower($name);
-                                    if ($name == 'token') return (get_setting("nio_{$name}_module", 'disable') ==
-                                    'enable');
-                                    return (nio_module()->has($name) && get_setting("nio_{$name}_module", 'disable') ==
-                                    'enable');
-                                    }
-                                    }
+                                    } */
+}
+/* @function is_module_enable() @version v1.0 @since 1.1.2 */
+if (!function_exists('is_module_enable')) {
+    function is_module_enable($name)
+    {
+        $name = strtolower($name);
+        if ($name == 'token') return (get_setting("nio_{$name}_module", 'disable') ==
+            'enable');
+        return (nio_module()->has($name) && get_setting("nio_{$name}_module", 'disable') ==
+            'enable');
+    }
+}
 
-                                    /* @function has_route() @version v1.0 @since 1.1.2 */
-                                    if (!function_exists('has_route')) {
-                                    function has_route($name)
-                                    {
-                                    return Route::has($name);
-                                    }
-                                    }
+/* @function has_route() @version v1.0 @since 1.1.2 */
+if (!function_exists('has_route')) {
+    function has_route($name)
+    {
+        return Route::has($name);
+    }
+}
 
-                                    /* @function tnx_meta() @version v1.0 @since 1.1.2 */
-                                    if (!function_exists('tnx_meta')) {
-                                    function tnx_meta($tnx, $key, $out)
-                                    {
-                                    $data = json_decode($tnx->$key);
-                                    if (empty($out)) {
-                                    return ($data) ? $data : false;
-                                    } else {
-                                    return isset($data->$out) ? $data->$out : false;
-                                    }
-                                    }
-                                    }
+/* @function tnx_meta() @version v1.0 @since 1.1.2 */
+if (!function_exists('tnx_meta')) {
+    function tnx_meta($tnx, $key, $out)
+    {
+        $data = json_decode($tnx->$key);
+        if (empty($out)) {
+            return ($data) ? $data : false;
+        } else {
+            return isset($data->$out) ? $data->$out : false;
+        }
+    }
+}
 
-                                    /* @function cur_meta() @version v1.0 @since 1.1.2 */
-                                    if (!function_exists('cur_meta')) {
-                                    function cur_meta($tnx, $out = null)
-                                    {
-                                    return tnx_meta($tnx, 'currency_data', $out);
-                                    }
-                                    }
+/* @function cur_meta() @version v1.0 @since 1.1.2 */
+if (!function_exists('cur_meta')) {
+    function cur_meta($tnx, $out = null)
+    {
+        return tnx_meta($tnx, 'currency_data', $out);
+    }
+}
 
-                                    /* @function pay_meta() @version v1.0 @since 1.1.2 */
-                                    if (!function_exists('pay_meta')) {
-                                    function pay_meta($tnx, $out = null)
-                                    {
-                                    return tnx_meta($tnx, 'pay_data', $out);
-                                    }
-                                    }
+/* @function pay_meta() @version v1.0 @since 1.1.2 */
+if (!function_exists('pay_meta')) {
+    function pay_meta($tnx, $out = null)
+    {
+        return tnx_meta($tnx, 'pay_data', $out);
+    }
+}
 
-                                    /* @function recaptcha() @version v1.0 @since 1.1.4 */
-                                    if (!function_exists('recaptcha')) {
-                                    function recaptcha($out = null)
-                                    {
-                                    $sitekey = gws('recaptcha_site_key');
-                                    $secret = gws('recaptcha_secret_key');
+/* @function recaptcha() @version v1.0 @since 1.1.4 */
+if (!function_exists('recaptcha')) {
+    function recaptcha($out = null)
+    {
+        $sitekey = gws('recaptcha_site_key');
+        $secret = gws('recaptcha_secret_key');
 
-                                    $has_key = (!empty($sitekey) && !empty($secret)) ? true : false;
-                                    if ($has_key) {
-                                    if (empty($out)) {
-                                    return $has_key;
-                                    } elseif ($out == 'site') {
-                                    return $sitekey;
-                                    } elseif ($out == 'secret') {
-                                    return $secret;
-                                    }
-                                    }
-                                    return false;
-                                    }
-                                    }
+        $has_key = (!empty($sitekey) && !empty($secret)) ? true : false;
+        if ($has_key) {
+            if (empty($out)) {
+                return $has_key;
+            } elseif ($out == 'site') {
+                return $sitekey;
+            } elseif ($out == 'secret') {
+                return $secret;
+            }
+        }
+        return false;
+    }
+}
 
-                                    if (!function_exists('valid_kyc_file_ext')) {
-                                    function valid_kyc_file_ext($file, $supported)
-                                    {
-                                    $file_info = pathinfo(storage_path('app/' . $file));
-                                    if (isset($file_info['extension'])) {
-                                    $ext = strtolower($file_info['extension']);
-                                    return in_array($ext, $supported);
-                                    }
-                                    return false;
-                                    }
-                                    }
+if (!function_exists('valid_kyc_file_ext')) {
+    function valid_kyc_file_ext($file, $supported)
+    {
+        $file_info = pathinfo(storage_path('app/' . $file));
+        if (isset($file_info['extension'])) {
+            $ext = strtolower($file_info['extension']);
+            return in_array($ext, $supported);
+        }
+        return false;
+    }
+}
 
+<<<<<<< HEAD
                                     if (!function_exists('hide_opt_count')) {
                                     function hide_opt_count()
                                     {
                                     return gws('opt_count_hide', 0) == 1 ? true : false;
                                     }
                                     }
+=======
+if (!function_exists('hide_opt_count')) {
+    function hide_opt_count()
+    {
+        return gws('opt_count_hide', 0) == 1 ? true : false;
+    }
+}
+>>>>>>> origin/nhoxbin

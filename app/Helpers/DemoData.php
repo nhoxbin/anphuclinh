@@ -360,7 +360,7 @@ class DemoData extends IcoHandler
         }
 
         if (get_setting('actived_stage', null) == null) {
-            $stage = IcoStage::where('status', '!=', 'deleted')->first();
+            // $stage = IcoStage::where('status', '!=', 'deleted')->first();
             add_setting('actived_stage', $stage->id);
         }
         if (get_setting('token_name', null) == null) {

@@ -11,10 +11,10 @@
                     <h4 class="card-title mb-0">Payment Methods</h4>
                     <a href="javascript:void(0)" class="btn btn-sm btn-auto btn-outline btn-primary get_pm_manage" data-type="manage_currency"><em class="fas fa-coins"></em><span class=" d-sm-inline-block d-none">Manage Currency</span></a>
                 </div>
-                @if(is_demo_user() || is_demo_preview()) 
+                {{-- @if(is_demo_user() || is_demo_preview())
                     <div class="gaps-1-5x"></div>
                     <div class="alert alert-danger">{!! __('messages.demo_payment_note') !!}</div>
-                @endif 
+                @endif  --}}
                 <div class="gaps-1x"></div>
                 <div class="row guttar-vr-30px{{ (empty($methods) ? ' justify-content-center' : '') }}">
                     @forelse($methods as $method)

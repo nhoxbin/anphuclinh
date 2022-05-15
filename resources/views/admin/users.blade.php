@@ -55,7 +55,6 @@
                                 </div>
                             </form>
                         </div>
-                        @if(!empty(env_file()) && nio_status() && !empty(app_key()))
                         <div class="tools w-100 w-sm-auto">
                             <ul class="btn-grp guttar-8px">
                                 <li>
@@ -114,9 +113,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @endif
                     </div>
-                    @if(!empty(env_file()) && nio_status() && !empty(app_key()))
                     <div class="search-adv-wrap hide">
                         <form class="adv-search" id="adv-search" action="{{ route('admin.users') }}" method="GET" autocomplete="off">
                             <div class="adv-search">
@@ -222,7 +219,6 @@
                             </div>
                         </form>
                     </div>
-                    @endif
 
                     @if (request()->get('filter') || request()->s)
                     <div class="search-adv-result">
@@ -255,7 +251,7 @@
                     @endif
                 </div>
 
-                @if($users->total() > 0) 
+                @if($users->total() > 0)
                 <table class="data-table user-list">
                     <thead>
                         <tr class="data-item data-head">
@@ -276,7 +272,7 @@
                                     <div class="fake-class">
                                         <span class="lead user-name text-wrap">{{ $user->name }}</span>
                                         <span class="sub user-id">{{ set_id($user->id, 'user') }}
-                                            @if($user->role == 'admin') 
+                                            @if($user->role == 'admin')
                                             <span class="badge badge-xs badge-dim badge-{{($user->type != 'demo')?'success':'danger'}}">ADMIN</span>
                                             @endif
                                         </span>
@@ -292,11 +288,11 @@
                             <td class="data-col dt-verify">
                                 <ul class="data-vr-list">
                                     <li><div class="data-state data-state-sm data-state-{{ $user->email_verified_at !== null ? 'approved' : 'pending'}}"></div> Email</li>
-                                    @php 
+                                    @php
                                     if(isset($user->kyc_info->status)){ $user->kyc_info->status = str_replace('rejected', 'canceled', $user->kyc_info->status); }
-                                    $kyc_a_bf = isset($user->kyc_info->id) ? '<a href="'.route('admin.kyc.view', [$user->kyc_info->id, 'kyc_details' ]).'" target="_blank">' : ''; 
+                                    $kyc_a_bf = isset($user->kyc_info->id) ? '<a href="'.route('admin.kyc.view', [$user->kyc_info->id, 'kyc_details' ]).'" target="_blank">' : '';
                                     $kyc_a_af = isset($user->kyc_info->id) ? '</a>' : '';
-                                    @endphp 
+                                    @endphp
                                     @if($user->role != 'admin')
                                     <li>{!! $kyc_a_bf !!}<div class="data-state data-state-sm data-state-{{ !empty($user->kyc_info) ? $user->kyc_info->status : 'missing' }}"></div>KYC {!! $kyc_a_af !!}</li>
                                     @endif
@@ -344,7 +340,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                @else 
+                @else
                     <div class="bg-light text-center rounded pdt-5x pdb-5x">
                         <p><em class="ti ti-server fs-24"></em><br>{{ ($is_page=='all') ? 'No investor / user found!' : 'No '.$is_page.' user here!' }}</p>
                         <p><a class="btn btn-primary btn-auto" href="{{ route('admin.users', 'user') }}">View All Users</a></p>
@@ -358,7 +354,7 @@
                             <ul class="btn-grp guttar-10px pagination-btn">
                                 @if($pagi->previousPageUrl())
                                 <li><a href="{{ $pagi->previousPageUrl() }}" class="btn ucap btn-auto btn-sm btn-light-alt">Prev</a></li>
-                                @endif 
+                                @endif
                                 @if($pagi->nextPageUrl())
                                 <li><a href="{{ $pagi->nextPageUrl() }}" class="btn ucap btn-auto btn-sm btn-light-alt">Next</a></li>
                                 @endif
