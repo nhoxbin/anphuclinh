@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;
 use App\Models\Province;
+use App\Models\Role;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
@@ -129,7 +130,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         if (empty($data['phone_ref'])) {
-            $ref = User::where('role', 'admin')->first();
+            $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
         } else {
             $ref = User::where('phone', $data['phone_ref'])->first();
         }
@@ -153,7 +154,7 @@ class RegisterController extends Controller
             if ($have_user <= 0) {
                 save_gmeta('site_super_admin', 1, $user->id);
             } */
-            
+
             // $this->create_referral_or_not($user->id,$data['phone-ref']);
             // $refer_blank = true;
             /* if (is_active_referral_system()) {

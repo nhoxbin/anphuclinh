@@ -22,12 +22,14 @@ use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property mixed walletAddress
  */
 class User extends Authenticatable // implements MustVerifyEmail
 {
+    use HasRoles;
     use Notifiable;
 
     /*

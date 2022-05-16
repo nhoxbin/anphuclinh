@@ -79,6 +79,8 @@ Route::post('admin/login/2fa', function () {
 })->middleware(['auth', 'g2fa']);
 // }
 
+Route::get('/', 'User\UserController@index')->name('home')->middleware(['auth']);
+
 // User Routes
 Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->group(function () {
     Route::get('/', 'User\UserController@index')->name('home');
