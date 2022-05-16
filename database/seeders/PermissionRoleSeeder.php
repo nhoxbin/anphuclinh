@@ -18,7 +18,7 @@ class PermissionRoleSeeder extends Seeder
 
         $arrayOfRoles = ['super_admin', 'area_admin', 'provincial_admin', 'user'];
         $roles = collect($arrayOfRoles)->map(function ($role) {
-            return ['name' => $role];
+            return ['name' => $role, 'guard_name' => 'web'];
         });
         Role::insert($roles->toArray());
     }
