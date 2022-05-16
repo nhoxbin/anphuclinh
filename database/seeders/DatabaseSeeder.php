@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             // PermissionRoleSeeder::class,
             // UserSeeder::class,
             // LevelSeeder::class,
-            ProvinceSeeder::class
+            // ProvinceSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
     }

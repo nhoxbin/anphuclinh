@@ -194,13 +194,13 @@ class BaseTranslate
         "load" => 1
       ],
       "messages.register.success.subhead" => [
-        "text" => "Your sign-up process is almost done.",
+        "text" => "Đăng ký thành công.",
         "pages" => "messages, global",
         "panel" => "any",
         "load" => 1
       ],
       "messages.register.success.msg" => [
-        "text" => "Please check your email and verify your account.",
+        "text" => "Vui lòng đăng nhập để sử dụng An Phúc Linh",
         "pages" => "messages, global",
         "panel" => "any",
         "load" => 1

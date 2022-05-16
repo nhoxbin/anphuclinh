@@ -13,6 +13,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\GlobalMeta;
 use App\PayModule\Module;
+use Illuminate\Http\Request;
 
 class AdminMiddleware
 {
@@ -23,9 +24,9 @@ class AdminMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if ($request->auth()->user()->hasRole('super_admin')) {
+        if (auth()->user()->hasRole('super_admin')) {
             return $next($request);
         }
         abort(403);

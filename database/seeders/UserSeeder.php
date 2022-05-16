@@ -17,13 +17,13 @@ class UserSeeder extends Seeder
     public function run()
     {
         // seeding super admin
-        User::create([
+        $user = User::create([
             'name' => 'Super Admin',
             'email' => 'super_admin@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('apl@super_admin#123'),
-            'remember_token' => Str::random(10),
-            'role_id' => Role::where('name', 'super_admin')->first()->id
+            'remember_token' => Str::random(10)
         ]);
+        $user->assignRole('super_admin');
     }
 }

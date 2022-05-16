@@ -118,7 +118,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        if (!file_exists(storage_path('installed'))) {
+        /* if (!file_exists(storage_path('installed'))) {
             return redirect(url('/install'));
         } else {
             $this->handler->check_install_update();
@@ -127,7 +127,7 @@ class LoginController extends Controller
         $have_user = User::where('role', 'admin')->count();
         if (!$have_user) {
             return redirect(url('/register?setup=admin'));
-        }
+        } */
         return view('auth.login');
     }
 
