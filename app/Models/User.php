@@ -117,12 +117,17 @@ class User extends Authenticatable // implements MustVerifyEmail
         return $this->belongsTo('App\Models\Activity', 'id', 'user_id');
     }
 
-    public function referrals()
+    public function ref()
     {
         return $this->hasMany('App\Models\Referral', 'user_id');
     }
 
-    public function banks()
+    public function refs()
+    {
+        return $this->hasMany('App\Models\Referral', 'refer_by_id');
+    }
+
+	public function banks()
     {
         return $this->hasMany('App\Models\Bank');
     }

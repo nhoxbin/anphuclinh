@@ -33,7 +33,6 @@ class UserController extends Controller
     protected $handler;
     public function __construct(IcoHandler $handler)
     {
-        $this->middleware('auth');
         $this->handler = $handler;
     }
 
@@ -53,12 +52,12 @@ class UserController extends Controller
                 'warning' => $this->handler->accessMessage()
             ]);
         } */
-        $user = Auth::user();
+        $user = Auth::user()->refs()->with('user', 'refs.user')->get();
+        // dd($user);
         // $stage = active_stage();
         // $contribution = Transaction::user_contribution();
         // $tc = new \App\Helpers\TokenCalculate();
         // $active_bonus = $tc->get_current_bonus('active');
-
         return view('user.dashboard', compact('user'));
     }
 
@@ -518,5 +517,12 @@ class UserController extends Controller
         }else{
             abort(404);
         }
+    }
+    public function history(){
+        return view('user.history.index');
+    }
+    public function listReferral(){
+        $user = Auth::user()->refs()->with('user', 'refs.user')->paginate(40);
+        return view('user.referral.index',compact('user'));
     }
 }

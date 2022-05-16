@@ -46,7 +46,7 @@ $check_users = \App\Models\User::count();
                 <input type="email" placeholder="{{__('Your Email')}}" class="input-bordered{{ $errors->has('email') ? ' input-error' : '' }}" name="email" value="{{ old('email') }}"data-msg-required="{{ __('Required.') }}" data-msg-email="{{ __('Enter valid email.') }}" required>
             </div> --}}
             <div class="input-item">
-                <input type="text" placeholder="{{__('SĐT người giới thiệu')}}" class="input-bordered{{ $errors->has('ref') ? ' input-error' : '' }}" name="phone_ref" minlength="4" maxlength="12">
+                <input type="text" placeholder="{{__('Số điện thoại người bảo trợ (nếu có)')}}" class="input-bordered{{ $errors->has('ref') ? ' input-error' : '' }}" name="phone_ref" minlength="4" maxlength="12">
             </div>
             <div class="input-item">
                 <select name="province_id" id="province_id" class="input-bordered">

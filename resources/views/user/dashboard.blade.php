@@ -133,15 +133,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                <div class="col-12 col-sm-6 pb-15" >
+                    <a href="{{route('user.listReferral')}}" class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}});cursor:pointer">
                         <div class="feature-card-thumb">
                             <i class="flaticon-menu-1"></i>
                         </div>
                         <div class="feature-card-details">
                             <p style="height: 45px;display: flex;align-items: center;">Xem danh sách đại lý</p>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
