@@ -555,117 +555,117 @@ class Transaction extends Model
         return $amounts;
     }
 }
-        console.log("🚀 ~ file: Transaction.php ~ line 556 ~
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status",
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status)
-        console.log("🚀 ~ file: Transaction.php ~ line 556 ~
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status",
-        console.log("🚀 ~ file: Transaction.php ~ line 585 ~
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status",
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status)
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status)
-        console.log("🚀 ~ file: Transaction.php ~ line 613 ~
-        console.log("🚀 ~ file: Transaction.php ~ line 585 ~
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status",
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status)
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status",
-        console.log("🚀 ~ file: Transaction.php ~ line 585 ~
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status",
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status)
-        tnx_type
-        user_id
-        amount
-        wallet_address
-        payment_method
-        payment_id
-        details
-        extra
-        status)
+        // console.log("🚀 ~ file: Transaction.php ~ line 556 ~
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status",
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status)
+        // console.log("🚀 ~ file: Transaction.php ~ line 556 ~
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status",
+        // console.log("🚀 ~ file: Transaction.php ~ line 585 ~
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status",
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status)
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status)
+        // console.log("🚀 ~ file: Transaction.php ~ line 613 ~
+        // console.log("🚀 ~ file: Transaction.php ~ line 585 ~
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status",
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status)
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status",
+        // console.log("🚀 ~ file: Transaction.php ~ line 585 ~
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status",
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status)
+        // tnx_type
+        // user_id
+        // amount
+        // wallet_address
+        // payment_method
+        // payment_id
+        // details
+        // extra
+        // status)

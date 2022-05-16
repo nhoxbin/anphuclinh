@@ -113,7 +113,7 @@
                         </a>
                     </div>
                     <div class="navbar-content-item">
-                        <a href="">
+                        <a href="{{route('user.history')}}">
                             <i class="flaticon-invoice"></i>
                             Lịch sử
                         </a>
@@ -130,12 +130,12 @@
                             Thông báo
                         </a>
                     </div>
-                    {{-- <div class="navbar-content-item">
-                        <a href="{{ route('admin.stages') }}">
+                    <div class="navbar-content-item">
+                        <a href="#">
                             <i class="flaticon-settings"></i>
                             Thiết lập
                         </a>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>

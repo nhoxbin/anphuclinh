@@ -143,7 +143,7 @@ class RegisterController extends Controller
         $data['point'] = $point;
         $user = User::create($data);
         if (!is_null($ref)) {
-            $user->referrals()->create([
+            $user->ref()->create([
                 'refer_by_id' => $ref->id,
                 'bonus' => $point
             ]);
@@ -153,6 +153,7 @@ class RegisterController extends Controller
             if ($have_user <= 0) {
                 save_gmeta('site_super_admin', 1, $user->id);
             } */
+            
             // $this->create_referral_or_not($user->id,$data['phone-ref']);
             // $refer_blank = true;
             /* if (is_active_referral_system()) {

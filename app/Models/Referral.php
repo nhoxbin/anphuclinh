@@ -18,8 +18,8 @@ class Referral extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function refer_by()
+    public function refs()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->hasMany(self::class, 'refer_by_id', 'user_id')->limit(2);
     }
 }
