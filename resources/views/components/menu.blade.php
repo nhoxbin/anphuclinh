@@ -28,6 +28,9 @@
                         <li>
                             <a href=""><i class="ikon ikon-transactions"></i> Mua sản phẩm</a>
                         </li>
+                        <li>
+                            <a href="{{route('user.kyc')}}"><i class="kon ikon-coins"></i> KYC</a>
+                        </li>
                         <li >
                             <a href=""><i class="ikon ikon-wallet"></i> Tin tức</a>
                         </li>
@@ -38,7 +41,7 @@
                             <form id="logout-form" action="{{ (is_maintenance() ? route('admin.logout') : route('logout')) }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-                            <a href="javascript:;" onclick="document.getElementById('logout-form').submit()"><i class="ikon ikon-coins"></i> Đăng xuất</a>
+                            <a href="javascript:;" onclick="document.getElementById('logout-form').submit()"><i class="flaticon-settings"></i> Đăng xuất</a>
                         </li>
                         </ul>
                     </div>

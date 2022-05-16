@@ -8,8 +8,8 @@ $has_sidebar = false;
 <div class="page-header page-header-kyc">
     <div class="row justify-content-center">
         <div class="col-lg-8 col-xl-7 text-center">
-            <h2 class="page-title">{{__('Begin your ID-Verification')}}</h2>
-            <p class="large">{{__('Verify your identity to participate in token sale.')}}</p>
+            <h2 class="page-title">{{__('Bắt đầu xác minh ID của bạn')}}</h2>
+            <p class="large">{{__('Xác minh danh tính của bạn để tham gia giao dịch trên An Phúc Linh.')}}</p>
         </div>
     </div>
 </div>

@@ -525,4 +525,7 @@ class UserController extends Controller
         $user = Auth::user()->refs()->with('user', 'refs.user')->paginate(40);
         return view('user.referral.index',compact('user'));
     }
+    public function package(){
+        return view('user.package.index');
+    }
 }
