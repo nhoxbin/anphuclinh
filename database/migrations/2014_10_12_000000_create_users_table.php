@@ -22,13 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('dateOfBirth')->nullable();
             $table->dateTime('lastLogin')->nullable();
-            $table->foreignId('role_id')->constrained()->nullable()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('role_id')->nullable()->cascadeOnUpdate()->nullOnDelete();
             $table->unsignedDouble('cash')->default(0);
             $table->unsignedInteger('point')->default(0);
-
             $table->unsignedInteger('province_code')->nullable();
-            $table->foreign('province_code')->references('code')->on('provinces')->onUpdate('cascade');
-
             $table->integer('google2fa')->default(0);
             $table->text('google2fa_secret')->nullable();
 

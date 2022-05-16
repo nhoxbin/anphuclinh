@@ -15,8 +15,8 @@ class CreateReferralsTable extends Migration
     {
         Schema::create('referrals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate();
-            $table->foreignId('refer_by_id')->constrained('users')->cascadeOnUpdate();
+            $table->foreignId('user_id')->nullable();
+            $table->foreignId('refer_by_id')->nullable();
             $table->unsignedInteger('bonus')->default(0);
             $table->timestamps();
         });

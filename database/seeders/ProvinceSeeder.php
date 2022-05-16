@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Province;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -23,9 +24,11 @@ class ProvinceSeeder extends Seeder
             $users[] = [
                 'name' => 'Admin ' . ucfirst($area),
                 'email' => 'admin_' . $area . '@gmail.com',
+                'province_code' => null,
                 'email_verified_at' => now(),
                 'password' => bcrypt('apl@123' . $area),
                 'remember_token' => Str::random(10),
+                'role_id' => Role::where('name', 'area_admin')->first()->id
             ];
         }
 
@@ -46,6 +49,7 @@ class ProvinceSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password' => bcrypt('apl@123' . $province->code),
                 'remember_token' => Str::random(10),
+                'role_id' => Role::where('name', 'provincial_admin')->first()->id
             ];
         }
         Province::insert($provinces);
