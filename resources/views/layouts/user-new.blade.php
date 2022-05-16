@@ -424,6 +424,7 @@
         <!-- Delete-card-modal -->
 
         <!-- Menu-modal -->
+        @include('components.menu')
         @yield('content')
         <!-- Menu-modal -->
 
