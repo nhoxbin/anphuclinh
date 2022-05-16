@@ -6,10 +6,10 @@
 <div class="content-area card">
         <div class="card-innr">
             <div class="card-head d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">KYC Application Documents</h4>
+                <h4 class="card-title mb-0">Tài liệu KYC</h4>
                     <div class="d-flex align-items-center guttar-20px">
                         <div class="flex-col d-sm-block d-none">
-                            <a href="{{ URL::previous() }}" class="btn btn-light btn-sm btn-auto btn-primary"><em class="fas fa-arrow-left mr-3"></em>Back</a>
+                            <a href="{{ URL::previous() }}" class="btn btn-light btn-sm btn-auto btn-primary"><em class="fas fa-arrow-left mr-3"></em>Quay lại</a>
                         </div>
                         <div class="flex-col d-sm-none">
                             <a href="{{ URL::previous() }}" class="btn btn-light btn-icon btn-sm btn-primary"><em class="fas fa-arrow-left"></em></a>
@@ -19,16 +19,16 @@
                 <div class="gaps-1-5x"></div>
                 <div class="data-details d-md-flex flex-wrap align-items-center justify-content-between">
                     <div class="fake-class">
-                        <span class="data-details-title">Submited By</span>
+                        <span class="data-details-title">Xác nhận bởi</span>
                         <span class="data-details-info">{{ $kyc->firstName.' '.$kyc->lastName }}</span>
                     </div>
                     <div class="fake-class">
-                        <span class="data-details-title">Submited On</span>
+                        <span class="data-details-title">Ngày</span>
                         <span class="data-details-info">{{ _date($kyc->created_at) }}</span>
                     </div>
                     @if($kyc->reviewedBy != 0)
                     <div class="fake-class">
-                        <span class="data-details-title">Checked By</span>
+                        <span class="data-details-title">Kiểm tra bởi</span>
                         <span class="data-details-info">{{ $kyc->checker_info->name }}</span>
                     </div>
                     @else
