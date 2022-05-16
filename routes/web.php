@@ -108,10 +108,12 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->group(functi
         Route::post('/transactions/view', 'User\TransactionController@show')->name('transactions.view');
         Route::post('/kyc/submit', 'User\KycController@submit')->name('kyc.submit');
         Route::post('/account/activity', 'User\UserController@account_activity_delete')->name('account.activity.delete')->middleware('demo_user');
+
+        Route::get('banks', 'BankController@getBank')->name('bank.get');
     });
 });
 
-Route::prefix('admin')->middleware(['g2fa'])->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->group(function () {
     Route::get('/', 'Admin\AdminController@index')->name('home');
     Route::any('/system-info', 'Admin\AdminController@system_info')->name('system');
     Route::any('/apps-register', 'Admin\SettingController@app_register')->name('niolite');

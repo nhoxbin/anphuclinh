@@ -106,7 +106,6 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'phone' => ['required', 'numeric', 'digits_between:10,12', 'regex:/^[0+84]\d+/i', 'unique:users'],
-            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'phone_ref' => ['nullable', 'exists:users,phone'],
             'province_id' => ['required', 'exists:provinces,id'],
@@ -114,6 +113,7 @@ class RegisterController extends Controller
         ], [
             'phone_ref.exists' => 'Số điện thoại không tồn tại',
             'terms.required' => __('messages.agree'),
+            '*.required' => 'Vui lòng nhập :attribute',
             'phone.unique' => 'Số điện thoại đã tồn tại. Bạn đã quên <a href="' . route('password.request') . '">mật khẩu?</a>?',
         ]);
     }

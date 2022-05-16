@@ -122,6 +122,11 @@ class User extends Authenticatable // implements MustVerifyEmail
         return $this->hasMany('App\Models\Referral', 'user_id');
     }
 
+    public function banks()
+    {
+        return $this->hasMany('App\Models\Bank');
+    }
+
     /**
      *
      * Check user role

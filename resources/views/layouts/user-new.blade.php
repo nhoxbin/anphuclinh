@@ -32,6 +32,8 @@
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+
+        @routes
     </head>
     <body  style="background-image: url({{asset('images/bg.jpg')}})">
         <!-- Preloader -->
@@ -171,7 +173,7 @@
             </div>
         </div>
         <!-- Add-balance-modal -->
-        
+
         <!-- Withdraw-modal -->
         <div class="modal fade" id="withdraw" tabindex="-1" aria-labelledby="withdraw" aria-hidden="true">
             <div class="modal-dialog">

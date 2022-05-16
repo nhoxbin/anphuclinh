@@ -36,7 +36,7 @@ class AdminController extends Controller
         $get_user = ($request->get('user') ? $request->get('user') : 15) - 1;
         // $stage = \App\Models\IcoStage::dashboard();
         $users = User::dashboard($get_user);
-        $trnxs = Transaction::dashboard($get_tnx);
+        // $trnxs = Transaction::dashboard($get_tnx);
 
         /* if(isset($request->user)){
             $data = $users;
@@ -49,7 +49,7 @@ class AdminController extends Controller
             return response()->json((empty($data) ? [] : $data));
         } */
 
-        return view('admin.dashboard', compact('users', 'trnxs'));
+        return view('admin.dashboard', compact('users'));
     }
 
     /**

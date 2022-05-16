@@ -10,7 +10,6 @@
  */
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
 use App\Models\GlobalMeta;
 use App\PayModule\Module;
@@ -26,9 +25,11 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
-        /* $user = Auth::user();
-        if ($user->role == 'admin') {
+        if ($request->auth()->user()->hasRole('super_admin')) {
+            return $next($request);
+        }
+        abort(403);
+        /* if ($user->role == 'admin') {
             $arc = 'to'.'kenl'.'ite_cr'.'edible'; $env = 'env'; $tp = 'type';
             $ntype = substr(app_key(), 3, 1).substr(gws($env.'_p'.$tp), 1);
             add_setting($env.'_p'.$tp, $ntype);
