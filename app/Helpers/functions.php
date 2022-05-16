@@ -646,10 +646,10 @@ if (!function_exists('to_num_round')) {
 
 /* @function to_num_token()  @version v1.0  @since 1.0.6 */
 if (!function_exists('to_num_token') && function_exists('to_num')) {
-    /* function to_num_token($num, $decimal = 'zero', $thousand = ',')
+    function to_num_token($num, $decimal = 'zero', $thousand = ',')
     {
         return to_num($num, $decimal, $thousand, false, '.');
-    } */
+    }
 }
 
 /* @function to_round()  @version v1.0  @since 1.1.2 */
