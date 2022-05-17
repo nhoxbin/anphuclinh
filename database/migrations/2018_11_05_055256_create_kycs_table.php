@@ -18,7 +18,7 @@ class CreateKYCsTable extends Migration
             $table->integer('userId');
             $table->string('firstName');
             $table->string('lastName')->nullable();
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('dob')->nullable();
             $table->string('gender')->nullable();

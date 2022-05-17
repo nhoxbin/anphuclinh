@@ -112,7 +112,7 @@
 
                 @if ($has_sidebar==true)
                 <div class="aside sidebar-right {{ empty($col_side_cls2) ? $col_side_cls : $col_side_cls2 }}">
-                    @if(!has_wallet() && gws('token_wallet_req')==1 && !empty(token_wallet()))
+                    @if(/* !has_wallet() &&  */gws('token_wallet_req')==1 && !empty(token_wallet()))
                     <div class="d-none d-lg-block">
                         {!! UserPanel::add_wallet_alert() !!}
                     </div>
@@ -154,7 +154,7 @@
                     {!! UserPanel::footer_links(null, ['class'=>'align-items-center justify-content-center justify-content-lg-start']) !!}
                 </div>
             </div>{{-- .row --}}
-            @else 
+            @else
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-7">
                     {!! UserPanel::footer_links(null, ['class'=>'guttar-20px']) !!}
