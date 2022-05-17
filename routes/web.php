@@ -107,14 +107,14 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->group(functi
     // User Ajax Request
     Route::name('ajax.')->prefix('ajax')->group(function () {
         Route::post('/account/wallet-form', 'User\UserController@get_wallet_form')->name('account.wallet');
-        Route::post('/account/update', 'User\UserController@account_update')->name('account.update')->middleware('demo_user');
+        Route::post('/account/update', 'User\UserController@account_update')->name('account.update');
         Route::post('/contribute/access', 'User\TokenController@access')->name('token.access');
         Route::post('/contribute/payment', 'User\TokenController@payment')->name('payment');
 
-        Route::post('/transactions/delete/{id}', 'User\TransactionController@destroy')->name('transactions.delete')->middleware('demo_user');
+        Route::post('/transactions/delete/{id}', 'User\TransactionController@destroy')->name('transactions.delete');
         Route::post('/transactions/view', 'User\TransactionController@show')->name('transactions.view');
         Route::post('/kyc/submit', 'User\KycController@submit')->name('kyc.submit');
-        Route::post('/account/activity', 'User\UserController@account_activity_delete')->name('account.activity.delete')->middleware('demo_user');
+        Route::post('/account/activity', 'User\UserController@account_activity_delete')->name('account.activity.delete');
 
         Route::get('banks', 'BankController@getBank')->name('bank.get');
     });
@@ -146,45 +146,45 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->g
     Route::get('/users/{id?}/{type?}', 'Admin\UsersController@show')->name('users.view');
     Route::get('/kyc/view/{id}/{type}', 'Admin\KycController@show')->name('kyc.view');
     Route::get('/pages/{slug}', 'Admin\PageController@edit')->name('pages.edit');
-    Route::get('/export/{table?}/{format?}', 'ExportController@export')->middleware(['demo_user', 'super_admin'])->name('export'); // v1.1.0
+    Route::get('/export/{table?}/{format?}', 'ExportController@export')->middleware(['super_admin'])->name('export'); // v1.1.0
     Route::get('/languages', 'Admin\LanguageController@index')->name('lang.manage'); // v1.1.3
     Route::get('/languages/translate/{code}', 'Admin\LanguageController@translator')->name('lang.translate'); // v1.1.3
 
     /* Admin Ajax Route */
     Route::name('ajax.')->prefix('ajax')->group(function () {
-        Route::post('/users/view', 'Admin\UsersController@status')->name('users.view')->middleware('demo_user');
+        Route::post('/users/view', 'Admin\UsersController@status')->name('users.view');
         Route::post('/users/showinfo', 'Admin\UsersController@show')->name('users.show');
-        Route::post('/users/delete/all', 'Admin\UsersController@delete_unverified_user')->name('users.delete')->middleware('demo_user');
-        Route::post('/users/email/send', 'Admin\UsersController@send_email')->name('users.email')->middleware('demo_user');
-        Route::post('/users/insert', 'Admin\UsersController@store')->middleware(['super_admin', 'demo_user'])->name('users.add');
-        Route::post('/profile/update', 'Admin\AdminController@profile_update')->name('profile.update')->middleware('demo_user');
-        Route::post('/profile/activity', 'Admin\AdminController@activity_delete')->name('profile.activity.delete')->middleware('demo_user');
+        Route::post('/users/delete/all', 'Admin\UsersController@delete_unverified_user')->name('users.delete');
+        Route::post('/users/email/send', 'Admin\UsersController@send_email')->name('users.email');
+        Route::post('/users/insert', 'Admin\UsersController@store')->middleware(['super_admin'])->name('users.add');
+        Route::post('/profile/update', 'Admin\AdminController@profile_update')->name('profile.update');
+        Route::post('/profile/activity', 'Admin\AdminController@activity_delete')->name('profile.activity.delete');
         Route::post('/users/wallet/action', 'Admin\UsersController@wallet_change_request_action')->name('users.wallet.action');
         Route::post('/payment-methods/view', 'Admin\PaymentMethodController@show')->middleware('super_admin')->name('payments.view');
-        Route::post('/payment-methods/update', 'Admin\PaymentMethodController@update')->middleware(['super_admin', 'demo_user'])->name('payments.update');
-        Route::post('/payment-methods/quick-update', 'Admin\PaymentMethodController@quick_update')->middleware(['super_admin', 'demo_user'])->name('payments.qupdate');
+        Route::post('/payment-methods/update', 'Admin\PaymentMethodController@update')->middleware(['super_admin'])->name('payments.update');
+        Route::post('/payment-methods/quick-update', 'Admin\PaymentMethodController@quick_update')->middleware(['super_admin'])->name('payments.qupdate');
         Route::post('/kyc/view', 'Admin\KycController@ajax_show')->name('kyc.ajax_show');
-        // Route::post('/stages/update', 'Admin\IcoController@update')->name('stages.update')->middleware('demo_user');
-        // Route::post('/stages/pause', 'Admin\IcoController@pause')->name('stages.pause')->middleware('demo_user');
-        // Route::post('/stages/active', 'Admin\IcoController@active')->name('stages.active')->middleware('demo_user');
-        // Route::post('/stages/meta/update', 'Admin\IcoController@update_options')->name('stages.meta.update')->middleware('demo_user');
-        // Route::post('/stages/settings/update', 'Admin\IcoController@update_settings')->name('stages.settings.update')->middleware('demo_user');
+        // Route::post('/stages/update', 'Admin\IcoController@update')->name('stages.update');
+        // Route::post('/stages/pause', 'Admin\IcoController@pause')->name('stages.pause');
+        // Route::post('/stages/active', 'Admin\IcoController@active')->name('stages.active');
+        // Route::post('/stages/meta/update', 'Admin\IcoController@update_options')->name('stages.meta.update');
+        // Route::post('/stages/settings/update', 'Admin\IcoController@update_settings')->name('stages.settings.update');
         // Route::post('/stages/actions', 'Admin\IcoController@stages_action')->name('stages.actions'); //v1.1.2
-        Route::post('/kyc/update', 'Admin\KycController@update')->name('kyc.update')->middleware('demo_user');
-        Route::post('/transactions/update', 'Admin\TransactionController@update')->name('transactions.update')->middleware('demo_user');
+        Route::post('/kyc/update', 'Admin\KycController@update')->name('kyc.update');
+        Route::post('/transactions/update', 'Admin\TransactionController@update')->name('transactions.update');
 
         Route::post('/transactions/adjust', 'Admin\TransactionController@adjustment')->name('transactions.adjustement');
         Route::post('/settings/email/template/view', 'Admin\EmailSettingController@show_template')->middleware('super_admin')->name('settings.email.template.view');
         Route::post('/transactions/view', 'Admin\TransactionController@show')->name('transactions.view');
-        Route::post('/transactions/insert', 'Admin\TransactionController@store')->name('transactions.add')->middleware('demo_user');
-        Route::post('/pages/upload', 'Admin\PageController@upload_zone')->name('pages.upload')->middleware('demo_user');
+        Route::post('/transactions/insert', 'Admin\TransactionController@store')->name('transactions.add');
+        Route::post('/pages/upload', 'Admin\PageController@upload_zone')->name('pages.upload');
         Route::post('/pages/view', 'Admin\PageController@show')->name('pages.view');
-        Route::post('/pages/update', 'Admin\PageController@update')->name('pages.update')->middleware('demo_user');
-        Route::post('/settings/update', 'Admin\SettingController@update')->middleware(['super_admin', 'demo_user'])->name('settings.update');
+        Route::post('/pages/update', 'Admin\PageController@update')->name('pages.update');
+        Route::post('/settings/update', 'Admin\SettingController@update')->middleware(['super_admin'])->name('settings.update');
         // Settings UpdateMeta v1.1.0
-        Route::post('/settings/meta/update', 'Admin\SettingController@update_meta')->middleware(['super_admin', 'demo_user'])->name('settings.meta.update');
-        Route::post('/settings/email/update', 'Admin\EmailSettingController@update')->middleware(['super_admin', 'demo_user'])->name('settings.email.update');
-        Route::post('/settings/email/template/update', 'Admin\EmailSettingController@update_template')->middleware(['super_admin', 'demo_user'])->name('settings.email.template.update');
+        Route::post('/settings/meta/update', 'Admin\SettingController@update_meta')->middleware(['super_admin'])->name('settings.meta.update');
+        Route::post('/settings/email/update', 'Admin\EmailSettingController@update')->middleware(['super_admin'])->name('settings.email.update');
+        Route::post('/settings/email/template/update', 'Admin\EmailSettingController@update_template')->middleware(['super_admin'])->name('settings.email.template.update');
         Route::post('/languages', 'Admin\LanguageController@language_action')->middleware(['demo_user'])->name('lang.action'); // v1.1.3
         Route::post('/languages/translate', 'Admin\LanguageController@language_action')->middleware(['demo_user'])->name('lang.translate.action'); // v1.1.3
     });

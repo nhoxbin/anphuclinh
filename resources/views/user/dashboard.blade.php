@@ -33,8 +33,7 @@
                 </div>
             </div>
         </div>
-        {{-- @dd(auth()->user()->kyc_info) --}}
-        @if (auth()->user()->kyc_info)    
+        @if (!(auth()->user()->kyc_info->status == 'approved'))
         <div class="alert alert-warning" role="alert">
             Vui lòng xác thực thông tin cá nhân (KYC), <a href="{{route('user.kyc')}}">nhấn vào đây</a> để xác thực
         </div>
