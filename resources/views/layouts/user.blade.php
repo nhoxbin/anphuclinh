@@ -62,11 +62,11 @@
                         <li><a href="{{ route('public.pages', 'distribution') }}"><em class="ikon ikon-distribution"></em> {{ get_page('distribution', 'title') }}</a></li>
                         @endif
                         <li><a href="{{ route('user.transactions') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
-                        @if(nio_module()->has('Withdraw') && has_route('withdraw:user.index'))
+                        {{-- @if(nio_module()->has('Withdraw') && has_route('withdraw:user.index'))
                         <li{!! ((is_page('withdraw'))? ' class="active"' : '') !!}>
                             <a href="{{ route('withdraw:user.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
                         </li>
-                        @endif
+                        @endif --}}
                         <li><a href="{{ route('user.account') }}"><em class="ikon ikon-user"></em> {{__('Profile')}}</a></li>
                         @if(gws('user_mytoken_page') == 1)
                         <li><a href="{{ route('user.token.balance') }}"><em class="ikon ikon-my-token"></em> {{ __('My Token') }}</a></li>
@@ -101,11 +101,12 @@
                 @endphp
 
                 <div class="main-content {{ empty($col_cont_cls2) ? $col_cont_cls : $col_cont_cls2 }}">
-                    @if(!has_wallet() && gws('token_wallet_req')==1 && !empty(token_wallet()))
+                    @if(!/* has_wallet() &&  */gws('token_wallet_req')==1 && !empty(token_wallet()))
                     <div class="d-lg-none">
                         {!! UserPanel::add_wallet_alert() !!}
                     </div>
                     @endif
+                    @include('components.menu')
                     @yield('content')
                 </div>
 

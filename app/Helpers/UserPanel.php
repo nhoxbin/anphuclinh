@@ -354,7 +354,8 @@ class UserPanel
         // v1.0.3 > v1.1.1
         $referral_link = (get_page('referral', 'status') == 'active' && is_active_referral_system()) ? '<li><a href="' . route('user.referral') . '"><i class="ti ti-infinite"></i>' . get_page('referral', 'menu_title') . '</a></li>' : '';
         // v1.1.2
-        $withdraw_link = (nio_module()->has('Withdraw') && has_route('withdraw:user.index')) ? '<li><a href="' . route('withdraw:user.index') . '"><i class="ti ti-wallet"></i>' . __('Withdraw') . '</a></li>' : '';
+        // $withdraw_link = (nio_module()->has('Withdraw') && has_route('withdraw:user.index')) ? '<li><a href="' . route('withdraw:user.index') . '"><i class="ti ti-wallet"></i>' . __('Withdraw') . '</a></li>' : '';
+        $withdraw_link = '';
         $return = '<ul' . $g_id . ' class="user-links' . $g_cls . '"><li><a href="' . route('user.account') . '"><i class="ti ti-id-badge"></i>' . __('My Profile') . '</a></li>' . $withdraw_link . $referral_link;
         $return .= '<li><a href="' . route('user.account.activity') . '"><i class="ti ti-eye"></i>' . __('Activity') . '</a></li>';
         $return .= '</ul>';
@@ -380,7 +381,7 @@ class UserPanel
         $email = (get_setting('site_support_email', get_setting('site_email'))) ? ' <a href="mailto:' . get_setting('site_support_email', get_setting('site_email')) . '">' . get_setting('site_support_email', get_setting('site_email')) . '</a>' : '';
         $gaps = '<div class="gaps-3x d-none d-sm-block"></div>';
 
-        $return = ($email) ? '<p class="text-light text-center">' . (__('Contact our support team via email')) . ' - ' . $email . '</p><div class="gaps-1x"></div>' . $gaps : '';
+        $return = ($email) ? '<p class="text-light text-center">' . (__('Liên hệ với nhóm hỗ trợ của chúng tôi qua email')) . ' - ' . $email . '</p><div class="gaps-1x"></div>' . $gaps : '';
 
         return $return;
     }

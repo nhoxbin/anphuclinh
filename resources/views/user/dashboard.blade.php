@@ -1,7 +1,6 @@
 @extends('layouts.user-new')
 @section('title', 'Admin Dashboard')
 @section('content')
-@include('components.menu')
 <style>
     .feature-card-details h3{
         margin-top: 0 !important;
@@ -34,6 +33,12 @@
                 </div>
             </div>
         </div>
+        {{-- @dd(auth()->user()->kyc_info) --}}
+        @if (auth()->user()->kyc_info)    
+        <div class="alert alert-warning" role="alert">
+            Vui lòng xác thực thông tin cá nhân (KYC), <a href="{{route('user.kyc')}}">nhấn vào đây</a> để xác thực
+        </div>
+        @endif
         <!-- Add-card -->
         <!-- Option-section -->
         <div class="option-section mb-15">
@@ -318,6 +323,17 @@
         </div> --}}
         <!-- Card-section -->
         <!-- Send-money-section -->
+        <div class="payment-method">
+            <div class="section-header">
+                <h2>Thông tin ngân hàng</h2>
+            </div>
+            <div class="payment-method-button text-center">
+                <a href="{{route('user.bank')}}" class="btn btn-secondary d-block mx-auto mb-2" style="width:max-content;min-width:unset">
+                    <i class="flaticon-plus"></i>
+                </a>
+                <span>Thêm tài khoản ngân hàng</span>
+            </div>
+        </div>
         <div class="send-money-section pb-15">
             <div class="section-header">
                 <h2>Sản phẩm</h2>

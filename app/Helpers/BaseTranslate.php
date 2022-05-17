@@ -2036,7 +2036,7 @@ class BaseTranslate
         "load" => 0
       ],
       "dashboard.contact_support_team" => [
-        "text" => "Contact our support team via email",
+        "text" => "Liên hệ với nhóm hỗ trợ của chúng tôi qua email",
         "pages" => "dashboard, global",
         "panel" => "any",
         "load" => 0

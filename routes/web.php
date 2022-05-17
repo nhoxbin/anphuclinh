@@ -84,6 +84,9 @@ Route::get('/', 'User\UserController@index')->name('home')->middleware(['auth'])
 // User Routes
 Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->group(function () {
     Route::get('/', 'User\UserController@index')->name('home');
+    Route::get('/user-bank','User\BankController@index')->name('bank');
+    Route::get('/thanh-toan','User\PurchaseController@index')->name('purchase');
+    Route::get('/mua-goi-dau-tu','User\UserController@package')->name('package');
     Route::get('/account', 'User\UserController@account')->name('account');
     Route::get('/lich-su', 'User\UserController@history')->name('history');
     Route::get('/danh-sach-dai-ly', 'User\UserController@listReferral')->name('listReferral');
