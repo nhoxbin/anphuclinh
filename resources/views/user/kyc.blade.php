@@ -3,8 +3,8 @@
 @php
 $has_sidebar = false;
 
-$kyc_title = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Begin your ID-Verification') : __('KYC Verification');
-$kyc_desc = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Verify your identity to participate in token sale.') : __('To comply with regulations each participant is required to go through identity verification (KYC/AML) to prevent fraud, money laundering operations, transactions banned under the sanctions regime or those which fund terrorism. Please, complete our fast and secure verification process to participate in token offerings.');
+$kyc_title = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Bắt đầu xác minh ID của bạn') : __('Xác minh KYC');
+$kyc_desc = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Xác minh danh tính của bạn để tham gia giao dịch trên An Phúc Linh.') : __('Để tuân thủ các quy định, mỗi người tham gia phải trải qua quá trình xác minh danh tính (KYC / AML) để ngăn chặn gian lận, hoạt động rửa tiền, các giao dịch bị cấm theo chế độ trừng phạt hoặc những hành vi tài trợ cho khủng bố. Vui lòng hoàn tất quy trình xác minh nhanh chóng và an toàn của chúng tôi để tham gia vào các đợt cung cấp mã thông báo.');
 @endphp
 
 @section('content')
@@ -29,9 +29,9 @@ $kyc_desc = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Verify your 
                             <div class="status-icon">
                                 <em class="ti ti-files"></em>
                             </div>
-                            <span class="status-text text-dark">{{__('You have not submitted your necessary documents to verify your identity.')}}{{ (token('before_kyc')=='1') ? __('In order to purchase our tokens, please verify your identity.') : ''}}</span>
-                            <p class="px-md-5">{{__('It would great if you please submit the form. If you have any question, please feel free to contact our support team.')}}</p>
-                            <a href="{{ route('user.kyc.application') }}?state=new" class="btn btn-primary">{{__('Click here to complete your KYC')}}</a>
+                            <span class="status-text text-dark">{{__('Bạn chưa gửi các tài liệu cần thiết để xác minh danh tính của mình.')}}{{ (token('before_kyc')=='1') ? __('Để tham gia giao dịch, vui lòng xác minh danh tính của bạn.') : ''}}</span>
+                            <p class="px-md-5">{{__('Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với nhóm hỗ trợ của chúng tôi.')}}</p>
+                            <a href="{{ route('user.kyc.application') }}?state=new" class="btn btn-primary">{{__('Nhấn vào đây để hoàn thành KYC của bạn')}}</a>
                         </div> 
                         @endif
                         {{-- IF SUBMITED @Thanks --}}
@@ -41,8 +41,8 @@ $kyc_desc = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Verify your 
                                 <em class="ti ti-check"></em>
                             </div>
                             <span class="status-text large text-dark">{{__('You have completed the process of KYC')}}</span>
-                            <p class="px-md-5">{{__('We are still waiting for your identity verification. Once our team verified your identity, you will be notified by email. You can also check your KYC  compliance status from your profile page.')}}</p>
-                            <a href="{{ route('user.account') }}" class="btn btn-primary">{{__('Back to Profile')}}</a>
+                            <p class="px-md-5">{{__('Chúng tôi vẫn đang chờ xác minh danh tính của bạn. Sau khi nhóm của chúng tôi xác minh danh tính của bạn, bạn sẽ được thông báo qua email. Bạn cũng có thể kiểm tra trạng thái tuân thủ KYC từ trang hồ sơ của mình.')}}</p>
+                            <a href="{{ route('user.account') }}" class="btn btn-primary">{{__('Quay lại trang cá nhân')}}</a>
                         </div>
                         @endif
 
@@ -52,8 +52,8 @@ $kyc_desc = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Verify your 
                             <div class="status-icon">
                                 <em class="ti ti-infinite"></em>
                             </div>
-                            <span class="status-text text-dark">{{__('Your application verification under process.')}}</span>
-                            <p class="px-md-5">{{__('We are still working on your identity verification. Once our team verified your identity, you will be notified by email.')}}</p>
+                            <span class="status-text text-dark">{{__('Quá trình xác minh đơn đăng ký của bạn.')}}</span>
+                            <p class="px-md-5">{{__('Chúng tôi vẫn đang làm việc để xác minh danh tính của bạn. Sau khi nhóm của chúng tôi xác minh danh tính của bạn, bạn sẽ được thông báo qua email.')}}</p>
                         </div>
                         @endif
 
@@ -64,10 +64,10 @@ $kyc_desc = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Verify your 
                                 <em class="ti ti-na"></em>
                             </div>
                             <span class="status-text text-dark">
-                                {{ $user_kyc->status == 'missing' ? __('We found some information to be missing.') : __('Sorry! Your application was rejected.') }}
+                                {{ $user_kyc->status == 'missing' ? __('Chúng tôi thấy một số thông tin bị thiếu.') : __('Xin lỗi! Đơn của bạn đã bị từ chối.') }}
                             </span>
-                            <p class="px-md-5">{{__('In our verification process, we found information that is incorrect or missing. Please resubmit the form. In case of any issues with the submission please contact our support team.')}}</p>
-                            <a href="{{ route('user.kyc.application') }}?state={{ $user_kyc->status == 'missing' ? 'missing' : 'resubmit' }}" class="btn btn-primary">{{__('Submit Again')}}</a>
+                            <p class="px-md-5">{{__('Trong quá trình xác minh của chúng tôi, chúng tôi đã tìm thấy thông tin không chính xác hoặc bị thiếu. Vui lòng gửi lại biểu mẫu. Trong trường hợp có bất kỳ vấn đề nào với biểu mẫu đăng kí, vui lòng liên hệ với nhóm hỗ trợ của chúng tôi.')}}</p>
+                            <a href="{{ route('user.kyc.application') }}?state={{ $user_kyc->status == 'missing' ? 'missing' : 'resubmit' }}" class="btn btn-primary">{{__('Xác nhận lại')}}</a>
                         </div>
                         @endif
 
@@ -77,10 +77,10 @@ $kyc_desc = ($user_kyc !== NULL && isset($_GET['thank_you'])) ? __('Verify your 
                             <div class="status-icon">
                                 <em class="ti ti-files"></em>
                             </div>
-                            <span class="status-text text-dark">{{__('Your identity verified successfully.')}}</span>
-                            <p class="px-md-5">{{__('One of our team members verified your identity. Now you can participate in our token sale. Thank you.')}}</p>
+                            <span class="status-text text-dark">{{__('Danh tính của bạn đã được xác minh thành công.')}}</span>
+                            <p class="px-md-5">{{__('Một trong những thành viên trong nhóm của chúng tôi đã xác minh danh tính của bạn. Bây giờ bạn có thể tham gia vào giao dịch của chúng tôi. Cảm ơn bạn.')}}</p>
                             <div class="gaps-2x"></div>
-                            <a href="{{ route('user.token') }}" class="btn btn-primary">{{__('Purchase Token')}}</a>
+                            <a href="{{ route('user.token') }}" class="btn btn-primary">{{__('Giao dịch')}}</a>
                         </div>
                         @endif
 

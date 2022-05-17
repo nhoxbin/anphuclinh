@@ -381,7 +381,7 @@ class UserPanel
         $email = (get_setting('site_support_email', get_setting('site_email'))) ? ' <a href="mailto:' . get_setting('site_support_email', get_setting('site_email')) . '">' . get_setting('site_support_email', get_setting('site_email')) . '</a>' : '';
         $gaps = '<div class="gaps-3x d-none d-sm-block"></div>';
 
-        $return = ($email) ? '<p class="text-light text-center">' . (__('Contact our support team via email')) . ' - ' . $email . '</p><div class="gaps-1x"></div>' . $gaps : '';
+        $return = ($email) ? '<p class="text-light text-center">' . (__('Liên hệ với nhóm hỗ trợ của chúng tôi qua email')) . ' - ' . $email . '</p><div class="gaps-1x"></div>' . $gaps : '';
 
         return $return;
     }
