@@ -33,6 +33,12 @@
                 </div>
             </div>
         </div>
+        {{-- @dd(auth()->user()->kyc_info) --}}
+        @if (auth()->user()->kyc_info)    
+        <div class="alert alert-warning" role="alert">
+            Vui lòng xác thực thông tin cá nhân (KYC), <a href="{{route('user.kyc')}}">nhấn vào đây</a> để xác thực
+        </div>
+        @endif
         <!-- Add-card -->
         <!-- Option-section -->
         <div class="option-section mb-15">

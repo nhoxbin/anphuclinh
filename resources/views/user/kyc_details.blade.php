@@ -33,13 +33,13 @@
                     </div>
                     @else
                     <div class="fake-class">
-                        <span class="data-details-title">Checked On</span>
-                        <span class="data-details-info">Not reviewed yet</span>
+                        <span class="data-details-title">Đã kiểm tra</span>
+                        <span class="data-details-info">Chưa được xem xét</span>
                     </div>
                     @endif
                     @if($kyc->reviewedAt != NULL)
                     <div class="fake-class">
-                        <span class="data-details-title">Checked On</span>
+                        <span class="data-details-title">Đã kiểm tra</span>
                         <span class="data-details-info">{{ _date($kyc->updated_at) }}</span>
                     </div>
                     @endif
@@ -49,72 +49,68 @@
                     @if($kyc->notes !== NULL)
                     <div class="gaps-2x w-100 d-none d-md-block"></div>
                     <div class="w-100">
-                        <span class="data-details-title">Admin Note</span>
+                        <span class="data-details-title">Ghi chú</span>
                         <span class="data-details-info">{!! $kyc->notes !!}</span>
                     </div>
                     @endif
                 </div>
                 <div class="gaps-3x"></div>
-                <h6 class="card-sub-title">Personal Information</h6>
+                <h6 class="card-sub-title">Thông tin cá nhân</h6>
                 <ul class="data-details-list">
                     <li>
-                        <div class="data-details-head">Document Id</div>
+                        <div class="data-details-head">CMND/CCCD</div>
                         <div class="data-details-des">{{ $kyc->documentId }}</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">First Name</div>
+                        <div class="data-details-head">Họ</div>
                         <div class="data-details-des">{{ $kyc->firstName }}</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">Last Name</div>
+                        <div class="data-details-head">Tên</div>
                         <div class="data-details-des">{{ $kyc->lastName }}</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">Email Address</div>
+                        <div class="data-details-head">Địa chỉ email</div>
                         <div class="data-details-des">{{ $kyc->email }}</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">Phone Number</div>
+                        <div class="data-details-head">Số điện thoại</div>
                         <div class="data-details-des">{{ $kyc->phone }}</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">Date of Birth</div>
+                        <div class="data-details-head">Ngày sinh</div>
                         <div class="data-details-des">{{ _date($kyc->dob, get_setting('site_date_format')) }}</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">Full Address</div>
+                        <div class="data-details-head">Địa chỉ chi tiết</div>
                         <div class="data-details-des">{{ $kyc->address1 }}, {{ $kyc->address2 }}, {{ $kyc->city }}, {{ $kyc->state }} {{ $kyc->zip }}.</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">Country of Residence</div>
+                        <div class="data-details-head">Quốc gia cư trú</div>
                         <div class="data-details-des">{{ $kyc->country }}</div>
                     </li>{{-- li --}}
                      <li>
-                        <div class="data-details-head">Wallet Type</div>
+                        <div class="data-details-head">Loại ví</div>
                         <div class="data-details-des">{{ $kyc->walletName }}</div>
                     </li>{{-- li --}}
                      <li>
-                        <div class="data-details-head">Wallet Address</div>
+                        <div class="data-details-head">Địa chỉ Ví</div>
                         <div class="data-details-des">{{ $kyc->walletAddress }}</div>
                     </li>{{-- li --}}
                     <li>
-                        <div class="data-details-head">Telegram Username</div>
+                        <div class="data-details-head">Tên đăng nhập Telegram</div>
                         <div class="data-details-des"><span{{ '@'.preg_replace('/@/', '', $kyc->telegram, 1) }} </span><a href="https://t.me/{{preg_replace('/@/', '', $kyc->telegram, 1)}}" target="_blank"><em class="far fa-paper-plane"></em></a></div>
                     </li>{{-- li --}}
                 </ul>
                 <div class="gaps-3x"></div>
-                <h6 class="card-sub-title">Uploaded Documnets</h6>
+                <h6 class="card-sub-title">Tài liệu tải lên</h6>
                 <ul class="data-details-list">
                     <li>
                         <div class="data-details-head">
                             @if($kyc->documentType == 'nidcard')
-                            National ID Card
-                            @elseif($kyc->documentType == 'passport')
-                            Passport
-                            @elseif($kyc->documentType == 'license')
-                            Driving License
+                            CMND/CCCD
                             @else
-                            Documents
+                            Tài liệu
                             @endif
                         </div>
                         @if($kyc->document != NULL)
@@ -156,7 +152,7 @@
 
                             @if($kyc->document3 != NULL)
                             <li>
-                                <span class="data-details-docs-title">Proof</span>
+                                <span class="data-details-docs-title">Bằng chứng</span>
                                 <div class="data-doc-item data-doc-item-lg">
                                     <div class="data-doc-image">
                                         @if(pathinfo(storage_path('app/'.$kyc->document3), PATHINFO_EXTENSION) == 'pdf')
@@ -173,7 +169,7 @@
                             @endif
                         </ul>
                         @else
-                        No document uploaded.
+                        Không có tài liệu nào được tải lên.
                         @endif
                     </li>{{-- li --}}
                 </ul>

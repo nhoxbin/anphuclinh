@@ -557,10 +557,10 @@ class DemoData extends IcoHandler
                 'public' => 1,
             ],
             'terms' => [
-                'title' => 'Terms and Condition',
+                'title' => 'Điều khoản và điều kiện',
                 'slug' => 'terms',
                 'custom_slug' => 'terms-and-condition',
-                'menu_title' => 'Terms and Condition',
+                'menu_title' => 'Điều khoản và điều kiện',
                 'description' => '[[site_name]] Terms and Condition...',
                 'status' => 'active',
                 'lang' => 'en',
