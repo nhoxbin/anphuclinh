@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\PointCalc;
 use App\Models\Province;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -18,23 +18,25 @@ class ProvinceSeeder extends Seeder
      */
     public function run()
     {
-        $areas = ['south', 'north'];
-        $users = [];
-        foreach ($areas as $area) {
+        $areas = ['miennam' => 'miền Nam', 'mienbac' => 'miền Bắc'];
+        foreach ($areas as $area => $value) {
             $user = User::create([
-                'name' => 'Admin ' . ucfirst($area),
-                'email' => 'admin_' . $area . '@gmail.com',
+                'name' => 'Admin ' . $value,
+                'email' => 'apl.' . $area . '@gmail.com',
                 'province_code' => null,
                 'email_verified_at' => now(),
-                'password' => bcrypt('apl@123' . $area),
+                'password' => bcrypt('apl@' . $area),
                 'remember_token' => Str::random(10)
             ]);
             $user->assignRole('area_admin');
         }
 
+        $point = PointCalc::getPoint('refer');
+        $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
+        $data = ['refer_by' => $ref->id];
+
         // đà nẵng -> mũi cà mau (nam), huế -> ra (bắc)
         $curl = Curl::to('https://provinces.open-api.vn/api/?depth=1')->asJsonResponse()->get();
-        $provinces = [];
         foreach($curl as $province) {
             $province = Province::create([
                 'name' => $province->name,
@@ -44,13 +46,15 @@ class ProvinceSeeder extends Seeder
             ]);
             $user = User::create([
                 'name' => 'Admin ' . $province->name,
-                'email' => 'admin_' . $province->code . '@gmail.com',
+                'email' => 'apl.' . $province->code . '@gmail.com',
                 'province_code' => $province->code,
                 'email_verified_at' => now(),
-                'password' => bcrypt('apl@123' . $province->code),
+                'password' => bcrypt('apl@' . $province->code),
                 'remember_token' => Str::random(10)
             ]);
             $user->assignRole('provincial_admin');
+            $user->ref()->create($data);
+            $user->addPoints($point, __('Refer Bonus'), $data);
         }
     }
 }

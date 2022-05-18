@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class CalcPoint {
+class PointCalc {
     public static function getPoint($type, $amount = 0)
     {
         $increase_percent = 5; // %

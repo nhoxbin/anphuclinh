@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 16, 2022 at 04:50 PM
+-- Generation Time: May 15, 2022 at 02:43 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.22
 
@@ -94,25 +94,7 @@ INSERT INTO `activities` (`id`, `user_id`, `device`, `browser`, `ip`, `extra`, `
 (48, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-14 02:02:04', '2022-05-14 02:02:04'),
 (49, 8, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-14 02:21:11', '2022-05-14 02:21:11'),
 (50, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-14 05:29:03', '2022-05-14 05:29:03'),
-(51, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-15 14:42:17', '2022-05-15 14:42:17'),
-(52, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-15 16:56:10', '2022-05-15 16:56:10');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `banks`
---
-
-CREATE TABLE `banks` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Tên ngân hàng',
-  `host` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Tên chủ tài khoản',
-  `number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Số tài khoản',
-  `branch` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Chi nhánh',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(51, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-15 14:42:17', '2022-05-15 14:42:17');
 
 -- --------------------------------------------------------
 
@@ -280,22 +262,6 @@ INSERT INTO `languages` (`id`, `name`, `label`, `short`, `code`, `status`, `crea
 -- --------------------------------------------------------
 
 --
--- Table structure for table `levels`
---
-
-CREATE TABLE `levels` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lv` int(10) UNSIGNED NOT NULL,
-  `strong` decimal(25,2) UNSIGNED NOT NULL COMMENT 'nhánh mạnh',
-  `weak` decimal(25,2) UNSIGNED NOT NULL COMMENT 'nhánh yếu',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `migrations`
 --
 
@@ -325,38 +291,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2019_08_28_130334_create_translates_table', 1),
 (23, '2022_04_30_152027_create_jobs_table', 2),
 (25, '2022_05_05_223627_create_failed_jobs_table', 2),
-(56, '2014_10_11_000000_create_provinces_table', 3),
-(57, '2014_10_12_000000_create_users_table', 3),
-(58, '2018_11_03_100212_create_transactions_table', 3),
-(59, '2019_12_14_000001_create_personal_access_tokens_table', 3),
-(60, '2022_05_15_130907_create_referrals_table', 4),
-(61, '2022_05_16_105855_create_banks_table', 4),
-(62, '2022_05_16_162143_create_levels_table', 4),
-(63, '2022_05_16_164437_create_permission_tables', 4);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `model_has_permissions`
---
-
-CREATE TABLE `model_has_permissions` (
-  `permission_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `model_has_roles`
---
-
-CREATE TABLE `model_has_roles` (
-  `role_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(44, '2014_10_11_000000_create_provinces_table', 3),
+(45, '2014_10_12_000000_create_users_table', 3),
+(46, '2018_11_03_100212_create_transactions_table', 3),
+(47, '2019_12_14_000001_create_personal_access_tokens_table', 3),
+(48, '2022_05_15_130907_create_referrals_table', 4);
 
 -- --------------------------------------------------------
 
@@ -437,20 +376,6 @@ INSERT INTO `payment_methods` (`id`, `payment_method`, `title`, `description`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `permissions`
---
-
-CREATE TABLE `permissions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `personal_access_tokens`
 --
 
@@ -476,8 +401,7 @@ CREATE TABLE `provinces` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `division_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` int(10) UNSIGNED NOT NULL,
-  `area` enum('south','north') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `codename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -486,196 +410,70 @@ CREATE TABLE `provinces` (
 -- Dumping data for table `provinces`
 --
 
-INSERT INTO `provinces` (`id`, `name`, `division_type`, `code`, `area`, `created_at`, `updated_at`) VALUES
-(1, 'Thành phố Hà Nội', 'thành phố trung ương', 1, 'north', NULL, NULL),
-(2, 'Tỉnh Hà Giang', 'tỉnh', 2, 'north', NULL, NULL),
-(3, 'Tỉnh Cao Bằng', 'tỉnh', 4, 'north', NULL, NULL),
-(4, 'Tỉnh Bắc Kạn', 'tỉnh', 6, 'north', NULL, NULL),
-(5, 'Tỉnh Tuyên Quang', 'tỉnh', 8, 'north', NULL, NULL),
-(6, 'Tỉnh Lào Cai', 'tỉnh', 10, 'north', NULL, NULL),
-(7, 'Tỉnh Điện Biên', 'tỉnh', 11, 'north', NULL, NULL),
-(8, 'Tỉnh Lai Châu', 'tỉnh', 12, 'north', NULL, NULL),
-(9, 'Tỉnh Sơn La', 'tỉnh', 14, 'north', NULL, NULL),
-(10, 'Tỉnh Yên Bái', 'tỉnh', 15, 'north', NULL, NULL),
-(11, 'Tỉnh Hoà Bình', 'tỉnh', 17, 'north', NULL, NULL),
-(12, 'Tỉnh Thái Nguyên', 'tỉnh', 19, 'north', NULL, NULL),
-(13, 'Tỉnh Lạng Sơn', 'tỉnh', 20, 'north', NULL, NULL),
-(14, 'Tỉnh Quảng Ninh', 'tỉnh', 22, 'north', NULL, NULL),
-(15, 'Tỉnh Bắc Giang', 'tỉnh', 24, 'north', NULL, NULL),
-(16, 'Tỉnh Phú Thọ', 'tỉnh', 25, 'north', NULL, NULL),
-(17, 'Tỉnh Vĩnh Phúc', 'tỉnh', 26, 'north', NULL, NULL),
-(18, 'Tỉnh Bắc Ninh', 'tỉnh', 27, 'north', NULL, NULL),
-(19, 'Tỉnh Hải Dương', 'tỉnh', 30, 'north', NULL, NULL),
-(20, 'Thành phố Hải Phòng', 'thành phố trung ương', 31, 'north', NULL, NULL),
-(21, 'Tỉnh Hưng Yên', 'tỉnh', 33, 'north', NULL, NULL),
-(22, 'Tỉnh Thái Bình', 'tỉnh', 34, 'north', NULL, NULL),
-(23, 'Tỉnh Hà Nam', 'tỉnh', 35, 'north', NULL, NULL),
-(24, 'Tỉnh Nam Định', 'tỉnh', 36, 'north', NULL, NULL),
-(25, 'Tỉnh Ninh Bình', 'tỉnh', 37, 'north', NULL, NULL),
-(26, 'Tỉnh Thanh Hóa', 'tỉnh', 38, 'north', NULL, NULL),
-(27, 'Tỉnh Nghệ An', 'tỉnh', 40, 'north', NULL, NULL),
-(28, 'Tỉnh Hà Tĩnh', 'tỉnh', 42, 'north', NULL, NULL),
-(29, 'Tỉnh Quảng Bình', 'tỉnh', 44, 'north', NULL, NULL),
-(30, 'Tỉnh Quảng Trị', 'tỉnh', 45, 'north', NULL, NULL),
-(31, 'Tỉnh Thừa Thiên Huế', 'tỉnh', 46, 'north', NULL, NULL),
-(32, 'Thành phố Đà Nẵng', 'thành phố trung ương', 48, 'south', NULL, NULL),
-(33, 'Tỉnh Quảng Nam', 'tỉnh', 49, 'south', NULL, NULL),
-(34, 'Tỉnh Quảng Ngãi', 'tỉnh', 51, 'south', NULL, NULL),
-(35, 'Tỉnh Bình Định', 'tỉnh', 52, 'south', NULL, NULL),
-(36, 'Tỉnh Phú Yên', 'tỉnh', 54, 'south', NULL, NULL),
-(37, 'Tỉnh Khánh Hòa', 'tỉnh', 56, 'south', NULL, NULL),
-(38, 'Tỉnh Ninh Thuận', 'tỉnh', 58, 'south', NULL, NULL),
-(39, 'Tỉnh Bình Thuận', 'tỉnh', 60, 'south', NULL, NULL),
-(40, 'Tỉnh Kon Tum', 'tỉnh', 62, 'south', NULL, NULL),
-(41, 'Tỉnh Gia Lai', 'tỉnh', 64, 'south', NULL, NULL),
-(42, 'Tỉnh Đắk Lắk', 'tỉnh', 66, 'south', NULL, NULL),
-(43, 'Tỉnh Đắk Nông', 'tỉnh', 67, 'south', NULL, NULL),
-(44, 'Tỉnh Lâm Đồng', 'tỉnh', 68, 'south', NULL, NULL),
-(45, 'Tỉnh Bình Phước', 'tỉnh', 70, 'south', NULL, NULL),
-(46, 'Tỉnh Tây Ninh', 'tỉnh', 72, 'south', NULL, NULL),
-(47, 'Tỉnh Bình Dương', 'tỉnh', 74, 'south', NULL, NULL),
-(48, 'Tỉnh Đồng Nai', 'tỉnh', 75, 'south', NULL, NULL),
-(49, 'Tỉnh Bà Rịa - Vũng Tàu', 'tỉnh', 77, 'south', NULL, NULL),
-(50, 'Thành phố Hồ Chí Minh', 'thành phố trung ương', 79, 'south', NULL, NULL),
-(51, 'Tỉnh Long An', 'tỉnh', 80, 'south', NULL, NULL),
-(52, 'Tỉnh Tiền Giang', 'tỉnh', 82, 'south', NULL, NULL),
-(53, 'Tỉnh Bến Tre', 'tỉnh', 83, 'south', NULL, NULL),
-(54, 'Tỉnh Trà Vinh', 'tỉnh', 84, 'south', NULL, NULL),
-(55, 'Tỉnh Vĩnh Long', 'tỉnh', 86, 'south', NULL, NULL),
-(56, 'Tỉnh Đồng Tháp', 'tỉnh', 87, 'south', NULL, NULL),
-(57, 'Tỉnh An Giang', 'tỉnh', 89, 'south', NULL, NULL),
-(58, 'Tỉnh Kiên Giang', 'tỉnh', 91, 'south', NULL, NULL),
-(59, 'Thành phố Cần Thơ', 'thành phố trung ương', 92, 'south', NULL, NULL),
-(60, 'Tỉnh Hậu Giang', 'tỉnh', 93, 'south', NULL, NULL),
-(61, 'Tỉnh Sóc Trăng', 'tỉnh', 94, 'south', NULL, NULL),
-(62, 'Tỉnh Bạc Liêu', 'tỉnh', 95, 'south', NULL, NULL),
-(63, 'Tỉnh Cà Mau', 'tỉnh', 96, 'south', NULL, NULL),
-(64, 'Thành phố Hà Nội', 'thành phố trung ương', 1, 'north', NULL, NULL),
-(65, 'Tỉnh Hà Giang', 'tỉnh', 2, 'north', NULL, NULL),
-(66, 'Tỉnh Cao Bằng', 'tỉnh', 4, 'north', NULL, NULL),
-(67, 'Tỉnh Bắc Kạn', 'tỉnh', 6, 'north', NULL, NULL),
-(68, 'Tỉnh Tuyên Quang', 'tỉnh', 8, 'north', NULL, NULL),
-(69, 'Tỉnh Lào Cai', 'tỉnh', 10, 'north', NULL, NULL),
-(70, 'Tỉnh Điện Biên', 'tỉnh', 11, 'north', NULL, NULL),
-(71, 'Tỉnh Lai Châu', 'tỉnh', 12, 'north', NULL, NULL),
-(72, 'Tỉnh Sơn La', 'tỉnh', 14, 'north', NULL, NULL),
-(73, 'Tỉnh Yên Bái', 'tỉnh', 15, 'north', NULL, NULL),
-(74, 'Tỉnh Hoà Bình', 'tỉnh', 17, 'north', NULL, NULL),
-(75, 'Tỉnh Thái Nguyên', 'tỉnh', 19, 'north', NULL, NULL),
-(76, 'Tỉnh Lạng Sơn', 'tỉnh', 20, 'north', NULL, NULL),
-(77, 'Tỉnh Quảng Ninh', 'tỉnh', 22, 'north', NULL, NULL),
-(78, 'Tỉnh Bắc Giang', 'tỉnh', 24, 'north', NULL, NULL),
-(79, 'Tỉnh Phú Thọ', 'tỉnh', 25, 'north', NULL, NULL),
-(80, 'Tỉnh Vĩnh Phúc', 'tỉnh', 26, 'north', NULL, NULL),
-(81, 'Tỉnh Bắc Ninh', 'tỉnh', 27, 'north', NULL, NULL),
-(82, 'Tỉnh Hải Dương', 'tỉnh', 30, 'north', NULL, NULL),
-(83, 'Thành phố Hải Phòng', 'thành phố trung ương', 31, 'north', NULL, NULL),
-(84, 'Tỉnh Hưng Yên', 'tỉnh', 33, 'north', NULL, NULL),
-(85, 'Tỉnh Thái Bình', 'tỉnh', 34, 'north', NULL, NULL),
-(86, 'Tỉnh Hà Nam', 'tỉnh', 35, 'north', NULL, NULL),
-(87, 'Tỉnh Nam Định', 'tỉnh', 36, 'north', NULL, NULL),
-(88, 'Tỉnh Ninh Bình', 'tỉnh', 37, 'north', NULL, NULL),
-(89, 'Tỉnh Thanh Hóa', 'tỉnh', 38, 'north', NULL, NULL),
-(90, 'Tỉnh Nghệ An', 'tỉnh', 40, 'north', NULL, NULL),
-(91, 'Tỉnh Hà Tĩnh', 'tỉnh', 42, 'north', NULL, NULL),
-(92, 'Tỉnh Quảng Bình', 'tỉnh', 44, 'north', NULL, NULL),
-(93, 'Tỉnh Quảng Trị', 'tỉnh', 45, 'north', NULL, NULL),
-(94, 'Tỉnh Thừa Thiên Huế', 'tỉnh', 46, 'north', NULL, NULL),
-(95, 'Thành phố Đà Nẵng', 'thành phố trung ương', 48, 'south', NULL, NULL),
-(96, 'Tỉnh Quảng Nam', 'tỉnh', 49, 'south', NULL, NULL),
-(97, 'Tỉnh Quảng Ngãi', 'tỉnh', 51, 'south', NULL, NULL),
-(98, 'Tỉnh Bình Định', 'tỉnh', 52, 'south', NULL, NULL),
-(99, 'Tỉnh Phú Yên', 'tỉnh', 54, 'south', NULL, NULL),
-(100, 'Tỉnh Khánh Hòa', 'tỉnh', 56, 'south', NULL, NULL),
-(101, 'Tỉnh Ninh Thuận', 'tỉnh', 58, 'south', NULL, NULL),
-(102, 'Tỉnh Bình Thuận', 'tỉnh', 60, 'south', NULL, NULL),
-(103, 'Tỉnh Kon Tum', 'tỉnh', 62, 'south', NULL, NULL),
-(104, 'Tỉnh Gia Lai', 'tỉnh', 64, 'south', NULL, NULL),
-(105, 'Tỉnh Đắk Lắk', 'tỉnh', 66, 'south', NULL, NULL),
-(106, 'Tỉnh Đắk Nông', 'tỉnh', 67, 'south', NULL, NULL),
-(107, 'Tỉnh Lâm Đồng', 'tỉnh', 68, 'south', NULL, NULL),
-(108, 'Tỉnh Bình Phước', 'tỉnh', 70, 'south', NULL, NULL),
-(109, 'Tỉnh Tây Ninh', 'tỉnh', 72, 'south', NULL, NULL),
-(110, 'Tỉnh Bình Dương', 'tỉnh', 74, 'south', NULL, NULL),
-(111, 'Tỉnh Đồng Nai', 'tỉnh', 75, 'south', NULL, NULL),
-(112, 'Tỉnh Bà Rịa - Vũng Tàu', 'tỉnh', 77, 'south', NULL, NULL),
-(113, 'Thành phố Hồ Chí Minh', 'thành phố trung ương', 79, 'south', NULL, NULL),
-(114, 'Tỉnh Long An', 'tỉnh', 80, 'south', NULL, NULL),
-(115, 'Tỉnh Tiền Giang', 'tỉnh', 82, 'south', NULL, NULL),
-(116, 'Tỉnh Bến Tre', 'tỉnh', 83, 'south', NULL, NULL),
-(117, 'Tỉnh Trà Vinh', 'tỉnh', 84, 'south', NULL, NULL),
-(118, 'Tỉnh Vĩnh Long', 'tỉnh', 86, 'south', NULL, NULL),
-(119, 'Tỉnh Đồng Tháp', 'tỉnh', 87, 'south', NULL, NULL),
-(120, 'Tỉnh An Giang', 'tỉnh', 89, 'south', NULL, NULL),
-(121, 'Tỉnh Kiên Giang', 'tỉnh', 91, 'south', NULL, NULL),
-(122, 'Thành phố Cần Thơ', 'thành phố trung ương', 92, 'south', NULL, NULL),
-(123, 'Tỉnh Hậu Giang', 'tỉnh', 93, 'south', NULL, NULL),
-(124, 'Tỉnh Sóc Trăng', 'tỉnh', 94, 'south', NULL, NULL),
-(125, 'Tỉnh Bạc Liêu', 'tỉnh', 95, 'south', NULL, NULL),
-(126, 'Tỉnh Cà Mau', 'tỉnh', 96, 'south', NULL, NULL),
-(127, 'Thành phố Hà Nội', 'thành phố trung ương', 1, 'north', NULL, NULL),
-(128, 'Tỉnh Hà Giang', 'tỉnh', 2, 'north', NULL, NULL),
-(129, 'Tỉnh Cao Bằng', 'tỉnh', 4, 'north', NULL, NULL),
-(130, 'Tỉnh Bắc Kạn', 'tỉnh', 6, 'north', NULL, NULL),
-(131, 'Tỉnh Tuyên Quang', 'tỉnh', 8, 'north', NULL, NULL),
-(132, 'Tỉnh Lào Cai', 'tỉnh', 10, 'north', NULL, NULL),
-(133, 'Tỉnh Điện Biên', 'tỉnh', 11, 'north', NULL, NULL),
-(134, 'Tỉnh Lai Châu', 'tỉnh', 12, 'north', NULL, NULL),
-(135, 'Tỉnh Sơn La', 'tỉnh', 14, 'north', NULL, NULL),
-(136, 'Tỉnh Yên Bái', 'tỉnh', 15, 'north', NULL, NULL),
-(137, 'Tỉnh Hoà Bình', 'tỉnh', 17, 'north', NULL, NULL),
-(138, 'Tỉnh Thái Nguyên', 'tỉnh', 19, 'north', NULL, NULL),
-(139, 'Tỉnh Lạng Sơn', 'tỉnh', 20, 'north', NULL, NULL),
-(140, 'Tỉnh Quảng Ninh', 'tỉnh', 22, 'north', NULL, NULL),
-(141, 'Tỉnh Bắc Giang', 'tỉnh', 24, 'north', NULL, NULL),
-(142, 'Tỉnh Phú Thọ', 'tỉnh', 25, 'north', NULL, NULL),
-(143, 'Tỉnh Vĩnh Phúc', 'tỉnh', 26, 'north', NULL, NULL),
-(144, 'Tỉnh Bắc Ninh', 'tỉnh', 27, 'north', NULL, NULL),
-(145, 'Tỉnh Hải Dương', 'tỉnh', 30, 'north', NULL, NULL),
-(146, 'Thành phố Hải Phòng', 'thành phố trung ương', 31, 'north', NULL, NULL),
-(147, 'Tỉnh Hưng Yên', 'tỉnh', 33, 'north', NULL, NULL),
-(148, 'Tỉnh Thái Bình', 'tỉnh', 34, 'north', NULL, NULL),
-(149, 'Tỉnh Hà Nam', 'tỉnh', 35, 'north', NULL, NULL),
-(150, 'Tỉnh Nam Định', 'tỉnh', 36, 'north', NULL, NULL),
-(151, 'Tỉnh Ninh Bình', 'tỉnh', 37, 'north', NULL, NULL),
-(152, 'Tỉnh Thanh Hóa', 'tỉnh', 38, 'north', NULL, NULL),
-(153, 'Tỉnh Nghệ An', 'tỉnh', 40, 'north', NULL, NULL),
-(154, 'Tỉnh Hà Tĩnh', 'tỉnh', 42, 'north', NULL, NULL),
-(155, 'Tỉnh Quảng Bình', 'tỉnh', 44, 'north', NULL, NULL),
-(156, 'Tỉnh Quảng Trị', 'tỉnh', 45, 'north', NULL, NULL),
-(157, 'Tỉnh Thừa Thiên Huế', 'tỉnh', 46, 'north', NULL, NULL),
-(158, 'Thành phố Đà Nẵng', 'thành phố trung ương', 48, 'south', NULL, NULL),
-(159, 'Tỉnh Quảng Nam', 'tỉnh', 49, 'south', NULL, NULL),
-(160, 'Tỉnh Quảng Ngãi', 'tỉnh', 51, 'south', NULL, NULL),
-(161, 'Tỉnh Bình Định', 'tỉnh', 52, 'south', NULL, NULL),
-(162, 'Tỉnh Phú Yên', 'tỉnh', 54, 'south', NULL, NULL),
-(163, 'Tỉnh Khánh Hòa', 'tỉnh', 56, 'south', NULL, NULL),
-(164, 'Tỉnh Ninh Thuận', 'tỉnh', 58, 'south', NULL, NULL),
-(165, 'Tỉnh Bình Thuận', 'tỉnh', 60, 'south', NULL, NULL),
-(166, 'Tỉnh Kon Tum', 'tỉnh', 62, 'south', NULL, NULL),
-(167, 'Tỉnh Gia Lai', 'tỉnh', 64, 'south', NULL, NULL),
-(168, 'Tỉnh Đắk Lắk', 'tỉnh', 66, 'south', NULL, NULL),
-(169, 'Tỉnh Đắk Nông', 'tỉnh', 67, 'south', NULL, NULL),
-(170, 'Tỉnh Lâm Đồng', 'tỉnh', 68, 'south', NULL, NULL),
-(171, 'Tỉnh Bình Phước', 'tỉnh', 70, 'south', NULL, NULL),
-(172, 'Tỉnh Tây Ninh', 'tỉnh', 72, 'south', NULL, NULL),
-(173, 'Tỉnh Bình Dương', 'tỉnh', 74, 'south', NULL, NULL),
-(174, 'Tỉnh Đồng Nai', 'tỉnh', 75, 'south', NULL, NULL),
-(175, 'Tỉnh Bà Rịa - Vũng Tàu', 'tỉnh', 77, 'south', NULL, NULL),
-(176, 'Thành phố Hồ Chí Minh', 'thành phố trung ương', 79, 'south', NULL, NULL),
-(177, 'Tỉnh Long An', 'tỉnh', 80, 'south', NULL, NULL),
-(178, 'Tỉnh Tiền Giang', 'tỉnh', 82, 'south', NULL, NULL),
-(179, 'Tỉnh Bến Tre', 'tỉnh', 83, 'south', NULL, NULL),
-(180, 'Tỉnh Trà Vinh', 'tỉnh', 84, 'south', NULL, NULL),
-(181, 'Tỉnh Vĩnh Long', 'tỉnh', 86, 'south', NULL, NULL),
-(182, 'Tỉnh Đồng Tháp', 'tỉnh', 87, 'south', NULL, NULL),
-(183, 'Tỉnh An Giang', 'tỉnh', 89, 'south', NULL, NULL),
-(184, 'Tỉnh Kiên Giang', 'tỉnh', 91, 'south', NULL, NULL),
-(185, 'Thành phố Cần Thơ', 'thành phố trung ương', 92, 'south', NULL, NULL),
-(186, 'Tỉnh Hậu Giang', 'tỉnh', 93, 'south', NULL, NULL),
-(187, 'Tỉnh Sóc Trăng', 'tỉnh', 94, 'south', NULL, NULL),
-(188, 'Tỉnh Bạc Liêu', 'tỉnh', 95, 'south', NULL, NULL),
-(189, 'Tỉnh Cà Mau', 'tỉnh', 96, 'south', NULL, NULL);
+INSERT INTO `provinces` (`id`, `name`, `division_type`, `codename`, `created_at`, `updated_at`) VALUES
+(1, 'Thành phố Hà Nội', 'thành phố trung ương', 'thanh_pho_ha_noi', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(2, 'Tỉnh Hà Giang', 'tỉnh', 'tinh_ha_giang', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(3, 'Tỉnh Cao Bằng', 'tỉnh', 'tinh_cao_bang', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(4, 'Tỉnh Bắc Kạn', 'tỉnh', 'tinh_bac_kan', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(5, 'Tỉnh Tuyên Quang', 'tỉnh', 'tinh_tuyen_quang', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(6, 'Tỉnh Lào Cai', 'tỉnh', 'tinh_lao_cai', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(7, 'Tỉnh Điện Biên', 'tỉnh', 'tinh_dien_bien', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(8, 'Tỉnh Lai Châu', 'tỉnh', 'tinh_lai_chau', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(9, 'Tỉnh Sơn La', 'tỉnh', 'tinh_son_la', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(10, 'Tỉnh Yên Bái', 'tỉnh', 'tinh_yen_bai', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(11, 'Tỉnh Hoà Bình', 'tỉnh', 'tinh_hoa_binh', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(12, 'Tỉnh Thái Nguyên', 'tỉnh', 'tinh_thai_nguyen', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(13, 'Tỉnh Lạng Sơn', 'tỉnh', 'tinh_lang_son', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
+(14, 'Tỉnh Quảng Ninh', 'tỉnh', 'tinh_quang_ninh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(15, 'Tỉnh Bắc Giang', 'tỉnh', 'tinh_bac_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(16, 'Tỉnh Phú Thọ', 'tỉnh', 'tinh_phu_tho', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(17, 'Tỉnh Vĩnh Phúc', 'tỉnh', 'tinh_vinh_phuc', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(18, 'Tỉnh Bắc Ninh', 'tỉnh', 'tinh_bac_ninh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(19, 'Tỉnh Hải Dương', 'tỉnh', 'tinh_hai_duong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(20, 'Thành phố Hải Phòng', 'thành phố trung ương', 'thanh_pho_hai_phong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(21, 'Tỉnh Hưng Yên', 'tỉnh', 'tinh_hung_yen', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(22, 'Tỉnh Thái Bình', 'tỉnh', 'tinh_thai_binh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(23, 'Tỉnh Hà Nam', 'tỉnh', 'tinh_ha_nam', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(24, 'Tỉnh Nam Định', 'tỉnh', 'tinh_nam_dinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(25, 'Tỉnh Ninh Bình', 'tỉnh', 'tinh_ninh_binh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(26, 'Tỉnh Thanh Hóa', 'tỉnh', 'tinh_thanh_hoa', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(27, 'Tỉnh Nghệ An', 'tỉnh', 'tinh_nghe_an', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(28, 'Tỉnh Hà Tĩnh', 'tỉnh', 'tinh_ha_tinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(29, 'Tỉnh Quảng Bình', 'tỉnh', 'tinh_quang_binh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(30, 'Tỉnh Quảng Trị', 'tỉnh', 'tinh_quang_tri', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(31, 'Tỉnh Thừa Thiên Huế', 'tỉnh', 'tinh_thua_thien_hue', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(32, 'Thành phố Đà Nẵng', 'thành phố trung ương', 'thanh_pho_da_nang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(33, 'Tỉnh Quảng Nam', 'tỉnh', 'tinh_quang_nam', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(34, 'Tỉnh Quảng Ngãi', 'tỉnh', 'tinh_quang_ngai', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(35, 'Tỉnh Bình Định', 'tỉnh', 'tinh_binh_dinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(36, 'Tỉnh Phú Yên', 'tỉnh', 'tinh_phu_yen', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(37, 'Tỉnh Khánh Hòa', 'tỉnh', 'tinh_khanh_hoa', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(38, 'Tỉnh Ninh Thuận', 'tỉnh', 'tinh_ninh_thuan', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(39, 'Tỉnh Bình Thuận', 'tỉnh', 'tinh_binh_thuan', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(40, 'Tỉnh Kon Tum', 'tỉnh', 'tinh_kon_tum', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(41, 'Tỉnh Gia Lai', 'tỉnh', 'tinh_gia_lai', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(42, 'Tỉnh Đắk Lắk', 'tỉnh', 'tinh_dak_lak', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(43, 'Tỉnh Đắk Nông', 'tỉnh', 'tinh_dak_nong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(44, 'Tỉnh Lâm Đồng', 'tỉnh', 'tinh_lam_dong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(45, 'Tỉnh Bình Phước', 'tỉnh', 'tinh_binh_phuoc', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(46, 'Tỉnh Tây Ninh', 'tỉnh', 'tinh_tay_ninh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(47, 'Tỉnh Bình Dương', 'tỉnh', 'tinh_binh_duong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(48, 'Tỉnh Đồng Nai', 'tỉnh', 'tinh_dong_nai', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(49, 'Tỉnh Bà Rịa - Vũng Tàu', 'tỉnh', 'tinh_ba_ria_vung_tau', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(50, 'Thành phố Hồ Chí Minh', 'thành phố trung ương', 'thanh_pho_ho_chi_minh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(51, 'Tỉnh Long An', 'tỉnh', 'tinh_long_an', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(52, 'Tỉnh Tiền Giang', 'tỉnh', 'tinh_tien_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(53, 'Tỉnh Bến Tre', 'tỉnh', 'tinh_ben_tre', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(54, 'Tỉnh Trà Vinh', 'tỉnh', 'tinh_tra_vinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(55, 'Tỉnh Vĩnh Long', 'tỉnh', 'tinh_vinh_long', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(56, 'Tỉnh Đồng Tháp', 'tỉnh', 'tinh_dong_thap', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(57, 'Tỉnh An Giang', 'tỉnh', 'tinh_an_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(58, 'Tỉnh Kiên Giang', 'tỉnh', 'tinh_kien_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(59, 'Thành phố Cần Thơ', 'thành phố trung ương', 'thanh_pho_can_tho', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(60, 'Tỉnh Hậu Giang', 'tỉnh', 'tinh_hau_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(61, 'Tỉnh Sóc Trăng', 'tỉnh', 'tinh_soc_trang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(62, 'Tỉnh Bạc Liêu', 'tỉnh', 'tinh_bac_lieu', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
+(63, 'Tỉnh Cà Mau', 'tỉnh', 'tinh_ca_mau', '2022-05-15 05:40:19', '2022-05-15 05:40:19');
 
 -- --------------------------------------------------------
 
@@ -685,46 +483,11 @@ INSERT INTO `provinces` (`id`, `name`, `division_type`, `code`, `area`, `created
 
 CREATE TABLE `referrals` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `refer_by_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `bonus` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `refer_by_id` bigint(20) UNSIGNED NOT NULL,
+  `bonus` double UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `roles`
---
-
-CREATE TABLE `roles` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `roles`
---
-
-INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'super_admin', 'web', NULL, NULL),
-(2, 'area_admin', 'web', NULL, NULL),
-(3, 'provincial_admin', 'web', NULL, NULL),
-(4, 'user', 'web', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `role_has_permissions`
---
-
-CREATE TABLE `role_has_permissions` (
-  `permission_id` bigint(20) UNSIGNED NOT NULL,
-  `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -929,7 +692,7 @@ INSERT INTO `settings` (`id`, `field`, `value`, `created_at`, `updated_at`) VALU
 (181, 'token_default_method', 'USD', '2021-10-10 00:32:23', '2021-10-18 04:31:42'),
 (182, 'active_payment_modules', '{\"Manual\":{\"type\":\"core\",\"version\":\"1.0\"},\"Bank\":{\"type\":\"core\",\"version\":\"1.0\"},\"Paypal\":{\"type\":\"core\",\"version\":\"1.0\"}}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (183, 'site_api_key', 'mxMwmuxhKFVkbl1SjPTLcJm1', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
-(184, 'site_api_secret', 'UgPrb9979b02VzdO', '2021-10-10 00:32:23', '2022-05-15 16:56:10'),
+(184, 'site_api_secret', 'l0Q6b9979b02o0ks', '2021-10-10 00:32:23', '2022-05-15 14:42:17'),
 (185, 'nio_lkey', 'a12245678999ca31eeb35046b9979b02', '2021-10-10 00:32:23', '2022-05-06 03:17:09'),
 (186, 'pmc_rate_usd', '1', '2021-10-10 00:32:23', '2021-10-18 04:32:20'),
 (187, 'pmc_rate_eur', '1', '2021-10-10 00:32:23', '2021-10-18 04:32:20'),
@@ -1066,7 +829,7 @@ CREATE TABLE `transactions` (
   `tnx_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tnx_type` enum('purchase','withdraw','point','bonus') COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double UNSIGNED NOT NULL,
+  `amount` double DEFAULT NULL,
   `wallet_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `payment_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
@@ -2557,12 +2320,14 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
+  `mobile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dateOfBirth` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lastLogin` datetime DEFAULT NULL,
-  `role_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `lastLogin` datetime NOT NULL,
+  `role` enum('admin','manager','user') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
   `cash` double UNSIGNED NOT NULL DEFAULT '0',
   `point` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `province_code` int(10) UNSIGNED DEFAULT NULL,
+  `province_id` bigint(20) UNSIGNED NOT NULL,
   `google2fa` int(11) NOT NULL DEFAULT '0',
   `google2fa_secret` text COLLATE utf8mb4_unicode_ci,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2574,73 +2339,8 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `password`, `dateOfBirth`, `lastLogin`, `role_id`, `cash`, `point`, `province_code`, `google2fa`, `google2fa_secret`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', NULL, 'super_admin@gmail.com', '2022-05-16 16:37:35', '$2y$10$3q9zNRdeAjWLFBdMeEq72.IEz88NXRyyd/dAeaRJEijwOEk3Jr8zC', NULL, NULL, 1, 0, 0, NULL, 0, NULL, 'R4Y8tiEag8', '2022-05-16 16:37:35', '2022-05-16 16:37:35'),
-(2, 'Admin South', NULL, 'admin_south@gmail.com', '2022-05-16 16:49:45', '$2y$10$NgI1Gff6OmZfkISRKML83.lY1tFS/Ngw.uE6RHom9CIvBHvV3imB6', NULL, NULL, 2, 0, 0, NULL, 0, NULL, 'HfKfgOtQA0', NULL, NULL),
-(3, 'Admin North', NULL, 'admin_north@gmail.com', '2022-05-16 16:49:45', '$2y$10$7MIZwPY42C4uVIBi.tfQu.Q1dRTtUyLn17QxqyN3MGSkJB8dNs4oC', NULL, NULL, 2, 0, 0, NULL, 0, NULL, 'ppNjuIxcqH', NULL, NULL),
-(4, 'Admin Thành phố Hà Nội', NULL, 'admin_1@gmail.com', '2022-05-16 16:49:45', '$2y$10$HrB7gGuqnbNq21vCOLy/EukSoQg8/BEGS8HW9dPZ/nFH4c2Ig06fi', NULL, NULL, 3, 0, 0, 1, 0, NULL, 'PLmGarEF9z', NULL, NULL),
-(5, 'Admin Tỉnh Hà Giang', NULL, 'admin_2@gmail.com', '2022-05-16 16:49:45', '$2y$10$UhzAq81tSj3oKHkujpvWn.8FTPrSdXSwzfju5W5AvzSqpwqSRWvyC', NULL, NULL, 3, 0, 0, 2, 0, NULL, '3fv1dvJhpB', NULL, NULL),
-(6, 'Admin Tỉnh Cao Bằng', NULL, 'admin_4@gmail.com', '2022-05-16 16:49:45', '$2y$10$kEIhdvt093swogW8MGxnSOZxZ2n7MSwgET4luha.JBjymFjZ6Kye6', NULL, NULL, 3, 0, 0, 4, 0, NULL, 'QHYts2bmSp', NULL, NULL),
-(7, 'Admin Tỉnh Bắc Kạn', NULL, 'admin_6@gmail.com', '2022-05-16 16:49:45', '$2y$10$PkSSobUHwbFJyEEkdqiMy.kLMqL7kWNNlAKvm4IWXzuoM9FH34jp6', NULL, NULL, 3, 0, 0, 6, 0, NULL, 'r6DXJIXKOO', NULL, NULL),
-(8, 'Admin Tỉnh Tuyên Quang', NULL, 'admin_8@gmail.com', '2022-05-16 16:49:45', '$2y$10$4e2kzdVaS/8tgzszN.k2w.ED2LpQjpNV6XLyT56/E9YvnhFCRGFey', NULL, NULL, 3, 0, 0, 8, 0, NULL, 'neAMm3Y2GZ', NULL, NULL),
-(9, 'Admin Tỉnh Lào Cai', NULL, 'admin_10@gmail.com', '2022-05-16 16:49:45', '$2y$10$4FGchSJY9tLsCqnyrWwcEu9GUaPwmQWwRRW2zwiuA/BJsBZ0oqmzC', NULL, NULL, 3, 0, 0, 10, 0, NULL, 'Pdm0lhyeT1', NULL, NULL),
-(10, 'Admin Tỉnh Điện Biên', NULL, 'admin_11@gmail.com', '2022-05-16 16:49:45', '$2y$10$yWypuxm/UM9FeRx4WtNX5.SZLEQLe5W5WwbgXS2MthokfSebtR3sG', NULL, NULL, 3, 0, 0, 11, 0, NULL, 'RIZzNIC8U4', NULL, NULL),
-(11, 'Admin Tỉnh Lai Châu', NULL, 'admin_12@gmail.com', '2022-05-16 16:49:45', '$2y$10$bhE/yCrzJFqLbqQy9fm1neK2lfYI7zZ7mFqacxISGML18JTZhKSQq', NULL, NULL, 3, 0, 0, 12, 0, NULL, 'RzU9X2Rf9f', NULL, NULL),
-(12, 'Admin Tỉnh Sơn La', NULL, 'admin_14@gmail.com', '2022-05-16 16:49:46', '$2y$10$qlMILW5mm/elRAcXyceFcus7oNje4LvYs2ObwxJ/1W7Nqy5/TeMBa', NULL, NULL, 3, 0, 0, 14, 0, NULL, '1nlfk77C0f', NULL, NULL),
-(13, 'Admin Tỉnh Yên Bái', NULL, 'admin_15@gmail.com', '2022-05-16 16:49:46', '$2y$10$HeBlatfCQhIIt05hkRjTTOUD/IN9RByisXjixi4FSMmV4vufUopz2', NULL, NULL, 3, 0, 0, 15, 0, NULL, 'DsjGcwS1Ku', NULL, NULL),
-(14, 'Admin Tỉnh Hoà Bình', NULL, 'admin_17@gmail.com', '2022-05-16 16:49:46', '$2y$10$Ny6//OG06PPVjXH9hWmDouH9dUSrGQgmjVjgoMQZ7spI8P2COz7A2', NULL, NULL, 3, 0, 0, 17, 0, NULL, 'SoDA72MkW6', NULL, NULL),
-(15, 'Admin Tỉnh Thái Nguyên', NULL, 'admin_19@gmail.com', '2022-05-16 16:49:46', '$2y$10$Zxi7jJ2FM6x6mxbEGkZc8Ox.mKd/xezY1UTN6F8brfU5/.pM.oSle', NULL, NULL, 3, 0, 0, 19, 0, NULL, '41gOWDm8JG', NULL, NULL),
-(16, 'Admin Tỉnh Lạng Sơn', NULL, 'admin_20@gmail.com', '2022-05-16 16:49:46', '$2y$10$ia0/cPcS7vuFMAC0n7l/VOEnKZOrmvNNPhPTJ6DIfBYoIE.EbLyKa', NULL, NULL, 3, 0, 0, 20, 0, NULL, 'VpZQvFxZjY', NULL, NULL),
-(17, 'Admin Tỉnh Quảng Ninh', NULL, 'admin_22@gmail.com', '2022-05-16 16:49:46', '$2y$10$WDWXQKIB/CPznsY8BN16mulAQNdI1JtNF1J/pE3isuCtEXmnnAQgy', NULL, NULL, 3, 0, 0, 22, 0, NULL, 'hDX0TKlJrz', NULL, NULL),
-(18, 'Admin Tỉnh Bắc Giang', NULL, 'admin_24@gmail.com', '2022-05-16 16:49:46', '$2y$10$XOBpXH5/ggBRwnjwDzsTweWsaMFwPvsf7dnUQKuKS7bTZGGo.FWra', NULL, NULL, 3, 0, 0, 24, 0, NULL, 'fk5jj8QoS5', NULL, NULL),
-(19, 'Admin Tỉnh Phú Thọ', NULL, 'admin_25@gmail.com', '2022-05-16 16:49:46', '$2y$10$Shqse0DCK.50mD6KN4rOkOhB6czEdTkAt9UCUBT98aCw7qVPmC1JG', NULL, NULL, 3, 0, 0, 25, 0, NULL, 'l7OOMJWRZa', NULL, NULL),
-(20, 'Admin Tỉnh Vĩnh Phúc', NULL, 'admin_26@gmail.com', '2022-05-16 16:49:46', '$2y$10$ewM5Q1Y8t3y7LJADdjbqreVbHh57HoiIB4uapQfTbyC4lbY77tfbW', NULL, NULL, 3, 0, 0, 26, 0, NULL, 'CbMCD8GVtj', NULL, NULL),
-(21, 'Admin Tỉnh Bắc Ninh', NULL, 'admin_27@gmail.com', '2022-05-16 16:49:46', '$2y$10$sw20deCqkKgdMaqHuy08R.drJWgOrDZayTT6IcXFlofzCbEWQHKne', NULL, NULL, 3, 0, 0, 27, 0, NULL, 'qnNkXp78XZ', NULL, NULL),
-(22, 'Admin Tỉnh Hải Dương', NULL, 'admin_30@gmail.com', '2022-05-16 16:49:46', '$2y$10$i/GGeJkM4lao4enlJyTCnOwtDapsgnoT0t33tbaEYo8FiCXQliMe2', NULL, NULL, 3, 0, 0, 30, 0, NULL, 'gCKBj1r0WA', NULL, NULL),
-(23, 'Admin Thành phố Hải Phòng', NULL, 'admin_31@gmail.com', '2022-05-16 16:49:46', '$2y$10$VoxiPuixCtHrjVkWVKr6RuhhQ7VgVIQVDElJj.XGHL2CiS1GTsTHC', NULL, NULL, 3, 0, 0, 31, 0, NULL, 'zVmsh5V7n6', NULL, NULL),
-(24, 'Admin Tỉnh Hưng Yên', NULL, 'admin_33@gmail.com', '2022-05-16 16:49:46', '$2y$10$Dyr2lE1Y0deEB9xMso.lh.r6SpsqZp4YJaMAkbL8niabA9MahTzcW', NULL, NULL, 3, 0, 0, 33, 0, NULL, 'n0yfnK3ADG', NULL, NULL),
-(25, 'Admin Tỉnh Thái Bình', NULL, 'admin_34@gmail.com', '2022-05-16 16:49:46', '$2y$10$db8Svjgnvxqi6kIndZzxAOEcyR.6uh/8SbpVU0VcfoN93VhK.Tgwu', NULL, NULL, 3, 0, 0, 34, 0, NULL, 'b8jqB2Kpc7', NULL, NULL),
-(26, 'Admin Tỉnh Hà Nam', NULL, 'admin_35@gmail.com', '2022-05-16 16:49:47', '$2y$10$17jGsoSKOSe9pjGIByygnOheMeNUh/5IfssKIko/8O46G6Zl5rRly', NULL, NULL, 3, 0, 0, 35, 0, NULL, 'YgjwShANJ2', NULL, NULL),
-(27, 'Admin Tỉnh Nam Định', NULL, 'admin_36@gmail.com', '2022-05-16 16:49:47', '$2y$10$cC7DiVwXtEHKEP8RyOeQ1egkk6Sq5eE3UPePkVxuc4/tufEj7qnr6', NULL, NULL, 3, 0, 0, 36, 0, NULL, 'jzGP8wBdie', NULL, NULL),
-(28, 'Admin Tỉnh Ninh Bình', NULL, 'admin_37@gmail.com', '2022-05-16 16:49:47', '$2y$10$wbQRU8/ey6lYTRB5rLaP9u3AXB6f8Wy03zT71ifqJQ04CqyI04cFm', NULL, NULL, 3, 0, 0, 37, 0, NULL, '8Z4UkvGQYI', NULL, NULL),
-(29, 'Admin Tỉnh Thanh Hóa', NULL, 'admin_38@gmail.com', '2022-05-16 16:49:47', '$2y$10$NVEDuXI9Aft8HwAlcsf/bOaDPPobPWZY0sBGcnYRW97HJ2nAz6t3y', NULL, NULL, 3, 0, 0, 38, 0, NULL, '1MQmJeMHuF', NULL, NULL),
-(30, 'Admin Tỉnh Nghệ An', NULL, 'admin_40@gmail.com', '2022-05-16 16:49:47', '$2y$10$JqtzYF/BSyFczr6vdwoBweT20QIR9ymDSqxIfdaEnzSSAhC2q.Qo.', NULL, NULL, 3, 0, 0, 40, 0, NULL, 'aBL2UF6PlG', NULL, NULL),
-(31, 'Admin Tỉnh Hà Tĩnh', NULL, 'admin_42@gmail.com', '2022-05-16 16:49:47', '$2y$10$nQw/D1XK8m4QP.p6mQ/PNuNFgPcwoWzb2t4FbKKBQcgDzQ1d7sHie', NULL, NULL, 3, 0, 0, 42, 0, NULL, '9sxvSbufnQ', NULL, NULL),
-(32, 'Admin Tỉnh Quảng Bình', NULL, 'admin_44@gmail.com', '2022-05-16 16:49:47', '$2y$10$LBaMvrieMwEOuUWz64ZfNeGDqEyo4LdeqbPyMwu/zN0dh8HQUW9ua', NULL, NULL, 3, 0, 0, 44, 0, NULL, '5giBmMJKIs', NULL, NULL),
-(33, 'Admin Tỉnh Quảng Trị', NULL, 'admin_45@gmail.com', '2022-05-16 16:49:47', '$2y$10$YHuetnGra2Pf5t8IzCSFUevBMZouMOLSPmrKYoNbSgKi8XKPOdb7e', NULL, NULL, 3, 0, 0, 45, 0, NULL, 'C2VVebG6Wf', NULL, NULL),
-(34, 'Admin Tỉnh Thừa Thiên Huế', NULL, 'admin_46@gmail.com', '2022-05-16 16:49:47', '$2y$10$X8ndh7A4sKVVj5ahGzL0/ea562m7zBmlyf9bTSVc5jHzS8Q9.7EOS', NULL, NULL, 3, 0, 0, 46, 0, NULL, '4cw7kdGtsi', NULL, NULL),
-(35, 'Admin Thành phố Đà Nẵng', NULL, 'admin_48@gmail.com', '2022-05-16 16:49:47', '$2y$10$qQ2JNOgeg5NGSvD4teKcZuZ3M5F8.EmFBuPOr1zoD0NQaCwBchoAi', NULL, NULL, 3, 0, 0, 48, 0, NULL, 'oqGy70QOlN', NULL, NULL),
-(36, 'Admin Tỉnh Quảng Nam', NULL, 'admin_49@gmail.com', '2022-05-16 16:49:47', '$2y$10$KtatnkjrEtTGxfkzJxOWl.wI7NCX1o6TEIurvLn4n7zTKfxfPKTvy', NULL, NULL, 3, 0, 0, 49, 0, NULL, 'kGJ7jIzJNA', NULL, NULL),
-(37, 'Admin Tỉnh Quảng Ngãi', NULL, 'admin_51@gmail.com', '2022-05-16 16:49:47', '$2y$10$G8hgMsYM6ICDGMbY6bavdOO3q22623w5ENuVrXBAJBLcZnkDjtVoO', NULL, NULL, 3, 0, 0, 51, 0, NULL, 'jZ2QiDG01v', NULL, NULL),
-(38, 'Admin Tỉnh Bình Định', NULL, 'admin_52@gmail.com', '2022-05-16 16:49:47', '$2y$10$yaVTPaA8w0UQxX04Q6odlu4luMHXUKcuWHhYPAsIbgWVP.KGXB4SO', NULL, NULL, 3, 0, 0, 52, 0, NULL, 'ak4siY3nCx', NULL, NULL),
-(39, 'Admin Tỉnh Phú Yên', NULL, 'admin_54@gmail.com', '2022-05-16 16:49:47', '$2y$10$o33yx7wlPFWmUVK30dPvDe8ZKYsetBhedNG.NrWoLxXmjy2iTEtRK', NULL, NULL, 3, 0, 0, 54, 0, NULL, 'a1wu2beBst', NULL, NULL),
-(40, 'Admin Tỉnh Khánh Hòa', NULL, 'admin_56@gmail.com', '2022-05-16 16:49:48', '$2y$10$6aRHlJsPbWJSHWYabQqSJ.SNfoYMaI/ev5oo181ubFsMJc2cGsWk6', NULL, NULL, 3, 0, 0, 56, 0, NULL, 'xBJtqeiHRP', NULL, NULL),
-(41, 'Admin Tỉnh Ninh Thuận', NULL, 'admin_58@gmail.com', '2022-05-16 16:49:48', '$2y$10$ckhp8ojL1InUhpibnWxGburcV8XesgxSDCVm8AtpXz6dEttsfLfUG', NULL, NULL, 3, 0, 0, 58, 0, NULL, '41dw8LSzB3', NULL, NULL),
-(42, 'Admin Tỉnh Bình Thuận', NULL, 'admin_60@gmail.com', '2022-05-16 16:49:48', '$2y$10$rbEj46eO9eeBinp/M7sgv.MwBUGuM0dQnmhSz67AFMT9l0pbFSn2e', NULL, NULL, 3, 0, 0, 60, 0, NULL, '2NYRMpcvZN', NULL, NULL),
-(43, 'Admin Tỉnh Kon Tum', NULL, 'admin_62@gmail.com', '2022-05-16 16:49:48', '$2y$10$9hXJUNAp5lu3jtJrbVKiVedRM7n.4CTgaKLiBd8dB0tmKG6y1uAHa', NULL, NULL, 3, 0, 0, 62, 0, NULL, 'vx4sLAyMSF', NULL, NULL),
-(44, 'Admin Tỉnh Gia Lai', NULL, 'admin_64@gmail.com', '2022-05-16 16:49:48', '$2y$10$PTxPNViHymrAtYNorxzqV.fJu0t.LtSokmFIXsOG.ODJRCDkRMrxm', NULL, NULL, 3, 0, 0, 64, 0, NULL, 'SHGJBNWczM', NULL, NULL),
-(45, 'Admin Tỉnh Đắk Lắk', NULL, 'admin_66@gmail.com', '2022-05-16 16:49:48', '$2y$10$ln.Nc/qWrmXskQw/aBgNDumCM.EO7R4z3YrBHLUYqLpvP9FZtM4US', NULL, NULL, 3, 0, 0, 66, 0, NULL, 'JzVbAPk4Eg', NULL, NULL),
-(46, 'Admin Tỉnh Đắk Nông', NULL, 'admin_67@gmail.com', '2022-05-16 16:49:48', '$2y$10$HiJuG/MbuTzk.pIxaADjBuuM1CVb.HdRKRsege9RXJnzfup9v4qHi', NULL, NULL, 3, 0, 0, 67, 0, NULL, '6xqxbCVeZb', NULL, NULL),
-(47, 'Admin Tỉnh Lâm Đồng', NULL, 'admin_68@gmail.com', '2022-05-16 16:49:48', '$2y$10$F18iSqkRFfVf16x7hXpo2ugOBkbqC4ywGsO9xAo9/bapqv2rne96y', NULL, NULL, 3, 0, 0, 68, 0, NULL, '8M01ctS0Ph', NULL, NULL),
-(48, 'Admin Tỉnh Bình Phước', NULL, 'admin_70@gmail.com', '2022-05-16 16:49:48', '$2y$10$dxS4pUlXFF4JAm51hKjzdOy/0DoK10g4/C89ktj3QB7kqo.YpCn4y', NULL, NULL, 3, 0, 0, 70, 0, NULL, 'BdMGQN5Ud3', NULL, NULL),
-(49, 'Admin Tỉnh Tây Ninh', NULL, 'admin_72@gmail.com', '2022-05-16 16:49:48', '$2y$10$2vwaHpx3zij4WZ4Tf5GWquPvUHZmi0v702N6t14cZZzwlscKBjyDq', NULL, NULL, 3, 0, 0, 72, 0, NULL, 'IbLqTjO9Cz', NULL, NULL),
-(50, 'Admin Tỉnh Bình Dương', NULL, 'admin_74@gmail.com', '2022-05-16 16:49:48', '$2y$10$HEKdpWG8SwGzXhoSXls7Q.u1iASHL1yJ6LcqissH26CyAQnrJA2y6', NULL, NULL, 3, 0, 0, 74, 0, NULL, 'R5wjIwusfQ', NULL, NULL),
-(51, 'Admin Tỉnh Đồng Nai', NULL, 'admin_75@gmail.com', '2022-05-16 16:49:48', '$2y$10$twoPMl.6WerzdRCEh5YLkOy.k1oHdCOVfpdmg4RqkI0iFgtIrUDt2', NULL, NULL, 3, 0, 0, 75, 0, NULL, 'LhUaUTxQP2', NULL, NULL),
-(52, 'Admin Tỉnh Bà Rịa - Vũng Tàu', NULL, 'admin_77@gmail.com', '2022-05-16 16:49:48', '$2y$10$gQuqpWv2ul0AxWtqKC5BB.84aO0tRESQpuBxegHegTnf90XUl9cCq', NULL, NULL, 3, 0, 0, 77, 0, NULL, '2bVPkp0DXB', NULL, NULL),
-(53, 'Admin Thành phố Hồ Chí Minh', NULL, 'admin_79@gmail.com', '2022-05-16 16:49:48', '$2y$10$yicr2JkLBqJX.Li01ZefwOL2FQsQ18ix6JBhxlNQs6MEqGwqpo9R.', NULL, NULL, 3, 0, 0, 79, 0, NULL, 'aHY8mGRwPv', NULL, NULL),
-(54, 'Admin Tỉnh Long An', NULL, 'admin_80@gmail.com', '2022-05-16 16:49:49', '$2y$10$/y/ydGDH3XRAANbo118wzOEt3bW4OQJPrkQYqtKSFRHWd1tz/p9DK', NULL, NULL, 3, 0, 0, 80, 0, NULL, 'TNsmrRT7hZ', NULL, NULL),
-(55, 'Admin Tỉnh Tiền Giang', NULL, 'admin_82@gmail.com', '2022-05-16 16:49:49', '$2y$10$GLVg/Bo1AA2fl7XTC9g1JuhK3gKFZoSkLA.ZdY94YVCKv0UbL5xTS', NULL, NULL, 3, 0, 0, 82, 0, NULL, 'XmNA7YKqun', NULL, NULL),
-(56, 'Admin Tỉnh Bến Tre', NULL, 'admin_83@gmail.com', '2022-05-16 16:49:49', '$2y$10$qKJ0N9V6sRt33MTWT37f3OyunLJnmcE7bS1qC.E/JY4jmb1/Qjtp2', NULL, NULL, 3, 0, 0, 83, 0, NULL, 'ptEQE7jYX3', NULL, NULL),
-(57, 'Admin Tỉnh Trà Vinh', NULL, 'admin_84@gmail.com', '2022-05-16 16:49:49', '$2y$10$yzxTPXhO2YYC4vgaVCl5CuN9YwME6EhQBw447pJ9uCyZzez8oeV2y', NULL, NULL, 3, 0, 0, 84, 0, NULL, 'Oto2lEHZVX', NULL, NULL),
-(58, 'Admin Tỉnh Vĩnh Long', NULL, 'admin_86@gmail.com', '2022-05-16 16:49:49', '$2y$10$9dzX8kYTQhhKzY0okDk2P.3TCfNMhkINdYqPS1wArZQkIiFBPPdnC', NULL, NULL, 3, 0, 0, 86, 0, NULL, 'ztMaYYVKe9', NULL, NULL),
-(59, 'Admin Tỉnh Đồng Tháp', NULL, 'admin_87@gmail.com', '2022-05-16 16:49:49', '$2y$10$TKix0oMgeKVu/88BaK9I0OPqyQSjcY0EJg5sW452YwviF5G31TPEm', NULL, NULL, 3, 0, 0, 87, 0, NULL, 'NP7lwRzJWn', NULL, NULL),
-(60, 'Admin Tỉnh An Giang', NULL, 'admin_89@gmail.com', '2022-05-16 16:49:49', '$2y$10$cq37GAyMb/2AnGGEADlOZubMS.ELwPvhAC4ljcmIn7Bhi5m1hZNnO', NULL, NULL, 3, 0, 0, 89, 0, NULL, 'onS1Y6ERkR', NULL, NULL),
-(61, 'Admin Tỉnh Kiên Giang', NULL, 'admin_91@gmail.com', '2022-05-16 16:49:49', '$2y$10$mJsLS1ownTPwsFGHZy7WXOrET8WfswhJISUhH6vWGcYKOzjFvx1.2', NULL, NULL, 3, 0, 0, 91, 0, NULL, 'PkneP6WUAn', NULL, NULL),
-(62, 'Admin Thành phố Cần Thơ', NULL, 'admin_92@gmail.com', '2022-05-16 16:49:49', '$2y$10$gq4YcFM3uvpPearc1IxwHeEw9RkZ3pZPw0pRULcNmTM1FwHZpt33y', NULL, NULL, 3, 0, 0, 92, 0, NULL, '9V4YTc7s1J', NULL, NULL),
-(63, 'Admin Tỉnh Hậu Giang', NULL, 'admin_93@gmail.com', '2022-05-16 16:49:49', '$2y$10$1IwsFNFfj8CApHx.qVnEe.NtWFarXwzJ8lfy6EUkmPVVq6n9vVujG', NULL, NULL, 3, 0, 0, 93, 0, NULL, '11VZG8qKt5', NULL, NULL),
-(64, 'Admin Tỉnh Sóc Trăng', NULL, 'admin_94@gmail.com', '2022-05-16 16:49:49', '$2y$10$EcLyeK9xaxndY7GrDKjdDu3mFRD6zIfUeBNmjwLZV/fhj8Iswe9La', NULL, NULL, 3, 0, 0, 94, 0, NULL, 'Nai9jmZ2yH', NULL, NULL),
-(65, 'Admin Tỉnh Bạc Liêu', NULL, 'admin_95@gmail.com', '2022-05-16 16:49:49', '$2y$10$hURIfk.wq.Oxl1PaobzM8eAGGu5P8P8XPiCe38R.JUEi0zA8LRjMq', NULL, NULL, 3, 0, 0, 95, 0, NULL, 'S2ThgSH3Zf', NULL, NULL),
-(66, 'Admin Tỉnh Cà Mau', NULL, 'admin_96@gmail.com', '2022-05-16 16:49:49', '$2y$10$i2TqwbOIUVR4rITQZVfE1O7Zx65EjlC0GzfQHoehBiC0wlyUwE/TK', NULL, NULL, 3, 0, 0, 96, 0, NULL, 'kvI9IDg8bf', NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `password`, `status`, `mobile`, `dateOfBirth`, `lastLogin`, `role`, `cash`, `point`, `province_id`, `google2fa`, `google2fa_secret`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'nguyen anh khoa', '0365664356', NULL, NULL, '$2y$10$Swb6B7tvGMFakpYEblODCurgBgm0i49g4bEOCj3aiF.dVN.xEFzVK', 'active', NULL, NULL, '2022-05-15 21:42:17', 'admin', 0, 500, 18, 0, NULL, NULL, '2022-05-15 07:34:58', '2022-05-15 14:42:17');
 
 -- --------------------------------------------------------
 
@@ -2679,13 +2379,6 @@ INSERT INTO `user_metas` (`id`, `userId`, `notify_admin`, `newsletter`, `unusual
 --
 ALTER TABLE `activities`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `banks`
---
-ALTER TABLE `banks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `banks_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `email_templates`
@@ -2727,30 +2420,10 @@ ALTER TABLE `languages`
   ADD UNIQUE KEY `languages_code_unique` (`code`);
 
 --
--- Indexes for table `levels`
---
-ALTER TABLE `levels`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `model_has_permissions`
---
-ALTER TABLE `model_has_permissions`
-  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
-  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
-
---
--- Indexes for table `model_has_roles`
---
-ALTER TABLE `model_has_roles`
-  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
-  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
 -- Indexes for table `pages`
@@ -2773,13 +2446,6 @@ ALTER TABLE `payment_methods`
   ADD UNIQUE KEY `payment_methods_payment_method_unique` (`payment_method`);
 
 --
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
-
---
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -2797,21 +2463,9 @@ ALTER TABLE `provinces`
 -- Indexes for table `referrals`
 --
 ALTER TABLE `referrals`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
-
---
--- Indexes for table `role_has_permissions`
---
-ALTER TABLE `role_has_permissions`
-  ADD PRIMARY KEY (`permission_id`,`role_id`),
-  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+  ADD KEY `referrals_user_id_foreign` (`user_id`),
+  ADD KEY `referrals_refer_by_id_foreign` (`refer_by_id`);
 
 --
 -- Indexes for table `settings`
@@ -2838,7 +2492,8 @@ ALTER TABLE `translates`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_phone_unique` (`phone`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD KEY `users_province_id_foreign` (`province_id`);
 
 --
 -- Indexes for table `user_metas`
@@ -2854,13 +2509,7 @@ ALTER TABLE `user_metas`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
-
---
--- AUTO_INCREMENT for table `banks`
---
-ALTER TABLE `banks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `email_templates`
@@ -2890,7 +2539,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `kycs`
 --
 ALTER TABLE `kycs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `languages`
@@ -2899,16 +2548,10 @@ ALTER TABLE `languages`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `levels`
---
-ALTER TABLE `levels`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -2923,12 +2566,6 @@ ALTER TABLE `payment_methods`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
@@ -2938,19 +2575,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `provinces`
 --
 ALTER TABLE `provinces`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `referrals`
 --
 ALTER TABLE `referrals`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -2974,7 +2605,7 @@ ALTER TABLE `translates`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_metas`
@@ -2987,35 +2618,23 @@ ALTER TABLE `user_metas`
 --
 
 --
--- Constraints for table `banks`
+-- Constraints for table `referrals`
 --
-ALTER TABLE `banks`
-  ADD CONSTRAINT `banks_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `model_has_permissions`
---
-ALTER TABLE `model_has_permissions`
-  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `model_has_roles`
---
-ALTER TABLE `model_has_roles`
-  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `role_has_permissions`
---
-ALTER TABLE `role_has_permissions`
-  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+ALTER TABLE `referrals`
+  ADD CONSTRAINT `referrals_refer_by_id_foreign` FOREIGN KEY (`refer_by_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `referrals_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transactions`
 --
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_province_id_foreign` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

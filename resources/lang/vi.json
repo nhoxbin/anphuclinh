@@ -624,5 +624,6 @@
     "Enter the same value.": "Enter the same value.",
     "At least :num chars.": "At least :num chars.",
     "Required.": "Required.",
-    "You do not have enough permissions to perform requested operation.": "You do not have enough permissions to perform requested operation."
+    "You do not have enough permissions to perform requested operation.": "You do not have enough permissions to perform requested operation.",
+    "Refer Bonus": "Thưởng đăng ký"
 }

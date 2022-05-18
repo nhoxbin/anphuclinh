@@ -10,7 +10,9 @@
 |
 */
 
+use App\Helpers\PointCalc;
 use App\Models\KYC;
+use App\Models\User;
 use App\Services\KYCService;
 
 /* if (application_installed()) {
@@ -20,9 +22,9 @@ use App\Services\KYCService;
 } */
 
 /* Route::get('test', function () {
-    $kyc = KYC::latest()->first();
-    $kyc_service = new KYCService();
-    $kyc_service->handle($kyc);
+    $point = PointCalc::getPoint('refer');
+    $user = User::find(4);
+    $user->addPoints($point, __('Refer Bonus'));
 }); */
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {

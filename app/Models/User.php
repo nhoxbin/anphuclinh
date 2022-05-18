@@ -1,60 +1,44 @@
 <?php
 
-/** @noinspection ALL */
-
-/**
- * User Model
- *
- * The User Model
- *
- * @package TokenLite
- * @author Softnio
- * @version 1.0
- */
-
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Models\KYC;
 use App\Models\Setting;
-use Illuminate\Http\Request;
 use App\Notifications\ResetPassword;
+use Bavix\Wallet\{
+    Traits\CanPay,
+    Interfaces\Customer,
+};
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
+use Outhebox\Pointable\Contracts\Pointable;
+use Outhebox\Pointable\Traits\Pointable as PointableTrait;
 
-/**
- * @property mixed walletAddress
- */
-class User extends Authenticatable // implements MustVerifyEmail
+class User extends Authenticatable implements Customer, Pointable // implements MustVerifyEmail
 {
+    use CanPay, PointableTrait {
+        CanPay::transactions insteadof PointableTrait;
+        PointableTrait::transactions as point_transactions;
+    }
     use HasRoles;
     use Notifiable;
 
-    /*
-     * Table Name Specified
-     */
-    protected $table = 'users';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'phone', 'email', 'password', 'lastLogin', 'role', 'point', 'province_code'
+        'name', 'phone', 'email', 'password', 'lastLogin', 'province_code'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    public function addPoints($amount, $message, $data = null)
+    {
+        return (new PointTransaction())->addTransaction($this, $amount, $message, $data = null);
+    }
 
     /**
      * Send the password reset notification.
@@ -126,7 +110,7 @@ class User extends Authenticatable // implements MustVerifyEmail
 
     public function refs()
     {
-        return $this->hasMany('App\Models\Referral', 'refer_by_id');
+        return $this->hasMany('App\Models\Referral', 'refer_by');
     }
 
 	public function banks()

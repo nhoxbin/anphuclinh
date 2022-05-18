@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 15, 2022 at 02:43 PM
+-- Generation Time: May 18, 2022 at 09:37 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.22
 
@@ -94,7 +94,30 @@ INSERT INTO `activities` (`id`, `user_id`, `device`, `browser`, `ip`, `extra`, `
 (48, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-14 02:02:04', '2022-05-14 02:02:04'),
 (49, 8, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-14 02:21:11', '2022-05-14 02:21:11'),
 (50, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-14 05:29:03', '2022-05-14 05:29:03'),
-(51, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-15 14:42:17', '2022-05-15 14:42:17');
+(51, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-15 14:42:17', '2022-05-15 14:42:17'),
+(52, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-15 16:56:10', '2022-05-15 16:56:10'),
+(53, 67, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-16 17:02:30', '2022-05-16 17:02:30'),
+(54, 1, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-16 17:06:57', '2022-05-16 17:06:57'),
+(55, 4, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-16 17:20:16', '2022-05-16 17:20:16'),
+(56, 70, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-16 17:29:23', '2022-05-16 17:29:23'),
+(57, 4, 'WebKit/Windows-10.0', 'Chrome/101.0.4951.54', '127.0.0.1', NULL, '2022-05-17 09:06:16', '2022-05-17 09:06:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `banks`
+--
+
+CREATE TABLE `banks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Tên ngân hàng',
+  `host` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Tên chủ tài khoản',
+  `number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Số tài khoản',
+  `branch` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Chi nhánh',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -196,6 +219,13 @@ CREATE TABLE `jobs` (
   `created_at` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `jobs`
+--
+
+INSERT INTO `jobs` (`id`, `queue`, `payload`, `attempts`, `reserved_at`, `available_at`, `created_at`) VALUES
+(1, 'kycs', '{\"uuid\":\"0ee11486-d666-44b4-a7fe-c8f711f00dc5\",\"displayName\":\"App\\\\Jobs\\\\KYCJob\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"maxExceptions\":null,\"failOnTimeout\":false,\"backoff\":null,\"timeout\":null,\"retryUntil\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\KYCJob\",\"command\":\"O:15:\\\"App\\\\Jobs\\\\KYCJob\\\":11:{s:8:\\\"\\u0000*\\u0000kuser\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":4:{s:5:\\\"class\\\";s:14:\\\"App\\\\Models\\\\KYC\\\";s:2:\\\"id\\\";i:1;s:9:\\\"relations\\\";a:0:{}s:10:\\\"connection\\\";s:5:\\\"mysql\\\";}s:3:\\\"job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";s:4:\\\"kycs\\\";s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:19:\\\"chainCatchCallbacks\\\";N;s:5:\\\"delay\\\";N;s:11:\\\"afterCommit\\\";N;s:10:\\\"middleware\\\";a:0:{}s:7:\\\"chained\\\";a:0:{}}\"}}', 0, NULL, 1652778490, 1652778490);
+
 -- --------------------------------------------------------
 
 --
@@ -207,7 +237,7 @@ CREATE TABLE `kycs` (
   `userId` int(11) NOT NULL,
   `firstName` varchar(191) NOT NULL,
   `lastName` varchar(191) DEFAULT NULL,
-  `email` varchar(191) NOT NULL,
+  `email` varchar(191) DEFAULT NULL,
   `phone` varchar(191) DEFAULT NULL,
   `dob` varchar(191) DEFAULT NULL,
   `gender` varchar(191) DEFAULT NULL,
@@ -233,6 +263,13 @@ CREATE TABLE `kycs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `kycs`
+--
+
+INSERT INTO `kycs` (`id`, `userId`, `firstName`, `lastName`, `email`, `phone`, `dob`, `gender`, `address1`, `address2`, `city`, `state`, `zip`, `country`, `telegram`, `documentType`, `documentId`, `document`, `document2`, `document3`, `walletName`, `walletAddress`, `notes`, `reviewedBy`, `reviewedAt`, `status`, `meta`, `created_at`, `updated_at`) VALUES
+(1, 70, 'Vũ Minh Chiều', '', NULL, '0365664356', '03/12/2022', 'male', 'Xã Kông Bơ La, Huyện Kbang, Gia Lai', '', 'Tỉnh Bình Định', '', '', '', '', 'nidcard', '231213739', 'kyc-files/UD00070-doc-one-1652778245.png', 'kyc-files/UD00070-doc-two-1652778248.png', 'kyc-files/UD00070-doc-hand-1652778251.png', '', '', NULL, 0, NULL, 'pending', NULL, '2022-05-17 09:08:09', '2022-05-17 09:08:09');
 
 -- --------------------------------------------------------
 
@@ -262,6 +299,22 @@ INSERT INTO `languages` (`id`, `name`, `label`, `short`, `code`, `status`, `crea
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `levels`
+--
+
+CREATE TABLE `levels` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lv` int(10) UNSIGNED NOT NULL,
+  `strong` decimal(25,2) UNSIGNED NOT NULL COMMENT 'nhánh mạnh',
+  `weak` decimal(25,2) UNSIGNED NOT NULL COMMENT 'nhánh yếu',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -281,8 +334,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2018_11_03_084440_create_activities_table', 1),
 (5, '2018_11_03_091911_create_user_metas_table', 1),
 (7, '2018_11_05_055256_create_kycs_table', 1),
-(8, '2018_11_08_110810_create_ico_stages_table', 1),
-(9, '2018_11_10_054817_create_ico_metas_table', 1),
 (10, '2018_11_12_090411_create_payment_methods_table', 1),
 (11, '2018_11_22_102451_create_pages_table', 1),
 (12, '2018_11_27_123445_create_email_templates_table', 1),
@@ -291,11 +342,115 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2019_08_28_130334_create_translates_table', 1),
 (23, '2022_04_30_152027_create_jobs_table', 2),
 (25, '2022_05_05_223627_create_failed_jobs_table', 2),
-(44, '2014_10_11_000000_create_provinces_table', 3),
-(45, '2014_10_12_000000_create_users_table', 3),
-(46, '2018_11_03_100212_create_transactions_table', 3),
-(47, '2019_12_14_000001_create_personal_access_tokens_table', 3),
-(48, '2022_05_15_130907_create_referrals_table', 4);
+(176, '2014_10_11_000000_create_provinces_table', 3),
+(177, '2014_10_12_000000_create_users_table', 3),
+(178, '2017_10_10_100000_create_point_transactions_table', 3),
+(179, '2018_11_06_222923_create_transactions_table', 3),
+(180, '2018_11_07_192923_create_transfers_table', 3),
+(181, '2018_11_15_124230_create_wallets_table', 3),
+(182, '2019_12_14_000001_create_personal_access_tokens_table', 3),
+(183, '2021_11_02_202021_update_wallets_uuid_table', 3),
+(184, '2022_05_15_130907_create_referrals_table', 3),
+(185, '2022_05_16_105855_create_banks_table', 3),
+(186, '2022_05_16_162143_create_levels_table', 3),
+(187, '2022_05_16_164437_create_permission_tables', 3),
+(188, '2022_05_18_124352_create_products_table', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'App\\Models\\User', 1),
+(2, 'App\\Models\\User', 2),
+(2, 'App\\Models\\User', 3),
+(3, 'App\\Models\\User', 4),
+(3, 'App\\Models\\User', 5),
+(3, 'App\\Models\\User', 6),
+(3, 'App\\Models\\User', 7),
+(3, 'App\\Models\\User', 8),
+(3, 'App\\Models\\User', 9),
+(3, 'App\\Models\\User', 10),
+(3, 'App\\Models\\User', 11),
+(3, 'App\\Models\\User', 12),
+(3, 'App\\Models\\User', 13),
+(3, 'App\\Models\\User', 14),
+(3, 'App\\Models\\User', 15),
+(3, 'App\\Models\\User', 16),
+(3, 'App\\Models\\User', 17),
+(3, 'App\\Models\\User', 18),
+(3, 'App\\Models\\User', 19),
+(3, 'App\\Models\\User', 20),
+(3, 'App\\Models\\User', 21),
+(3, 'App\\Models\\User', 22),
+(3, 'App\\Models\\User', 23),
+(3, 'App\\Models\\User', 24),
+(3, 'App\\Models\\User', 25),
+(3, 'App\\Models\\User', 26),
+(3, 'App\\Models\\User', 27),
+(3, 'App\\Models\\User', 28),
+(3, 'App\\Models\\User', 29),
+(3, 'App\\Models\\User', 30),
+(3, 'App\\Models\\User', 31),
+(3, 'App\\Models\\User', 32),
+(3, 'App\\Models\\User', 33),
+(3, 'App\\Models\\User', 34),
+(3, 'App\\Models\\User', 35),
+(3, 'App\\Models\\User', 36),
+(3, 'App\\Models\\User', 37),
+(3, 'App\\Models\\User', 38),
+(3, 'App\\Models\\User', 39),
+(3, 'App\\Models\\User', 40),
+(3, 'App\\Models\\User', 41),
+(3, 'App\\Models\\User', 42),
+(3, 'App\\Models\\User', 43),
+(3, 'App\\Models\\User', 44),
+(3, 'App\\Models\\User', 45),
+(3, 'App\\Models\\User', 46),
+(3, 'App\\Models\\User', 47),
+(3, 'App\\Models\\User', 48),
+(3, 'App\\Models\\User', 49),
+(3, 'App\\Models\\User', 50),
+(3, 'App\\Models\\User', 51),
+(3, 'App\\Models\\User', 52),
+(3, 'App\\Models\\User', 53),
+(3, 'App\\Models\\User', 54),
+(3, 'App\\Models\\User', 55),
+(3, 'App\\Models\\User', 56),
+(3, 'App\\Models\\User', 57),
+(3, 'App\\Models\\User', 58),
+(3, 'App\\Models\\User', 59),
+(3, 'App\\Models\\User', 60),
+(3, 'App\\Models\\User', 61),
+(3, 'App\\Models\\User', 62),
+(3, 'App\\Models\\User', 63),
+(3, 'App\\Models\\User', 64),
+(3, 'App\\Models\\User', 65),
+(3, 'App\\Models\\User', 66);
 
 -- --------------------------------------------------------
 
@@ -376,6 +531,20 @@ INSERT INTO `payment_methods` (`id`, `payment_method`, `title`, `description`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `personal_access_tokens`
 --
 
@@ -394,6 +563,117 @@ CREATE TABLE `personal_access_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `point_transactions`
+--
+
+CREATE TABLE `point_transactions` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pointable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pointable_id` bigint(20) UNSIGNED NOT NULL,
+  `amount` bigint(20) NOT NULL,
+  `current` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `point_transactions`
+--
+
+INSERT INTO `point_transactions` (`id`, `message`, `pointable_type`, `pointable_id`, `amount`, `current`, `created_at`, `updated_at`) VALUES
+(1, 'Thưởng đăng ký', 'App\\Models\\User', 4, 180, 180, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(2, 'Thưởng đăng ký', 'App\\Models\\User', 5, 180, 180, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(3, 'Thưởng đăng ký', 'App\\Models\\User', 6, 180, 180, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(4, 'Thưởng đăng ký', 'App\\Models\\User', 7, 180, 180, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(5, 'Thưởng đăng ký', 'App\\Models\\User', 8, 180, 180, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(6, 'Thưởng đăng ký', 'App\\Models\\User', 9, 180, 180, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(7, 'Thưởng đăng ký', 'App\\Models\\User', 10, 180, 180, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(8, 'Thưởng đăng ký', 'App\\Models\\User', 11, 180, 180, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(9, 'Thưởng đăng ký', 'App\\Models\\User', 12, 180, 180, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(10, 'Thưởng đăng ký', 'App\\Models\\User', 13, 180, 180, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(11, 'Thưởng đăng ký', 'App\\Models\\User', 14, 180, 180, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(12, 'Thưởng đăng ký', 'App\\Models\\User', 15, 180, 180, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(13, 'Thưởng đăng ký', 'App\\Models\\User', 16, 180, 180, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(14, 'Thưởng đăng ký', 'App\\Models\\User', 17, 180, 180, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(15, 'Thưởng đăng ký', 'App\\Models\\User', 18, 180, 180, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(16, 'Thưởng đăng ký', 'App\\Models\\User', 19, 180, 180, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(17, 'Thưởng đăng ký', 'App\\Models\\User', 20, 180, 180, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(18, 'Thưởng đăng ký', 'App\\Models\\User', 21, 180, 180, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(19, 'Thưởng đăng ký', 'App\\Models\\User', 22, 180, 180, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(20, 'Thưởng đăng ký', 'App\\Models\\User', 23, 180, 180, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(21, 'Thưởng đăng ký', 'App\\Models\\User', 24, 180, 180, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(22, 'Thưởng đăng ký', 'App\\Models\\User', 25, 180, 180, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(23, 'Thưởng đăng ký', 'App\\Models\\User', 26, 180, 180, '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(24, 'Thưởng đăng ký', 'App\\Models\\User', 27, 180, 180, '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(25, 'Thưởng đăng ký', 'App\\Models\\User', 28, 180, 180, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(26, 'Thưởng đăng ký', 'App\\Models\\User', 29, 180, 180, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(27, 'Thưởng đăng ký', 'App\\Models\\User', 30, 180, 180, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(28, 'Thưởng đăng ký', 'App\\Models\\User', 31, 180, 180, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(29, 'Thưởng đăng ký', 'App\\Models\\User', 32, 180, 180, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(30, 'Thưởng đăng ký', 'App\\Models\\User', 33, 180, 180, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(31, 'Thưởng đăng ký', 'App\\Models\\User', 34, 180, 180, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(32, 'Thưởng đăng ký', 'App\\Models\\User', 35, 180, 180, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(33, 'Thưởng đăng ký', 'App\\Models\\User', 36, 180, 180, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(34, 'Thưởng đăng ký', 'App\\Models\\User', 37, 180, 180, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(35, 'Thưởng đăng ký', 'App\\Models\\User', 38, 180, 180, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(36, 'Thưởng đăng ký', 'App\\Models\\User', 39, 180, 180, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(37, 'Thưởng đăng ký', 'App\\Models\\User', 40, 180, 180, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(38, 'Thưởng đăng ký', 'App\\Models\\User', 41, 180, 180, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(39, 'Thưởng đăng ký', 'App\\Models\\User', 42, 180, 180, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(40, 'Thưởng đăng ký', 'App\\Models\\User', 43, 180, 180, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(41, 'Thưởng đăng ký', 'App\\Models\\User', 44, 180, 180, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(42, 'Thưởng đăng ký', 'App\\Models\\User', 45, 180, 180, '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(43, 'Thưởng đăng ký', 'App\\Models\\User', 46, 180, 180, '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(44, 'Thưởng đăng ký', 'App\\Models\\User', 47, 180, 180, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(45, 'Thưởng đăng ký', 'App\\Models\\User', 48, 180, 180, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(46, 'Thưởng đăng ký', 'App\\Models\\User', 49, 180, 180, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(47, 'Thưởng đăng ký', 'App\\Models\\User', 50, 180, 180, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(48, 'Thưởng đăng ký', 'App\\Models\\User', 51, 180, 180, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(49, 'Thưởng đăng ký', 'App\\Models\\User', 52, 180, 180, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(50, 'Thưởng đăng ký', 'App\\Models\\User', 53, 180, 180, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(51, 'Thưởng đăng ký', 'App\\Models\\User', 54, 180, 180, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(52, 'Thưởng đăng ký', 'App\\Models\\User', 55, 180, 180, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(53, 'Thưởng đăng ký', 'App\\Models\\User', 56, 180, 180, '2022-05-18 09:36:42', '2022-05-18 09:36:42'),
+(54, 'Thưởng đăng ký', 'App\\Models\\User', 57, 180, 180, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(55, 'Thưởng đăng ký', 'App\\Models\\User', 58, 180, 180, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(56, 'Thưởng đăng ký', 'App\\Models\\User', 59, 180, 180, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(57, 'Thưởng đăng ký', 'App\\Models\\User', 60, 180, 180, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(58, 'Thưởng đăng ký', 'App\\Models\\User', 61, 180, 180, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(59, 'Thưởng đăng ký', 'App\\Models\\User', 62, 180, 180, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(60, 'Thưởng đăng ký', 'App\\Models\\User', 63, 180, 180, '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(61, 'Thưởng đăng ký', 'App\\Models\\User', 64, 180, 180, '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(62, 'Thưởng đăng ký', 'App\\Models\\User', 65, 180, 180, '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(63, 'Thưởng đăng ký', 'App\\Models\\User', 66, 180, 180, '2022-05-18 09:36:44', '2022-05-18 09:36:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` decimal(15,2) UNSIGNED NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `price`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'Gói Combo 3tr', '3000000.00', 'http://localhost/images/products/icon-sp.png', NULL, NULL),
+(2, 'Sữa non Special New Crown +', '486000.00', 'http://localhost/images/products/sua.png', NULL, NULL),
+(3, 'Hoàn Hương Xuân', '680000.00', 'http://localhost/images/products/hhh.png', NULL, NULL),
+(4, 'Curmaxi Gold', '399000.00', 'http://localhost/images/products/cumaxi.png', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `provinces`
 --
 
@@ -401,7 +681,8 @@ CREATE TABLE `provinces` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `division_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `codename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` int(10) UNSIGNED NOT NULL,
+  `area` enum('south','north') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -410,70 +691,70 @@ CREATE TABLE `provinces` (
 -- Dumping data for table `provinces`
 --
 
-INSERT INTO `provinces` (`id`, `name`, `division_type`, `codename`, `created_at`, `updated_at`) VALUES
-(1, 'Thành phố Hà Nội', 'thành phố trung ương', 'thanh_pho_ha_noi', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(2, 'Tỉnh Hà Giang', 'tỉnh', 'tinh_ha_giang', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(3, 'Tỉnh Cao Bằng', 'tỉnh', 'tinh_cao_bang', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(4, 'Tỉnh Bắc Kạn', 'tỉnh', 'tinh_bac_kan', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(5, 'Tỉnh Tuyên Quang', 'tỉnh', 'tinh_tuyen_quang', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(6, 'Tỉnh Lào Cai', 'tỉnh', 'tinh_lao_cai', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(7, 'Tỉnh Điện Biên', 'tỉnh', 'tinh_dien_bien', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(8, 'Tỉnh Lai Châu', 'tỉnh', 'tinh_lai_chau', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(9, 'Tỉnh Sơn La', 'tỉnh', 'tinh_son_la', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(10, 'Tỉnh Yên Bái', 'tỉnh', 'tinh_yen_bai', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(11, 'Tỉnh Hoà Bình', 'tỉnh', 'tinh_hoa_binh', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(12, 'Tỉnh Thái Nguyên', 'tỉnh', 'tinh_thai_nguyen', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(13, 'Tỉnh Lạng Sơn', 'tỉnh', 'tinh_lang_son', '2022-05-15 05:40:18', '2022-05-15 05:40:18'),
-(14, 'Tỉnh Quảng Ninh', 'tỉnh', 'tinh_quang_ninh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(15, 'Tỉnh Bắc Giang', 'tỉnh', 'tinh_bac_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(16, 'Tỉnh Phú Thọ', 'tỉnh', 'tinh_phu_tho', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(17, 'Tỉnh Vĩnh Phúc', 'tỉnh', 'tinh_vinh_phuc', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(18, 'Tỉnh Bắc Ninh', 'tỉnh', 'tinh_bac_ninh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(19, 'Tỉnh Hải Dương', 'tỉnh', 'tinh_hai_duong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(20, 'Thành phố Hải Phòng', 'thành phố trung ương', 'thanh_pho_hai_phong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(21, 'Tỉnh Hưng Yên', 'tỉnh', 'tinh_hung_yen', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(22, 'Tỉnh Thái Bình', 'tỉnh', 'tinh_thai_binh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(23, 'Tỉnh Hà Nam', 'tỉnh', 'tinh_ha_nam', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(24, 'Tỉnh Nam Định', 'tỉnh', 'tinh_nam_dinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(25, 'Tỉnh Ninh Bình', 'tỉnh', 'tinh_ninh_binh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(26, 'Tỉnh Thanh Hóa', 'tỉnh', 'tinh_thanh_hoa', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(27, 'Tỉnh Nghệ An', 'tỉnh', 'tinh_nghe_an', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(28, 'Tỉnh Hà Tĩnh', 'tỉnh', 'tinh_ha_tinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(29, 'Tỉnh Quảng Bình', 'tỉnh', 'tinh_quang_binh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(30, 'Tỉnh Quảng Trị', 'tỉnh', 'tinh_quang_tri', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(31, 'Tỉnh Thừa Thiên Huế', 'tỉnh', 'tinh_thua_thien_hue', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(32, 'Thành phố Đà Nẵng', 'thành phố trung ương', 'thanh_pho_da_nang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(33, 'Tỉnh Quảng Nam', 'tỉnh', 'tinh_quang_nam', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(34, 'Tỉnh Quảng Ngãi', 'tỉnh', 'tinh_quang_ngai', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(35, 'Tỉnh Bình Định', 'tỉnh', 'tinh_binh_dinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(36, 'Tỉnh Phú Yên', 'tỉnh', 'tinh_phu_yen', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(37, 'Tỉnh Khánh Hòa', 'tỉnh', 'tinh_khanh_hoa', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(38, 'Tỉnh Ninh Thuận', 'tỉnh', 'tinh_ninh_thuan', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(39, 'Tỉnh Bình Thuận', 'tỉnh', 'tinh_binh_thuan', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(40, 'Tỉnh Kon Tum', 'tỉnh', 'tinh_kon_tum', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(41, 'Tỉnh Gia Lai', 'tỉnh', 'tinh_gia_lai', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(42, 'Tỉnh Đắk Lắk', 'tỉnh', 'tinh_dak_lak', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(43, 'Tỉnh Đắk Nông', 'tỉnh', 'tinh_dak_nong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(44, 'Tỉnh Lâm Đồng', 'tỉnh', 'tinh_lam_dong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(45, 'Tỉnh Bình Phước', 'tỉnh', 'tinh_binh_phuoc', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(46, 'Tỉnh Tây Ninh', 'tỉnh', 'tinh_tay_ninh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(47, 'Tỉnh Bình Dương', 'tỉnh', 'tinh_binh_duong', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(48, 'Tỉnh Đồng Nai', 'tỉnh', 'tinh_dong_nai', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(49, 'Tỉnh Bà Rịa - Vũng Tàu', 'tỉnh', 'tinh_ba_ria_vung_tau', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(50, 'Thành phố Hồ Chí Minh', 'thành phố trung ương', 'thanh_pho_ho_chi_minh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(51, 'Tỉnh Long An', 'tỉnh', 'tinh_long_an', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(52, 'Tỉnh Tiền Giang', 'tỉnh', 'tinh_tien_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(53, 'Tỉnh Bến Tre', 'tỉnh', 'tinh_ben_tre', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(54, 'Tỉnh Trà Vinh', 'tỉnh', 'tinh_tra_vinh', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(55, 'Tỉnh Vĩnh Long', 'tỉnh', 'tinh_vinh_long', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(56, 'Tỉnh Đồng Tháp', 'tỉnh', 'tinh_dong_thap', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(57, 'Tỉnh An Giang', 'tỉnh', 'tinh_an_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(58, 'Tỉnh Kiên Giang', 'tỉnh', 'tinh_kien_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(59, 'Thành phố Cần Thơ', 'thành phố trung ương', 'thanh_pho_can_tho', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(60, 'Tỉnh Hậu Giang', 'tỉnh', 'tinh_hau_giang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(61, 'Tỉnh Sóc Trăng', 'tỉnh', 'tinh_soc_trang', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(62, 'Tỉnh Bạc Liêu', 'tỉnh', 'tinh_bac_lieu', '2022-05-15 05:40:19', '2022-05-15 05:40:19'),
-(63, 'Tỉnh Cà Mau', 'tỉnh', 'tinh_ca_mau', '2022-05-15 05:40:19', '2022-05-15 05:40:19');
+INSERT INTO `provinces` (`id`, `name`, `division_type`, `code`, `area`, `created_at`, `updated_at`) VALUES
+(1, 'Thành phố Hà Nội', 'thành phố trung ương', 1, 'north', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(2, 'Tỉnh Hà Giang', 'tỉnh', 2, 'north', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(3, 'Tỉnh Cao Bằng', 'tỉnh', 4, 'north', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(4, 'Tỉnh Bắc Kạn', 'tỉnh', 6, 'north', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(5, 'Tỉnh Tuyên Quang', 'tỉnh', 8, 'north', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(6, 'Tỉnh Lào Cai', 'tỉnh', 10, 'north', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(7, 'Tỉnh Điện Biên', 'tỉnh', 11, 'north', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(8, 'Tỉnh Lai Châu', 'tỉnh', 12, 'north', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(9, 'Tỉnh Sơn La', 'tỉnh', 14, 'north', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(10, 'Tỉnh Yên Bái', 'tỉnh', 15, 'north', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(11, 'Tỉnh Hoà Bình', 'tỉnh', 17, 'north', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(12, 'Tỉnh Thái Nguyên', 'tỉnh', 19, 'north', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(13, 'Tỉnh Lạng Sơn', 'tỉnh', 20, 'north', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(14, 'Tỉnh Quảng Ninh', 'tỉnh', 22, 'north', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(15, 'Tỉnh Bắc Giang', 'tỉnh', 24, 'north', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(16, 'Tỉnh Phú Thọ', 'tỉnh', 25, 'north', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(17, 'Tỉnh Vĩnh Phúc', 'tỉnh', 26, 'north', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(18, 'Tỉnh Bắc Ninh', 'tỉnh', 27, 'north', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(19, 'Tỉnh Hải Dương', 'tỉnh', 30, 'north', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(20, 'Thành phố Hải Phòng', 'thành phố trung ương', 31, 'north', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(21, 'Tỉnh Hưng Yên', 'tỉnh', 33, 'north', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(22, 'Tỉnh Thái Bình', 'tỉnh', 34, 'north', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(23, 'Tỉnh Hà Nam', 'tỉnh', 35, 'north', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(24, 'Tỉnh Nam Định', 'tỉnh', 36, 'north', '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(25, 'Tỉnh Ninh Bình', 'tỉnh', 37, 'north', '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(26, 'Tỉnh Thanh Hóa', 'tỉnh', 38, 'north', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(27, 'Tỉnh Nghệ An', 'tỉnh', 40, 'north', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(28, 'Tỉnh Hà Tĩnh', 'tỉnh', 42, 'north', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(29, 'Tỉnh Quảng Bình', 'tỉnh', 44, 'north', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(30, 'Tỉnh Quảng Trị', 'tỉnh', 45, 'north', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(31, 'Tỉnh Thừa Thiên Huế', 'tỉnh', 46, 'north', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(32, 'Thành phố Đà Nẵng', 'thành phố trung ương', 48, 'south', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(33, 'Tỉnh Quảng Nam', 'tỉnh', 49, 'south', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(34, 'Tỉnh Quảng Ngãi', 'tỉnh', 51, 'south', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(35, 'Tỉnh Bình Định', 'tỉnh', 52, 'south', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(36, 'Tỉnh Phú Yên', 'tỉnh', 54, 'south', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(37, 'Tỉnh Khánh Hòa', 'tỉnh', 56, 'south', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(38, 'Tỉnh Ninh Thuận', 'tỉnh', 58, 'south', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(39, 'Tỉnh Bình Thuận', 'tỉnh', 60, 'south', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(40, 'Tỉnh Kon Tum', 'tỉnh', 62, 'south', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(41, 'Tỉnh Gia Lai', 'tỉnh', 64, 'south', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(42, 'Tỉnh Đắk Lắk', 'tỉnh', 66, 'south', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(43, 'Tỉnh Đắk Nông', 'tỉnh', 67, 'south', '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(44, 'Tỉnh Lâm Đồng', 'tỉnh', 68, 'south', '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(45, 'Tỉnh Bình Phước', 'tỉnh', 70, 'south', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(46, 'Tỉnh Tây Ninh', 'tỉnh', 72, 'south', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(47, 'Tỉnh Bình Dương', 'tỉnh', 74, 'south', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(48, 'Tỉnh Đồng Nai', 'tỉnh', 75, 'south', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(49, 'Tỉnh Bà Rịa - Vũng Tàu', 'tỉnh', 77, 'south', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(50, 'Thành phố Hồ Chí Minh', 'thành phố trung ương', 79, 'south', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(51, 'Tỉnh Long An', 'tỉnh', 80, 'south', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(52, 'Tỉnh Tiền Giang', 'tỉnh', 82, 'south', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(53, 'Tỉnh Bến Tre', 'tỉnh', 83, 'south', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(54, 'Tỉnh Trà Vinh', 'tỉnh', 84, 'south', '2022-05-18 09:36:42', '2022-05-18 09:36:42'),
+(55, 'Tỉnh Vĩnh Long', 'tỉnh', 86, 'south', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(56, 'Tỉnh Đồng Tháp', 'tỉnh', 87, 'south', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(57, 'Tỉnh An Giang', 'tỉnh', 89, 'south', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(58, 'Tỉnh Kiên Giang', 'tỉnh', 91, 'south', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(59, 'Thành phố Cần Thơ', 'thành phố trung ương', 92, 'south', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(60, 'Tỉnh Hậu Giang', 'tỉnh', 93, 'south', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(61, 'Tỉnh Sóc Trăng', 'tỉnh', 94, 'south', '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(62, 'Tỉnh Bạc Liêu', 'tỉnh', 95, 'south', '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(63, 'Tỉnh Cà Mau', 'tỉnh', 96, 'south', '2022-05-18 09:36:44', '2022-05-18 09:36:44');
 
 -- --------------------------------------------------------
 
@@ -483,11 +764,115 @@ INSERT INTO `provinces` (`id`, `name`, `division_type`, `codename`, `created_at`
 
 CREATE TABLE `referrals` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `refer_by_id` bigint(20) UNSIGNED NOT NULL,
-  `bonus` double UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `refer_by` bigint(20) UNSIGNED DEFAULT NULL,
+  `bonus` int(10) UNSIGNED NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `referrals`
+--
+
+INSERT INTO `referrals` (`id`, `user_id`, `refer_by`, `bonus`, `created_at`, `updated_at`) VALUES
+(1, 4, 1, 0, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(2, 5, 1, 0, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(3, 6, 1, 0, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(4, 7, 1, 0, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(5, 8, 1, 0, '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(6, 9, 1, 0, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(7, 10, 1, 0, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(8, 11, 1, 0, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(9, 12, 1, 0, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(10, 13, 1, 0, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(11, 14, 1, 0, '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(12, 15, 1, 0, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(13, 16, 1, 0, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(14, 17, 1, 0, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(15, 18, 1, 0, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(16, 19, 1, 0, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(17, 20, 1, 0, '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(18, 21, 1, 0, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(19, 22, 1, 0, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(20, 23, 1, 0, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(21, 24, 1, 0, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(22, 25, 1, 0, '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(23, 26, 1, 0, '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(24, 27, 1, 0, '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(25, 28, 1, 0, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(26, 29, 1, 0, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(27, 30, 1, 0, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(28, 31, 1, 0, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(29, 32, 1, 0, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(30, 33, 1, 0, '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(31, 34, 1, 0, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(32, 35, 1, 0, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(33, 36, 1, 0, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(34, 37, 1, 0, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(35, 38, 1, 0, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(36, 39, 1, 0, '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(37, 40, 1, 0, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(38, 41, 1, 0, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(39, 42, 1, 0, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(40, 43, 1, 0, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(41, 44, 1, 0, '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(42, 45, 1, 0, '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(43, 46, 1, 0, '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(44, 47, 1, 0, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(45, 48, 1, 0, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(46, 49, 1, 0, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(47, 50, 1, 0, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(48, 51, 1, 0, '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(49, 52, 1, 0, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(50, 53, 1, 0, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(51, 54, 1, 0, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(52, 55, 1, 0, '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(53, 56, 1, 0, '2022-05-18 09:36:42', '2022-05-18 09:36:42'),
+(54, 57, 1, 0, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(55, 58, 1, 0, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(56, 59, 1, 0, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(57, 60, 1, 0, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(58, 61, 1, 0, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(59, 62, 1, 0, '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(60, 63, 1, 0, '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(61, 64, 1, 0, '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(62, 65, 1, 0, '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(63, 66, 1, 0, '2022-05-18 09:36:44', '2022-05-18 09:36:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'super_admin', 'web', NULL, NULL),
+(2, 'area_admin', 'web', NULL, NULL),
+(3, 'provincial_admin', 'web', NULL, NULL),
+(4, 'user', 'web', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -569,12 +954,12 @@ INSERT INTO `settings` (`id`, `field`, `value`, `created_at`, `updated_at`) VALU
 (58, 'site_admin_management', '0', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (59, 'manage_access_default', '{\"level\":[\"none\"]}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (60, 'kyc_opt_hide', '0', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
-(61, 'kyc_public', '1', '2021-10-10 00:32:23', '2022-04-29 03:51:41'),
+(61, 'kyc_public', '1', '2021-10-10 00:32:23', '2022-05-17 09:25:39'),
 (62, 'kyc_before_email', '0', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (63, 'kyc_firstname', '{\"show\":1,\"req\":1}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (64, 'kyc_lastname', '{\"show\":0,\"req\":1}', '2021-10-10 00:32:23', '2022-04-29 03:24:17'),
 (65, 'kyc_email', '{\"show\":1,\"req\":1}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
-(66, 'kyc_phone', '{\"show\":1,\"req\":0}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
+(66, 'kyc_phone', '{\"show\":0,\"req\":0}', '2021-10-10 00:32:23', '2022-05-17 09:25:38'),
 (67, 'kyc_dob', '{\"show\":1,\"req\":0}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (68, 'kyc_gender', '{\"show\":1,\"req\":1}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (69, 'kyc_country', '{\"show\":0,\"req\":1}', '2021-10-10 00:32:23', '2022-04-29 03:50:19'),
@@ -585,12 +970,12 @@ INSERT INTO `settings` (`id`, `field`, `value`, `created_at`, `updated_at`) VALU
 (74, 'kyc_address2', '{\"show\":0,\"req\":0}', '2021-10-10 00:32:23', '2022-04-29 03:50:19'),
 (75, 'kyc_telegram', '{\"show\":0,\"req\":0}', '2021-10-10 00:32:23', '2022-04-29 03:24:17'),
 (76, 'kyc_document_passport', '0', '2021-10-10 00:32:23', '2022-04-29 03:24:18'),
-(77, 'kyc_document_nidcard', '1', '2021-10-10 00:32:23', '2022-04-29 03:51:41'),
+(77, 'kyc_document_nidcard', '1', '2021-10-10 00:32:23', '2022-05-17 09:25:39'),
 (78, 'kyc_document_driving', '0', '2021-10-10 00:32:23', '2022-04-29 03:24:18'),
 (79, 'kyc_wallet', '{\"show\":0,\"req\":1}', '2021-10-10 00:32:23', '2022-04-29 03:24:18'),
-(80, 'kyc_wallet_custom', '{\"cw_name\":null,\"cw_text\":null}', '2021-10-10 00:32:23', '2022-04-29 03:51:41'),
+(80, 'kyc_wallet_custom', '{\"cw_name\":null,\"cw_text\":null}', '2021-10-10 00:32:23', '2022-05-17 09:25:39'),
 (81, 'kyc_wallet_note', 'Address should be ERC20-compliant.', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
-(82, 'kyc_wallet_opt', '{\"wallet_opt\":[\"ethereum\",\"bitcoin\",\"litecoin\"]}', '2021-10-10 00:32:23', '2022-04-29 03:51:41'),
+(82, 'kyc_wallet_opt', '{\"wallet_opt\":[\"ethereum\",\"bitcoin\",\"litecoin\"]}', '2021-10-10 00:32:23', '2022-05-17 09:25:39'),
 (83, 'token_purchase_usd', '1', '2021-10-10 00:32:23', '2021-10-18 05:57:37'),
 (84, 'pmc_active_usd', '1', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (85, 'token_purchase_eur', '0', '2021-10-10 00:32:23', '2021-10-18 05:49:20'),
@@ -692,7 +1077,7 @@ INSERT INTO `settings` (`id`, `field`, `value`, `created_at`, `updated_at`) VALU
 (181, 'token_default_method', 'USD', '2021-10-10 00:32:23', '2021-10-18 04:31:42'),
 (182, 'active_payment_modules', '{\"Manual\":{\"type\":\"core\",\"version\":\"1.0\"},\"Bank\":{\"type\":\"core\",\"version\":\"1.0\"},\"Paypal\":{\"type\":\"core\",\"version\":\"1.0\"}}', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
 (183, 'site_api_key', 'mxMwmuxhKFVkbl1SjPTLcJm1', '2021-10-10 00:32:23', '2021-10-10 00:32:23'),
-(184, 'site_api_secret', 'l0Q6b9979b02o0ks', '2021-10-10 00:32:23', '2022-05-15 14:42:17'),
+(184, 'site_api_secret', 'UgPrb9979b02VzdO', '2021-10-10 00:32:23', '2022-05-15 16:56:10'),
 (185, 'nio_lkey', 'a12245678999ca31eeb35046b9979b02', '2021-10-10 00:32:23', '2022-05-06 03:17:09'),
 (186, 'pmc_rate_usd', '1', '2021-10-10 00:32:23', '2021-10-18 04:32:20'),
 (187, 'pmc_rate_eur', '1', '2021-10-10 00:32:23', '2021-10-18 04:32:20'),
@@ -761,53 +1146,53 @@ INSERT INTO `settings` (`id`, `field`, `value`, `created_at`, `updated_at`) VALU
 (250, 'nio_email', 'xuanthiet1993@gmail.com', '2021-10-10 00:45:07', '2021-10-10 00:45:07'),
 (251, 'reg_fall_queue', '0', '2021-10-10 00:45:07', '2021-10-10 00:45:07'),
 (252, 'pmc_auto_rate_usd', '1', '2021-10-10 00:45:19', '2021-10-18 04:32:20'),
-(253, 'pmc_auto_rate_eur', '0.9615', '2021-10-10 00:45:19', '2022-05-14 04:33:56'),
-(254, 'pmc_auto_rate_gbp', '0.8157', '2021-10-10 00:45:19', '2022-05-14 04:56:18'),
-(255, 'pmc_auto_rate_cad', '1.287', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(256, 'pmc_auto_rate_aud', '1.446', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(257, 'pmc_auto_rate_try', '16.04', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(258, 'pmc_auto_rate_rub', '65.48', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(259, 'pmc_auto_rate_inr', '85.68', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(260, 'pmc_auto_rate_brl', '5.111', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(261, 'pmc_auto_rate_nzd', '1.591', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(262, 'pmc_auto_rate_pln', '4.72', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(263, 'pmc_auto_rate_jpy', '129.41', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(264, 'pmc_auto_rate_myr', '4.383', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(265, 'pmc_auto_rate_idr', '14719.66', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(266, 'pmc_auto_rate_ngn', '596.69', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(267, 'pmc_auto_rate_mxn', '20.23', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(268, 'pmc_auto_rate_php', '59.24', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(269, 'pmc_auto_rate_chf', '1.005', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(270, 'pmc_auto_rate_thb', '34.74', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(271, 'pmc_auto_rate_sgd', '1.395', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(272, 'pmc_auto_rate_czk', '23.8', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(273, 'pmc_auto_rate_nok', '0.2179', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(274, 'pmc_auto_rate_zar', '16.62', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(275, 'pmc_auto_rate_sek', '11.49', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(276, 'pmc_auto_rate_kes', '116.33', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(277, 'pmc_auto_rate_nad', '17.78', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
+(253, 'pmc_auto_rate_eur', '0.9597', '2021-10-10 00:45:19', '2022-05-16 10:34:09'),
+(254, 'pmc_auto_rate_gbp', '0.815', '2021-10-10 00:45:19', '2022-05-16 10:34:09'),
+(255, 'pmc_auto_rate_cad', '1.285', '2021-10-10 00:45:19', '2022-05-16 10:34:09'),
+(256, 'pmc_auto_rate_aud', '1.442', '2021-10-10 00:45:19', '2022-05-16 10:34:09'),
+(257, 'pmc_auto_rate_try', '15.94', '2021-10-10 00:45:19', '2022-05-16 10:34:09'),
+(258, 'pmc_auto_rate_rub', '63.5', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(259, 'pmc_auto_rate_inr', '88.55', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(260, 'pmc_auto_rate_brl', '5.115', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(261, 'pmc_auto_rate_nzd', '1.593', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(262, 'pmc_auto_rate_pln', '4.487', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(263, 'pmc_auto_rate_jpy', '129.32', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(264, 'pmc_auto_rate_myr', '4.387', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(265, 'pmc_auto_rate_idr', '14717.13', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(266, 'pmc_auto_rate_ngn', '601.13', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(267, 'pmc_auto_rate_mxn', '20.09', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(268, 'pmc_auto_rate_php', '55.48', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(269, 'pmc_auto_rate_chf', '1.003', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(270, 'pmc_auto_rate_thb', '34.69', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(271, 'pmc_auto_rate_sgd', '1.396', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(272, 'pmc_auto_rate_czk', '23.75', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(273, 'pmc_auto_rate_nok', '9.796', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(274, 'pmc_auto_rate_zar', '16.53', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(275, 'pmc_auto_rate_sek', '9.423', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(276, 'pmc_auto_rate_kes', '115.77', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(277, 'pmc_auto_rate_nad', '17.85', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
 (278, 'pmc_auto_rate_dkk', '7.143', '2021-10-10 00:45:19', '2022-05-14 01:55:25'),
-(279, 'pmc_auto_rate_hkd', '7.828', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(280, 'pmc_auto_rate_huf', '434.28', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(281, 'pmc_auto_rate_pkr', '223.99', '2021-10-10 00:45:19', '2022-05-15 03:53:41'),
-(282, 'pmc_auto_rate_egp', '19.66', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(283, 'pmc_auto_rate_clp', '867.98', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(284, 'pmc_auto_rate_cop', '4020.84', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(285, 'pmc_auto_rate_jmd', '186.35', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(286, 'pmc_auto_rate_eth', '0.0004879', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(287, 'pmc_auto_rate_btc', '3.352E-5', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(288, 'pmc_auto_rate_ltc', '0.01455', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(289, 'pmc_auto_rate_xrp', '2.369', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(290, 'pmc_auto_rate_xlm', '7.252', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(291, 'pmc_auto_rate_bch', '0.004791', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(292, 'pmc_auto_rate_bnb', '0.003387', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
+(279, 'pmc_auto_rate_hkd', '7.837', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(280, 'pmc_auto_rate_huf', '352.06', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(281, 'pmc_auto_rate_pkr', '255.42', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(282, 'pmc_auto_rate_egp', '20.29', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(283, 'pmc_auto_rate_clp', '862.78', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(284, 'pmc_auto_rate_cop', '4033.97', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(285, 'pmc_auto_rate_jmd', '187.07', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(286, 'pmc_auto_rate_eth', '0.000496', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(287, 'pmc_auto_rate_btc', '3.365E-5', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(288, 'pmc_auto_rate_ltc', '0.0149', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(289, 'pmc_auto_rate_xrp', '2.398', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(290, 'pmc_auto_rate_xlm', '7.358', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(291, 'pmc_auto_rate_bch', '0.004984', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(292, 'pmc_auto_rate_bnb', '0.003368', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
 (293, 'pmc_auto_rate_usdt', '1.001', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(294, 'pmc_auto_rate_trx', '14.52', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
+(294, 'pmc_auto_rate_trx', '14.55', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
 (295, 'pmc_auto_rate_usdc', '1', '2021-10-10 00:45:19', '2021-10-18 04:32:20'),
-(296, 'pmc_auto_rate_dash', '0.01637', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(297, 'pmc_auto_rate_waves', '0.1467', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(298, 'pmc_auto_rate_xmr', '0.006197', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
-(299, 'pmc_current_rate', '{\"usd\":1,\"vnd\":23618.72,\"eur\":0.9615,\"gbp\":0.8157,\"cad\":1.287,\"aud\":1.446,\"try\":16.04,\"rub\":65.48,\"inr\":85.68,\"brl\":5.111,\"nzd\":1.591,\"pln\":4.72,\"jpy\":129.41,\"myr\":4.383,\"idr\":14719.66,\"ngn\":596.69,\"mxn\":20.23,\"php\":59.24,\"chf\":1.005,\"thb\":34.74,\"sgd\":1.395,\"czk\":23.8,\"nok\":0.2179,\"zar\":16.62,\"sek\":11.49,\"kes\":116.33,\"nad\":17.78,\"dkk\":7.143,\"hkd\":7.828,\"huf\":434.28,\"pkr\":223.99,\"egp\":19.66,\"clp\":867.98,\"cop\":4020.84,\"jmd\":186.35,\"eth\":0.0004879,\"btc\":3.352e-5,\"ltc\":0.01455,\"xrp\":2.369,\"xlm\":7.252,\"bch\":0.004791,\"bnb\":0.003387,\"usdt\":1.001,\"trx\":14.52,\"usdc\":1,\"dash\":0.01637,\"waves\":0.1467,\"xmr\":0.006197}', '2021-10-10 00:45:19', '2022-05-15 03:53:42'),
+(296, 'pmc_auto_rate_dash', '0.01713', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(297, 'pmc_auto_rate_waves', '0.1523', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(298, 'pmc_auto_rate_xmr', '0.005929', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
+(299, 'pmc_current_rate', '{\"usd\":1,\"vnd\":23618.72,\"eur\":0.9597,\"gbp\":0.815,\"cad\":1.285,\"aud\":1.442,\"try\":15.94,\"rub\":63.5,\"inr\":88.55,\"brl\":5.115,\"nzd\":1.593,\"pln\":4.487,\"jpy\":129.32,\"myr\":4.387,\"idr\":14717.13,\"ngn\":601.13,\"mxn\":20.09,\"php\":55.48,\"chf\":1.003,\"thb\":34.69,\"sgd\":1.396,\"czk\":23.75,\"nok\":9.796,\"zar\":16.53,\"sek\":9.423,\"kes\":115.77,\"nad\":17.85,\"dkk\":7.143,\"hkd\":7.837,\"huf\":352.06,\"pkr\":255.42,\"egp\":20.29,\"clp\":862.78,\"cop\":4033.97,\"jmd\":187.07,\"eth\":0.000496,\"btc\":3.365e-5,\"ltc\":0.0149,\"xrp\":2.398,\"xlm\":7.358,\"bch\":0.004984,\"bnb\":0.003368,\"usdt\":1.001,\"trx\":14.55,\"usdc\":1,\"dash\":0.01713,\"waves\":0.1523,\"xmr\":0.005929}', '2021-10-10 00:45:19', '2022-05-16 10:34:10'),
 (300, 'token_all_price', '{\"base\":0.03,\"usd\":0.03,\"vnd\":708.56,\"eur\":0.03,\"gbp\":0.02,\"cad\":0.04,\"aud\":0.04,\"try\":0.48,\"rub\":1.95,\"inr\":2.67,\"brl\":0.15,\"nzd\":0.05,\"pln\":0.14,\"jpy\":3.89,\"myr\":0.13,\"idr\":441.43,\"ngn\":17.91,\"mxn\":0.61,\"php\":1.93,\"chf\":0.03,\"thb\":1.04,\"sgd\":0.04,\"czk\":0.71,\"nok\":0.01,\"zar\":0.5,\"sek\":0.29,\"kes\":3.62,\"nad\":0.54,\"dkk\":0.21,\"hkd\":0.24,\"huf\":13.45,\"pkr\":7.98,\"egp\":0.71,\"clp\":26.15,\"cop\":125.01,\"jmd\":5.75,\"eth\":0,\"btc\":0,\"ltc\":0,\"xrp\":0.07,\"xlm\":0.22,\"bch\":0,\"bnb\":0,\"usdt\":0.03,\"trx\":0.4,\"usdc\":0.03,\"dash\":0,\"waves\":0,\"xmr\":0}', '2021-10-10 00:45:19', '2022-05-14 03:01:23'),
 (301, 'send_notification_to', 'all', '2021-10-10 01:11:45', '2021-10-10 01:11:45'),
 (302, 'send_notification_mails', 'xuanthiet1996@gmail.com', '2021-10-10 01:11:45', '2021-10-10 01:12:04'),
@@ -825,17 +1210,38 @@ INSERT INTO `settings` (`id`, `field`, `value`, `created_at`, `updated_at`) VALU
 --
 
 CREATE TABLE `transactions` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `tnx_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tnx_type` enum('purchase','withdraw','point','bonus') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `amount` double DEFAULT NULL,
-  `wallet_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `details` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `extra` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('approved','canceled','pending','onhold') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payable_id` bigint(20) UNSIGNED NOT NULL,
+  `wallet_id` bigint(20) UNSIGNED NOT NULL,
+  `type` enum('deposit','withdraw') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` decimal(64,0) NOT NULL,
+  `confirmed` tinyint(1) NOT NULL,
+  `meta` json DEFAULT NULL,
+  `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfers`
+--
+
+CREATE TABLE `transfers` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `from_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_id` bigint(20) UNSIGNED NOT NULL,
+  `to_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `to_id` bigint(20) UNSIGNED NOT NULL,
+  `status` enum('exchange','transfer','paid','refund','gift') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'transfer',
+  `status_last` enum('exchange','transfer','paid','refund','gift') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deposit_id` bigint(20) UNSIGNED NOT NULL,
+  `withdraw_id` bigint(20) UNSIGNED NOT NULL,
+  `discount` decimal(64,0) NOT NULL DEFAULT '0',
+  `fee` decimal(64,0) NOT NULL DEFAULT '0',
+  `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2320,14 +2726,9 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'active',
-  `mobile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dateOfBirth` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lastLogin` datetime NOT NULL,
-  `role` enum('admin','manager','user') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
-  `cash` double UNSIGNED NOT NULL DEFAULT '0',
-  `point` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `province_id` bigint(20) UNSIGNED NOT NULL,
+  `lastLogin` datetime DEFAULT NULL,
+  `province_code` int(10) UNSIGNED DEFAULT NULL,
   `google2fa` int(11) NOT NULL DEFAULT '0',
   `google2fa_secret` text COLLATE utf8mb4_unicode_ci,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -2339,8 +2740,73 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `password`, `status`, `mobile`, `dateOfBirth`, `lastLogin`, `role`, `cash`, `point`, `province_id`, `google2fa`, `google2fa_secret`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'nguyen anh khoa', '0365664356', NULL, NULL, '$2y$10$Swb6B7tvGMFakpYEblODCurgBgm0i49g4bEOCj3aiF.dVN.xEFzVK', 'active', NULL, NULL, '2022-05-15 21:42:17', 'admin', 0, 500, 18, 0, NULL, NULL, '2022-05-15 07:34:58', '2022-05-15 14:42:17');
+INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `password`, `dateOfBirth`, `lastLogin`, `province_code`, `google2fa`, `google2fa_secret`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Super Admin', '0922621888', 'super_admin@gmail.com', '2022-05-18 09:36:30', '$2y$10$vJNkQCeiLvJ7SPdcdjbpGOMNuhES1TIQtXpZhdNl./BuUu1JH58wC', NULL, NULL, NULL, 0, NULL, '2XQpT0KW4B', '2022-05-18 09:36:30', '2022-05-18 09:36:30'),
+(2, 'Admin miền Nam', NULL, 'apl.miennam@gmail.com', '2022-05-18 09:36:30', '$2y$10$DbmeA2cdRSyxYzsVjxg.0OxcwmE/Ey/hkU/4.immbe/7wg3vkvYPi', NULL, NULL, NULL, 0, NULL, 'NItSi8KX3X', '2022-05-18 09:36:30', '2022-05-18 09:36:30'),
+(3, 'Admin miền Bắc', NULL, 'apl.mienbac@gmail.com', '2022-05-18 09:36:30', '$2y$10$8GrFDrAhPyT3/b0D14Gykegj13MzvtvaOE8vPMtMQTTK3rFeYnM3S', NULL, NULL, NULL, 0, NULL, 'O7JTl10bN7', '2022-05-18 09:36:30', '2022-05-18 09:36:30'),
+(4, 'Admin Thành phố Hà Nội', NULL, 'apl.1@gmail.com', '2022-05-18 09:36:31', '$2y$10$RVauJruKWUXQ2sIOSVG.3OP82Ttmg5lQjTyhsYS5yYVFW2XELlPcC', NULL, NULL, 1, 0, NULL, 'OXOmgfP63B', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(5, 'Admin Tỉnh Hà Giang', NULL, 'apl.2@gmail.com', '2022-05-18 09:36:31', '$2y$10$p/N0RXqWlwsuvOSBr7Sigum0gZwbdqDyK5stZyU4sharQGubRWJbq', NULL, NULL, 2, 0, NULL, 'o7uJcLw0Ej', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(6, 'Admin Tỉnh Cao Bằng', NULL, 'apl.4@gmail.com', '2022-05-18 09:36:31', '$2y$10$alshYJdnRRxxIDyHOkweS.57eHpMsWsKzv1MZ.KVlQzDLiNY61Vaq', NULL, NULL, 4, 0, NULL, 'ldSd9twDRv', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(7, 'Admin Tỉnh Bắc Kạn', NULL, 'apl.6@gmail.com', '2022-05-18 09:36:31', '$2y$10$lT5XV/msw/6Dknd33hPbaOBDdNR8Svt/g9O0dxzAKUrWMTIV3Kf/m', NULL, NULL, 6, 0, NULL, 'ulz7fikbHO', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(8, 'Admin Tỉnh Tuyên Quang', NULL, 'apl.8@gmail.com', '2022-05-18 09:36:31', '$2y$10$OrFLGoCYkHRvEqRTDcHL/eu1z7OO5WVXj7ah9Ne4KkkhrbmZ.BYFi', NULL, NULL, 8, 0, NULL, '5k11MkV6MZ', '2022-05-18 09:36:31', '2022-05-18 09:36:31'),
+(9, 'Admin Tỉnh Lào Cai', NULL, 'apl.10@gmail.com', '2022-05-18 09:36:31', '$2y$10$GnCHNWsnolHUZ5jKgqccFefXJ/YyjNWT2IvQz8kAQl5EPqb8eavuy', NULL, NULL, 10, 0, NULL, 'F5gHSeTIeT', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(10, 'Admin Tỉnh Điện Biên', NULL, 'apl.11@gmail.com', '2022-05-18 09:36:32', '$2y$10$agJOzvERdVw0q9XM6nu7wOBGe3HN2Jx4T7FKOyhdenz94vAzt37Ne', NULL, NULL, 11, 0, NULL, 'uKNV2Bd4l5', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(11, 'Admin Tỉnh Lai Châu', NULL, 'apl.12@gmail.com', '2022-05-18 09:36:32', '$2y$10$XXYjpiOPLwdverwGTN1FAeZGD/L82L7V.YIp4ZY0hWLtuRuad4aVu', NULL, NULL, 12, 0, NULL, 'hNXvrPKJZi', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(12, 'Admin Tỉnh Sơn La', NULL, 'apl.14@gmail.com', '2022-05-18 09:36:32', '$2y$10$aPadil545DqcoNNUGUSgk.u6nmkp6c0TcEOK8NMB78IIyRgawUpg2', NULL, NULL, 14, 0, NULL, 'O1e2CnwIE4', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(13, 'Admin Tỉnh Yên Bái', NULL, 'apl.15@gmail.com', '2022-05-18 09:36:32', '$2y$10$3D8sWxf6.kJe9SlOHy3tae5NVfTUPB1ZlApgB9x61arfXE5luFJmG', NULL, NULL, 15, 0, NULL, 'V55PtbSagu', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(14, 'Admin Tỉnh Hoà Bình', NULL, 'apl.17@gmail.com', '2022-05-18 09:36:32', '$2y$10$P7WON.r/ehanZbrzvKh2RenongzAQejKUif0JptQs.QsTu.f1TulW', NULL, NULL, 17, 0, NULL, 'HNlynEQc7L', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(15, 'Admin Tỉnh Thái Nguyên', NULL, 'apl.19@gmail.com', '2022-05-18 09:36:32', '$2y$10$7XqT3R5WK0jDsia8T/c9oO436qPYg8Rh2VPWbTusq2aYD/ma6i1Jm', NULL, NULL, 19, 0, NULL, 'q1n5PolSVO', '2022-05-18 09:36:32', '2022-05-18 09:36:32'),
+(16, 'Admin Tỉnh Lạng Sơn', NULL, 'apl.20@gmail.com', '2022-05-18 09:36:33', '$2y$10$UxWXSU73p2gzRFitSLG8lu30QYOZsZ7qmx6.r0FCmkOa6qSabp.kK', NULL, NULL, 20, 0, NULL, 'nbltlIpy7g', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(17, 'Admin Tỉnh Quảng Ninh', NULL, 'apl.22@gmail.com', '2022-05-18 09:36:33', '$2y$10$Sw4u.hH70SuMTZzr32Qco.fiN1.SOaxWZmzHVUNSqbDs3gtxJJyHa', NULL, NULL, 22, 0, NULL, 'pFrGDslMwj', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(18, 'Admin Tỉnh Bắc Giang', NULL, 'apl.24@gmail.com', '2022-05-18 09:36:33', '$2y$10$LEP3F6ejGw6n6wUL698XfOEi6Ly6ZpXtWnHZ5twU9D1jEBiCiCD32', NULL, NULL, 24, 0, NULL, 'DXVJUuTsx8', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(19, 'Admin Tỉnh Phú Thọ', NULL, 'apl.25@gmail.com', '2022-05-18 09:36:33', '$2y$10$SrYFKa3h.1tydxwKv76XS.SRJXlUqIJGXHPFmVzLDGHgUZ9Ezhaia', NULL, NULL, 25, 0, NULL, 'nUQONJOXPW', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(20, 'Admin Tỉnh Vĩnh Phúc', NULL, 'apl.26@gmail.com', '2022-05-18 09:36:33', '$2y$10$g.bKf1IKOd4PHEhZHCofROkEzxDYjz2H9YERAqDVWm8k1jQ0dESc6', NULL, NULL, 26, 0, NULL, 'oGjXL5IKSi', '2022-05-18 09:36:33', '2022-05-18 09:36:33'),
+(21, 'Admin Tỉnh Bắc Ninh', NULL, 'apl.27@gmail.com', '2022-05-18 09:36:33', '$2y$10$QMp8BoUsQFuRusInMwsznOB5K7rTb5NZ6ns1M1T4Y2LuJuXA9brEy', NULL, NULL, 27, 0, NULL, 'AI0PTs8OxO', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(22, 'Admin Tỉnh Hải Dương', NULL, 'apl.30@gmail.com', '2022-05-18 09:36:34', '$2y$10$Q/kzLkXcBoZOgGhbixgqN.ZmVNAYr1wXsmeoUOUi0FP87PLRys8i6', NULL, NULL, 30, 0, NULL, 'exkFm2DRkn', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(23, 'Admin Thành phố Hải Phòng', NULL, 'apl.31@gmail.com', '2022-05-18 09:36:34', '$2y$10$DVOVmXuOArtHoFZ4f8DTHes2d3xGZKvxHc3K0SZ3SQlJIOlsy8l2y', NULL, NULL, 31, 0, NULL, 'WxuOTTmdt7', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(24, 'Admin Tỉnh Hưng Yên', NULL, 'apl.33@gmail.com', '2022-05-18 09:36:34', '$2y$10$KpMauMTZRyRfblOx8tF10uAIV/WshxNUQRf1pxDxiUeUyAi5FKrfi', NULL, NULL, 33, 0, NULL, 'QPUVZCrXDr', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(25, 'Admin Tỉnh Thái Bình', NULL, 'apl.34@gmail.com', '2022-05-18 09:36:34', '$2y$10$Nm59fbRcU2mCxcxvYsi1/.aYT1Yqt3WmYUi4NjSYOoKhzbVjsSQWi', NULL, NULL, 34, 0, NULL, 'O6NcOXt3wk', '2022-05-18 09:36:34', '2022-05-18 09:36:34'),
+(26, 'Admin Tỉnh Hà Nam', NULL, 'apl.35@gmail.com', '2022-05-18 09:36:34', '$2y$10$/XLgqtR1GcOsv.AWzJhcu.sxQ2GvBfxRPBOBThvrdXydXSjv65YzK', NULL, NULL, 35, 0, NULL, 'BNhk7r0qnZ', '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(27, 'Admin Tỉnh Nam Định', NULL, 'apl.36@gmail.com', '2022-05-18 09:36:35', '$2y$10$Q7GW9DALuM5.5jDKM.SnaeVdnYrmYKnxy9TH.81FNeR0XFrCH3hAS', NULL, NULL, 36, 0, NULL, 'i8DA9EDgOW', '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(28, 'Admin Tỉnh Ninh Bình', NULL, 'apl.37@gmail.com', '2022-05-18 09:36:35', '$2y$10$cIUowow1X9qlvU8KVhShMuiBc2LvYpxFSk0d0H63dvTuRyg6MIypm', NULL, NULL, 37, 0, NULL, '7IfV8vZ7sL', '2022-05-18 09:36:35', '2022-05-18 09:36:35'),
+(29, 'Admin Tỉnh Thanh Hóa', NULL, 'apl.38@gmail.com', '2022-05-18 09:36:36', '$2y$10$aOq8seTqf6Da8kL1oPsmK.qvJ.fDl.iv8w0LB/y5Wu8IGtk5NLoxG', NULL, NULL, 38, 0, NULL, '0pwdDR97Hd', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(30, 'Admin Tỉnh Nghệ An', NULL, 'apl.40@gmail.com', '2022-05-18 09:36:36', '$2y$10$R2p8I9ouk9NTFTXGb1fUG.9Kdd.dFNtJ8rZ7C15EgBXAw0uGqqcOO', NULL, NULL, 40, 0, NULL, 'VQCbKptdht', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(31, 'Admin Tỉnh Hà Tĩnh', NULL, 'apl.42@gmail.com', '2022-05-18 09:36:36', '$2y$10$JkfDq3/zPkQHiQwaiuIKDODfeQXq6AJIRvY/PLtMrsvPrEg7QhSJW', NULL, NULL, 42, 0, NULL, '7uIFrZI88s', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(32, 'Admin Tỉnh Quảng Bình', NULL, 'apl.44@gmail.com', '2022-05-18 09:36:36', '$2y$10$1jjB/MEXtjdo7fAqgHms3O6lqwQUnOJFBrOwZt22/6BAWFKk6XNMu', NULL, NULL, 44, 0, NULL, 'sjt4XVcPFF', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(33, 'Admin Tỉnh Quảng Trị', NULL, 'apl.45@gmail.com', '2022-05-18 09:36:36', '$2y$10$THG888xeB.Gdqn1Agx3/luVmxlx3X1sCpoD1xIiJstrBsV5yi0x4m', NULL, NULL, 45, 0, NULL, 'tqaSHsxukW', '2022-05-18 09:36:36', '2022-05-18 09:36:36'),
+(34, 'Admin Tỉnh Thừa Thiên Huế', NULL, 'apl.46@gmail.com', '2022-05-18 09:36:37', '$2y$10$7fiakA6bxhT40nKD7B4zdO7Ilp0AtNJEIMhFoI1TjPR4XIdbAH8I.', NULL, NULL, 46, 0, NULL, 'bNB9rKVcor', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(35, 'Admin Thành phố Đà Nẵng', NULL, 'apl.48@gmail.com', '2022-05-18 09:36:37', '$2y$10$X11yDg8XxZELFJ7U05Whoe2D7m2YW6E6FCdhxw8CTCEEMsLecWaf6', NULL, NULL, 48, 0, NULL, 'XixYB9Gllu', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(36, 'Admin Tỉnh Quảng Nam', NULL, 'apl.49@gmail.com', '2022-05-18 09:36:37', '$2y$10$VO4nS.NjEfYxbv0mtCTJXu7NFkXCFBv3bVkpfsDj784yjeesfqSeu', NULL, NULL, 49, 0, NULL, '6ToBljNBVm', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(37, 'Admin Tỉnh Quảng Ngãi', NULL, 'apl.51@gmail.com', '2022-05-18 09:36:37', '$2y$10$KFi8MMo0jkSOlhBbEICmi.P6tBZ3Itz2iUNSUcrKUBMNZlwW3lQT6', NULL, NULL, 51, 0, NULL, 'HVQjzRJ9qg', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(38, 'Admin Tỉnh Bình Định', NULL, 'apl.52@gmail.com', '2022-05-18 09:36:37', '$2y$10$TZ9j1jBpEY9OH661xaw1vOgmfQtKq.gvGY/9ClX.cdGbMupuEOH5i', NULL, NULL, 52, 0, NULL, 'Op9jJ9QUcG', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(39, 'Admin Tỉnh Phú Yên', NULL, 'apl.54@gmail.com', '2022-05-18 09:36:37', '$2y$10$tUe0sZMXDbgTmlE77CJQy.hwbWIR0aZ/HwEbjoIo9AyIxSwIlZjg6', NULL, NULL, 54, 0, NULL, '8OpMFIZ4Ag', '2022-05-18 09:36:37', '2022-05-18 09:36:37'),
+(40, 'Admin Tỉnh Khánh Hòa', NULL, 'apl.56@gmail.com', '2022-05-18 09:36:38', '$2y$10$/IjFC8Sg7WpK2hPOhviSEu6o0MUzdTSRc9sww6KOMCi/7sv0BTr.i', NULL, NULL, 56, 0, NULL, 'sEtiGyilOB', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(41, 'Admin Tỉnh Ninh Thuận', NULL, 'apl.58@gmail.com', '2022-05-18 09:36:38', '$2y$10$OCTMShwyb6g2iDyXtzdMd.UgoWhXPA2WA72xI0ux4PrnlYWllsTxK', NULL, NULL, 58, 0, NULL, 'c1HSkNURBU', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(42, 'Admin Tỉnh Bình Thuận', NULL, 'apl.60@gmail.com', '2022-05-18 09:36:38', '$2y$10$MdV0olV2zLzVy6jtK5l/eeFoyXkJ6nEHgw6d29YJsb03ayLWjXefS', NULL, NULL, 60, 0, NULL, 'lyP8babmBd', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(43, 'Admin Tỉnh Kon Tum', NULL, 'apl.62@gmail.com', '2022-05-18 09:36:38', '$2y$10$rKy02ab19/Gi8IERQDL6P.HfVuKjBYfSPdEZohODQH0AF36aeuQMi', NULL, NULL, 62, 0, NULL, '45VeUAfIcb', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(44, 'Admin Tỉnh Gia Lai', NULL, 'apl.64@gmail.com', '2022-05-18 09:36:38', '$2y$10$D4Iqm9HZTwA63xzTWQ3FXeolacoP2GbfcI3s7f/iBpEW9dc9KtOem', NULL, NULL, 64, 0, NULL, 'ahAaV1prCv', '2022-05-18 09:36:38', '2022-05-18 09:36:38'),
+(45, 'Admin Tỉnh Đắk Lắk', NULL, 'apl.66@gmail.com', '2022-05-18 09:36:38', '$2y$10$0O2uIqHJbQUum/E.JS8qVeVvP28jY8YRTQwPu/0k.yYgJ4xB4i4y2', NULL, NULL, 66, 0, NULL, 'LPemikigkf', '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(46, 'Admin Tỉnh Đắk Nông', NULL, 'apl.67@gmail.com', '2022-05-18 09:36:39', '$2y$10$zuyy/kJLoyRTWoXBn5voReCM/yB72.mnMDXsxbYQYCIvgupf13MXW', NULL, NULL, 67, 0, NULL, '7TuBf8bmHz', '2022-05-18 09:36:39', '2022-05-18 09:36:39'),
+(47, 'Admin Tỉnh Lâm Đồng', NULL, 'apl.68@gmail.com', '2022-05-18 09:36:39', '$2y$10$jSvw6M89CLQrZBmq1x7SnuOqbT21AE0I.fcSZ04G2ceZo4YPZUUZq', NULL, NULL, 68, 0, NULL, 'lmAIdLFW46', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(48, 'Admin Tỉnh Bình Phước', NULL, 'apl.70@gmail.com', '2022-05-18 09:36:40', '$2y$10$IDhmqso0bG1jmzerC5QZMe3Zr0ruAh30X0k774VqX0LJzd7f2wnsW', NULL, NULL, 70, 0, NULL, '6Ap7ZMvQBY', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(49, 'Admin Tỉnh Tây Ninh', NULL, 'apl.72@gmail.com', '2022-05-18 09:36:40', '$2y$10$mvFB0XM0b3XrAqIgCnr6oOYKGVYpkiXlH/B9QEocMzIwEeBSQ5cIq', NULL, NULL, 72, 0, NULL, 'CYrwDowLzO', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(50, 'Admin Tỉnh Bình Dương', NULL, 'apl.74@gmail.com', '2022-05-18 09:36:40', '$2y$10$ZLVjHQ3mYreyblTU2onPTufoyGjBzKr7sCjBQNLSU80SzF1XIRK/2', NULL, NULL, 74, 0, NULL, '0qXmRZAhqn', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(51, 'Admin Tỉnh Đồng Nai', NULL, 'apl.75@gmail.com', '2022-05-18 09:36:40', '$2y$10$/gNCgx4I3Gz0ivQ1cHyiR.vyNwKn4aXfX9p/MFtr9X0njikDI.rqK', NULL, NULL, 75, 0, NULL, 'lizO9KYAgY', '2022-05-18 09:36:40', '2022-05-18 09:36:40'),
+(52, 'Admin Tỉnh Bà Rịa - Vũng Tàu', NULL, 'apl.77@gmail.com', '2022-05-18 09:36:41', '$2y$10$JQqqwnxqE61pW0wIpN/QIOQXVy4cQha6Bc3HXbKOscq1/FGbqRTj2', NULL, NULL, 77, 0, NULL, 'giQkMblNDY', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(53, 'Admin Thành phố Hồ Chí Minh', NULL, 'apl.79@gmail.com', '2022-05-18 09:36:41', '$2y$10$AsdMDEgk8DoK4CvI0GK6VuwDjMpnwB.pOgdjfwtutkDu5EuJRFblO', NULL, NULL, 79, 0, NULL, 'HEgKS4Yepr', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(54, 'Admin Tỉnh Long An', NULL, 'apl.80@gmail.com', '2022-05-18 09:36:41', '$2y$10$ZfVWOEJ7h4gqdGPeQofBbu9VxL3tVeKIBvT.6bFVMw.o.asrKdiK2', NULL, NULL, 80, 0, NULL, 'Up8uAPg92C', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(55, 'Admin Tỉnh Tiền Giang', NULL, 'apl.82@gmail.com', '2022-05-18 09:36:41', '$2y$10$ucAqdaYJdZecV8PA.c.YpOLXjSSm6maY1WJvUuJvJyxVCjsRaIraK', NULL, NULL, 82, 0, NULL, 'FHoIoxHhvI', '2022-05-18 09:36:41', '2022-05-18 09:36:41'),
+(56, 'Admin Tỉnh Bến Tre', NULL, 'apl.83@gmail.com', '2022-05-18 09:36:41', '$2y$10$lmhfkCtnhLLGi4U8cQOXJOounj.01wkQ6d0oyV3ZVkS8etmfe8gEm', NULL, NULL, 83, 0, NULL, 'bbcKG2bc2W', '2022-05-18 09:36:42', '2022-05-18 09:36:42'),
+(57, 'Admin Tỉnh Trà Vinh', NULL, 'apl.84@gmail.com', '2022-05-18 09:36:42', '$2y$10$L/99jqtFXdpdZvTvhefkrOGKCCjOpFVeZzI9aLHr85GAm0zi2NKTq', NULL, NULL, 84, 0, NULL, 'WeT0XAdOek', '2022-05-18 09:36:42', '2022-05-18 09:36:42'),
+(58, 'Admin Tỉnh Vĩnh Long', NULL, 'apl.86@gmail.com', '2022-05-18 09:36:43', '$2y$10$04U2fX67xBeJGcFjeMOjO.S3mLAhlS9CwTq0X0aSV8BL40zr2QKMC', NULL, NULL, 86, 0, NULL, 'fW6nvCkUdM', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(59, 'Admin Tỉnh Đồng Tháp', NULL, 'apl.87@gmail.com', '2022-05-18 09:36:43', '$2y$10$JEKlT8rru3ht63jmWJdiS.VWVZpD8nrs2Ch0x1.Vk1mbKzIZZYBcy', NULL, NULL, 87, 0, NULL, 'rjd7gtIuOk', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(60, 'Admin Tỉnh An Giang', NULL, 'apl.89@gmail.com', '2022-05-18 09:36:43', '$2y$10$XDFuziAZBuHn6Y83R8DCqeatfzBy1Ih4v..umJJfV7LAkY09wlkFm', NULL, NULL, 89, 0, NULL, 'HHbh3RGdXh', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(61, 'Admin Tỉnh Kiên Giang', NULL, 'apl.91@gmail.com', '2022-05-18 09:36:43', '$2y$10$gNiqiETVp3DvQGQalZyD.eqhoqlu2rP7NbnAAPkaMF/.KqitPHknG', NULL, NULL, 91, 0, NULL, 'Iq6R1wHlS7', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(62, 'Admin Thành phố Cần Thơ', NULL, 'apl.92@gmail.com', '2022-05-18 09:36:43', '$2y$10$s6IE4D4qLOOqtZB1sTM7zeyURLhOdBn.4woVuVZhR.8U6L8lwdCwS', NULL, NULL, 92, 0, NULL, 'QclMTkc3Iz', '2022-05-18 09:36:43', '2022-05-18 09:36:43'),
+(63, 'Admin Tỉnh Hậu Giang', NULL, 'apl.93@gmail.com', '2022-05-18 09:36:43', '$2y$10$6HYshVU2De.YXqcHyGJ4FO48RvoZKDBa1j86MVhnyaAXv5JFGY8SC', NULL, NULL, 93, 0, NULL, 'vl53VlVgvw', '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(64, 'Admin Tỉnh Sóc Trăng', NULL, 'apl.94@gmail.com', '2022-05-18 09:36:44', '$2y$10$Kc4trWbCXtiPhMsroM3WP.f6YsYt34mtieXDyq0l7FN7JB..Op4by', NULL, NULL, 94, 0, NULL, 'NWKu4lHMFr', '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(65, 'Admin Tỉnh Bạc Liêu', NULL, 'apl.95@gmail.com', '2022-05-18 09:36:44', '$2y$10$GFozamSq44zW1aL0qxsgFeL53mlZq0E3bbwfNOiEOaMB6Dtksh0jG', NULL, NULL, 95, 0, NULL, 'EwLwOWKp5b', '2022-05-18 09:36:44', '2022-05-18 09:36:44'),
+(66, 'Admin Tỉnh Cà Mau', NULL, 'apl.96@gmail.com', '2022-05-18 09:36:44', '$2y$10$uX2iQ.uWzsmHWphFILEiLuho19z24Ex3SpVSWiRst9bzxbABzQAH.', NULL, NULL, 96, 0, NULL, 'gnVJNwSscZ', '2022-05-18 09:36:44', '2022-05-18 09:36:44');
 
 -- --------------------------------------------------------
 
@@ -2368,7 +2834,31 @@ CREATE TABLE `user_metas` (
 --
 
 INSERT INTO `user_metas` (`id`, `userId`, `notify_admin`, `newsletter`, `unusual`, `save_activity`, `pwd_chng`, `pwd_temp`, `email_expire`, `email_token`, `created_at`, `updated_at`) VALUES
-(9, 1, 0, 0, 1, 'TRUE', 'FALSE', NULL, NULL, NULL, NULL, NULL);
+(9, 1, 0, 0, 1, 'TRUE', 'FALSE', NULL, NULL, NULL, NULL, NULL),
+(10, 67, 0, 0, 1, 'TRUE', 'FALSE', NULL, NULL, NULL, NULL, NULL),
+(11, 4, 0, 0, 1, 'TRUE', 'FALSE', NULL, NULL, NULL, NULL, NULL),
+(12, 70, 0, 0, 1, 'TRUE', 'FALSE', NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallets`
+--
+
+CREATE TABLE `wallets` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `holder_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `holder_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta` json DEFAULT NULL,
+  `balance` decimal(64,0) NOT NULL DEFAULT '0',
+  `decimal_places` smallint(5) UNSIGNED NOT NULL DEFAULT '2',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -2379,6 +2869,13 @@ INSERT INTO `user_metas` (`id`, `userId`, `notify_admin`, `newsletter`, `unusual
 --
 ALTER TABLE `activities`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `banks`
+--
+ALTER TABLE `banks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `banks_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `email_templates`
@@ -2420,10 +2917,30 @@ ALTER TABLE `languages`
   ADD UNIQUE KEY `languages_code_unique` (`code`);
 
 --
+-- Indexes for table `levels`
+--
+ALTER TABLE `levels`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
 -- Indexes for table `pages`
@@ -2446,12 +2963,32 @@ ALTER TABLE `payment_methods`
   ADD UNIQUE KEY `payment_methods_payment_method_unique` (`payment_method`);
 
 --
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
+
+--
 -- Indexes for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `point_transactions`
+--
+ALTER TABLE `point_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `point_transactions_pointable_type_pointable_id_index` (`pointable_type`,`pointable_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `provinces`
@@ -2463,9 +3000,21 @@ ALTER TABLE `provinces`
 -- Indexes for table `referrals`
 --
 ALTER TABLE `referrals`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `referrals_user_id_foreign` (`user_id`),
-  ADD KEY `referrals_refer_by_id_foreign` (`refer_by_id`);
+  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
 -- Indexes for table `settings`
@@ -2478,7 +3027,25 @@ ALTER TABLE `settings`
 --
 ALTER TABLE `transactions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `transactions_user_id_foreign` (`user_id`);
+  ADD UNIQUE KEY `transactions_uuid_unique` (`uuid`),
+  ADD KEY `transactions_payable_type_payable_id_index` (`payable_type`,`payable_id`),
+  ADD KEY `payable_type_payable_id_ind` (`payable_type`,`payable_id`),
+  ADD KEY `payable_type_ind` (`payable_type`,`payable_id`,`type`),
+  ADD KEY `payable_confirmed_ind` (`payable_type`,`payable_id`,`confirmed`),
+  ADD KEY `payable_type_confirmed_ind` (`payable_type`,`payable_id`,`type`,`confirmed`),
+  ADD KEY `transactions_type_index` (`type`),
+  ADD KEY `transactions_wallet_id_foreign` (`wallet_id`);
+
+--
+-- Indexes for table `transfers`
+--
+ALTER TABLE `transfers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `transfers_uuid_unique` (`uuid`),
+  ADD KEY `transfers_from_type_from_id_index` (`from_type`,`from_id`),
+  ADD KEY `transfers_to_type_to_id_index` (`to_type`,`to_id`),
+  ADD KEY `transfers_deposit_id_foreign` (`deposit_id`),
+  ADD KEY `transfers_withdraw_id_foreign` (`withdraw_id`);
 
 --
 -- Indexes for table `translates`
@@ -2492,14 +3059,23 @@ ALTER TABLE `translates`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_phone_unique` (`phone`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `users_province_id_foreign` (`province_id`);
+  ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
 -- Indexes for table `user_metas`
 --
 ALTER TABLE `user_metas`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `wallets`
+--
+ALTER TABLE `wallets`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `wallets_holder_type_holder_id_slug_unique` (`holder_type`,`holder_id`,`slug`),
+  ADD UNIQUE KEY `wallets_uuid_unique` (`uuid`),
+  ADD KEY `wallets_holder_type_holder_id_index` (`holder_type`,`holder_id`),
+  ADD KEY `wallets_slug_index` (`slug`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -2509,7 +3085,13 @@ ALTER TABLE `user_metas`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
+--
+-- AUTO_INCREMENT for table `banks`
+--
+ALTER TABLE `banks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `email_templates`
@@ -2533,13 +3115,13 @@ ALTER TABLE `global_metas`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kycs`
 --
 ALTER TABLE `kycs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `languages`
@@ -2548,10 +3130,16 @@ ALTER TABLE `languages`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `levels`
+--
+ALTER TABLE `levels`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -2566,10 +3154,28 @@ ALTER TABLE `payment_methods`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `point_transactions`
+--
+ALTER TABLE `point_transactions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `provinces`
@@ -2581,7 +3187,13 @@ ALTER TABLE `provinces`
 -- AUTO_INCREMENT for table `referrals`
 --
 ALTER TABLE `referrals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -2593,7 +3205,13 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transfers`
+--
+ALTER TABLE `transfers`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `translates`
@@ -2605,36 +3223,61 @@ ALTER TABLE `translates`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `user_metas`
 --
 ALTER TABLE `user_metas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `wallets`
+--
+ALTER TABLE `wallets`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `referrals`
+-- Constraints for table `banks`
 --
-ALTER TABLE `referrals`
-  ADD CONSTRAINT `referrals_refer_by_id_foreign` FOREIGN KEY (`refer_by_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `referrals_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
+ALTER TABLE `banks`
+  ADD CONSTRAINT `banks_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `transactions`
 --
 ALTER TABLE `transactions`
-  ADD CONSTRAINT `transactions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `transactions_wallet_id_foreign` FOREIGN KEY (`wallet_id`) REFERENCES `wallets` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `users`
+-- Constraints for table `transfers`
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_province_id_foreign` FOREIGN KEY (`province_id`) REFERENCES `provinces` (`id`) ON UPDATE CASCADE;
+ALTER TABLE `transfers`
+  ADD CONSTRAINT `transfers_deposit_id_foreign` FOREIGN KEY (`deposit_id`) REFERENCES `transactions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `transfers_withdraw_id_foreign` FOREIGN KEY (`withdraw_id`) REFERENCES `transactions` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

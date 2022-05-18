@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Auth;
  * @version 1.1.2
  */
 
-use App\Helpers\CalcPoint;
+use App\Helpers\PointCalc;
 use Cookie;
 use Carbon\Carbon;
 use App\Models\User;
@@ -18,7 +18,6 @@ use App\Models\Referral;
 use App\Models\UserMeta;
 use App\Helpers\ReCaptcha;
 use App\Helpers\UserPanel;
-use IcoHandler;
 use Illuminate\Http\Request;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;
@@ -33,37 +32,12 @@ use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-     */
-
     use RegistersUsers, ReCaptcha;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     * @version 1.0.0
-     */
     protected $redirectTo = '/register/success';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @version 1.0.0
-     * @return void
-     */
-    protected $handler;
-    public function __construct(IcoHandler $handler)
+    public function __construct()
     {
-        $this->handler = $handler;
         $this->middleware('guest');
     }
 
@@ -94,13 +68,6 @@ class RegisterController extends Controller
         return $this->registered($request, $user) ?: redirect($this->redirectPath());
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @version 1.0.1
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
     protected function validator(array $data)
     {
         $term = get_page('terms', 'status') == 'active' ? 'required' : 'nullable';
@@ -119,14 +86,6 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @version 1.2.1
-     * @since 1.0.0
-     * @return \App\Models\User
-     */
     protected function create(array $data)
     {
         if (empty($data['phone_ref'])) {
@@ -135,19 +94,18 @@ class RegisterController extends Controller
             $ref = User::where('phone', $data['phone_ref'])->first();
         }
         // $have_user = User::where('role', 'admin')->count();
-        $point = CalcPoint::getPoint('refer');
+        $point = PointCalc::getPoint('refer');
 
         $data['lastLogin'] = date('Y-m-d H:i:s');
         $data['phone'] = preg_replace('/^\+84/', '0', $data['phone']);
         $data['password'] = Hash::make($data['password']);
         $data['email_verified_at'] = now();
-        $data['point'] = $point;
+
         $user = User::create($data);
         if (!is_null($ref)) {
-            $user->ref()->create([
-                'refer_by_id' => $ref->id,
-                'bonus' => $point
-            ]);
+            $data = ['refer_by' => $ref->id];
+            $user->ref()->create($data);
+            $user->addPoints($point, __('Refer Bonus'), $data);
         }
 
         /* if ($user) {
@@ -179,24 +137,5 @@ class RegisterController extends Controller
             } */
         // }
         return $user;
-    }
-
-    /**
-     * Create user in referral table.
-     *
-     * @param  $user, $refer
-     * @version 1.0
-     * @since 1.1.2
-     * @return \App\Models\User
-     */
-    protected function create_referral_or_not($user_id, $phone_ref)
-    {
-        /* if($phone_ref) {
-            User::where('phone', $phone_ref)->firstOrFail()->referrals()->create([
-                'user_id' => $user_id,
-                'ref_by_id' => $ref_id,
-                'bonus' => 500
-            ]);
-        } */
     }
 }
