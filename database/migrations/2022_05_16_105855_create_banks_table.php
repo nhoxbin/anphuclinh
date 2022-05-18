@@ -15,11 +15,7 @@ class CreateBanksTable extends Migration
     {
         Schema::create('banks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name')->comment('Tên ngân hàng');
-            $table->string('host')->comment('Tên chủ tài khoản');
-            $table->string('number')->comment('Số tài khoản');
-            $table->string('branch')->comment('Chi nhánh');
             $table->timestamps();
         });
     }

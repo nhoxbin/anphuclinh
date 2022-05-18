@@ -115,7 +115,7 @@
                         </a>
                     </div>
                     <div class="navbar-content-item">
-                        <a href="{{route('user.history')}}">
+                        <a href="{{route('user.transactions.index')}}">
                             <i class="flaticon-invoice"></i>
                             Lịch sử
                         </a>

@@ -16,7 +16,7 @@ class PermissionRoleSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $arrayOfRoles = ['super_admin', 'area_admin', 'provincial_admin', 'user'];
+        $arrayOfRoles = ['super_admin', 'area_admin', 'provincial_admin', 'member'];
         $roles = collect($arrayOfRoles)->map(function ($role) {
             return ['name' => $role, 'guard_name' => 'web'];
         });

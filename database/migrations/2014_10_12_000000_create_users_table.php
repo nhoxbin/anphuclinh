@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('dateOfBirth')->nullable();
             $table->dateTime('lastLogin')->nullable();
             $table->unsignedInteger('province_code')->nullable();
+            $table->unsignedInteger('level_id')->default(1);
             $table->integer('google2fa')->default(0);
             $table->text('google2fa_secret')->nullable();
 

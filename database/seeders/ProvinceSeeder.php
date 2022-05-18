@@ -31,7 +31,6 @@ class ProvinceSeeder extends Seeder
             $user->assignRole('area_admin');
         }
 
-        $point = PointCalc::getPoint('refer');
         $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
         $data = ['refer_by' => $ref->id];
 
@@ -54,7 +53,7 @@ class ProvinceSeeder extends Seeder
             ]);
             $user->assignRole('provincial_admin');
             $user->ref()->create($data);
-            $user->addPoints($point, __('Refer Bonus'), $data);
+            $user->deposit(0);
         }
     }
 }

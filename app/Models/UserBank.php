@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Level extends Model
+class UserBank extends Model
 {
     use HasFactory;
 
-    public function level()
-    {
-        return $this->hasMany('App\Models\User');
-    }
+    protected $table = 'users_banks';
 }
