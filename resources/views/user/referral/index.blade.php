@@ -5,11 +5,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <div class="boxbody_tbl ng-scope" ng-app="App" ng-controller="List">
-<div class="boxbody_top"><span><h1 class="uppercase">Thêm khoản ngân hàng</h1></span></div>
+<div class="boxbody_top"><span><h1 class="uppercase">Danh sách đại lý</h1></span></div>
 <div class="boxbody_body">
-<button class="button pull-right" data-toggle="modal" data-target="#addbank" style="margin-bottom:10px;">
-    <i class="fa fa-plus"></i> Danh sách đại lí
-</button>
 <div class="clear"></div>
 <div class="table-responsive text-center">
     <div class="clear"></div>
