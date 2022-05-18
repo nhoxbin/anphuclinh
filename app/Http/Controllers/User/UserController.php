@@ -26,6 +26,7 @@ use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use App\Notifications\PasswordChange;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -53,12 +54,13 @@ class UserController extends Controller
             ]);
         } */
         $user = Auth::user()->refs()->with('user', 'refs.user')->get();
+        $products = Product::all();
         // dd($user);
         // $stage = active_stage();
         // $contribution = Transaction::user_contribution();
         // $tc = new \App\Helpers\TokenCalculate();
         // $active_bonus = $tc->get_current_bonus('active');
-        return view('user.dashboard', compact('user'));
+        return view('user.dashboard', compact('user','products'));
     }
 
 
