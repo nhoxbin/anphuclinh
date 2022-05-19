@@ -91,6 +91,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
     // Route::get('/thanh-toan','PurchaseController@index')->name('purchase');
     Route::get('/mua-goi-dau-tu','UserController@package')->name('package');
     Route::get('/account', 'UserController@account')->name('account');
+    Route::get('/thanh-toan','UserController@purchase')->name('purchase');
     // Route::get('/lich-su', 'UserController@history')->name('history');
     // Route::get('/danh-sach-dai-ly', 'UserController@listReferral')->name('listReferral');
     Route::get('/account/activity', 'UserController@account_activity')->name('account.activity');

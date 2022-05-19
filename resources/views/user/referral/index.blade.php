@@ -290,8 +290,8 @@ $(document).ready(function(){
                     Lịch Sử
                 </a>
             </div>
-            <div class="navbar-content-item" data-bs-toggle="modal" data-bs-target="#ruttien">
-                <a href="#">
+            <div class="navbar-content-item" data-bs-toggle="modal" data-bs-target="#addBalance">
+                <a href="javascript:;">
                     <i class="flaticon-menu-1"></i>
                     Rút Tiền
                 </a>

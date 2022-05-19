@@ -32,7 +32,39 @@
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        @section('add-link')
+        <link rel='stylesheet' id='wp-block-library-css'  href='https://app.anphuclinh.net/wp-includes/css/dist/block-library/style.min.css?ver=5.7.6' media='all' />
+        <link rel='stylesheet' id='wc-block-vendors-style-css'  href='https://app.anphuclinh.net/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/vendors-style.css?ver=4.4.3' media='all' />
+        <link rel='stylesheet' id='wc-block-style-css'  href='https://app.anphuclinh.net/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/style.css?ver=4.4.3' media='all' />
+        <link rel='stylesheet' id='contact-form-7-css'  href='https://app.anphuclinh.net/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.4' media='all' />
+        <link rel='stylesheet' id='uap_font_awesome-css'  href='https://app.anphuclinh.net/wp-content/plugins/indeed-affiliate-pro/assets/css/font-awesome.css?ver=5.7.6' media='all' />
+        <link rel='stylesheet' id='uap_public_style-css'  href='https://app.anphuclinh.net/wp-content/plugins/indeed-affiliate-pro/assets/css/main_public.css?ver=5.7.6' media='all' />
+        <link rel='stylesheet' id='uap_templates-css'  href='https://app.anphuclinh.net/wp-content/plugins/indeed-affiliate-pro/assets/css/templates.css?ver=5.7.6' media='all' />
+        <link rel='stylesheet' id='uap_jquery-ui.min.css-css'  href='https://app.anphuclinh.net/wp-content/plugins/indeed-affiliate-pro/assets/css/jquery-ui.min.css?ver=5.7.6' media='all' />
+        <link rel='stylesheet' id='uap_select2_style-css'  href='https://app.anphuclinh.net/wp-content/plugins/indeed-affiliate-pro/assets/css/select2.min.css?ver=5.7.6' media='all' />
+        <link rel='stylesheet' id='tpb-mh-css'  href='https://app.anphuclinh.net/wp-content/plugins/tpb-mh/public/css/tpb-mh-public.css?ver=1.1' media='all' />
+        <link rel='stylesheet' id='thwcfd-checkout-style-css'  href='https://app.anphuclinh.net/wp-content/plugins/woo-checkout-field-editor-pro/public/assets/css/thwcfd-public.min.css?ver=5.7.6' media='all' />
+        <link rel='stylesheet' id='select2-css'  href='https://app.anphuclinh.net/wp-content/plugins/woocommerce/assets/css/select2.css?ver=5.1.0' media='all' />
+        <link rel='stylesheet' id='woocommerce-layout-css'  href='https://app.anphuclinh.net/wp-content/plugins/woocommerce/assets/css/woocommerce-layout.css?ver=5.1.0' media='all' />
+        <link rel='stylesheet' id='woocommerce-smallscreen-css'  href='https://app.anphuclinh.net/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen.css?ver=5.1.0' media='only screen and (max-width: 768px)' />
+        <link rel='stylesheet' id='woocommerce-general-css'  href='https://app.anphuclinh.net/wp-content/plugins/woocommerce/assets/css/woocommerce.css?ver=5.1.0' media='all' />
+        <style id='woocommerce-inline-inline-css'>
+        .woocommerce form .form-row .required { visibility: visible; }
+        </style>
 
+        <link rel="https://api.w.org/" href="https://app.anphuclinh.net/wp-json/" /><link rel="alternate" type="application/json" href="https://app.anphuclinh.net/wp-json/wp/v2/pages/59" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://app.anphuclinh.net/xmlrpc.php?rsd" />
+        <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://app.anphuclinh.net/wp-includes/wlwmanifest.xml" /> 
+        <link rel='stylesheet' id='apl-style-css'  href='https://app.anphuclinh.net/wp-content/themes/apl/style.css?ver=1.0.0' media='all' />
+
+        <link rel="canonical" href="https://app.anphuclinh.net/trang-thanh-toan/" />
+        <link rel='shortlink' href='https://app.anphuclinh.net/?p=59' />
+        <link rel="alternate" type="application/json+oembed" href="https://app.anphuclinh.net/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fapp.anphuclinh.net%2Ftrang-thanh-toan%2F" />
+        <link rel="alternate" type="text/xml+oembed" href="https://app.anphuclinh.net/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fapp.anphuclinh.net%2Ftrang-thanh-toan%2F&#038;format=xml" />
+        <noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+        <style>.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style><link rel="icon" href="https://app.anphuclinh.net/wp-content/uploads/2021/03/cropped-logos-e1633948530220-32x32.png" sizes="32x32" />
+        <link rel="icon" href="https://app.anphuclinh.net/wp-content/uploads/2021/03/cropped-logos-e1633948530220-192x192.png" sizes="192x192" />
+        <link rel="apple-touch-icon" href="https://app.anphuclinh.net/wp-content/uploads/2021/03/cropped-logos-e1633948530220-180x180.png" />
+        @show
         @routes
     </head>
     <body  style="background-image: url({{asset('images/bg.jpg')}})">
@@ -45,6 +77,8 @@
                 #main-logo{
                     max-width:30px;
                 }
+                .body-content{
+                    margin-top: 0;                }
             }
         </style>
         <div class="preloader">
@@ -120,8 +154,8 @@
                             Lịch sử
                         </a>
                     </div>
-                    <div class="navbar-content-item">
-                        <a href="">
+                    <div class="navbar-content-item"  data-bs-toggle="modal" data-bs-target="#addBalance">
+                        <a href="javascript:;" >
                             <i class="flaticon-menu-1"></i>
                             Rút tiền
                         </a>
@@ -151,7 +185,7 @@
                         <div class="modal-header">
                             <div class="modal-header-title">
                                 <i class="flaticon-plus color-blue"></i>
-                                <h5 class="modal-title">Add Balance</h5>
+                                <h5 class="modal-title">Nạp tiền vào tài khoản</h5>
                             </div>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -456,6 +490,9 @@
                     e.preventDefault();
                     console.log($(this).next());
                     $(this).next().toggleClass('active');
+                })
+                $('#ship-to-different-address-checkbox').change(function(){
+                    $('.shipping_address').slideToggle();
                 })
             })
         </script>
