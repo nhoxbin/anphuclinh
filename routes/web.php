@@ -14,6 +14,7 @@ use App\Helpers\PointCalc;
 use App\Models\KYC;
 use App\Models\User;
 use App\Services\KYCService;
+use Illuminate\Routing\RouteGroup;
 
 /* if (application_installed()) {
     Route::get('/install/final', function () {
@@ -84,39 +85,44 @@ Route::post('admin/login/2fa', function () {
 Route::get('/', 'User\UserController@index')->name('home')->middleware(['auth']);
 
 // User Routes
-Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->group(function () {
-    Route::get('/', 'User\UserController@index')->name('home');
-    Route::get('/user-bank','User\BankController@index')->name('bank');
-    Route::get('/thanh-toan','User\PurchaseController@index')->name('purchase');
-    Route::get('/mua-goi-dau-tu','User\UserController@package')->name('package');
-    Route::get('/account', 'User\UserController@account')->name('account');
-    Route::get('/lich-su', 'User\UserController@history')->name('history');
-    Route::get('/danh-sach-dai-ly', 'User\UserController@listReferral')->name('listReferral');
-    Route::get('/account/activity', 'User\UserController@account_activity')->name('account.activity');
-    Route::get('/contribute', 'User\TokenController@index')->name('token');
-    Route::get('/contribute/cancel/{gateway?}', 'User\TokenController@payment_cancel')->name('payment.cancel');
-    Route::get('/transactions', 'User\TransactionController@index')->name('transactions');
-    Route::get('/kyc', 'User\KycController@index')->name('kyc');
-    Route::get('/kyc/application', 'User\KycController@application')->name('kyc.application');
-    Route::get('/kyc/application/view', 'User\KycController@view')->name('kyc.application.view');
-    Route::get('/kyc-list/documents/{file}/{doc}', 'User\KycController@get_documents')->name('kycs.file');
-    Route::get('/password/confirm/{token}', 'User\UserController@password_confirm')->name('password.confirm');
+Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('User')->group(function () {
+    Route::get('/', 'UserController@index')->name('home');
+    // Route::get('/user-bank','BankController@index')->name('bank');
+    // Route::get('/thanh-toan','PurchaseController@index')->name('purchase');
+    Route::get('/mua-goi-dau-tu','UserController@package')->name('package');
+    Route::get('/account', 'UserController@account')->name('account');
+    // Route::get('/lich-su', 'UserController@history')->name('history');
+    // Route::get('/danh-sach-dai-ly', 'UserController@listReferral')->name('listReferral');
+    Route::get('/account/activity', 'UserController@account_activity')->name('account.activity');
+    Route::get('/contribute', 'TokenController@index')->name('token');
+    Route::get('/contribute/cancel/{gateway?}', 'TokenController@payment_cancel')->name('payment.cancel');
+    Route::get('/transactions', 'TransactionController@index')->name('transactions');
+    Route::get('/kyc', 'KycController@index')->name('kyc');
+    Route::get('/kyc/application', 'KycController@application')->name('kyc.application');
+    Route::get('/kyc/application/view', 'KycController@view')->name('kyc.application.view');
+    Route::get('/kyc-list/documents/{file}/{doc}', 'KycController@get_documents')->name('kycs.file');
+    Route::get('/password/confirm/{token}', 'UserController@password_confirm')->name('password.confirm');
     // Referral v1.0.3 > v1.1.1
-    Route::get('/referral', 'User\UserController@referral')->name('referral');
+    Route::get('/referral', 'UserController@referral')->name('referral');
     // My Token v1.1.2
-    Route::get('/account/balance', 'User\UserController@mytoken_balance')->name('token.balance');
+    Route::get('/account/balance', 'UserController@mytoken_balance')->name('token.balance');
+
+    Route::get('referrals', 'ReferralController')->name('referrals.index');
+    Route::get('transactions', 'TransactionController')->name('transactions.index');
+    Route::resource('banks', 'BankController');
+    Route::resource('purchases', 'PurchaseController')->only(['show', 'store']);
 
     // User Ajax Request
     Route::name('ajax.')->prefix('ajax')->group(function () {
-        Route::post('/account/wallet-form', 'User\UserController@get_wallet_form')->name('account.wallet');
-        Route::post('/account/update', 'User\UserController@account_update')->name('account.update');
-        Route::post('/contribute/access', 'User\TokenController@access')->name('token.access');
-        Route::post('/contribute/payment', 'User\TokenController@payment')->name('payment');
+        Route::post('/account/wallet-form', 'UserController@get_wallet_form')->name('account.wallet');
+        Route::post('/account/update', 'UserController@account_update')->name('account.update');
+        Route::post('/contribute/access', 'TokenController@access')->name('token.access');
+        Route::post('/contribute/payment', 'TokenController@payment')->name('payment');
 
-        Route::post('/transactions/delete/{id}', 'User\TransactionController@destroy')->name('transactions.delete');
-        Route::post('/transactions/view', 'User\TransactionController@show')->name('transactions.view');
-        Route::post('/kyc/submit', 'User\KycController@submit')->name('kyc.submit');
-        Route::post('/account/activity', 'User\UserController@account_activity_delete')->name('account.activity.delete');
+        Route::post('/transactions/delete/{id}', 'TransactionController@destroy')->name('transactions.delete');
+        Route::post('/transactions/view', 'TransactionController@show')->name('transactions.view');
+        Route::post('/kyc/submit', 'KycController@submit')->name('kyc.submit');
+        Route::post('/account/activity', 'UserController@account_activity_delete')->name('account.activity.delete');
 
         Route::get('banks', 'BankController@getBank')->name('bank.get');
     });

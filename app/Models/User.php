@@ -113,9 +113,14 @@ class User extends Authenticatable implements Customer, Pointable // implements 
         return $this->hasMany('App\Models\Referral', 'refer_by');
     }
 
-	public function banks()
+    public function level()
     {
-        return $this->hasMany('App\Models\Bank');
+        return $this->belongsTo('App\Models\Level');
+    }
+
+    public function banks()
+    {
+        return $this->hasManyThrough('App\Models\Bank', 'App\Models\UserBank');
     }
 
     /**
@@ -260,7 +265,7 @@ class User extends Authenticatable implements Customer, Pointable // implements 
      * @since 1.0
      * @return string
      */
-    public function wallet($output = 'status')
+    /* public function wallet($output = 'status')
     {
         $wrc = GlobalMeta::where(['pid' => $this->id, 'name' => 'user_wallet_address_change_request'])->first();
         $return = false;
@@ -270,7 +275,7 @@ class User extends Authenticatable implements Customer, Pointable // implements 
         $return = ($output == 'current') ? $this->walletAddress : $return;
         $return = ($output == 'new') ? $wrc->data()->address : $return;
         return $return;
-    }
+    } */
 
     /**
      *

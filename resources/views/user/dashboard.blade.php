@@ -25,7 +25,7 @@
             <div class="add-card-inner">
                 <div class="add-card-item add-card-info">
                     <p>Ví hoa hồng</p>
-                    <h3 style="color: #fff">0 VNĐ</h3>
+                    <h3 style="color: #fff">{{ $user->balance }}<sup>đ</sup></h3>
                 </div>
                 <div class="add-card-item add-balance" data-bs-toggle="modal" data-bs-target="#addBalance">
                     <a href="#"><i class="flaticon-left-arrow-1"></i></a>
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        @if (!(auth()->user()->kyc_info->status == 'approved'))
+        @if ($user->hasRole('member') && (empty($user->kyc_info) || !($user->kyc_info->status == 'approved')))
         <div class="alert alert-warning" role="alert">
             Vui lòng xác thực thông tin cá nhân (KYC), <a href="{{route('user.kyc')}}">nhấn vào đây</a> để xác thực
         </div>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Điểm</p>
-                            <h3>{{Auth::user()->point}}</h3>
+                            <h3>{{ $user->currentPoints() }}</h3>
                         </div>
                     </div>
                 </div>
@@ -133,12 +133,12 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Cấp</p>
-                            <h3>0</h3>
+                            <h3>{{ $user->level_id }}: {{ $user->level->name }}</h3>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 pb-15" >
-                    <a href="{{route('user.listReferral')}}" class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}});cursor:pointer">
+                    <a href="{{route('user.referrals.index')}}" class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}});cursor:pointer">
                         <div class="feature-card-thumb">
                             <i class="flaticon-menu-1"></i>
                         </div>
@@ -327,7 +327,7 @@
                 <h2>Thông tin ngân hàng</h2>
             </div>
             <div class="payment-method-button text-center">
-                <a href="{{route('user.bank')}}" class="btn btn-secondary d-block mx-auto mb-2" style="width:max-content;min-width:unset">
+                <a href="{{route('user.bank.index')}}" class="btn btn-secondary d-block mx-auto mb-2" style="width:max-content;min-width:unset">
                     <i class="flaticon-plus"></i>
                 </a>
                 <span>Thêm tài khoản ngân hàng</span>
@@ -341,43 +341,31 @@
                 </div> --}}
             </div>
             <div class="row gx-3">
-                @forelse ($products as $product)
-                    
-                @empty    
+                @foreach ($products as $product)
                     <div class="col-12 col-sm-6 pb-15">
-                        <div class="user-card first" style="background-image: url({{asset('images/button.png')}})">
-                            <a href="#">
-                                <div class="user-card-thumb" style="background: unset">
-                                    <img src="{{$product->image}}" alt="user">
-                                </div>
-                                <h3 style="font-size: 16px" class="text-white mt-2">{{$product->name}}</h3>
-                                <span class="price d-block mt-1 text-white" >{{number_format($product->price)}} VNĐ</span>
-                                <a class="d-block text-white mt-1" style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
+                        <div class="user-card first" style="background-image: url({{ asset('images/button.png') }})">
+                            <div class="user-card-thumb" style="background: unset">
+                                <img src="/{{ $product->image }}" alt="user">
+                            </div>
+                            <h3 style="font-size: 16px" class="text-white mt-2">{{ $product->name }}</h3>
+                            <span class="price d-block mt-1 text-white" >{{ number_format($product->price) }}<sup>đ</sup></span>
+                            <a class="d-block text-white mt-1" style="background: url({{ asset('images/btn.png') }}) 3px 5px no-repeat;
                                 background-position: center;
                                 background-size: cover;
                                 border: none;
                                 width:max-content;
                                 margin:0 auto;
-                                padding: 2px 10px;" href="">Mua ngay</a>
-                            </a>
+                                padding: 2px 10px;" href="{{ route('user.purchases.show', $product->id) }}">Mua ngay</a>
                         </div>
                     </div>
-                @endforelse
+                @endforeach
             </div>
         </div>
         <!-- Send-money-section -->
-        <!-- Saving-goals-section -->
-        {{-- <div class="saving-goals-section pb-15">
-            <div class="section-header">
-                <h2>Saving Goals</h2>
-                <div class="view-all">
-                    <a href="my-savings.html">View All</a>
-                </div>
             </div>
             <div class="progress-card progress-card-red mb-15">
                 <div class="progress-card-info">
                     <div class="circular-progress" data-note="50.85">
-                        <svg width="55" height="55" class="circle-svg">
                             <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-path"></circle>
                             <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-fill"></circle>
                         </svg>

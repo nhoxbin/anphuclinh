@@ -29,7 +29,7 @@
                             <a href=""><i class="ikon ikon-transactions"></i> Mua sản phẩm</a>
                         </li>
                         <li>
-                            <a href="{{route('user.kyc')}}"><i class="kon ikon-coins"></i> KYC</a>
+                            <a href="{{route('user.kyc')}}"><i class="ikon ikon-coins"></i> KYC</a>
                         </li>
                         <li >
                             <a href=""><i class="ikon ikon-wallet"></i> Tin tức</a>

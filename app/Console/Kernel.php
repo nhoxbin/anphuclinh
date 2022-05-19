@@ -18,6 +18,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work', ['--queue=emails,kycs,default', '--stop-when-empty'])
             ->withoutOverlapping()
             ->everyMinute();
+
+        $schedule->command('bank:history')->everyFiveMinutes();
+        // $schedule->command('poin:increase')->monthly();
     }
 
     /**

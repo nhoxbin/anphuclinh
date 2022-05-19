@@ -53,14 +53,14 @@ class UserController extends Controller
                 'warning' => $this->handler->accessMessage()
             ]);
         } */
-        $user = Auth::user()->refs()->with('user', 'refs.user')->get();
+        $user = auth()->user();
         $products = Product::all();
         // dd($user);
         // $stage = active_stage();
         // $contribution = Transaction::user_contribution();
         // $tc = new \App\Helpers\TokenCalculate();
         // $active_bonus = $tc->get_current_bonus('active');
-        return view('user.dashboard', compact('user','products'));
+        return view('user.dashboard', compact('user', 'products'));
     }
 
 
@@ -520,13 +520,7 @@ class UserController extends Controller
             abort(404);
         }
     }
-    public function history(){
-        return view('user.history.index');
-    }
-    public function listReferral(){
-        $user = Auth::user()->refs()->with('user', 'refs.user')->paginate(40);
-        return view('user.referral.index',compact('user'));
-    }
+
     public function package(){
         return view('user.package.index');
     }

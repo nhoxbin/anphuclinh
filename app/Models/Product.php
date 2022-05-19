@@ -5,13 +5,11 @@ namespace App\Models;
 use Bavix\Wallet\Traits\HasWallet;
 use Bavix\Wallet\Interfaces\Customer;
 use Bavix\Wallet\Interfaces\Product as ProductInterface;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model implements ProductInterface
 {
     use HasWallet;
-    use HasFactory;
 
     protected $fillable = ['price'];
 
@@ -28,7 +26,7 @@ class Product extends Model implements ProductInterface
 
     public function getAmountProduct(Customer $customer)
     {
-        return round($this->price * 100);
+        return $this->price;
     }
 
     public function getMetaProduct(): ?array

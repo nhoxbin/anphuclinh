@@ -94,7 +94,6 @@ class RegisterController extends Controller
             $ref = User::where('phone', $data['phone_ref'])->first();
         }
         // $have_user = User::where('role', 'admin')->count();
-        $point = PointCalc::getPoint('refer');
 
         $data['lastLogin'] = date('Y-m-d H:i:s');
         $data['phone'] = preg_replace('/^\+84/', '0', $data['phone']);
@@ -105,7 +104,9 @@ class RegisterController extends Controller
         if (!is_null($ref)) {
             $data = ['refer_by' => $ref->id];
             $user->ref()->create($data);
-            $user->addPoints($point, __('Refer Bonus'), $data);
+            $user->assignRole('member');
+            $user->deposit(0);
+            $user->addPoints(PointCalc::getPoint('refer'), __('Refer Bonus'), $data);
         }
 
         /* if ($user) {

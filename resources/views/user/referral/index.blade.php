@@ -20,24 +20,22 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($user as $key => $ref)
+            @foreach($user as $key => $ref)
                 <tr role="row">
                     <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">{{$key+1}}</th>
                     <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">{{$ref->user->name}}</th>
                     <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">{{$ref->user->phone}}</th>
                     <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">Doanh số</th>
                 </tr>
-                @forelse($ref->refs as $key1 => $ref1)
+                @foreach($ref->refs as $key1 => $ref1)
                     <tr role="row">
                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">{{$key+1}}.{{$key1+1}}</th>
                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">{{$ref1->user->name}}</th>
                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">{{$ref1->user->phone}}</th>
                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;" class="sorting_disabled" rowspan="1" colspan="1">Doanh số</th>
                     </tr>
-                @empty
-                @endforelse
-            @empty
-            @endforelse
+                @endforeach
+            @endforeach
         </tbody>
     </table>
     {{$user->links('components.custom-paginate')}}
@@ -56,7 +54,7 @@
                         <h1>Tạo mới</h1>
                         <hr />
                         <form action="https://app.anphuclinh.net/user-bank" id="myForm" method="post">
-                         
+
                           <input type="hidden" id="ub_id" name="ub_id">
                         <div class="form-horizontal">
                         <div class="form-group">
@@ -175,7 +173,7 @@
 
 
 $(document).ready(function(){
-     
+
     $('.taomoi').click(function(){
         var username = $('#username').val();
         var ct = $('#chungtu').val();
@@ -196,12 +194,12 @@ $(document).ready(function(){
         //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
         $.ajax({
             type : "post",
-            dataType : "json", 
+            dataType : "json",
             url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=addbank',
              data: $('form#myForm').serialize(),
             context: this,
             beforeSend: function(){
-                
+
             },
             success: function(response) {
                 //Làm gì đó khi d liu ã được x lý
@@ -222,12 +220,12 @@ $(document).ready(function(){
         })
         return false;
     })
-    
-    
-    
-    
+
+
+
+
     $('.btn-xoa').click(function(){
-    
+
         var id = $(this).data("id");
         var data = {
             'id': id
@@ -236,12 +234,12 @@ $(document).ready(function(){
         //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
         $.ajax({
             type : "post",
-            dataType : "json", 
+            dataType : "json",
             url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=removebank',
              data: data,
             context: this,
             beforeSend: function(){
-                
+
             },
             success: function(response) {
                 //Làm gì đó khi d liu ã được x lý
