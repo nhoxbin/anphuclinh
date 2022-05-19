@@ -1,17 +1,18 @@
 @extends('layouts.user-new')
 @section('content')
 <div class="body-content body-content-lg"> <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
-    <div class="container"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <div class="container">
+        {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
 <div class="boxbody_tbl ng-scope" ng-app="App" ng-controller="List">
 <div class="boxbody_top"><span><h1 class="uppercase">Thêm khoản ngân hàng</h1></span></div>
-<div class="boxbody_body">
+<div class="boxbody_body" style="text-align:end;">
 <button class="button pull-right" data-toggle="modal" data-target="#addbank" style="margin-bottom:10px;">
     <i class="fa fa-plus"></i> Thêm mới
 </button>
 <div class="clear"></div>
-<div class="table-responsive">
+<div class="table-responsive" style="text-align:start;">
     <div class="clear"></div>
     <table id="example" class="table table-hover table-bordered dt-responsive nowrap dataTable no-footer dtr-inline" style="width: 100%;" role="grid">
         <thead>
@@ -163,99 +164,99 @@
 </div>
 
     <script type="text/javascript">
-(function($){
+// (function($){
 
 
-$(document).ready(function(){
+// $(document).ready(function(){
      
-    $('.taomoi').click(function(){
-        var username = $('#username').val();
-        var ct = $('#chungtu').val();
-        var refid = $('#refid').val();
-        if(username == ''){
-            var msg = 'nhập tên';
-            $('#modal_content').text(msg);
-            $('#alertModal').modal('show');
-            return false;
-        }
-        if(ct == ''){
-            var msg = 'nhập chứng từ';
-            $('#modal_content').text(msg);
-            $('#alertModal').modal('show');
-            return false;
-        }
-        //var fdata = {};
-        //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
-        $.ajax({
-            type : "post",
-            dataType : "json", 
-            url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=addbank',
-             data: $('form#myForm').serialize(),
-            context: this,
-            beforeSend: function(){
+//     $('.taomoi').click(function(){
+//         var username = $('#username').val();
+//         var ct = $('#chungtu').val();
+//         var refid = $('#refid').val();
+//         if(username == ''){
+//             var msg = 'nhập tên';
+//             $('#modal_content').text(msg);
+//             $('#alertModal').modal('show');
+//             return false;
+//         }
+//         if(ct == ''){
+//             var msg = 'nhập chứng từ';
+//             $('#modal_content').text(msg);
+//             $('#alertModal').modal('show');
+//             return false;
+//         }
+//         //var fdata = {};
+//         //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
+//         $.ajax({
+//             type : "post",
+//             dataType : "json", 
+//             url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=addbank',
+//              data: $('form#myForm').serialize(),
+//             context: this,
+//             beforeSend: function(){
                 
-            },
-            success: function(response) {
-                //Làm gì đó khi d liu ã được x lý
-                if(response.success) {
-                    $('#modal_content').text(response.data);
-                    $('#alertModal').modal('show');
-                        location.reload();
-                }
-                else {
-                    $('#modal_content').text(response.data);
-                    $('#alertModal').modal('show');
-                }
-            },
-            error: function( jqXHR, textStatus, errorThrown ){
-                //Lm gì đó khi có li xảy ra
-                console.log( 'The following error occured: ' + textStatus, errorThrown );
-            }
-        })
-        return false;
-    })
+//             },
+//             success: function(response) {
+//                 //Làm gì đó khi d liu ã được x lý
+//                 if(response.success) {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                         location.reload();
+//                 }
+//                 else {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                 }
+//             },
+//             error: function( jqXHR, textStatus, errorThrown ){
+//                 //Lm gì đó khi có li xảy ra
+//                 console.log( 'The following error occured: ' + textStatus, errorThrown );
+//             }
+//         })
+//         return false;
+//     })
     
     
     
     
-    $('.btn-xoa').click(function(){
+//     $('.btn-xoa').click(function(){
     
-        var id = $(this).data("id");
-        var data = {
-            'id': id
-        }
-        //var fdata = {};
-        //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
-        $.ajax({
-            type : "post",
-            dataType : "json", 
-            url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=removebank',
-             data: data,
-            context: this,
-            beforeSend: function(){
+//         var id = $(this).data("id");
+//         var data = {
+//             'id': id
+//         }
+//         //var fdata = {};
+//         //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
+//         $.ajax({
+//             type : "post",
+//             dataType : "json", 
+//             url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=removebank',
+//              data: data,
+//             context: this,
+//             beforeSend: function(){
                 
-            },
-            success: function(response) {
-                //Làm gì đó khi d liu ã được x lý
-                if(response.success) {
-                    $('#modal_content').text(response.data);
-                    $('#alertModal').modal('show');
-                        location.reload();
-                }
-                else {
-                    $('#modal_content').text(response.data);
-                    $('#alertModal').modal('show');
-                }
-            },
-            error: function( jqXHR, textStatus, errorThrown ){
-                //Lm gì đó khi có li xảy ra
-                console.log( 'The following error occured: ' + textStatus, errorThrown );
-            }
-        })
-        return false;
-    })
-})
-})(jQuery)
+//             },
+//             success: function(response) {
+//                 //Làm gì đó khi d liu ã được x lý
+//                 if(response.success) {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                         location.reload();
+//                 }
+//                 else {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                 }
+//             },
+//             error: function( jqXHR, textStatus, errorThrown ){
+//                 //Lm gì đó khi có li xảy ra
+//                 console.log( 'The following error occured: ' + textStatus, errorThrown );
+//             }
+//         })
+//         return false;
+//     })
+// })
+// })(jQuery)
 </script>
 </div>
 </div>
@@ -269,119 +270,7 @@ $(document).ready(function(){
 <!-- Footer -->
 
 <!-- Navbar -->
-<div class="app-navbar">
-    <div class="container" style="padding: 0 10px;">
-        <div class="navbar-content ">
-            <div class="navbar-content-item">
-                <a href="https://app.anphuclinh.net" class="active">
-                    <i class="flaticon-house"></i>
-                    Trang Chủ
-                </a>
-            </div>
-            <div class="navbar-content-item">
-                <a href="https://app.anphuclinh.net/lich-su">
-                    <i class="flaticon-invoice"></i>
-                    Lịch Sử
-                </a>
-            </div>
-            <div class="navbar-content-item" data-bs-toggle="modal" data-bs-target="#addBalance">
-                <a href="javascript:;">
-                    <i class="flaticon-menu-1"></i>
-                    Rút Tiền
-                </a>
-            </div>
-            <div class="appbar-item appbar-options navbar-content-item">
-                    <div class="appbar-option-item appbar-option-notification">
-                        <a href="https://app.anphuclinh.net/log-thong-bao"><i class="flaticon-bell"></i>Thông báo</a>
-                                                                                        <span class="option-badge">31</span>
-                                                    </div>
-            </div>
-            <!--
-            <div class="navbar-content-item">
-                <a href="https://app.anphuclinh.net/qrcode-scan">
-                    <i class="flaticon-credit-card"></i>
-                    Quét Mã
-                </a>
-            </div> -->
-            <div class="navbar-content-item">
-                <a href="https://app.anphuclinh.net/settings">
-                    <i class="flaticon-settings"></i>
-                    Thiết Lập
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Navbar -->
-
-<!-- Add-balance-modal -->
-<div class="modal fade" id="addBalance" tabindex="-1" aria-labelledby="addBalance" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="container">
-                <div class="modal-header">
-                    <div class="modal-header-title">
-                        <i class="flaticon-plus color-blue"></i>
-                        <h5 class="modal-title">Nạp tiền vào tài khoản</h5>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form name="add-balance">
-                        <div class="form-group mb-15">
-                            <label for="input1" class="form-label">Số tiền cần nạp</label>
-                            <!--<input type="text" class="form-control" id="deposit_amount" name="deposit_amount" placeholder="Số tiền cần nạp">
-                            -->
-                            <select class="form-control ng-pristine ng-valid ng-empty ng-touched bankselect" id="deposit_amount" name="deposit_amount">
-                                <option value="500000" class="">500.000đ</option>
-                                <option value="1000000" class="">1.000.000đ</option>
-                                <option value="1500000" class="">1.500.000đ</option>
-                                <option value="2000000" class="">2.000.000đ</option>
-                                <option value="2500000" class="">2.500.000đ</option>
-                                <option value="3000000" class="" selected="selected">3.000.000đ</option>
-                                <option value="3500000" class="">3.500.000đ</option>
-                                <option value="4000000" class="">4.000.000đ</option>
-                                <option value="4500000" class="">4.500.000đ</option>
-                                <option value="5000000" class="">5.000.000đ</option>
-                                <option value="10000000" class="">10.000.000đ</option>
-                                <option value="20000000" class="">20.000.000đ</option>
-                             ?>
-                            </select>
-                        </div>
-                        <button type="submit" id="add-balance-btn" class="btn main-btn main-btn-lg full-width deposit-btn">Nạp</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="goidautu" tabindex="-1" aria-labelledby="addBalance" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="container">
-                <div class="modal-header">
-                    <div class="modal-header-title">
-                        <i class="flaticon-plus color-blue"></i>
-                        <h5 class="modal-title">Nạp tiền vào tài khoản</h5>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="max-height: 100%">
-                    <ul class="apl_goidautu" style="margin: 0;padding: 0;list-style: none;">
-                      <li><a href="mua-goi-dau-tu/?id=1"><img src="https://app.anphuclinh.net/wp-content/themes/apl/images/goidautu/1000.png"></a></li>
-                      <li><a href="mua-goi-dau-tu/?id=2"><img src="https://app.anphuclinh.net/wp-content/themes/apl/images/goidautu/500.png"></a></li>
-                      <li><a href="mua-goi-dau-tu/?id=3"><img src="https://app.anphuclinh.net/wp-content/themes/apl/images/goidautu/200.png"></a></li>
-                      <li><a href="mua-goi-dau-tu/?id=4"><img src="https://app.anphuclinh.net/wp-content/themes/apl/images/goidautu/100.png"></a></li>
-                      <li><a href="mua-goi-dau-tu/?id=5"><img src="https://app.anphuclinh.net/wp-content/themes/apl/images/goidautu/50.png"></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Add-balance-modal -->
-<script type="text/javascript">
+{{-- <script type="text/javascript">
             $('#add-balance-btn').click(function()
             {
                 $(this).attr('disabled',true);
@@ -400,7 +289,7 @@ $(document).ready(function(){
 </script>
 <!-- rut-tien-modal -->
 <div class="modal fade" id="ruttien" tabindex="-1" aria-labelledby="ruttien" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-animatezoom">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-animatezoom" style="left:0">
         <div class="modal-content">
             <div class="container">
                 <div class="modal-header">
@@ -466,5 +355,5 @@ $(document).ready(function(){
             </div>
         </div>
     </div>
-</div>    
+</div>     --}}
 @endsection

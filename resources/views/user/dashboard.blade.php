@@ -28,7 +28,7 @@
                     <h3 style="color: #fff">{{ $user->balance }}<sup>đ</sup></h3>
                 </div>
                 <div class="add-card-item add-balance" data-bs-toggle="modal" data-bs-target="#addBalance">
-                    <a href="#"><i class="flaticon-left-arrow-1"></i></a>
+                    <a href="javscript:;"><i class="flaticon-left-arrow-1"></i></a>
                     <p>Rút tiền</p>
                 </div>
             </div>

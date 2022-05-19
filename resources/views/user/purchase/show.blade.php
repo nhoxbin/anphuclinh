@@ -243,7 +243,7 @@ Thanh toán Tiên Phong Bank <img src="https://app.anphuclinh.net/wp-content/plu
                 </a>
             </div>
             <div class="navbar-content-item" data-bs-toggle="modal" data-bs-target="#addBalance">
-                <a href="javscript:;">
+                <a href="javascript:;">
                     <i class="flaticon-menu-1"></i>
                     Rút Tiền
                 </a>
