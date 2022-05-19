@@ -341,6 +341,7 @@
                 </div> --}}
             </div>
             <div class="row gx-3">
+<<<<<<< HEAD
                 @foreach ($products as $product)
                     <div class="col-12 col-sm-6 pb-15">
                         <div class="user-card first" style="background-image: url({{ asset('images/button.png') }})">
@@ -350,15 +351,37 @@
                             <h3 style="font-size: 16px" class="text-white mt-2">{{ $product->name }}</h3>
                             <span class="price d-block mt-1 text-white" >{{ number_format($product->price) }}<sup>đ</sup></span>
                             <a class="d-block text-white mt-1" style="background: url({{ asset('images/btn.png') }}) 3px 5px no-repeat;
+=======
+                @forelse ($products as $product)
+                    
+                @empty    
+                    <div class="col-12 col-sm-6 pb-15">
+                        <div class="user-card first" style="background-image: url({{asset('images/button.png')}})">
+                            <a href="#">
+                                <div class="user-card-thumb" style="background: unset">
+                                    <img src="{{$product->image}}" alt="user">
+                                </div>
+                                <h3 style="font-size: 16px" class="text-white mt-2">{{$product->name}}</h3>
+                                <span class="price d-block mt-1 text-white" >{{number_format($product->price)}} VNĐ</span>
+                                <a class="d-block text-white mt-1" style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
+>>>>>>> ca275e0 (render products)
                                 background-position: center;
                                 background-size: cover;
                                 border: none;
                                 width:max-content;
                                 margin:0 auto;
+<<<<<<< HEAD
                                 padding: 2px 10px;" href="{{ route('user.purchases.show', $product->id) }}">Mua ngay</a>
                         </div>
                     </div>
                 @endforeach
+=======
+                                padding: 2px 10px;" href="">Mua ngay</a>
+                            </a>
+                        </div>
+                    </div>
+                @endforelse
+>>>>>>> ca275e0 (render products)
             </div>
         </div>
         <!-- Send-money-section -->
