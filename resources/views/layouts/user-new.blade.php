@@ -81,14 +81,14 @@
                     margin-top: 0;                }
             }
         </style>
-        <div class="preloader">
+        {{-- <div class="preloader">
             <div class="preloader-wrapper">
                 <div class="preloader-content">
                     <img src="{{asset('images/logo-new.png')}}" alt="logo">
                     <h3>An Phúc Linh<br>An tâm gia đình Việt</h3>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- Preloader -->
 
         <!-- Header-bg -->
