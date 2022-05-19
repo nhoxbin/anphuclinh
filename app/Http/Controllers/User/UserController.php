@@ -53,14 +53,14 @@ class UserController extends Controller
                 'warning' => $this->handler->accessMessage()
             ]);
         } */
-        $user = auth()->user();
+        $user = Auth::user()->refs()->with('user', 'refs.user')->get();
         $products = Product::all();
         // dd($user);
         // $stage = active_stage();
         // $contribution = Transaction::user_contribution();
         // $tc = new \App\Helpers\TokenCalculate();
         // $active_bonus = $tc->get_current_bonus('active');
-        return view('user.dashboard', compact('user', 'products'));
+        return view('user.dashboard', compact('user','products'));
     }
 
 
