@@ -24,7 +24,11 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string',
+            'qty' => 'required|numeric',
+            'address' => 'required|string',
+            'phone' => 'required|string',
+            'notes' => 'nullable',
         ];
     }
 }

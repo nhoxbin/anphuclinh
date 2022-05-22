@@ -1,23 +1,6 @@
 @extends('layouts.user-new')
-@section('title', 'Admin Dashboard')
+@section('title', 'User Dashboard')
 @section('content')
-<style>
-    .feature-card-details h3{
-        margin-top: 0 !important;
-    }
-    .user-card-thumb{
-        width: 75px;
-        height: 75px;
-    }
-    @media(max-width:995px){
-        .body-content-lg{
-            margin-top: 65px !important;
-        }
-        .user-card.first{
-            padding: 39px 15px;
-        }
-    }
-</style>
 <div class="body-content body-content-lg" style="background-image: url({{asset('images/bg.jpg')}})"> <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
     <div class="container">
         <!-- Add-card -->
@@ -355,69 +338,12 @@
                                 border: none;
                                 width:max-content;
                                 margin:0 auto;
-                                padding: 2px 10px;" href="{{ route('user.purchases.show', $product->id) }}">Mua ngay</a>
+                                padding: 2px 10px;" href="{{ route('user.products.show', $product->id) }}">Mua ngay</a>
                         </div>
                     </div>
                 @endforeach
             </div>
         </div>
-        <!-- Send-money-section -->
-            </div>
-            <div class="progress-card progress-card-red mb-15">
-                <div class="progress-card-info">
-                    <div class="circular-progress" data-note="50.85">
-                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-path"></circle>
-                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-fill"></circle>
-                        </svg>
-                        <div class="percent">
-                            <span class="percent-int">0</span>%
-                        </div>
-                    </div>
-                    <div class="progress-info-text">
-                        <h3>New Gadget</h3>
-                        <p>Lifestyle</p>
-                    </div>
-                </div>
-                <div class="progress-card-amount">$250.00</div>
-            </div>
-            <div class="progress-card progress-card-blue mb-15">
-                <div class="progress-card-info">
-                    <div class="circular-progress" data-note="25">
-                        <svg width="55" height="55" class="circle-svg">
-                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-path"></circle>
-                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-fill"></circle>
-                        </svg>
-                        <div class="percent">
-                            <span class="percent-int">0</span>%
-                        </div>
-                    </div>
-                    <div class="progress-info-text">
-                        <h3>New Apartment</h3>
-                        <p>Living</p>
-                    </div>
-                </div>
-                <div class="progress-card-amount">$5000.00</div>
-            </div>
-            <div class="progress-card progress-card-green mb-15">
-                <div class="progress-card-info">
-                    <div class="circular-progress" data-note="75">
-                        <svg width="55" height="55" class="circle-svg">
-                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-path"></circle>
-                            <circle cx="28" cy="27" r="25" class="circle-progress circle-progress-fill"></circle>
-                        </svg>
-                        <div class="percent">
-                            <span class="percent-int">0</span>%
-                        </div>
-                    </div>
-                    <div class="progress-info-text">
-                        <h3>Education</h3>
-                        <p>Lifestyle</p>
-                    </div>
-                </div>
-                <div class="progress-card-amount">$1250.00</div>
-            </div>
-        </div> --}}
-        <!-- Saving-goals-section -->
         <!-- Latest-news-section -->
         <div class="latest-news-section pb-15">
             <div class="section-header">

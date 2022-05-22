@@ -12,6 +12,8 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+    require('select2');
+    require('jquery-ui-bundle');
 } catch (e) {}
 
 /**

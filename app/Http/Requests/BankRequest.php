@@ -24,7 +24,8 @@ class BankRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'alias' => 'required|string',
+            'bank_id' => 'required|exists:banks,id',
             'host' => 'required|string',
             'number' => 'required|numeric',
             'branch' => 'required|string',

@@ -7,7 +7,9 @@ use App\Models\Setting;
 use App\Notifications\ResetPassword;
 use Bavix\Wallet\{
     Traits\CanPay,
+    Traits\CanConfirm,
     Interfaces\Customer,
+    Interfaces\Confirmable,
 };
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,12 +20,13 @@ use Spatie\Permission\Traits\HasRoles;
 use Outhebox\Pointable\Contracts\Pointable;
 use Outhebox\Pointable\Traits\Pointable as PointableTrait;
 
-class User extends Authenticatable implements Customer, Pointable // implements MustVerifyEmail
+class User extends Authenticatable implements Customer, Confirmable, Pointable // implements MustVerifyEmail
 {
     use CanPay, PointableTrait {
         CanPay::transactions insteadof PointableTrait;
         PointableTrait::transactions as point_transactions;
     }
+    use CanConfirm;
     use HasRoles;
     use Notifiable;
 
@@ -33,6 +36,10 @@ class User extends Authenticatable implements Customer, Pointable // implements 
 
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $appends = [
+        'has_combo',
     ];
 
     public function addPoints($amount, $message, $data = null)
@@ -103,9 +110,9 @@ class User extends Authenticatable implements Customer, Pointable // implements 
         return $this->belongsTo('App\Models\Activity', 'id', 'user_id');
     }
 
-    public function ref()
+    public function ref_by()
     {
-        return $this->hasMany('App\Models\Referral', 'user_id');
+        return $this->hasOneThrough(self::class, 'App\Models\Referral', 'user_id', 'id', 'id', 'refer_by');
     }
 
     public function refs()
@@ -121,6 +128,21 @@ class User extends Authenticatable implements Customer, Pointable // implements 
     public function banks()
     {
         return $this->hasManyThrough('App\Models\Bank', 'App\Models\UserBank');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo('App\Models\Province', 'province_code', 'code');
+    }
+
+    public function getHasComboAttribute()
+    {
+        return $this->transactions()->where([
+            'type' => 'deposit',
+            'confirmed' => 1,
+            'meta->type' => 'purchase',
+            'meta->product_id' => Product::where('is_combo', 1)->first()->id
+        ])->exists();
     }
 
     /**

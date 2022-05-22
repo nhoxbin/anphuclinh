@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BankRequest;
 use App\Models\Bank;
+use App\Models\UserBank;
 
 class BankController extends Controller
 {
@@ -22,9 +23,9 @@ class BankController extends Controller
 
     public function store(BankRequest $request)
     {
-        $bank = Bank::create($request->validated());
+        UserBank::create($request->validated());
 
-        return back()->with(['success' => 'Lưu tài khoản ngân hàng thành công.']);
+        return back()->withSuccess('Lưu tài khoản ngân hàng thành công.');
     }
 
     public function edit(Bank $bank)

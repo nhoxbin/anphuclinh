@@ -524,8 +524,4 @@ class UserController extends Controller
     public function package(){
         return view('user.package.index');
     }
-
-    public function purchase(){
-        return view('user.purchase.show');
-    }
 }

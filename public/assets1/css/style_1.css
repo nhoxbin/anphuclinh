@@ -30,8 +30,7 @@
 }
 .add-card,
 .option-card,
-.feature-card h3,
-p {
+.feature-card h3 {
     color: #fff !important;
 }
 .header-bg:before {

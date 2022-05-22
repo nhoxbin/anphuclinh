@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             PermissionRoleSeeder::class,
             UserSeeder::class,
             ProvinceSeeder::class,
+            ReferralSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }

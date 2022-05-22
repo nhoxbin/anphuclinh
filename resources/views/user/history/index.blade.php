@@ -6,11 +6,11 @@
 	border-radius: 10px 10px;
 	background-color: #f2f6ff;
     background-position: 2% 100%;
-	background-size: cover;	
+	background-size: cover;
     min-height: 100vh;
     position: relative;
 }
-.container-page { 
+.container-page {
 border-radius: 10px;
     background-color: transparent;
 	background-position: -6px -646%;
@@ -26,7 +26,7 @@ border-radius: 10px;
   </div>
 </div>
 <style>
-#overlay{	
+#overlay{
   position: fixed;
   top: 0;
   z-index: 100;
@@ -39,7 +39,7 @@ border-radius: 10px;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
 }
 .spinner {
   width: 40px;
@@ -50,8 +50,8 @@ border-radius: 10px;
   animation: sp-anime 0.8s infinite linear;
 }
 @keyframes sp-anime {
-  100% { 
-    transform: rotate(360deg); 
+  100% {
+    transform: rotate(360deg);
   }
 }
 .is-hide{
@@ -69,11 +69,11 @@ border-radius: 10px 10px;
 background-color: #f2f6ff;
 background-image: url(https://app.anphuclinh.net/wp-content/themes/apl/assets/images/lichsu-bg.png);
 background-position: 2% 100%;
-background-size: cover;	
+background-size: cover;
 min-height: 100vh;
 position: relative;
 }
-.container-page { 
+.container-page {
 border-radius: 10px;
 background-color: transparent;
 background-image: url(https://app.anphuclinh.net/wp-content/themes/apl/assets/images/cart1.png);
@@ -104,15 +104,6 @@ min-height: 50vh;
                 margin:0 auto;
                 padding: 2px 10px;">Mua hàng</button>
             </li>
-            <li data-tab-list="2" class="">
-                <button style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
-                background-position: center;
-                background-size: cover;
-                border: none;
-                width:max-content;
-                margin:0 auto;
-                padding: 2px 10px;">Nạp tiền</button>
-            </li>
             <li data-tab-list="3" class="">
                 <button style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
                 background-position: center;
@@ -121,15 +112,6 @@ min-height: 50vh;
                 width:max-content;
                 margin:0 auto;
                 padding: 2px 10px;">Rút tiền</button>
-            </li>
-             <li data-tab-list="4" class="">
-                <button style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
-                background-position: center;
-                background-size: cover;
-                border: none;
-                width:max-content;
-                margin:0 auto;
-                padding: 2px 10px;">Chuyển điểm</button>
             </li>
             <li data-tab-list="5" class="">
                 <button style="background: url({{asset('images/btn.png')}}) 3px 5px no-repeat;
@@ -162,59 +144,6 @@ min-height: 50vh;
 </div>
 </div>
 <!-- Body-content -->
-<!-- Footer -->
-<footer class="footer-bg" style="display: none;">
-<div class="container">
-    <p>Copyright © 2021 <a href="https://anphuclinh.net" target="_blank">An Phúc Linh</a></p>
-</div>
-</footer>
-<!-- Footer -->
-
-<!-- Navbar -->
-<div class="app-navbar">
-<div class="container" style="padding: 0 10px;">
-    <div class="navbar-content ">
-        <div class="navbar-content-item">
-            <a href="https://app.anphuclinh.net" class="active">
-                <i class="flaticon-house"></i>
-                Trang Chủ
-            </a>
-        </div>
-        <div class="navbar-content-item">
-            <a href="https://app.anphuclinh.net/lich-su">
-                <i class="flaticon-invoice"></i>
-                Lịch Sử
-            </a>
-        </div>
-        <div class="navbar-content-item" data-bs-toggle="modal" data-bs-target="#addBalance">
-            <a href="javscript:;">
-                <i class="flaticon-menu-1"></i>
-                Rút Tiền
-            </a>
-        </div>
-        <div class="appbar-item appbar-options navbar-content-item">
-                <div class="appbar-option-item appbar-option-notification">
-                    <a href="https://app.anphuclinh.net/log-thong-bao"><i class="flaticon-bell"></i>Thông báo</a>
-                                                                                    <span class="option-badge">31</span>
-                                                </div>
-        </div>
-        <!--
-        <div class="navbar-content-item">
-            <a href="https://app.anphuclinh.net/qrcode-scan">
-                <i class="flaticon-credit-card"></i>
-                Quét Mã
-            </a>
-        </div> -->
-        <div class="navbar-content-item">
-            <a href="https://app.anphuclinh.net/settings">
-                <i class="flaticon-settings"></i>
-                Thiết Lập
-            </a>
-        </div>
-    </div>
-</div>
-</div>
-<!-- Navbar -->
 
 <!-- Add-balance-modal -->
 <div class="modal fade" id="addBalance" tabindex="-1" aria-labelledby="addBalance" aria-hidden="true">

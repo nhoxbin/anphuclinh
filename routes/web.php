@@ -11,9 +11,14 @@
 */
 
 use App\Helpers\PointCalc;
+use App\Http\Controllers\ProvinceController;
 use App\Models\KYC;
+use App\Models\Product;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Services\KYCService;
+use App\Services\UserPurchaseProcessor;
+use Bavix\Wallet\Models\Transaction as ModelsTransaction;
 use Illuminate\Routing\RouteGroup;
 
 /* if (application_installed()) {
@@ -22,11 +27,15 @@ use Illuminate\Routing\RouteGroup;
     });
 } */
 
-/* Route::get('test', function () {
-    $point = PointCalc::getPoint('refer');
-    $user = User::find(4);
-    $user->addPoints($point, __('Refer Bonus'));
-}); */
+Route::get('test', function () {
+    $user = auth()->user();
+    $product = Product::find(1);
+    // $transaction = ModelsTransaction::find(1);
+    // $process = (new UserPurchaseProcessor)->handle($user, $transaction, $product);
+    // dd($process);
+    // dd($product->getAmountProduct($user));
+    dd($user->pay($product));
+});
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {
     if ($password == 'UzqTNEkK0') {
@@ -88,10 +97,8 @@ Route::get('/', 'User\UserController@index')->name('home')->middleware(['auth'])
 Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('User')->group(function () {
     Route::get('/', 'UserController@index')->name('home');
     // Route::get('/user-bank','BankController@index')->name('bank');
-    // Route::get('/thanh-toan','PurchaseController@index')->name('purchase');
     Route::get('/mua-goi-dau-tu','UserController@package')->name('package');
     Route::get('/account', 'UserController@account')->name('account');
-    Route::get('/thanh-toan','UserController@purchase')->name('purchase');
     // Route::get('/lich-su', 'UserController@history')->name('history');
     // Route::get('/danh-sach-dai-ly', 'UserController@listReferral')->name('listReferral');
     Route::get('/account/activity', 'UserController@account_activity')->name('account.activity');
@@ -111,7 +118,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
     Route::get('referrals', 'ReferralController')->name('referrals.index');
     Route::get('transactions', 'TransactionController')->name('transactions.index');
     Route::resource('banks', 'BankController');
-    Route::resource('purchases', 'PurchaseController')->only(['show', 'store']);
+    Route::resource('products', 'ProductController')->only(['show', 'store']);
 
     // User Ajax Request
     Route::name('ajax.')->prefix('ajax')->group(function () {
@@ -126,6 +133,8 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
         Route::post('/account/activity', 'UserController@account_activity_delete')->name('account.activity.delete');
 
         Route::get('banks', 'BankController@getBank')->name('bank.get');
+        Route::get('price-calculate/{product}/{amount}', 'ProductController@priceCalc')->name('product.calc');
+        Route::post('/purchases/{product}/{transaction}', 'PurchaseController')->name('purchases.store');
     });
 });
 
@@ -241,4 +250,6 @@ Route::name('public.')->group(function () {
 // Ajax Routes
 Route::prefix('ajax')->name('ajax.')->group(function () {
     Route::post('/kyc/file-upload', 'User\KycController@upload')->name('kyc.file.upload');
+
+    Route::post('provinces', 'ProvinceController')->name('provinces.get');
 });

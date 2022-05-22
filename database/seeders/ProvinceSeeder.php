@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Helpers\PointCalc;
 use App\Models\Province;
+use App\Models\Referral;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -31,9 +32,6 @@ class ProvinceSeeder extends Seeder
             $user->assignRole('area_admin');
         }
 
-        $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
-        $data = ['refer_by' => $ref->id];
-
         // đà nẵng -> mũi cà mau (nam), huế -> ra (bắc)
         $curl = Curl::to('https://provinces.open-api.vn/api/?depth=1')->asJsonResponse()->get();
         foreach($curl as $province) {
@@ -52,8 +50,6 @@ class ProvinceSeeder extends Seeder
                 'remember_token' => Str::random(10)
             ]);
             $user->assignRole('provincial_admin');
-            $user->ref()->create($data);
-            $user->deposit(0);
         }
     }
 }

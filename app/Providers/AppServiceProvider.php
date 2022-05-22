@@ -6,6 +6,8 @@ use Config;
 use Cookie;
 use IcoData;
 use App\Models\Setting;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        User::observe(UserObserver::class);
     }
 
     /**

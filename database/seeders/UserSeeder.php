@@ -25,6 +25,5 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10)
         ]);
         $user->assignRole('super_admin');
-        $user->deposit(0);
     }
 }

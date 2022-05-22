@@ -7,17 +7,11 @@
                         <img src="{{asset('assets1/images/profile.jpg')}}" alt="profile">
                     </div>
                     <div class="sidebar-profile-text">
-                        <h3>{{Auth::user()->name}}</h3>
-                        <p><a href="tel:1545-8880">{{Auth::user()->phone}}</a></p>
+                        <h3>{{ $user->name }}</h3>
+                        <p><a href="tel:1545-8880">{{ $user->phone }}</a></p>
                     </div>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="sidebar-profile-wallet">
-                <div class="add-card-info">
-                    <p>Ví hoa hồng</p>
-                    <h3>0 VNĐ</h3>
-                </div>
             </div>
             <div class="modal-body">
                 <div class="sidebar-nav">

@@ -17,6 +17,9 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedDecimal('price', 15, 2);
+            $table->unsignedDecimal('combo_price', 15, 2);
+            $table->boolean('is_combo')->default(false);
+            $table->unsignedInteger('box')->default(1);
             $table->string('image');
             $table->timestamps();
         });
