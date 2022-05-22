@@ -124,7 +124,8 @@
                     max-width:30px;
                 }
                 .body-content{
-                    margin-top: 0;                }
+                    margin-top: 0;            
+                }
             }
         </style>
         {{-- <div class="preloader">

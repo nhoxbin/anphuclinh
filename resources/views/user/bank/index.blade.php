@@ -145,6 +145,7 @@
                                     </div>
                                 </form>
                             </div>
+<<<<<<< HEAD
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -152,3 +153,206 @@
         </div>
     </div>
 @endsection
+=======
+                          </form>
+                        </div>
+                      </div>
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</div>
+
+    <script type="text/javascript">
+// (function($){
+
+
+// $(document).ready(function(){
+
+//     $('.taomoi').click(function(){
+//         var username = $('#username').val();
+//         var ct = $('#chungtu').val();
+//         var refid = $('#refid').val();
+//         if(username == ''){
+//             var msg = 'nhập tên';
+//             $('#modal_content').text(msg);
+//             $('#alertModal').modal('show');
+//             return false;
+//         }
+//         if(ct == ''){
+//             var msg = 'nhập chứng từ';
+//             $('#modal_content').text(msg);
+//             $('#alertModal').modal('show');
+//             return false;
+//         }
+//         //var fdata = {};
+//         //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
+//         $.ajax({
+//             type : "post",
+//             dataType : "json",
+//             url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=addbank',
+//              data: $('form#myForm').serialize(),
+//             context: this,
+//             beforeSend: function(){
+
+//             },
+//             success: function(response) {
+//                 //Làm gì đó khi d liu ã được x lý
+//                 if(response.success) {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                         location.reload();
+//                 }
+//                 else {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                 }
+//             },
+//             error: function( jqXHR, textStatus, errorThrown ){
+//                 //Lm gì đó khi có li xảy ra
+//                 console.log( 'The following error occured: ' + textStatus, errorThrown );
+//             }
+//         })
+//         return false;
+//     })
+
+
+
+
+//     $('.btn-xoa').click(function(){
+
+//         var id = $(this).data("id");
+//         var data = {
+//             'id': id
+//         }
+//         //var fdata = {};
+//         //fdata['uname']= username;fdata['ct']= ct;fdata['refid']= refid;
+//         $.ajax({
+//             type : "post",
+//             dataType : "json",
+//             url : 'https://app.anphuclinh.net/wp-admin/admin-ajax.php?action=removebank',
+//              data: data,
+//             context: this,
+//             beforeSend: function(){
+
+//             },
+//             success: function(response) {
+//                 //Làm gì đó khi d liu ã được x lý
+//                 if(response.success) {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                         location.reload();
+//                 }
+//                 else {
+//                     $('#modal_content').text(response.data);
+//                     $('#alertModal').modal('show');
+//                 }
+//             },
+//             error: function( jqXHR, textStatus, errorThrown ){
+//                 //Lm gì đó khi có li xảy ra
+//                 console.log( 'The following error occured: ' + textStatus, errorThrown );
+//             }
+//         })
+//         return false;
+//     })
+// })
+// })(jQuery)
+</script>
+</div>
+</div>
+<!-- Body-content -->
+<!-- Footer -->
+<footer class="footer-bg" style="display: none;">
+    <div class="container">
+        <p>Copyright © 2021 <a href="https://anphuclinh.net" target="_blank">An Phúc Linh</a></p>
+    </div>
+</footer>
+<!-- Footer -->
+
+<!-- Navbar -->
+{{-- <script type="text/javascript">
+            $('#add-balance-btn').click(function()
+            {
+                $(this).attr('disabled',true);
+        // 		setTimeout(function(){
+        // 			$('#add-balance-btn').removeAttr('disabled');
+        // 		},2000);
+                return false;
+            });
+</script>
+
+<script>
+
+    var databank1 = '[]';
+    var databank = JSON.parse(databank1);
+    //console.log(databank[0]);
+</script>
+<!-- rut-tien-modal -->
+<div class="modal fade" id="ruttien" tabindex="-1" aria-labelledby="ruttien" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-animatezoom" style="left:0">
+        <div class="modal-content">
+            <div class="container">
+                <div class="modal-header">
+                    <div class="modal-header-title">
+                        <i class="flaticon-plus color-blue"></i>
+                        <h5 class="modal-title">Rút tiền vào tài khoản</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="max-height:100%;">
+                    <form id="form-bank" class="ng-pristine ng-valid">
+
+                <input id="wd_bankname" name="wd_bankname"  type="hidden" value="" class="">
+                <input id="wd_username" name="wd_username" type="hidden" value="" class="">
+                <input id="wd_ownname" name="wd_ownname" type="hidden" value="" class="">
+                <input id="wd_number" name="wd_number" type="hidden" value="" class="">
+                <input id="wd_branch" name="wd_branch" type="hidden" value="" class="">
+                <input id="wd_bankid" name="wd_branch" type="hidden" value="" class="">
+                <input id="wd_type" name="wd_type" style="display:none" type="text" value="bank" class="ng-pristine ng-untouched ng-valid ng-empty">
+
+                <div class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label text-sm-right">Ngân hàng nhận tiền </label>
+                        <div class="col-md-6 col-sm-8">
+                            <select class="form-control ng-pristine ng-valid ng-empty ng-touched bankselect" name="bank_id">
+                              <option value="-1" class="" selected="selected">Chọn ngân hàng</option>
+                                                                  </select>
+
+                            <div class="ng-hide">
+                                <br><p class="text-primary"> <b class="ng-binding"></b></p>
+                                <p>Chủ tài khoản: <b class="ng-binding ctk"></b></p>
+                                <p>Số tài khoản: <b class="ng-binding stk"></b></p>
+                                <p>Chi Nhánh: <b class="ng-binding cn"></b></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-2">
+                        <label class="col-sm-4 control-label text-sm-right">Số tiền yêu cầu rút <code>*</code> </label>
+                        <div class="col-md-6 col-sm-8">
+                            <input type="number" class="form-control" id="wd_money" name="wd_money" maxlength="10" placeholder="Nhập số tiền yêu cầu rút">
+                        </div>
+                    </div>
+                    <!--<div class="form-group row mb-2">
+                        <label class="control-label text-sm-right">Mã OTP <code>*</code> </label>
+                        <div class="" style="position: relative;">
+                            <input type="text" class="form-control" style="padding-right: 115px;" name="otp" placeholder="Nhập mã OTP">
+                            <button class="btn btn-buy1 btn-outline-secondary send_otp" style="width: 115px;position: absolute;right: 13px;height: 100%;top: 0;border: 0;    line-height: 100%;background: #0dcaf0  ;color: #fff;" type="button">Nhận OTP</button>
+                        </div>
+                    </div>-->
+
+                    <div class="form-group row">
+                        <div class="col-sm-8 offset-sm-4">
+                             <button type="submit" id="ruttien-btn" class="btn main-btn main-btn-lg full-width withdraw-btn">Rút</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>     --}}
+@endsection
+>>>>>>> a0840ff831bd6865cdb2c1f3adc17e93b55b0f8c
