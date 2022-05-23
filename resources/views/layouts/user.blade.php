@@ -61,7 +61,7 @@
                         @if(get_page('distribution', 'status') == 'active')
                         <li><a href="{{ route('public.pages', 'distribution') }}"><em class="ikon ikon-distribution"></em> {{ get_page('distribution', 'title') }}</a></li>
                         @endif
-                        <li><a href="{{ route('user.transactions') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
+                        <li><a href="{{ route('user.transactions.index') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
                         {{-- @if(nio_module()->has('Withdraw') && has_route('withdraw:user.index'))
                         <li{!! ((is_page('withdraw'))? ' class="active"' : '') !!}>
                             <a href="{{ route('withdraw:user.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
@@ -106,7 +106,7 @@
                         {!! UserPanel::add_wallet_alert() !!}
                     </div>
                     @endif
-                    @include('components.menu')
+                    @include('components.menu', ['user' => Auth::user()])
                     @yield('content')
                 </div>
 
