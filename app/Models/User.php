@@ -44,7 +44,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function addPoints($amount, $message, $data = null)
     {
-        return (new PointTransaction())->addTransaction($this, $amount, $message, $data = null);
+        return (new PointTransaction())->addTransaction($this, $amount, $message, $data);
     }
 
     /**
