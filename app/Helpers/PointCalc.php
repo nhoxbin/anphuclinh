@@ -41,10 +41,10 @@ class PointCalc {
                 $percent = 38; // chưa mua combo
             }
             // giảm tối đa $percent trong tổng số điểm hiện có
-            $max_discount_point = round($currentPoints*$percent/100);
-            $max_price_discount = $max_discount_point * self::getPoint('current');
             $vat = round($price*10/100);
-            $price = ($price + $vat) - $max_price_discount;
+            $max_discount_point = round($currentPoints*$percent/100);
+            $max_price_discount = $price-$max_discount_point;
+            $price -= $max_price_discount + $vat;
         }
         return [
             'price' => $price,
