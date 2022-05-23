@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Helpers\PointCalc;
+use App\Models\Level;
 use App\Models\Referral;
 use App\Models\User;
 
@@ -16,6 +17,8 @@ class UserObserver
      */
     public function created(User $user)
     {
+        $user->level_id = Level::where('lv', 0)->first()->id;
+        $user->save();
         $user->assignRole('member');
 
         $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
