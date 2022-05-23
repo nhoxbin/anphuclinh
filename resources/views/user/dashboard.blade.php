@@ -331,7 +331,11 @@
                                 <img src="/{{ $product->image }}" alt="user">
                             </div>
                             <h3 style="font-size: 16px" class="text-white mt-2">{{ $product->name }}</h3>
+                            @if ($user->has_combo)
+                            <span class="price d-block mt-1 text-white" >{{ number_format($product->combo_price) }}<sup>đ</sup></span>
+                            @else
                             <span class="price d-block mt-1 text-white" >{{ number_format($product->price) }}<sup>đ</sup></span>
+                            @endif
                             <a class="d-block text-white mt-1" style="background: url({{ asset('images/btn.png') }}) 3px 5px no-repeat;
                                 background-position: center;
                                 background-size: cover;

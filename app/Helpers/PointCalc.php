@@ -43,7 +43,7 @@ class PointCalc {
             // giảm tối đa $percent trong tổng số điểm hiện có
             $vat = round($price*10/100);
             $max_discount_point = round($currentPoints*$percent/100);
-            $max_price_discount = $price-$max_discount_point;
+            $max_price_discount = $price-($max_discount_point*self::getPoint('current'));
             $price -= $max_price_discount + $vat;
         }
         return [
