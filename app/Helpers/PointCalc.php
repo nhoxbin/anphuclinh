@@ -33,6 +33,9 @@ class PointCalc {
     {
         $price = $product->price * $qty;
         $currentPoints = $user->currentPoints();
+        $rate = self::getPoint('current');
+        $vat = $max_price_discount = $max_point_discount = 0;
+
         if (!$product->is_combo) {
             if ($user->has_combo) {
                 $percent = 50; // đã mua combo
@@ -42,16 +45,19 @@ class PointCalc {
             }
             // giảm tối đa $percent trong tổng số điểm hiện có
             $vat = round($price*10/100);
-            $max_discount_point = round($currentPoints*$percent/100);
-            $max_price_discount = $price-($max_discount_point*self::getPoint('current'));
+            $max_point_discount = round($currentPoints * $percent / 100);
+            if ($max_point_discount > $currentPoints) {
+                $max_point_discount -= ($max_point_discount-$currentPoints);
+            }
+            $max_price_discount = round($max_point_discount * $rate);
             $price -= $max_price_discount + $vat;
         }
         return [
             'price' => $price,
             'point' => $currentPoints,
-            'vat' => $vat ?? 0,
-            'max_price_discount' => $max_price_discount ?? 0,
-            'max_discount_point' => $max_discount_point ?? 0
+            'vat' => $vat,
+            'max_price_discount' => $max_price_discount,
+            'max_point_discount' => $max_point_discount
         ];
     }
 }

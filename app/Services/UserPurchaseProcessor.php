@@ -44,7 +44,7 @@ class UserPurchaseProcessor
                 if ($product->is_combo) {
                     $user->addPoints(round($transaction->amount / PointCalc::getPoint('current')), 'Purchase Combo', ['type' => 'bonus', 'transaction_id' => $transaction->id]);
                 } else {
-                    $user->addPoints(-$calc['max_discount_point'], 'Purchase product', ['type' => 'purchase', 'transaction_id' => $transaction->id]);
+                    $user->addPoints(-$calc['max_point_discount'], 'Purchase product', ['type' => 'purchase', 'transaction_id' => $transaction->id]);
                 }
             } else {
                 $user->wallet->balance -= $transaction->amount;
