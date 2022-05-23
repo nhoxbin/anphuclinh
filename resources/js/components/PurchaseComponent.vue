@@ -119,7 +119,7 @@
                     </tr>
                 </tbody>
                 <tfoot>
-                    <tr class="fee" v-if="!product.is_combo">
+                    <tr class="fee" v-if="product.is_combo == 0">
                         <th>Thuế VAT 10%</th>
                         <td>
                             <span class="woocommerce-Price-amount amount">
@@ -127,7 +127,7 @@
                             </span>
                         </td>
                     </tr>
-                    <tr class="fee" v-if="!product.is_combo">
+                    <tr class="fee" v-if="product.is_combo == 0">
                         <th v-if="!user.has_combo">Số điểm có thể thanh toán tối đa 38% đơn hàng là {{ calculated_product.max_discount_point }} điểm (Chưa mua combo)</th>
                         <th v-else>Số điểm có thể thanh toán tối đa 50% đơn hàng (Đã mua combo)</th>
                         <td>
