@@ -30,11 +30,9 @@ use Illuminate\Routing\RouteGroup;
 Route::get('test', function () {
     $user = auth()->user();
     $product = Product::find(1);
-    // $transaction = ModelsTransaction::find(1);
-    // $process = (new UserPurchaseProcessor)->handle($user, $transaction, $product);
-    // dd($process);
-    // dd($product->getAmountProduct($user));
-    dd($user->pay($product));
+    $transaction = ModelsTransaction::find(1);
+    $process = (new UserPurchaseProcessor)->handle($user, $transaction, $product);
+    dd($process);
 });
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {
