@@ -14,7 +14,7 @@ class UserPurchaseProcessor
     public function handle(User $user, $transaction, Product $product)
     {
         $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
-        dd($curl);
+
         if ($curl->status == true) {
             $histories = $curl->transactions;
             $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && str_contains($h->description, $transaction->meta['description'])));
