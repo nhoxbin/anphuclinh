@@ -116,7 +116,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Cấp</p>
-                            <h3>{{ $user->level_id }}: {{ $user->level->name }}</h3>
+                            <h3>{{ $user->level->name }}</h3>
                         </div>
                     </div>
                 </div>
