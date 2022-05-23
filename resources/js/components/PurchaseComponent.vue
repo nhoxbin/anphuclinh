@@ -113,7 +113,8 @@
                         </td>
                         <td class="product-total">
                             <span class="woocommerce-Price-amount amount">
-                                <bdi>{{ format_currency(product.price * order_info.qty) }}</bdi>
+                                <bdi v-if="user.has_combo">{{ format_currency(product.combo_price * order_info.qty) }}</bdi>
+                                <bdi v-else>{{ format_currency(product.price * order_info.qty) }}</bdi>
                             </span>
                         </td>
                     </tr>
