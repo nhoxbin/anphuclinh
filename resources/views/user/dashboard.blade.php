@@ -94,7 +94,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Tỉ giá chuyển đổi / điểm</p>
-                            <h3>0 VNĐ</h3>
+                            <h3>{{ $current_point }}</h3>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,7 @@ use App\Models\IcoStage;
 use App\Models\UserMeta;
 use App\Models\Activity;
 use App\Helpers\NioModule;
+use App\Helpers\PointCalc;
 use App\Models\GlobalMeta;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -55,12 +56,13 @@ class UserController extends Controller
         } */
         $user = auth()->user();
         $products = Product::all();
+        $current_point = PointCalc::getPoint('current');
         // dd($user);
         // $stage = active_stage();
         // $contribution = Transaction::user_contribution();
         // $tc = new \App\Helpers\TokenCalculate();
         // $active_bonus = $tc->get_current_bonus('active');
-        return view('user.dashboard', compact('user', 'products'));
+        return view('user.dashboard', compact('user', 'products', 'current_point'));
     }
 
 
