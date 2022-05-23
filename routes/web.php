@@ -28,7 +28,7 @@ use Illuminate\Routing\RouteGroup;
 } */
 
 Route::get('test', function () {
-    $user = auth()->user();
+    $user = User::find(71);
     $product = Product::find(1);
     $transaction = ModelsTransaction::find(1);
     $process = (new UserPurchaseProcessor)->handle($user, $transaction, $product);
