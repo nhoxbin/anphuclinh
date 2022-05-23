@@ -45,11 +45,12 @@ class PointCalc {
             }
             // giảm tối đa $percent trong tổng số điểm hiện có
             $vat = round($price*10/100);
-            $max_point_discount = round($currentPoints * $percent / 100);
-            if ($max_point_discount > $currentPoints) {
-                $max_point_discount -= ($max_point_discount-$currentPoints);
+            $discount_price = $price*$percent/100;
+            $max_discount_point = $discount_price/$rate;
+            if ($max_discount_point > $currentPoints) {
+                $max_discount_point -= $currentPoints;
             }
-            $max_price_discount = round($max_point_discount * $rate);
+            $max_price_discount = $max_discount_point*$rate;
             $price -= $max_price_discount + $vat;
         }
         return [
