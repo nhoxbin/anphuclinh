@@ -28,11 +28,11 @@ use Illuminate\Routing\RouteGroup;
 } */
 
 Route::get('test', function () {
-    $user = User::find(71);
+    /* $user = User::find(71);
     $product = Product::find(1);
     $transaction = ModelsTransaction::find(1);
     $process = (new UserPurchaseProcessor)->handle($user, $transaction, $product);
-    dd($process);
+    dd($process); */
 });
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {
