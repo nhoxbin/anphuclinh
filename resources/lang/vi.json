@@ -625,5 +625,6 @@
     "At least :num chars.": "At least :num chars.",
     "Required.": "Required.",
     "You do not have enough permissions to perform requested operation.": "You do not have enough permissions to perform requested operation.",
-    "Refer Bonus": "Thưởng đăng ký"
+    "Refer Bonus": "Thưởng đăng ký",
+    "Current Point": "Điểm hiện tại"
 }

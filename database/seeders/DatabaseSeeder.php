@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             // UserSeeder::class,
             // ProvinceSeeder::class,
             // ReferralSeeder::class,
-            OldDataSeeding::class
+            // UsersRefsSeeding::class,
+            PointSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
     }

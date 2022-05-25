@@ -6,7 +6,7 @@ use App\Models\Referral;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class OldDataSeeding extends Seeder
+class UsersRefsSeeding extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,7 @@ class OldDataSeeding extends Seeder
      */
     public function run()
     {
+        // old data
         $referrals = [
             '0856046745' => '0975586406',
             '0386423759' => '0388139930',
