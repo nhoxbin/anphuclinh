@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $transactions = Transaction::all();
+        $transactions = $request->user()->transactions;
         return view('user.history.index', compact('transactions'));
     }
 }

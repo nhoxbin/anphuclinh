@@ -48,20 +48,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        /* if( !$this->handler->check_body() && empty(app_key()) ){
-            Auth::logout();
-            return redirect()->route('login')->with([
-                'warning' => $this->handler->accessMessage()
-            ]);
-        } */
         $user = auth()->user();
         $products = Product::all();
         $current_point = PointCalc::getPoint('current');
-        // dd($user);
-        // $stage = active_stage();
-        // $contribution = Transaction::user_contribution();
-        // $tc = new \App\Helpers\TokenCalculate();
-        // $active_bonus = $tc->get_current_bonus('active');
         return view('user.dashboard', compact('user', 'products', 'current_point'));
     }
 

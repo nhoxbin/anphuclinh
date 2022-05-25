@@ -15,7 +15,7 @@ class LevelSeeder extends Seeder
     public function run()
     {
         $levels = [[
-            'name' => 'Cơ bản',
+            'name' => 'Thành viên',
             'lv' => '0',
             'strong' => '0',
             'weak' => '0',

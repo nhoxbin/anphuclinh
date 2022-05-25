@@ -89,10 +89,9 @@
                 margin-top: 0px;
             }
 
-            sidebar-nav-list ul {
+            ul.sidebar-nav-list {
                 margin: 0px;
             }
-
 
             .feature-card-details h3 {
                 margin-top: 0 !important;
@@ -124,7 +123,7 @@
                     max-width:30px;
                 }
                 .body-content{
-                    margin-top: 0;            
+                    margin-top: 0;
                 }
             }
         </style>
@@ -153,7 +152,7 @@
                             </div>
                         </div>
                         <div class="appbar-item appbar-brand me-auto" style="margin: 0 auto;padding-left: 30px;">
-                            <a href="index.html">
+                            <a href="/">
                                 <img src="{{asset('images/logo-new.png')}}" alt="" id="main-logo">
                                 {{-- <img src="{{asset('assets1/images/logo.png')}}" alt="logo" class="main-logo">
                                 <img src="{{asset('assets1/images/logo-hover.png')}}" alt="logo" class="hover-logo"> --}}
@@ -161,11 +160,11 @@
                         </div>
                         <div class="appbar-item appbar-options">
                             <div class="appbar-option-item appbar-option-notification">
-                                <a href="notifications.html"><i class="flaticon-bell"></i></a>
+                                <a href="/"><i class="flaticon-bell"></i></a>
                                 <span class="option-badge">5</span>
                             </div>
                             <div class="appbar-option-item appbar-option-profile">
-                                <a href="settings.html"><img src="{{asset('assets1/images/profile.jpg')}}" alt="profile"></a>
+                                <a href="/"><img src="{{ asset('assets1/images/profile.jpg') }}" alt="profile"></a>
                             </div>
                         </div>
                     </div>

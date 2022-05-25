@@ -17,10 +17,10 @@ class UserMiddleware
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        if ($user->role == 'user') {
+        if ($user->hasRoles('member')) {
             return $next($request);
         } else {
-            if (Auth::check() && $user->role == 'admin') {
+            if (Auth::check() && $user->hasRoles('super_admin')) {
                 return $next($request);
                 // return redirect(route('admin.home'));
             } else {

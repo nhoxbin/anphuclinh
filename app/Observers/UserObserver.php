@@ -17,16 +17,13 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->level_id = Level::where('lv', 0)->first()->id;
-        $user->save();
         $user->assignRole('member');
 
         $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
         if ($ref) {
-            $data = ['user_id' => $user->id, 'refer_by' => $ref->id];
-            Referral::create($data);
-            $data['type'] = 'bonus';
-            $user->addPoints(PointCalc::getPoint('refer'), __('Refer Bonus'), $data);
+            $data = [];
+            Referral::create(['user_id' => $user->id, 'refer_by' => $ref->id]);
+            $user->addPoints(PointCalc::getPoint('refer'), __('Refer Bonus'), ['type' => 'bonus', 'refer_by' => $ref->id]);
         }
     }
 

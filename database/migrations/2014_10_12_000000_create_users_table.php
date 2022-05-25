@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('dateOfBirth')->nullable();
             $table->dateTime('lastLogin')->nullable();
-            $table->integer('province_code')->unsigned()->nullable()->index();
-            $table->unsignedInteger('level_id');
+            $table->unsignedInteger('province_code')->nullable()->index();
+            $table->unsignedInteger('level')->default(0);
             $table->integer('google2fa')->default(0);
             $table->text('google2fa_secret')->nullable();
 

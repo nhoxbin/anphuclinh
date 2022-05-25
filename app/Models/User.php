@@ -44,7 +44,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function addPoints($amount, $message, $data = null)
     {
-        return (new PointTransaction())->addTransaction($this, $amount, $message, $data);
+        return (new PointTransaction())->addTransaction($this, $amount, $message, $data = null);
     }
 
     /**
@@ -120,9 +120,9 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return $this->hasMany('App\Models\Referral', 'refer_by');
     }
 
-    public function level()
+    public function lv()
     {
-        return $this->belongsTo('App\Models\Level');
+        return $this->belongsTo('App\Models\Level', 'level', 'lv');
     }
 
     public function banks()

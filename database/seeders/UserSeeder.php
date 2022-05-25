@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'super_admin@gmail.com',
             'phone' => '0922621888',
+            'level' => '8',
             'email_verified_at' => now(),
             'password' => bcrypt('apl@super_admin#123'),
             'remember_token' => Str::random(10)
