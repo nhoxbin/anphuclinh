@@ -8,7 +8,7 @@
             <div class="add-card-inner">
                 <div class="add-card-item add-card-info">
                     <p>Ví hoa hồng</p>
-                    <h3 style="color: #fff">{{ $user->balance }}<sup>đ</sup></h3>
+                    <h3 style="color: #fff">{{ number_format($user->balance) }}<sup>đ</sup></h3>
                 </div>
                 <div class="add-card-item add-balance" data-bs-toggle="modal" data-bs-target="#addBalance">
                     <a href="javscript:;"><i class="flaticon-left-arrow-1"></i></a>
@@ -105,7 +105,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Doanh số</p>
-                            <h3>0 VNĐ</h3>
+                            <h3>{{ number_format($user->sales) }}<sup>đ</sup></h3>
                         </div>
                     </div>
                 </div>

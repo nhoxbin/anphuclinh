@@ -13,8 +13,16 @@ class UserPurchaseProcessor
 {
     public function handle(User $user, $transaction, Product $product)
     {
-        $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
+        /* $object = (object) [
+            "transactionID" => 9668,
+            "amount" => 3000000,
+            "description" => "apl14 FT22134660080706 GD 311270-051422 16:25:18",
+            "transactionDate" => "16/05/2022",
+            "type" => "IN"
+        ]; */
 
+        $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
+        // $curl->transactions = [$object];
         if ($curl->status == true) {
             $histories = $curl->transactions;
             $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && str_contains($h->description, $transaction->meta['description'])));

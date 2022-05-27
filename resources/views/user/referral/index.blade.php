@@ -3,9 +3,9 @@
     <div class="body-content body-content-lg" style="background-image: url({{ asset('images/bg.jpg') }})">
         <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
         <div class="container">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+            {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> --}}
+            {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+            {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
             <div class="boxbody_tbl ng-scope" ng-app="App" ng-controller="List">
                 <div class="boxbody_top"><span>
                         <h1 class="uppercase">Danh sách đại lý</h1>
@@ -33,27 +33,30 @@
                                 @foreach ($user as $key => $ref)
                                     <tr role="row">
                                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
-                                            class="sorting_disabled" rowspan="1" colspan="1">{{ $key + 1 }}</th>
+                                            class="sorting_disabled" rowspan="1" colspan="1">{{ $key+1 }}</th>
                                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
-                                            class="sorting_disabled" rowspan="1" colspan="1">{{ $ref->user->name }}</th>
+                                            class="sorting_disabled" rowspan="1" colspan="1">{{ $ref->name }}</th>
                                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
-                                            class="sorting_disabled" rowspan="1" colspan="1">{{ $ref->user->phone }}</th>
+                                            class="sorting_disabled" rowspan="1" colspan="1">{{ $ref->phone }}</th>
                                         <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
-                                            class="sorting_disabled" rowspan="1" colspan="1">Doanh số</th>
+                                            class="sorting_disabled" rowspan="1" colspan="1">{{ number_format($ref->sales) }}<sup>đ</sup></th>
                                     </tr>
                                     @foreach ($ref->refs as $key1 => $ref1)
+                                    @if ($key1+1 > 2)
+                                        @break
+                                    @endif
                                         <tr role="row">
                                             <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
                                                 class="sorting_disabled" rowspan="1" colspan="1">
                                                 {{ $key + 1 }}.{{ $key1 + 1 }}</th>
                                             <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
-                                                class="sorting_disabled" rowspan="1" colspan="1">{{ $ref1->user->name }}
+                                                class="sorting_disabled" rowspan="1" colspan="1">{{ $ref1->name }}
                                             </th>
                                             <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
-                                                class="sorting_disabled" rowspan="1" colspan="1">{{ $ref1->user->phone }}
+                                                class="sorting_disabled" rowspan="1" colspan="1">{{ $ref1->phone }}
                                             </th>
                                             <th style="border-top: 0;color: #000;border: 1px solid #efefef;font-weight:unset;"
-                                                class="sorting_disabled" rowspan="1" colspan="1">Doanh số</th>
+                                                class="sorting_disabled" rowspan="1" colspan="1">{{ number_format($ref->sales) }}<sup>đ</sup></th>
                                         </tr>
                                     @endforeach
                                 @endforeach

@@ -11,6 +11,7 @@ use Bavix\Wallet\{
     Interfaces\Customer,
     Interfaces\Confirmable,
 };
+use Bavix\Wallet\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -117,7 +118,8 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function refs()
     {
-        return $this->hasMany('App\Models\Referral', 'refer_by');
+        return $this->hasManyThrough(self::class, 'App\Models\Referral', 'refer_by', 'id', 'id', 'user_id')
+            ->with('refs', 'transactions');
     }
 
     public function lv()
@@ -133,6 +135,32 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     public function province()
     {
         return $this->belongsTo('App\Models\Province', 'province_code', 'code');
+    }
+
+    public function refs_sale($user, $combo_id, &$amount)
+    {
+        foreach ($user->refs as $ref) {
+            $amount += $ref->transactions()->where([
+                'type' => 'deposit',
+                'confirmed' => 1,
+                'meta->type' => 'purchase',
+                'meta->product_id' => $combo_id
+            ])->sum('amount');
+            $this->refs_sale($ref, $combo_id, $amount);
+        }
+        return $amount;
+    }
+
+    public function getSalesAttribute()
+    {
+        $combo_id = Product::where('is_combo', 1)->first()->id;
+        $amount = $this->transactions()->where([
+            'type' => 'deposit',
+            'confirmed' => 1,
+            'meta->type' => 'purchase',
+            'meta->product_id' => $combo_id
+        ])->sum('amount');
+        return $this->refs_sale($this, $combo_id, $amount);
     }
 
     public function getHasComboAttribute()

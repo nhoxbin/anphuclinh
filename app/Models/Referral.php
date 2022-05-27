@@ -12,14 +12,4 @@ class Referral extends Model
     protected $fillable = [
         'user_id', 'refer_by'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
-    }
-
-    public function refs()
-    {
-        return $this->hasMany(self::class, 'refer_by', 'user_id')->limit(2);
-    }
 }
