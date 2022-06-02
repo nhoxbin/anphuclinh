@@ -40,7 +40,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     ];
 
     protected $appends = [
-        'has_combo',
+        'has_combo'
     ];
 
     public function addPoints($amount, $message, $data = null)
@@ -129,7 +129,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function banks()
     {
-        return $this->hasManyThrough('App\Models\Bank', 'App\Models\UserBank');
+        return $this->hasMany('App\Models\UserBank', 'user_id');
     }
 
     public function province()
@@ -137,30 +137,32 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return $this->belongsTo('App\Models\Province', 'province_code', 'code');
     }
 
-    public function refs_sale($user, $combo_id, &$amount)
+    public function getCurrentLevelAttribute()
+    {
+        return ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
+    }
+
+    public function refs_sale($user, $combo_id, &$transaction_ids)
     {
         foreach ($user->refs as $ref) {
-            $amount += $ref->transactions()->where([
-                'type' => 'deposit',
-                'confirmed' => 1,
-                'meta->type' => 'purchase',
-                'meta->product_id' => $combo_id
-            ])->sum('amount');
-            $this->refs_sale($ref, $combo_id, $amount);
+            $transaction_ids->push($ref->id);
+            $this->refs_sale($ref, $combo_id, $transaction_ids);
         }
-        return $amount;
+        return $transaction_ids;
     }
 
     public function getSalesAttribute()
     {
         $combo_id = Product::where('is_combo', 1)->first()->id;
-        $amount = $this->transactions()->where([
+        $transaction_ids = collect([]);
+        $transaction_ids->push($this->id);
+        $this->refs_sale($this, $combo_id, $transaction_ids);
+        return Transaction::whereIn('payable_id', $transaction_ids)->where([
             'type' => 'deposit',
             'confirmed' => 1,
             'meta->type' => 'purchase',
             'meta->product_id' => $combo_id
         ])->sum('amount');
-        return $this->refs_sale($this, $combo_id, $amount);
     }
 
     public function getHasComboAttribute()

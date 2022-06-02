@@ -10,7 +10,7 @@
                             <label for="billing_first_name" class="">Tên&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
                             <span class="woocommerce-input-wrapper">
                                 <input type="text"
-                                    class="input-text " name="name"
+                                    class="form-control" name="name"
                                     id="billing_first_name" placeholder="" v-model="order_info.name"
                                     autocomplete="given-name" />
                             </span>
@@ -20,7 +20,7 @@
                             <label for="billing_phone" class="">Số điện thoại&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
                             <span class="woocommerce-input-wrapper">
                                 <input type="tel"
-                                    class="input-text " name="phone"
+                                    class="form-control" name="phone"
                                     id="billing_phone" placeholder="" v-model="order_info.phone"
                                     autocomplete="tel" />
                             </span>
@@ -68,7 +68,7 @@
                             <label for="billing_address_1" class="">Địa chỉ&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
                             <span class="woocommerce-input-wrapper">
                                 <input type="text"
-                                    class="input-text" name="address_1"
+                                    class="form-control" name="address_1"
                                     id="billing_address_1" placeholder="Địa chỉ"
                                     v-model="order_info.address"
                                     autocomplete="address-line1" />
@@ -86,7 +86,7 @@
                             <label for="order_comments" class="">Ghi chú đơn hàng&nbsp;<span class="optional">(tuỳ chọn)</span></label>
                             <span
                                 class="woocommerce-input-wrapper">
-                                <textarea v-model="order_info.notes" class="input-text " id="order_comments"
+                                <textarea v-model="order_info.notes" class="form-control" id="order_comments"
                                     placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."
                                     rows="2" cols="5"></textarea>
                             </span>
@@ -266,9 +266,9 @@ export default {
         orderSubmit(e) {
             e.preventDefault();
             this.$swal.fire({
-                title: 'Xác nhận?',
-                text: "Hãy chắc chắn rằng bạn đã thanh toán!",
-                icon: 'warning',
+                title: 'Xác nhận đã chuyển khoản?',
+                text: "Xác nhận bạn đã thực hiện chuyển khoản thanh toán!",
+                icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
@@ -281,40 +281,26 @@ export default {
         },
         async order() {
             let loader = this.$loading.show({});
+
             var province = this.provinces.filter(p => p.code == this.selectedProvince)
             var district = this.districts.filter(d => d.code == this.selectedDistrict)
             var ward = this.wards.filter(w => w.code == this.selectedWard)
+
             if (province.length && district.length && ward.length) {
                 var addresses = [this.order_info.address, ward[0].name, district[0].name, province[0].name];
                 this.order_info.address = addresses.join(', ');
-                await axios.post(route('user.ajax.purchases.store', {
+                await axios.post(route('user.ajax.purchases.products.store', {
                     product: this.product.id,
                     transaction: this.transaction.id
                 }), this.order_info).then(({data}) => {
-                    if (data.success) {
-                        this.$swal.fire(
-                            'Thành công!',
-                            data.msg,
-                            'success'
-                        ).then(async (result) => {
-                            if (result.isConfirmed) {
-                                location.href = '/';
-                            }
-                        });
-                    } else {
-                        this.$swal.fire(
-                            'Lỗi!',
-                            data.msg,
-                            'error'
-                        )
-                    }
-                })
+                    this.$swal.fire(data.data.title, data.data.msg, data.type).then(async (result) => {
+                        if (result.isConfirmed) {
+                            location.href = '/';
+                        }
+                    });
+                }).catch(error => this.$swal.fire(error.response.title, error.response.msg, error.response.type))
             } else {
-                this.$swal.fire(
-                    'Lỗi!',
-                    'Vui lòng điền đầy đủ thông tin.',
-                    'error'
-                )
+                this.$swal.fire('Lỗi!', 'Vui lòng điền đầy đủ thông tin.', 'error')
             }
             loader.hide();
         },

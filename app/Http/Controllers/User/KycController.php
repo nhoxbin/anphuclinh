@@ -33,11 +33,9 @@ class KycController extends Controller
 
     public function __construct()
     {
-        // if (application_installed()) {
-            if (get_setting('kyc_before_email') == '1' && !auth()->guest()) {
-                return $this->middleware('verified')->except(['index']);
-            }
-        // }
+        if (get_setting('kyc_before_email') == '1' && !auth()->guest()) {
+            return $this->middleware('verified')->except(['index']);
+        }
     }
 
     /**

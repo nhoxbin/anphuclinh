@@ -9,5 +9,6 @@ class UserBank extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['alias', 'bank_id', 'host', 'number', 'branch'];
     protected $table = 'users_banks';
 }

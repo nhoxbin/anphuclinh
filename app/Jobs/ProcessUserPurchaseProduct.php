@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Product;
 use App\Models\User;
-use App\Services\UserPurchaseProcessor;
+use App\Services\UserPurchaseProductProcessor;
 use Bavix\Wallet\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ProcessUserPurchase implements ShouldQueue
+class ProcessUserPurchaseProduct implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -37,7 +37,7 @@ class ProcessUserPurchase implements ShouldQueue
      *
      * @return void
      */
-    public function handle(UserPurchaseProcessor $processor)
+    public function handle(UserPurchaseProductProcessor $processor)
     {
         $processor->handle($this->user, $this->transaction, $this->product);
     }

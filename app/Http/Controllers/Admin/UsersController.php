@@ -21,6 +21,7 @@ use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;
 use App\Notifications\PasswordResetByAdmin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -36,24 +37,18 @@ class UsersController extends Controller
     {
         $role_data  = '';
         $per_page   = gmvl('user_per_page', 10);
-        $order_by   = (gmvl('user_order_by', 'id')=='token') ? 'tokenBalance' : gmvl('user_order_by', 'id');
-        $ordered    = gmvl('user_ordered', 'DESC');
-        $is_page    = (empty($role) ? 'all' : ($role=='user' ? 'investor' : $role));
+        $is_page    = (empty($role) ? 'all' : ($role=='member' ? 'investor' : $role));
 
-        if(!empty($role)) {
-            $users = User::whereNotIn('status', ['deleted'])->where('role', $role)->orderBy($order_by, $ordered)->paginate($per_page);
-        } else {
-            $users = User::whereNotIn('status', ['deleted'])->orderBy($order_by, $ordered)->paginate($per_page);
-        }
+        $users = User::paginate($per_page);
 
         if($request->s){
             $users = User::AdvancedFilter($request)
-                        ->orderBy($order_by, $ordered)->paginate($per_page);
+                        ->paginate($per_page);
         }
 
         if ($request->filter) {
             $users = User::AdvancedFilter($request)
-                        ->orderBy($order_by, $ordered)->paginate($per_page);
+                        ->paginate($per_page);
         }
 
         $pagi = $users->appends(request()->all());
@@ -242,9 +237,9 @@ class UsersController extends Controller
             }
             // v1.1
             if ($type == 'referrals') {
-                $refered = User::where('referral', $user->id)->get(['id', 'name', 'created_at']);
+                $refered = $user->refs;
                 foreach ($refered as $refer) {
-                    $ref_count = User::where('referral', $refer->id)->count();
+                    $ref_count = $refer->refs()->count();
                     if($ref_count > 0){
                         $refer->refer_to = $ref_count;
                     }else{
@@ -257,7 +252,7 @@ class UsersController extends Controller
 
         $user = User::FindOrFail($id);
         if ($type == 'details') {
-            $refered = User::FindOrFail($id)->referrals();
+            $refered = User::FindOrFail($id)->refs;
             return view('admin.user_details', compact('user', 'refered'))->render();
         }
     }

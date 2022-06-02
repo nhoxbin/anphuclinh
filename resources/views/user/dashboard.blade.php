@@ -30,7 +30,7 @@
                     max-height: 136px;
                     display: flex;
                     align-items: center;">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#withdraw" style="padding: 14px 0">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#goidautu" style="padding: 14px 0">
                             {{-- <div class="option-card-icon">
                                 <i class="flaticon-right-arrow"></i>
                             </div>
@@ -116,12 +116,12 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Cấp</p>
-                            <h3>{{ $user->lv->name }}</h3>
+                            <h3>{{ $user->current_level }}</h3>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 pb-15" >
-                    <a href="{{route('user.referrals.index')}}" class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}});cursor:pointer">
+                    <a href="{{route('user.referral')}}" class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }});cursor:pointer">
                         <div class="feature-card-thumb">
                             <i class="flaticon-menu-1"></i>
                         </div>
@@ -133,184 +133,13 @@
             </div>
         </div>
         <!-- Feature-section -->
-        <!-- Transaction-section -->
-        {{-- <div class="transaction-section pb-15">
-            <div class="section-header">
-                <h2>Transactions</h2>
-                <div class="view-all">
-                    <a href="transactions.html">View All</a>
-                </div>
-            </div>
-            <div class="transaction-card mb-15">
-                <a href="transaction-details.html">
-                    <div class="transaction-card-info">
-                        <div class="transaction-info-thumb">
-                            <img src="{{asset('assets1/images/user-2.jpg')}}" alt="user">
-                        </div>
-                        <div class="transaction-info-text">
-                            <h3>Brenda Davis</h3>
-                            <p>Transfer</p>
-                        </div>
-                    </div>
-                    <div class="transaction-card-det negative-number">
-                        -$185.00
-                    </div>
-                </a>
-            </div>
-            <div class="transaction-card mb-15">
-                <a href="transaction-details.html">
-                    <div class="transaction-card-info">
-                        <div class="transaction-info-thumb">
-                            <img src="{{asset('assets1/images/user-cm-logo-1.png')}}" alt="user">
-                        </div>
-                        <div class="transaction-info-text">
-                            <h3>Appstore Purchase</h3>
-                            <p>App Purchase</p>
-                        </div>
-                    </div>
-                    <div class="transaction-card-det">
-                        -$159.99
-                    </div>
-                </a>
-            </div>
-            <div class="transaction-card mb-15">
-                <a href="transaction-details.html">
-                    <div class="transaction-card-info">
-                        <div class="transaction-info-thumb">
-                            <img src="{{asset('assets1/images/user-1.jpg')}}" alt="user">
-                        </div>
-                        <div class="transaction-info-text">
-                            <h3>Martin Neely</h3>
-                            <p>Transfer</p>
-                        </div>
-                    </div>
-                    <div class="transaction-card-det">
-                        +$170.00
-                    </div>
-                </a>
-            </div>
-            <div class="transaction-card mb-15">
-                <a href="transaction-details.html">
-                    <div class="transaction-card-info">
-                        <div class="transaction-info-thumb">
-                            <img src="{{asset('assets1/images/user-3.jpg')}}" alt="user">
-                        </div>
-                        <div class="transaction-info-text">
-                            <h3>Mary McMillian</h3>
-                            <p>Transfer</p>
-                        </div>
-                    </div>
-                    <div class="transaction-card-det">
-                        +$2573.00
-                    </div>
-                </a>
-            </div>
-        </div> --}}
-        <!-- Transaction-section -->
-        <!-- Monthly-bill-section -->
-        {{-- <div class="monthly-bill-section pb-15">
-            <div class="section-header">
-                <h2>Monthly Bills</h2>
-                <div class="view-all">
-                    <a href="monthly-bills.html">View All</a>
-                </div>
-            </div>
-            <div class="row gx-3">
-                <div class="col-6 pb-15">
-                    <div class="monthly-bill-card monthly-bill-card-green">
-                        <div class="monthly-bill-thumb">
-                            <img src="{{asset('assets1/images/cm-logo-1.png')}}" alt="logo">
-                        </div>
-                        <div class="monthly-bill-body">
-                            <h3><a href="#">Envato.com</a></h3>
-                            <p>Debit Services Subscribtion</p>
-                        </div>
-                        <div class="monthly-bill-footer monthly-bill-action">
-                            <a href="#" class="btn main-btn">Pay Now</a>
-                            <p class="monthly-bill-price">$99.99</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 pb-15">
-                    <div class="monthly-bill-card monthly-bill-card-green">
-                        <div class="monthly-bill-thumb">
-                            <img src="{{asset('assets1/images/cm-logo-2.png')}}" alt="logo">
-                        </div>
-                        <div class="monthly-bill-body">
-                            <h3><a href="#">Oban.com</a></h3>
-                            <p>Credit Services Subscribtion</p>
-                        </div>
-                        <div class="monthly-bill-footer monthly-bill-action">
-                            <a href="#" class="btn main-btn">Pay Now</a>
-                            <p class="monthly-bill-price">$75.00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 pb-15">
-                    <div class="monthly-bill-card monthly-bill-card-green">
-                        <div class="monthly-bill-thumb">
-                            <img src="{{asset('assets1/images/cm-logo-3.png')}}" alt="logo">
-                        </div>
-                        <div class="monthly-bill-body">
-                            <h3><a href="#">Nezox.com</a></h3>
-                            <p>Internet Monthly Subscribtion</p>
-                        </div>
-                        <div class="monthly-bill-footer monthly-bill-action">
-                            <a href="#" class="btn main-btn">Pay Now</a>
-                            <p class="monthly-bill-price">$50.50</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 pb-15">
-                    <div class="monthly-bill-card monthly-bill-card-green">
-                        <div class="monthly-bill-thumb">
-                            <img src="{{asset('assets1/images/cm-logo-4.png')}}" alt="logo">
-                        </div>
-                        <div class="monthly-bill-body">
-                            <h3><a href="#">Depan.com</a></h3>
-                            <p>Depan Monthly Subscribtion</p>
-                        </div>
-                        <div class="monthly-bill-footer monthly-bill-action">
-                            <a href="#" class="btn main-btn">Pay Now</a>
-                            <p class="monthly-bill-price">$100.99</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        <!-- Monthly-bill-section -->
-        <!-- Card-section -->
-        {{-- <div class="card-section pb-15">
-            <div class="section-header">
-                <h2>My Cards</h2>
-                <div class="view-all">
-                    <a href="my-cards.html">View All</a>
-                </div>
-            </div>
-            <div class="payment-image-card pb-15">
-                <img src="{{asset('assets1/images/card-1.png')}}" alt="card">
-                <ul class="payment-uploaded-action">
-                    <li>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#viewCard">
-                            <i class="icofont-ui-edit"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#deleteCard">
-                            <i class="flaticon-trash"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div> --}}
-        <!-- Card-section -->
         <!-- Send-money-section -->
         <div class="payment-method">
             <div class="section-header">
                 <h2>Thông tin ngân hàng</h2>
             </div>
             <div class="payment-method-button text-center">
-                <a href="{{route('user.banks.index')}}" class="btn btn-secondary d-block mx-auto mb-2" style="width:max-content;min-width:unset">
+                <a href="{{ route('user.banks') }}" class="btn btn-secondary d-block mx-auto mb-2" style="width:max-content;min-width:unset">
                     <i class="flaticon-plus"></i>
                 </a>
                 <span>Thêm tài khoản ngân hàng</span>
@@ -348,6 +177,29 @@
                 @endforeach
             </div>
         </div>
+
+        <div class="modal fade" id="goidautu" tabindex="-1" aria-labelledby="addBalance" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="container">
+                        <div class="modal-header">
+                            <div class="modal-header-title">
+                                <h5 class="modal-title">Gói đại lý</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="max-height: 100%">
+                            <ul class="apl_goidautu" style="margin: 0;padding: 0;list-style: none;">
+                                @foreach ($packages as $package)
+                                <li><a href="{{ route('user.packages.show', $package->id) }}"><img src="{{ asset('images/packages/' . round($package->amount) . '.png') }}"></a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Latest-news-section -->
         <div class="latest-news-section pb-15">
             <div class="section-header">

@@ -92,12 +92,21 @@ class RegisterController extends Controller
         // has observer
         $user = User::create($data);
 
-        if (empty($data['phone_ref'])) {
-            $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
+        if (Cookie::has('apl_ref_by')) {
+            $ref_phone = Cookie::get('apl_ref_by');
+            $ref_user = User::where('phone', $ref_phone)->first();
+            if ($ref_user) {
+                $this->create_ref($user->id, $ref_user->id);
+                Cookie::queue(Cookie::forget('apl_ref_by'));
+            }
         } else {
-            $ref = User::where('phone', $data['phone_ref'])->first();
+            if (empty($data['phone_ref'])) {
+                $ref_user = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
+            } else {
+                $ref_user = User::where('phone', $data['phone_ref'])->first();
+            }
         }
-        Referral::create(['user_id' => $user->id, 'refer_by' => $ref->id]);
+        Referral::create(['user_id' => $user->id, 'refer_by' => $ref_user->id]);
 
         return $user;
     }

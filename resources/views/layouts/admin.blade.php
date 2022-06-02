@@ -88,6 +88,7 @@
                             <a href="{{ route('admin.users', 'user') }}"><em class="ikon ikon-user-list"></em> Users List</a>
                         </li>
                         @endif
+                        <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
                         @if(gup('setting'))
                         <li class="has-dropdown"><a class="drop-toggle" href="javascript:void(0)"><em class="ikon ikon-settings"></em> Settings</a>
                             <ul class="navbar-dropdown">

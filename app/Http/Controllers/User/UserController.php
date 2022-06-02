@@ -11,6 +11,7 @@ namespace App\Http\Controllers\User;
  * @version 1.0.6
  */
 use Auth;
+use Illuminate\Support\Str;
 use Validator;
 use IcoHandler;
 use Carbon\Carbon;
@@ -27,6 +28,7 @@ use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use App\Notifications\PasswordChange;
 use App\Http\Controllers\Controller;
+use App\Models\Package;
 use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
@@ -50,8 +52,9 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $products = Product::all();
+        $packages = Package::all();
         $current_point = PointCalc::getPoint('current');
-        return view('user.dashboard', compact('user', 'products', 'current_point'));
+        return view('user.dashboard', compact('user', 'products', 'current_point', 'packages'));
     }
 
 
@@ -400,9 +403,11 @@ class UserController extends Controller
                         $userMeta->email_token = Str::random(65);
                         if ($userMeta->save()) {
                             try {
-                                $user->notify(new PasswordChange($user, $userMeta));
+                                // $user->notify(new PasswordChange($user, $userMeta));
+                                // apl change pwd right away
+                                $this->password_confirm($userMeta->email_token);
                                 $ret['msg'] = 'success';
-                                $ret['message'] = __('messages.password.changed');
+                                $ret['message'] = __('Cập nhật mật khẩu thành công.');
                             } catch (\Exception $e) {
                                 $ret['msg'] = 'warning';
                                 $ret['message'] = __('messages.email.password_change',['email' => get_setting('site_email')]);
@@ -503,13 +508,10 @@ class UserController extends Controller
      */
     public function referral()
     {
-        $page = Page::where('slug', 'referral')->where('status', 'active')->first();
-        $reffered = User::where('referral', auth()->id())->get();
-        if(get_page('referral', 'status') == 'active'){
-            return view('user.referral', compact('page', 'reffered'));
-        }else{
-            abort(404);
-        }
+        $page = Page::where('slug', 'referral')->first();
+        $reffered = auth()->user()->refs;
+        // $reffered = User::where('referral', auth()->id())->get();
+        return view('user.referral', compact('page', 'reffered'));
     }
 
     public function package(){

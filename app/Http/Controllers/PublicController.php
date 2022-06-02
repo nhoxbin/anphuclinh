@@ -173,12 +173,9 @@ class PublicController extends Controller
         $expire =  (60*24*30);
 
         if ($key != NULL) {
-            $ref_user = (int)(str_replace(config('icoapp.user_prefix'), '', $key));
-            if($ref_user > 0){
-                $user = User::where('id',$ref_user)->where('email_verified_at', '!=', null)->first();
-                if ($user) {
-                    $_key = Cookie::queue(Cookie::make('ico_nio_ref_by', $ref_user, $expire));
-                }
+            $user = User::where('phone', $key)->first();
+            if ($user) {
+                $_key = Cookie::queue(Cookie::make('apl_ref_by', $key, $expire));
             }
         }
         return redirect()->route('register');

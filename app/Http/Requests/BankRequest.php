@@ -31,4 +31,13 @@ class BankRequest extends FormRequest
             'branch' => 'required|string',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            '*.required' => 'Ô này không thể bỏ trống!',
+            'number.numeric' => 'Số tài khoản phải là số',
+            'bank_id.exists' => 'Vui lòng chọn đúng ngân hàng',
+        ];
+    }
 }

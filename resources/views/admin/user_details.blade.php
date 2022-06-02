@@ -89,7 +89,7 @@
                         <div class="data-details-head">Wallet Address</div>
                         <div class="data-details-des">
                             <span>
-                                {!! $user->walletAddress ? $user->walletAddress : '<small class="text-light">Not added yet!</small>' !!} 
+                                {!! $user->walletAddress ? $user->walletAddress : '<small class="text-light">Not added yet!</small>' !!}
                                 {!! ($user->walletType) ? "<small>(".ucfirst($user->walletType)." Wallet)</small>" : '' !!}
                             </span>
                         </div>
@@ -104,7 +104,7 @@
                     </li>{{-- li --}}
                     <li>
                         <div class="data-details-head">Referred By</div>
-                        <div class="data-details-des">{!! ($user->referral != NULL && !empty($user->referee->name) ? '<span>'.$user->referee->name.' <small>('.set_id($user->referral).')</small></span>' : '<small class="text-light">Join without referral!</small>') !!}</div>
+                        <div class="data-details-des">{!! !is_null($user->ref_by) ? '<span>'.$user->ref_by->name.' <small>('.$user->ref_by->phone.')</small></span>' : '<small class="text-light">Join without referral!</small>' !!}</div>
                     </li>{{-- li --}}
                     @if(isset($refered) && $refered && count($refered) > 0)
                     <li>

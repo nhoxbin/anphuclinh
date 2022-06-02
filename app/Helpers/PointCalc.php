@@ -19,12 +19,12 @@ class PointCalc {
 
         $current_point = (float) file_get_contents(self::getFile());
         $points = [
-            'current' => ['amount' => $current_point, 'precision' => 0],
-            'refer' => ['amount' => $refer_bonus / $current_point, 'precision' => 0],
-            'increase' => ['amount' => $current_point * ($increase_percent / 100), 'precision' => 3],
+            'current' => ['amount' => $current_point],
+            'refer' => ['amount' => $refer_bonus / $current_point],
+            'increase' => ['amount' => $current_point * ($increase_percent / 100)],
         ];
         if (in_array($type, array_keys($points))) {
-            return round($points[$type]['amount'], $points[$type]['precision']);
+            return round($points[$type]['amount']);
         }
         return null;
     }
