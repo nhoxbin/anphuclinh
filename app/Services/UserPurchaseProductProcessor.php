@@ -54,7 +54,7 @@ class UserPurchaseProductProcessor
                         $user->addPoints(-$calc['max_point_discount'], 'Purchase product', ['type' => 'purchased', 'transaction_id' => $transaction->id]);
                     }
                 } else {
-                    Log::error('Không tìm thấy giao dịch! ID: ' . $transaction->id);
+                    Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);
                 }
             } catch (\Exception $e) {
                 $user->wallet->balance -= $transaction->amount;
