@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -117,7 +118,6 @@ class TestController extends Controller
             '0707383838' => '3000000.00',
             '0765968860' => '3000000.00',
             '0782393899' => '3000000.00',
-            '0785555384' => '15000000.00',
             '0789962857' => '3000000.00',
             '0794777526' => '3000000.00',
             '0798193147' => '3000000.00',
@@ -587,5 +587,13 @@ class TestController extends Controller
             ];
         }
         User::insert($insert);
+
+        $product_combo = Product::where('is_combo', 1)->first();
+        $phoneIn = User::whereIn('phone', $phoneNotIn)->get('phone')->toArray();
+        $phones = array_column($phoneIn, 'phone');
+        foreach ($phones as $phone) {
+            $user->deposit($data[$user->phone], ['qty' => $data[$user->phone]/3000000, 'product_id' => $product_combo->id, 'type' => 'purchase']);
+            $user->pay($product_combo);
+        }
     }
 }

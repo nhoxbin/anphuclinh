@@ -27,13 +27,7 @@ class Product extends Model implements ProductInterface
 
     public function getAmountProduct(Customer $customer)
     {
-        $qty = $customer->transactions()->where([
-            'confirmed' => 1,
-            'type' => 'deposit',
-            'meta->product_id' => $this->id,
-            'meta->type' => 'purchase'
-        ])->firstOrFail()->meta['qty'];
-        return PointCalc::getPrice($customer, $this, $qty)['price'];
+        return PointCalc::getPrice($customer, $this, 1)['price'];
     }
 
     public function getMetaProduct(): ?array
