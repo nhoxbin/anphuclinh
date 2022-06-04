@@ -63,7 +63,7 @@
     getUserBanks()
 
     function getUserBanks() {
-        axios.get(route('user.ajax.banks.index')).then(({data}) => state.ubanks = data.data)
+        axios.get(route('user.ajax.ubanks.index')).then(({data}) => state.ubanks = data.data)
     }
 
     function infoBank(e) {

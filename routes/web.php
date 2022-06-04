@@ -106,7 +106,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
     // Route::get('/account/balance', 'UserController@mytoken_balance')->name('token.balance');
 
     Route::get('transactions', 'TransactionController')->name('transactions.index');
-    Route::get('banks', 'UserBankController@banks')->name('banks');
+    Route::resource('banks', 'BankController')->only('index');
     Route::resource('packages', 'PackageController');
 
     Route::middleware('is_kyc')->group(function() {
@@ -125,8 +125,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
         Route::post('/kyc/submit', 'KycController@submit')->name('kyc.submit');
         Route::post('/account/activity', 'UserController@account_activity_delete')->name('account.activity.delete');
 
-        Route::resource('banks', 'UserBankController');
-        // Route::get('banks', 'UserBankController@getBank')->name('bank.get');
+        Route::resource('ubanks', 'UserBankController');
         // Route::get('user_banks', 'UserBankController@getBanks')->name('banks.get');
         Route::get('price-calculate/{product}/{amount}', 'ProductController@priceCalc')->name('product.calc');
 
@@ -250,7 +249,6 @@ Route::name('public.')->group(function () {
 Route::prefix('ajax')->name('ajax.')->group(function () {
     Route::post('/kyc/file-upload', 'User\KycController@upload')->name('kyc.file.upload');
 
-    Route::get('all-banks', 'BankController')->name('banks.get');
     Route::get('phone', 'PublicController@getPhone')->name('phone.get');
     Route::post('provinces', 'ProvinceController')->name('provinces.get');
 });

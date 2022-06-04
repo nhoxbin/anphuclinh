@@ -3,45 +3,38 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BankRequest;
-use App\Models\Bank;
+use App\Http\Requests\UBankRequest;
+use App\Models\UserBank;
 
 class UserBankController extends Controller
 {
-    public function banks()
-    {
-        return view('user.ubank.index');
-    }
-
     public function index()
     {
         $ubanks = auth()->user()->banks;
         return response()->success($ubanks);
     }
 
-    public function store(BankRequest $request)
+    public function store(UBankRequest $request)
     {
-        $request->user()->banks()->create($request->validated());
-
-        return response()->success(['title' => 'Lưu thành công.', 'msg' => 'Lưu tài khoản ngân hàng thành công.']);
+        $ub = $request->user()->banks()->create($request->validated());
+        return response()->success(['title' => 'Lưu thành công.', 'msg' => 'Lưu tài khoản ngân hàng thành công.', 'ubank' => $ub]);
     }
 
-    public function edit(Bank $bank)
+    public function edit(UserBank $ubank)
     {
-        return response()->json($bank);
+        return response()->json($ubank);
     }
 
-    public function update(BankRequest $request, Bank $bank)
+    public function update(UBankRequest $request, UserBank $ubank)
     {
-        $bank->update($request->validated());
+        $ubank->update($request->validated());
 
         return response()->success(['title' => 'Cập nhật thành công.', 'msg' => 'Cập nhật tài khoản ngân hàng thành công.']);
     }
 
-    public function destroy(Bank $bank)
+    public function destroy(UserBank $ubank)
     {
-        $bank->delete();
-
-        return response()->json(['success' => 'Xóa tài khoản ngân hàng thành công.']);
+        $ubank->delete();
+        return response()->success(['title' => 'Thành công', 'msg' => 'Xóa tài khoản ngân hàng thành công.']);
     }
 }
