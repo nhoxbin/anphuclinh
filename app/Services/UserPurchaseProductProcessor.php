@@ -27,9 +27,7 @@ class UserPurchaseProductProcessor
             $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && str_contains(strtolower($h->description), strtolower($transaction->meta['description']))));
 
             try {
-                if (count($history)) {
-                    $user->confirm($transaction);
-                    $user->pay($product);
+                if (count($history) && $user->confirm($transaction) && $user->pay($product)) {
                     $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
 
                     $calc = PointCalc::getPrice($user, $product, $transaction->meta['qty']);

@@ -28,9 +28,7 @@ class UserPurchasePackageProcessor
 
             $amt = $package->amount;
             try {
-                if (count($history)) {
-                    $user->confirm($transaction);
-                    $user->pay($package);
+                if (count($history) && $user->confirm($transaction) && $user->pay($package)) {
                     $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
 
                     // admin tỉnh: x2.2
