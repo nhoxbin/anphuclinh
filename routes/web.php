@@ -33,6 +33,7 @@ Route::get('withdraw-all-money-from-all-user', function () {
     foreach ($users as $user) {
         $user->withdraw($user->balance);
     }
+    echo 'Thành công rút hết tiền của: ' . $users->count() . ' thành viên :D';
 });
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {
