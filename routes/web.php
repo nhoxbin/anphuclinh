@@ -28,9 +28,7 @@ use Illuminate\Routing\RouteGroup;
     });
 } */
 
-Route::get('test', function () {
-    //
-});
+Route::get('test', 'TestController');
 
 /* Route::get('withdraw-all-money-from-all-user', function () {
     $users = User::whereHas('wallet', fn($w) => $w->where('balance', '>', 0))->get();
