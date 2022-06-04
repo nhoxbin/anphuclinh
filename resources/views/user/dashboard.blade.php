@@ -139,7 +139,7 @@
                 <h2>Thông tin ngân hàng</h2>
             </div>
             <div class="payment-method-button text-center">
-                <a href="{{ route('user.banks') }}" class="btn btn-secondary d-block mx-auto mb-2" style="width:max-content;min-width:unset">
+                <a href="{{ route('user.banks.index') }}" class="btn btn-secondary d-block mx-auto mb-2" style="width:max-content;min-width:unset">
                     <i class="flaticon-plus"></i>
                 </a>
                 <span>Thêm tài khoản ngân hàng</span>
