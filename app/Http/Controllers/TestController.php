@@ -575,8 +575,7 @@ class TestController extends Controller
         $user = User::whereIn('phone', array_keys($data))->get('phone')->toArray();
         $phone = array_column($user, 'phone');
         $phoneNotIn = array_diff(array_keys($data), $phone);
-        dd($phoneNotIn);
-        /* $insert = [];
+        $insert = [];
         foreach ($phoneNotIn as $phone) {
             $insert[] = [
                 'name' => $phone,
@@ -587,9 +586,10 @@ class TestController extends Controller
                 'remember_token' => Str::random(10),
             ];
         }
-        $users = User::insert($insert);
+        User::insert($insert);
 
-        $product_combo = Product::where('is_combo', 1)->first();
+        /* $product_combo = Product::where('is_combo', 1)->first();
+        $users = User::whereIn('phone', $phoneNotIn)->get('phone');
         foreach ($users as $user) {
             $qty = $data[$user->phone]/3000000;
             $user->deposit($data[$user->phone], ['qty' => $qty, 'product_id' => $product_combo->id, 'type' => 'purchase']);

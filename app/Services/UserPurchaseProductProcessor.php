@@ -14,8 +14,8 @@ class UserPurchaseProductProcessor
     {
         /* $object = (object) [
             "transactionID" => 9668,
-            "amount" => 12000000,
-            "description" => "apl2867 FT22134660080706 GD 311270-051422 16:25:18",
+            "amount" => 164989,
+            "description" => "apl2879 FT22134660080706 GD 311270-051422 16:25:18",
             "transactionDate" => "16/05/2022",
             "type" => "IN"
         ]; */

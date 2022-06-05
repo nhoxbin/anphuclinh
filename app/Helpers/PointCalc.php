@@ -44,13 +44,13 @@ class PointCalc {
                 $percent = 38; // chưa mua combo
             }
             // giảm tối đa $percent trong tổng số điểm hiện có
-            $vat = round($price*10/100);
             $discount_price = $price*$percent/100;
             $max_point_discount = round($discount_price/$rate);
             if ($max_point_discount > $currentPoints) {
                 $max_point_discount -= $currentPoints;
             }
             $max_price_discount = $max_point_discount*$rate;
+            $vat = round($max_price_discount*10/100);
             $price = ($price + $vat) - $max_price_discount;
         }
         return [
