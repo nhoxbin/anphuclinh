@@ -21,9 +21,8 @@ class UserObserver
 
         $ref = User::whereRelation('roles', 'name', '=', 'super_admin')->first();
         if ($ref) {
-            $data = [];
             Referral::create(['user_id' => $user->id, 'refer_by' => $ref->id]);
-            $user->addPoints(PointCalc::getPoint('refer'), __('Refer Bonus'), ['type' => 'bonus', 'refer_by' => $ref->id]);
+            // $user->addPoints(PointCalc::getPoint('refer'), __('Refer Bonus'), ['type' => 'bonus', 'refer_by' => $ref->id]);
         }
     }
 

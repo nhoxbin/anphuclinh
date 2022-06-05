@@ -8,10 +8,8 @@ use App\Notifications\ResetPassword;
 use Bavix\Wallet\{
     Traits\CanPay,
     Traits\CanConfirm,
-    Traits\HasWallet,
     Interfaces\Customer,
     Interfaces\Confirmable,
-    Interfaces\Wallet,
     Models\Transaction
 };
 use Carbon\Carbon;
