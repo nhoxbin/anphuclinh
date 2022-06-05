@@ -153,15 +153,12 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function getSalesAttribute()
     {
-        $combo_id = Product::where('is_combo', 1)->first()->id;
         $transaction_ids = collect([]);
         $transaction_ids->push($this->id);
         $this->refs_sale($this, $combo_id, $transaction_ids);
-        return Transaction::whereIn('payable_id', $transaction_ids)->where([
+        return Transaction::whereIn('payable_id', $transaction_ids)->where('meta->type', '!=', 'package')->where([
             'type' => 'deposit',
             'confirmed' => 1,
-            'meta->type' => 'purchase',
-            'meta->product_id' => $combo_id
         ])->sum('amount');
     }
 
