@@ -588,15 +588,20 @@ class TestController extends Controller
         }
         User::insert($insert);
 
-        /* $product_combo = Product::where('is_combo', 1)->first();
-        $users = User::whereIn('phone', $phoneNotIn)->get('phone');
-        foreach ($users as $user) {
-            $qty = $data[$user->phone]/3000000;
-            $user->deposit($data[$user->phone], ['qty' => $qty, 'product_id' => $product_combo->id, 'type' => 'purchase']);
-            for ($i=0; $i < $qty; $i++) {
-                $user->pay($product_combo);
+        try {
+            $product_combo = Product::where('is_combo', 1)->first();
+            $users = User::whereIn('phone', $phoneNotIn)->get();
+            foreach ($users as $user) {
+                $user->balance;
+                $qty = $data[$user->phone]/3000000;
+                $user->deposit(round($data[$user->phone]), ['qty' => $qty, 'product_id' => $product_combo->id, 'type' => 'purchase']);
+                for ($i=0; $i < $qty; $i++) {
+                    $user->pay($product_combo);
+                }
+                echo "{$user->phone}<br />";
             }
-            echo "{$user->phone}<br />";
-        } */
+        } catch (\Exception $e) {
+            dd($e);
+        }
     }
 }
