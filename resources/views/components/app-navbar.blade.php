@@ -26,7 +26,7 @@
                 </a>
             </div>
             <div class="navbar-content-item">
-                <a href="#">
+                <a href="{{ route('user.account') }}">
                     <i class="flaticon-settings"></i>
                     Tôi
                 </a>
