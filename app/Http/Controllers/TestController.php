@@ -590,7 +590,6 @@ class TestController extends Controller
             $users = User::whereIn('phone', $phoneNotIn)->get();
             foreach ($users as $user) {
                 $user->balance;
-                dump($user);
                 $qty = $data[$user->phone]/3000000;
                 $user->deposit(round($data[$user->phone]), ['qty' => $qty, 'product_id' => $product_combo->id, 'type' => 'purchase']);
                 for ($i=0; $i < $qty; $i++) {

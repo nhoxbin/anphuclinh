@@ -195,8 +195,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     public static function AdvancedFilter(Request $request)
     {
         if ($request->s) {
-            $users = User::whereNotIn('status', ['deleted'])->where('role', 'user')
-                ->where(function ($q) use ($request) {
+            $users = User::where(function ($q) use ($request) {
                     $id_num = (int)(str_replace(config('icoapp.user_prefix'), '', $request->s));
                     $q->orWhere('id', $id_num)->orWhere('email', 'like', '%' . $request->s . '%')->orWhere('name', 'like', '%' . $request->s . '%');
                 });

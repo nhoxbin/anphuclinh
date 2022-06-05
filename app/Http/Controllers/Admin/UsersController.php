@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use App\Notifications\Reset2FA;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;
+use App\Models\Referral;
 use App\Notifications\PasswordResetByAdmin;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -274,25 +275,25 @@ class UsersController extends Controller
         }
 
         if ($type == 'suspend_user') {
-            $admin_count = User::where('role', 'admin')->count();
+            $admin_count = User::whereRelation('roles', 'name', '=', 'super_admin')->count();
             if ($admin_count >= 1) {
-                $up = User::where('id', $id)->update([
-                    'status' => 'suspend',
-                ]);
-                if ($up) {
-                    $result['msg'] = 'warning';
-                    $result['css'] = 'danger';
-                    $result['status'] = 'active_user';
-                    $result['message'] = 'User Suspend Success!!';
+                $user = User::find($id);
+                if ($user) {
+                    Referral::where('user_id', $id)->orWhere('refer_by', $id)->delete();
+                    $user->transactions()->delete();
+                    $user->point_transactions()->delete();
+                    $user->delete();
+                    // $user->notify(new Reset2FA($user));
+                    $result['msg'] = 'success';
+                    $result['message'] = 'Đã xóa thành viên.';
                 } else {
                     $result['msg'] = 'warning';
-                    $result['message'] = 'Failed to Suspend!!';
+                    $result['message'] = 'Thành viên không tồn tại!';
                 }
             } else {
                 $result['msg'] = 'warning';
                 $result['message'] = 'Minimum one admin account is required!';
             }
-
             return response()->json($result);
         }
         if ($type == 'active_user') {

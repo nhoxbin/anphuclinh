@@ -313,24 +313,25 @@
                                             <li><a href="{{ route('admin.users.view', [$user->id, 'details'] ) }}"><em class="far fa-eye"></em> View Details</a></li>
                                             <li><a class="user-email-action" href="#EmailUser" data-uid="{{ $user->id }}" data-toggle="modal"><em class="far fa-envelope"></em>Send Email</a></li>
                                             @if($user->role=='user')
-                                            <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="transactions" class="user-form-action user-action"><em class="fas fa-random"></em>Transaction</a></li>
+                                                <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="transactions" class="user-form-action user-action"><em class="fas fa-random"></em>Transaction</a></li>
                                             @endif
                                             <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="activities" class="user-form-action user-action"><em class="fas fa-sign-out-alt"></em>Activities</a></li>
                                             <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="referrals" class="user-form-action user-action"><em class="fas fa-users"></em>Referrals</a></li>
 
                                             @if($user->id != save_gmeta('site_super_admin')->value)
-                                            <li><a class="user-form-action user-action" href="#" data-type="reset_pwd" data-uid="{{ $user->id }}" ><em class="fas fa-shield-alt"></em>Reset Pass</a></li>
+                                                <li><a class="user-form-action user-action" href="#" data-type="reset_pwd" data-uid="{{ $user->id }}" ><em class="fas fa-shield-alt"></em>Reset Pass</a></li>
                                             @endif
                                             @if($user->google2fa == 1)
-                                            <li><a class="user-form-action user-action" href="javascript:void(0)" data-type="reset_2fa" data-uid="{{ $user->id }}" ><em class="fas fa-unlink"></em>Reset 2FA</a></li>
+                                                <li><a class="user-form-action user-action" href="javascript:void(0)" data-type="reset_2fa" data-uid="{{ $user->id }}" ><em class="fas fa-unlink"></em>Reset 2FA</a></li>
                                             @endif
 
-                                            @if(Auth::id() != $user->id && $user->id != save_gmeta('site_super_admin')->value) @if($user->status != 'suspend')
-                                            <li><a href="#" data-uid="{{ $user->id }}" data-type="suspend_user" class="user-action front"><em class="fas fa-ban"></em>Suspend</a></li>
-
-                                            @else
-                                            <li><a href="#" id="front" data-uid="{{ $user->id }}" data-type="active_user" class="user-action"><em class="fas fa-ban"></em>Active</a></li>
-                                            @endif @endif
+                                            @if(Auth::id() != $user->id && $user->id != save_gmeta('site_super_admin')->value)
+                                                @if($user->status != 'suspend')
+                                                    <li><a href="#" data-uid="{{ $user->id }}" data-type="suspend_user" class="user-action front"><em class="fas fa-ban"></em>{{ __('Delete') }}</a></li>
+                                                @else
+                                                    <li><a href="#" id="front" data-uid="{{ $user->id }}" data-type="active_user" class="user-action"><em class="fas fa-ban"></em>Active</a></li>
+                                                @endif
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>

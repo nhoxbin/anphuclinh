@@ -582,8 +582,11 @@ class SalesSeeder extends Seeder
         $product_combo = Product::where('is_combo', 1)->first();
         $users = User::whereIn('phone', array_keys($data))->get();
         foreach ($users as $user) {
-            $user->deposit($data[$user->phone], ['qty' => $data[$user->phone]/3000000, 'product_id' => $product_combo->id, 'type' => 'purchase']);
-            $user->pay($product_combo);
+            $qty = $data[$user->phone]/3000000;
+            $user->deposit($data[$user->phone], ['qty' => $qty, 'product_id' => $product_combo->id, 'type' => 'purchase']);
+            for ($i=0; $i < $qty; $i++) {
+                $user->pay($product_combo);
+            }
         }
     }
 }
