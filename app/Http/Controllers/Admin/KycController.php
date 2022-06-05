@@ -222,7 +222,7 @@ class KycController extends Controller
 
                 $kyc->status = $request->input('status');
                 $kyc->notes = $save_note;
-                $kyc->reviewedBy = auth()->id() ?? User::where('role', 'admin')->first()->id;
+                $kyc->reviewedBy = auth()->id() ?? User::whereRelation('roles', 'name', '=', 'super_admin')->first()->id;
                 $kyc->reviewedAt = date('Y-m-d H:i:s');
                 $kyc->save();
 

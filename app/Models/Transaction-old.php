@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class TransactionOld extends Model
 {
 
     /*

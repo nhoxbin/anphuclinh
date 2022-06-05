@@ -13,10 +13,8 @@ class UserPurchaseProductProcessor
     public function handle(User $user, $transaction, Product $product)
     {
         /* $object = (object) [
-            "transactionID" => 9668,
-            "amount" => 164989,
-            "description" => "apl2879 FT22134660080706 GD 311270-051422 16:25:18",
-            "transactionDate" => "16/05/2022",
+            "amount" => 3000000,
+            "description" => "MBVCB.2087406873.013982.apl1810.CT tu 0181001370543 TRUONG KIM TAI toi 12226668888 DO VAN HA (ACB) A Chau GD 013982-060522 10:11:38",
             "type" => "IN"
         ]; */
 
