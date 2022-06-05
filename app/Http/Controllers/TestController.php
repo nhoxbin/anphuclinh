@@ -575,7 +575,6 @@ class TestController extends Controller
         $user = User::whereIn('phone', array_keys($data))->get('phone')->toArray();
         $phone = array_column($user, 'phone');
         $phoneNotIn = array_diff(array_keys($data), $phone);
-        $insert = [];
         foreach ($phoneNotIn as $phone) {
             User::updateOrCreate(['phone' => $phone], [
                 'name' => $phone,
