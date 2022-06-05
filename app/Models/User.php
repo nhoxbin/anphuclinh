@@ -142,11 +142,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
     }
 
-    public function refs_sale($user, $combo_id, &$transaction_ids)
+    public function refs_sale($user, &$transaction_ids)
     {
         foreach ($user->refs as $ref) {
             $transaction_ids->push($ref->id);
-            $this->refs_sale($ref, $combo_id, $transaction_ids);
+            $this->refs_sale($ref, $transaction_ids);
         }
         return $transaction_ids;
     }
@@ -155,7 +155,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     {
         $transaction_ids = collect([]);
         $transaction_ids->push($this->id);
-        $this->refs_sale($this, $combo_id, $transaction_ids);
+        $this->refs_sale($this, $transaction_ids);
         return Transaction::whereIn('payable_id', $transaction_ids)->where('meta->type', '!=', 'package')->where([
             'type' => 'deposit',
             'confirmed' => 1,
