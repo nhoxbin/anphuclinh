@@ -586,7 +586,6 @@ class TestController extends Controller
                 'remember_token' => Str::random(10),
             ]);
         }
-        User::insert($insert);
 
         try {
             $product_combo = Product::where('is_combo', 1)->first();
