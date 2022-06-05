@@ -577,9 +577,8 @@ class TestController extends Controller
         $phoneNotIn = array_diff(array_keys($data), $phone);
         $insert = [];
         foreach ($phoneNotIn as $phone) {
-            User::create([
+            User::updateOrCreate(['phone' => $phone], [
                 'name' => $phone,
-                'phone' => $phone,
                 'level' => '0',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
