@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Referral;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UsersRefsSeeding extends Seeder
 {
@@ -1118,10 +1119,17 @@ class UsersRefsSeeding extends Seeder
             '0972250438' => '0365888868'
         ];
         // $data = [];
-        $users = User::where('phone', array_keys($referrals))->get();
+        $users = User::whereIn('phone', array_keys($referrals))->get();
         foreach ($users as $user) {
             $ref_by = (string) $referrals[$user->phone];
-            $user->sync(['refer_by' => $ref_by]);
+            $ref = User::updateOrCreate(['phone' => (string) $ref_by], [
+                'name' => $ref_by,
+                'level' => '0',
+                'email_verified_at' => now(),
+                'password' => bcrypt('123456'),
+                'remember_token' => Str::random(10),
+            ]);
+            $ref->refs()->attach(['user_id' => $ref_by]);
             // $user = User::where('phone', $ref_by)->first();
             /* if ($phone == $ref_by || is_null($user)) {
                 $ref_by = '0922621888';

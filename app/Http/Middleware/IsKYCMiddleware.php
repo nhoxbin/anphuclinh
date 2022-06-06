@@ -17,8 +17,8 @@ class IsKYCMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        return $next($request);
         if ($request->user()->kyc_info && $request->user()->kyc_info->status == 'approved') {
-            return $next($request);
         }
         abort(401);
     }
