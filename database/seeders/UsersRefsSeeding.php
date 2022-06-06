@@ -1118,28 +1118,30 @@ class UsersRefsSeeding extends Seeder
             '0932225092' => '0907488696',
             '0972250438' => '0365888868'
         ];
-        // $data = [];
+        $data = [];
         $users = User::whereIn('phone', array_keys($referrals))->get();
         foreach ($users as $user) {
             $ref_by = (string) $referrals[$user->phone];
-            $ref = User::updateOrCreate(['phone' => (string) $ref_by], [
+            $ref = User::updateOrCreate(['phone' => $ref_by], [
                 'name' => $ref_by,
-                'level' => '0',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
                 'remember_token' => Str::random(10),
             ]);
-            $ref->refs()->attach(['user_id' => $ref_by]);
             // $user = User::where('phone', $ref_by)->first();
             /* if ($phone == $ref_by || is_null($user)) {
                 $ref_by = '0922621888';
             } */
             // $user = User::where('phone', $ref_by)->first();
-            /* $data[] = [
+            $referral = [
                 'user_id' => $user->id,
-                'refer_by' => $ref_by
-            ]; */
+                'refer_by' => $ref->id
+            ];
+            $r = Referral::where($referral)->first();
+            if (is_null($r)) {
+                $data[] = $referral;
+            }
         }
-        // Referral::insert($data);
+        Referral::insert($data);
     }
 }
