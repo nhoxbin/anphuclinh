@@ -98,7 +98,6 @@ class RegisterController extends Controller
             $ref_phone = Cookie::get('apl_ref_by');
             $ref_user = User::where('phone', $ref_phone)->first();
             if ($ref_user) {
-                Referral::create(['user_id' => $user->id, 'refer_by' => $ref_user->id]);
                 Cookie::queue(Cookie::forget('apl_ref_by'));
             }
         } else {
