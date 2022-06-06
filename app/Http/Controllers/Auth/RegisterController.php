@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Auth;
  * @version 1.1.2
  */
 
+use App\Helpers\PointCalc;
 use Cookie;
 use Carbon\Carbon;
 use App\Models\User;
@@ -91,12 +92,13 @@ class RegisterController extends Controller
 
         // has observer
         $user = User::create($data);
+        $user->assignRole('member');
 
         if (Cookie::has('apl_ref_by')) {
             $ref_phone = Cookie::get('apl_ref_by');
             $ref_user = User::where('phone', $ref_phone)->first();
             if ($ref_user) {
-                $this->create_ref($user->id, $ref_user->id);
+                Referral::create(['user_id' => $user->id, 'refer_by' => $ref_user->id]);
                 Cookie::queue(Cookie::forget('apl_ref_by'));
             }
         } else {
@@ -106,6 +108,7 @@ class RegisterController extends Controller
                 $ref_user = User::where('phone', $data['phone_ref'])->first();
             }
         }
+        $user->addPoints(PointCalc::getPoint('refer'), __('Refer Bonus'), ['type' => 'bonus', 'refer_by' => $ref_user->id]);
         Referral::create(['user_id' => $user->id, 'refer_by' => $ref_user->id]);
 
         return $user;

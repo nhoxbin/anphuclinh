@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             // UserSeeder::class,
             // ProvinceSeeder::class,
             // ReferralSeeder::class,
-            UsersRefsSeeding::class,
+            // UsersRefsSeeding::class,
             // PointSeeder::class,
             // SalesSeeder::class,
         ]);
