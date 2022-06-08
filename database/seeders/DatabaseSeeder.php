@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             // LevelSeeder::class,
             // BankSeeder::class,
             // PermissionRoleSeeder::class,
-            // UserSeeder::class,
+            UserSeeder::class,
             // ProvinceSeeder::class,
             // ReferralSeeder::class,
             // UsersRefsSeeding::class,
