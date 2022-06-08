@@ -243,7 +243,7 @@
                             </td>
                             <td class="data-col dt-name">
                                 <span class="lead amount-pay{{ $text_danger }}">{{ $trnx->payable->name }}</span>
-                                {{-- <span class="sub sub-symbol">{{ $trnx->meta['type'] == 'bonus' ? 'Hoa hồng' : 'Mua' }}</span> --}}
+                                <span class="sub sub-symbol">{{ $trnx->payable->phone }}</span>
                             </td>
                             <td class="data-col dt-product-type">
                                 @php
