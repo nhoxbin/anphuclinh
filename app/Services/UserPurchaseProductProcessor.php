@@ -74,4 +74,10 @@ class UserPurchaseProductProcessor
             Log::error('Không thể lấy lịch sử giao dịch ngân hàng. WEB API: https://api.web2m.com');
         }
     }
+
+    public function refund(User $user, $transaction, Product $product)
+    {
+        $user->addPoints(-round($transaction->amount / PointCalc::getPoint('current')), 'Refund Combo', ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]);
+
+    }
 }
