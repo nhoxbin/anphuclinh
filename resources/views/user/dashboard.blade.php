@@ -1,10 +1,10 @@
 @extends('layouts.user-new')
 @section('title', 'User Dashboard')
 @section('content')
-<div class="body-content body-content-lg" style="background-image: url({{asset('images/bg.jpg')}})"> <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
+<div class="body-content body-content-lg" style="background-image: url({{ asset('images/bg.jpg') }})"> <!-- "body-content-lg" add this class if any cards inside this div has "section-to-header" class -->
     <div class="container">
         <!-- Add-card -->
-        <div class="add-card section-to-header mb-30" style="background-image: url({{asset('images/button.png')}})">
+        <div class="add-card section-to-header mb-30" style="background-image: url({{ asset('images/button.png') }})">
             <div class="add-card-inner">
                 <div class="add-card-item add-card-info">
                     <p>Ví hoa hồng</p>
@@ -26,7 +26,7 @@
         <div class="option-section mb-15">
             <div class="row gx-3">
                 <div class="col-6 pb-15 ">
-                    <div class="option-card option-card-violet" style="background-image: url({{asset('images/button.png')}});padding: 0;
+                    <div class="option-card option-card-violet" style="background-image: url({{ asset('images/button.png')}});padding: 0;
                     max-height: 136px;
                     display: flex;
                     align-items: center;">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-3 pb-15">
-                    <div class="option-card option-card-blue" style="background-image: url({{asset('images/button.png')}})">
+                    <div class="option-card option-card-blue" style="background-image: url({{ asset('images/button.png') }})">
                         <a href="my-cards.html">
                             <div class="option-card-icon">
                                 <i class="flaticon-full-signal"></i>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="col-3 pb-15">
-                    <div class="option-card option-card-red" style="background-image: url({{asset('images/button.png')}})">
+                    <div class="option-card option-card-red" style="background-image: url({{ asset('images/button.png') }})">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exchange">
                             <div class="option-card-icon">
                                 <i class="flaticon-exchange-arrows"></i>
@@ -66,7 +66,7 @@
         <div class="feature-section mb-15">
             <div class="row gx-3">
                 <div class="col-6 col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-income"></i>
                         </div>
@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="col-6 col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-savings"></i>
                         </div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
                 <div class="col-6 col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green pd" style="background-image: url({{asset('images/button.png')}})">
+                    <div class="feature-card feature-card-green pd" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-expenses"></i>
                         </div>
@@ -99,24 +99,35 @@
                     </div>
                 </div>
                 <div class="col-6 col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-invoice"></i>
                         </div>
                         <div class="feature-card-details">
                             <p>Doanh số</p>
-                            <h3>{{ number_format($user->sales) }}<sup>đ</sup></h3>
+                            <h3>{{ number_format($user->sales()) }}<sup>đ</sup></h3>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green" style="background-image: url({{asset('images/button.png')}})">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-credit-card"></i>
                         </div>
                         <div class="feature-card-details">
                             <p>Cấp</p>
                             <h3>{{ $user->current_level }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-invoice"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Doanh số tái đơn</p>
+                            <h3>{{ number_format($user->sales('reorder')) }}<sup>đ</sup></h3>
                         </div>
                     </div>
                 </div>

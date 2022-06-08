@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class UserPurchasePackageProcessor
 {
-    public function handle(User $user, $transaction, Package $package)
+    public function handle(User $user, $transaction, Package $package, $force = false)
     {
         /* $object = (object) [
             "transactionID" => 9668,
@@ -22,18 +22,18 @@ class UserPurchasePackageProcessor
 
         $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
         // $curl->transactions = [$object];
-        if ($curl->status == true) {
+        if ($curl->status == true || $force) {
             $histories = $curl->transactions;
             $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && str_contains(strtolower($h->description), strtolower($transaction->meta['description']))));
 
             $amt = $package->amount;
             try {
-                if (count($history) && $user->confirm($transaction) && $user->pay($package)) {
+                if ((count($history) || $force) && $user->confirm($transaction) && $user->pay($package)) {
                     $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
 
                     // admin tỉnh: x2.2
-                    $provincial_admin = $user->province->users()->whereRelation('roles', 'name', '=', 'provincial_admin')->first();
-                    $provincial_admin->deposit(round($amt*2.2/100), $purchased_data);
+                    $provincial_admin = $user->province->users()->whereRelation('roles', 'name', '=', 'provincial_admin')->get();
+                    $provincial_admin->map(fn($u) => $u->deposit(round($amt*2.2/100), $purchased_data));
 
                     // admin miền: x1.1
                     $area_admin = User::whereRelation('province', 'area', '=', $user->province->area)->whereRelation('roles', 'name', '=', 'area_admin')->first();

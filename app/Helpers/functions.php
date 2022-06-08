@@ -772,14 +772,6 @@ if (!function_exists('get_gmeta')) {
     }
 }
 
-/* @function get_gmeta_value() -GlobalMeta  @version v1.0  @since 1.1.0 */
-if (!function_exists('get_gmeta_value')) {
-    function get_gmeta_value($name, $if_null = null, $pid = null)
-    {
-        return get_gmeta($name, false, $if_null, $pid);
-    }
-}
-
 /* @function get_gmeta_extra() -GlobalMeta  @version v1.0  @since 1.1.0 */
 if (!function_exists('get_gmeta_extra')) {
     function get_gmeta_extra($name, $if_null = null, $pid = null)
@@ -792,7 +784,7 @@ if (!function_exists('get_gmeta_extra')) {
 if (!function_exists('gmvl') && function_exists('get_gmeta_value')) {
     function gmvl($name, $if_null = null, $pid = null)
     {
-        return get_gmeta_value($name, $if_null, $pid);
+        return get_gmeta($name, false, $if_null, $pid);
     }
 }
 

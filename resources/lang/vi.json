@@ -293,7 +293,7 @@
     "Our token sales has been finished. Thank you very much for your contribution.": "Our token sales has been finished. Thank you very much for your contribution.",
     "View Transaction": "View Transaction",
     "Types": "Types",
-    "Type": "Type",
+    "Type": "Loại",
     "Purchased": "Purchased",
     "User Name": "Họ và Tên",
     "Note:": "Note:",
@@ -330,7 +330,7 @@
     "Browser": "Trình duyệt",
     "IP": "IP",
     "Transactions list": "Transactions list",
-    "Amount": "Amount",
+    "Amount": "Giá tiền",
     "From": "From",
     "To": "To",
     "Pay": "Pay",
@@ -628,5 +628,12 @@
     "Refer Bonus": "Thưởng đăng ký",
     "Current Point": "Điểm hiện tại",
     "Ref Phone": "Số điện thoại người bảo trợ (nếu có)",
-    "Sales": "Doanh số"
+    "Sales": "Doanh số",
+    "Product Type": "Loại sản phẩm",
+    "Tranx ID": "Mã giao dịch",
+    "Quantity": "Số lượng",
+    "Approve": "Xác nhận",
+    "Reject": "Từ chối",
+    "Refund": "Hoàn trả",
+    "Name": "Tên"
 }

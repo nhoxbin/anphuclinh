@@ -93,7 +93,9 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
     Route::get('/account/activity', 'UserController@account_activity')->name('account.activity');
     Route::get('/contribute', 'TokenController@index')->name('token');
     Route::get('/contribute/cancel/{gateway?}', 'TokenController@payment_cancel')->name('payment.cancel');
+
     Route::get('/transactions', 'TransactionController@index')->name('transactions');
+
     Route::get('/kyc', 'KycController@index')->name('kyc');
     Route::get('/kyc/application', 'KycController@application')->name('kyc.application');
     Route::get('/kyc/application/view', 'KycController@view')->name('kyc.application.view');
@@ -104,7 +106,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
     // My Token v1.1.2
     // Route::get('/account/balance', 'UserController@mytoken_balance')->name('token.balance');
 
-    Route::get('transactions', 'TransactionController')->name('transactions.index');
+    // Route::get('transactions', 'TransactionController')->name('transactions.index');
     Route::resource('banks', 'BankController')->only('index');
     Route::resource('packages', 'PackageController');
 
@@ -167,6 +169,8 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->g
 
     /* Admin Ajax Route */
     Route::name('ajax.')->prefix('ajax')->group(function () {
+        // Route::post('/transactions/{transaction}/approve', 'TransactionController@approved_tnx')->name('transactions.approved_tnx');
+
         Route::post('/users/view', 'Admin\UsersController@status')->name('users.view');
         Route::post('/users/showinfo', 'Admin\UsersController@show')->name('users.show');
         Route::post('/users/delete/all', 'Admin\UsersController@delete_unverified_user')->name('users.delete');
@@ -186,7 +190,7 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->g
         // Route::post('/stages/settings/update', 'Admin\IcoController@update_settings')->name('stages.settings.update');
         // Route::post('/stages/actions', 'Admin\IcoController@stages_action')->name('stages.actions'); //v1.1.2
         Route::post('/kyc/update', 'Admin\KycController@update')->name('kyc.update');
-        Route::post('/transactions/update', 'Admin\TransactionController@update')->name('transactions.update');
+        Route::post('/transactions/{transaction}/update', 'Admin\TransactionController@update')->name('transactions.update');
 
         Route::post('/transactions/adjust', 'Admin\TransactionController@adjustment')->name('transactions.adjustement');
         Route::post('/settings/email/template/view', 'Admin\EmailSettingController@show_template')->middleware('super_admin')->name('settings.email.template.view');

@@ -1,10 +1,6 @@
 @extends('layouts.auth')
 @section('title', __('Sign up'))
 @section('content')
-
-@php
-$check_users = \App\Models\User::count();
-@endphp
 @if( recaptcha() )
 @push('header')
 <script>
@@ -19,11 +15,6 @@ $check_users = \App\Models\User::count();
         @csrf
         <div id="recaptcha-container"></div>
         @include('layouts.messages')
-        {{-- @if(! is_maintenance() && application_installed(true) && ($check_users == 0) )
-            <div class="alert alert-info-alt">
-                Please register first your Super Admin account with adminstration privilege.
-            </div>
-        @endif --}}
         <div class="tab">
             <div class="input-item">
                 <input type="text" placeholder="{{ __('Số điện thoại') }}" id="phone" class="input-bordered{{ $errors->has('phone') ? ' input-error' : '' }}" name="phone" value="{{ old('phone') }}" minlength="10" data-msg-required="{{ __('Required.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 10]) }}" required>

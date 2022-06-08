@@ -61,11 +61,11 @@
                         @endif
                         @if (Auth::user()->hasRole('super_admin'))
                             <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
-                            <li><a href="{{ route('user.transactions.index') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
                             <li {!! ((is_page('withdraw'))? ' class="active"' : '') !!}>
                                 {{-- <a href="{{ route('withdraw:user.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a> --}}
                             </li>
                         @endif
+                        <li><a href="{{ route('user.transactions') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
                         <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
                         <li><a href="{{ route('user.account') }}"><em class="ikon ikon-user"></em> {{ __('Profile') }}</a></li>
                     </ul>

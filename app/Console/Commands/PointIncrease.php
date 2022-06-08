@@ -12,7 +12,7 @@ class PointIncrease extends Command
      *
      * @var string
      */
-    protected $signature = 'poin:increase';
+    protected $signature = 'point:increase';
 
     /**
      * The console command description.
@@ -39,6 +39,5 @@ class PointIncrease extends Command
     public function handle()
     {
         file_put_contents(PointCalc::getFile(), PointCalc::getPoint('increase'));
-        return 0;
     }
 }

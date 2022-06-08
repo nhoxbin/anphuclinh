@@ -32,7 +32,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     use Notifiable;
 
     protected $fillable = [
-        'name', 'phone', 'email', 'password', 'lastLogin', 'province_code'
+        'name', 'phone', 'email', 'password', 'lastLogin', 'province_code', 'level', 'lv_up'
     ];
 
     protected $hidden = [
@@ -41,6 +41,10 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     protected $appends = [
         'has_combo'
+    ];
+
+    protected $casts = [
+        'lv_up' => 'date'
     ];
 
     public function addPoints($amount, $message, $data = null)
@@ -148,18 +152,56 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             $transaction_ids->push($ref->id);
             $this->refs_sale($ref, $transaction_ids);
         }
-        return $transaction_ids;
     }
 
-    public function getSalesAttribute()
+    public function sales($type = 'combo')
     {
+        $transaction = Transaction::query();
+        // Tổng doanh số
         $transaction_ids = collect([]);
         $transaction_ids->push($this->id);
         $this->refs_sale($this, $transaction_ids);
-        return Transaction::whereIn('payable_id', $transaction_ids)->where('meta->type', '!=', 'package')->where([
-            'type' => 'deposit',
-            'confirmed' => 1,
-        ])->sum('amount');
+
+        $transaction->whereIn('payable_id', $transaction_ids)
+            ->where('meta->type', '!=', 'package')
+            ->where([
+                'type' => 'deposit',
+                'confirmed' => 1,
+            ]);
+
+        $combo_id = Product::where('is_combo', 1)->first()->id;
+        if ($type == 'combo') {
+            $transaction->where('meta->product_id', $combo_id);
+        } elseif ($type == 'reorder') {
+            $transaction->where('meta->product_id', '<>', $combo_id);
+        }
+
+        return $transaction->sum('amount');
+    }
+
+    public function getSalesReachesLvAttribute()
+    {
+        $strong = $weak = 0;
+
+        foreach ($this->refs as $ref) {
+            $amount = $ref->sales();
+
+            if ($strong < $amount) {
+                $strong = $weak = $amount;
+            }
+            if ($weak > $amount && $amount < $strong) {
+                $weak = $amount;
+            }
+        }
+
+        $lv = -1;
+        $levels = Level::all();
+        foreach ($levels as $level) {
+            if ($level->strong > 0 && $strong >= $level->strong && $weak >= $level->strong*50/100) {
+                $lv = $level->lv;
+            }
+        }
+        return $lv;
     }
 
     public function getHasComboAttribute()

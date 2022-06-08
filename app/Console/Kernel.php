@@ -19,7 +19,8 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->everyMinute();
 
-        // $schedule->command('poin:increase')->monthly();
+        $schedule->command('user:payment')->daily();
+        // $schedule->command('point:increase')->monthly();
     }
 
     /**

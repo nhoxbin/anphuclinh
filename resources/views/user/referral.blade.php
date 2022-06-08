@@ -47,7 +47,7 @@
                 <tr class="data-item">
                     <td class="data-col refferal-name">{{ $refer->name }}</td>
                     <td class="data-col refferal-phone">{{ $refer->phone }}</td>
-                    <td class="data-col refferal-sales">{{ number_format($refer->sales) }}<sup>đ</sup></td>
+                    <td class="data-col refferal-sales">{{ number_format($refer->sales()) }}<sup>đ</sup></td>
                 </tr>
                 @foreach ($refer->refs as $key => $ref)
                 @if ($key+1 > 2)
@@ -56,7 +56,7 @@
                 <tr class="data-item">
                     <td class="data-col refferal-name" style="padding-left: 20px;">{{ $ref->name }}</td>
                     <td class="data-col refferal-phone">{{ $ref->phone }}</td>
-                    <td class="data-col refferal-sales">{{ number_format($ref->sales) }}<sup>đ</sup></td>
+                    <td class="data-col refferal-sales">{{ number_format($ref->sales()) }}<sup>đ</sup></td>
                 </tr>
                 @endforeach
                 @empty

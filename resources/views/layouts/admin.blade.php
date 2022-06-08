@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset(style_theme('vendor')) }}">
     <link rel="stylesheet" href="{{ asset(style_theme('admin')) }}">
     @stack('header')
+    @routes
 </head>
 
 <body class="admin-dashboard page-user">
@@ -149,7 +150,7 @@
         'pm_manage_url' => 'admin.ajax.payments.view',
         'get_kyc_url' => 'admin.ajax.kyc.ajax_show',
         'update_kyc_url' => 'admin.ajax.kyc.update',
-        'trnx_action_url' => 'admin.ajax.transactions.update',
+        // 'trnx_action_url' => 'admin.ajax.transactions.update',
         'trnx_adjust_url' => 'admin.ajax.transactions.adjustement',
         'get_et_url' => 'admin.ajax.settings.email.template.view',
         'clear_cache_url' => 'admin.clear.cache',

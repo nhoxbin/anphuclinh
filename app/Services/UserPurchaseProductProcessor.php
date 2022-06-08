@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class UserPurchaseProductProcessor
 {
-    public function handle(User $user, $transaction, Product $product)
+    public function handle(User $user, $transaction, Product $product, $force = 0)
     {
         /* $object = (object) [
             "amount" => 3000000,
@@ -20,12 +20,12 @@ class UserPurchaseProductProcessor
 
         $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
         // $curl->transactions = [$object];
-        if ($curl->status == true) {
+        if ($curl->status == true || $force) {
             $histories = $curl->transactions;
             $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && str_contains(strtolower($h->description), strtolower($transaction->meta['description']))));
 
             try {
-                if (count($history) && $user->confirm($transaction)) {
+                if ((count($history) || $force) && $user->confirm($transaction)) {
                     for ($i=0; $i < $transaction->meta['qty']; $i++) {
                         $user->pay($product);
                     }
@@ -42,8 +42,8 @@ class UserPurchaseProductProcessor
                     }
 
                     // admin tỉnh: x2.2
-                    $provincial_admin = $user->province->users()->whereRelation('roles', 'name', '=', 'provincial_admin')->first();
-                    $provincial_admin->deposit(round($amt*2.2/100), $purchased_data);
+                    $provincial_admin = $user->province->users()->whereRelation('roles', 'name', '=', 'provincial_admin')->get();
+                    $provincial_admin->map(fn($u) => $u->deposit(round($amt*2.2/100), $purchased_data));
 
                     // admin miền: x1.1
                     $area_admin = User::whereRelation('province', 'area', '=', $user->province->area)->whereRelation('roles', 'name', '=', 'area_admin')->first();
@@ -53,6 +53,10 @@ class UserPurchaseProductProcessor
                         $user->addPoints(round($transaction->amount / PointCalc::getPoint('current')), 'Purchase Combo', ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]);
                     } else {
                         $user->addPoints(-$calc['max_point_discount'], 'Purchase product', ['type' => 'purchased', 'transaction_id' => $transaction->id]);
+                    }
+                    if (($user->level = $user->sales_reaches_lv) > 0) {
+                        $user->lv_up = now();
+                        $user->save();
                     }
                 } else {
                     Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);

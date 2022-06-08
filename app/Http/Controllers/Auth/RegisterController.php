@@ -90,7 +90,6 @@ class RegisterController extends Controller
         $data['password'] = Hash::make($data['password']);
         $data['email_verified_at'] = now();
 
-        // has observer
         $user = User::create($data);
         $user->assignRole('member');
 

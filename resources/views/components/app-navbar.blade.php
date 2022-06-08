@@ -8,7 +8,7 @@
                 </a>
             </div>
             <div class="navbar-content-item">
-                <a href="{{ route('user.transactions.index') }}">
+                <a href="{{ route('user.transactions') }}">
                     <i class="flaticon-invoice"></i>
                     Lịch sử
                 </a>
