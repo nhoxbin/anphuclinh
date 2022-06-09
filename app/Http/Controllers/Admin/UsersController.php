@@ -37,10 +37,24 @@ class UsersController extends Controller
     public function index(Request $request, $role = '')
     {
         $role_data  = '';
-        $per_page   = gmvl('user_per_page', 10);
-        $is_page    = (empty($role) ? 'all' : ($role=='member' ? 'investor' : $role));
+        $per_page   = 10;
+        $is_page    = (empty($role) ? 'all' : ($role == 'user' ? 'member' : $role));
+        $order_by   = 'id';
+        $ordered    = 'DESC';
 
-        $users = User::paginate($per_page);
+        if(!empty($role)) {
+            if ($role == 'admin') {
+                $users = User::whereHas('roles', function ($query) {
+                            $query->where('name', 'area_admin');
+                        })->orWhereHas('roles', function ($query) {
+                            $query->where('name', 'provincial_admin');
+                        })->orderBy($order_by, 'ASC')->paginate($per_page);
+            } else {
+                $users = User::whereRelation('roles', 'name', '=', $is_page)->orderBy($order_by, $ordered)->paginate($per_page);
+            }
+        } else {
+            $users = User::orderBy($order_by, $ordered)->paginate($per_page);
+        }
 
         if($request->s){
             $users = User::AdvancedFilter($request)

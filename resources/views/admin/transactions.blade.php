@@ -16,10 +16,11 @@
                     <div class="page-nav-bar justify-content-between bg-lighter">
                         <div class="page-nav w-100 w-lg-auto">
                             <ul class="nav">
-                                <li class="nav-item{{ (is_page('transactions.pending') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'pending') }}">Pending</a></li>
-                                <li class="nav-item {{ (is_page('transactions.approved') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'approved') }}">Approved</a></li>
-                                <li class="nav-item {{ (is_page('transactions.bonuses') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'bonuses') }}">Bonuses</a></li>
-                                <li class="nav-item {{ (is_page('transactions') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions') }}">All</a></li>
+                                <li class="nav-item {{ (is_page('transactions.pending') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'pending') }}">{{ __('Pending') }}</a></li>
+                                <li class="nav-item {{ (is_page('transactions.approved') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'approved') }}">{{ __('Approved') }}</a></li>
+                                <li class="nav-item {{ (is_page('transactions.bonuses') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'bonuses') }}">{{ __('Bonuses') }}</a></li>
+                                <li class="nav-item {{ (is_page('transactions.withdraw') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'withdraw') }}">{{ __('Withdraw') }}</a></li>
+                                <li class="nav-item {{ (is_page('transactions') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions') }}">{{ __('All') }}</a></li>
                             </ul>
                         </div>
                         <div class="search flex-grow-1 pl-lg-4 w-100 w-sm-auto">
@@ -246,25 +247,37 @@
                                 <span class="sub sub-symbol">{{ $trnx->payable->phone }}</span>
                             </td>
                             <td class="data-col dt-product-type">
-                                @php
-                                $type = null;
-                                if ($trnx->meta['type'] == 'purchase') {
-                                    if (isset($trnx->meta['product_id'])) {
-                                        $type = App\Models\Product::find($trnx->meta['product_id']);
-                                    } elseif (isset($trnx->meta['package_id'])) {
-                                        $type = App\Models\Package::find($trnx->meta['package_id']);
+                                @if ($trnx->type == 'withdraw')
+                                    @php
+                                        $type = App\Models\UserBank::find($trnx->meta['ubank_id']);
+                                    @endphp
+                                    <span class="lead token-amount{{ $text_danger }}">{{ $type->user->name }}</span>
+                                    <span class="sub sub-symbol">{!! 'Bank: ' . $type->bank->name . "<br /> Chủ tk: " . $type->host . ', STK: ' . $type->number . ', Chi nhánh: ' . $type->branch !!}</span>
+                                @else
+                                    @php
+                                    $type = null;
+                                    if ($trnx->meta['type'] == 'purchase') {
+                                        if (isset($trnx->meta['product_id'])) {
+                                            $type = App\Models\Product::find($trnx->meta['product_id']);
+                                        } elseif (isset($trnx->meta['package_id'])) {
+                                            $type = App\Models\Package::find($trnx->meta['package_id']);
+                                        }
+                                    } elseif ($trnx->meta['type'] == 'bonus') {
+                                        $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
+                                        $type = App\Models\Product::find($product_id);
                                     }
-                                } elseif ($trnx->meta['type'] == 'bonus') {
-                                    $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
-                                    $type = App\Models\Product::find($product_id);
-                                }
-                                @endphp
-                                <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
-                                <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] }}</span>
+                                    @endphp
+                                    <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
+                                    @if ($trnx->meta['type'] != 'bonus')
+                                    <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] }}</span>
+                                    @endif
+                                @endif
                             </td>
                             <td class="data-col dt-amount">
                                 <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                <span class="sub sub-symbol">{{ $trnx->meta['type'] == 'bonus' ? 'Hoa hồng' : 'Mua' }}</span>
+                                @if ($trnx->type != 'withdraw')
+                                <span class="sub sub-symbol">{{ isset($trnx->meta['status']) ? __($trnx->meta['status']) : ($trnx->meta['type'] == 'bonus' ? __('Bonus') : __('Purchase')) }}</span>
+                                @endif
                             </td>
                             {{-- <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">
@@ -307,10 +320,14 @@
                                                 <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="rejected" data-tnx_id="{{ $trnx->id }}">
                                                     <em class="fas fa-ban"></em> {{ __('Reject') }}</a></li>
                                             @else
+                                                @if (!isset($trnx->meta['status']))
                                                 <li><a href="javascript:void(0)" class="tnx-action" data-type="refund" data-id="{{ $trnx->id }}">
                                                     <em class="fas fa-reply"></em> {{ __('Refund') }}</a></li>
+                                                @endif
+                                                <li><a href="javascript:void(0)" class="tnx-action" data-type="delete" data-id="{{ $trnx->id }}">
+                                                    <em class="far fa-check-square"></em> {{ __('Delete') }}</a></li>
                                             @endif
-                                            @if($trnx->status == 'pending' || $trnx->status == 'onhold')
+                                            {{-- @if($trnx->status == 'pending' || $trnx->status == 'onhold')
                                                 @if($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual')
                                                 <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
                                                     <em class="far fa-check-square"></em>Approve</a></li>
@@ -325,7 +342,7 @@
                                                 <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
                                                     <em class="far fa-check-square"></em>Approve</a></li>
                                                 @endif
-                                            @endif
+                                            @endif --}}
                                             {{-- @if( !empty($trnx->checked_by) && ($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual'))
                                             <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
                                                 <em class="far fa-check-square"></em>Delete</a></li>
@@ -340,8 +357,8 @@
                 </table>
                 @else
                     <div class="bg-light text-center rounded pdt-5x pdb-5x">
-                        <p><em class="ti ti-server fs-24"></em><br>{{ ($is_page=='all') ? 'No transaction found!' : 'No '.$is_page.' transaction here!' }}</p>
-                        <p><a class="btn btn-primary btn-auto" href="{{ route('admin.transactions') }}">View All Transactions</a></p>
+                        <p><em class="ti ti-server fs-24"></em><br>{{ ($is_page=='all') ? __('No transaction found!') : 'No '.$is_page.' transaction here!' }}</p>
+                        <p><a class="btn btn-primary btn-auto" href="{{ route('admin.transactions') }}">{{ __('View All Transactions') }}</a></p>
                     </div>
                 @endif
 

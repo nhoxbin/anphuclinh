@@ -127,6 +127,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
         Route::post('/account/activity', 'UserController@account_activity_delete')->name('account.activity.delete');
 
         Route::resource('ubanks', 'UserBankController');
+        Route::post('withdraw', 'WithdrawController@store')->name('withdraw');
         // Route::get('user_banks', 'UserBankController@getBanks')->name('banks.get');
         Route::get('price-calculate/{product}/{amount}', 'ProductController@priceCalc')->name('product.calc');
 
@@ -166,6 +167,8 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->g
     Route::get('/export/{table?}/{format?}', 'ExportController@export')->middleware(['super_admin'])->name('export'); // v1.1.0
     Route::get('/languages', 'Admin\LanguageController@index')->name('lang.manage'); // v1.1.3
     Route::get('/languages/translate/{code}', 'Admin\LanguageController@translator')->name('lang.translate'); // v1.1.3
+
+    Route::resource('posts', 'Admin\PostController');
 
     /* Admin Ajax Route */
     Route::name('ajax.')->prefix('ajax')->group(function () {

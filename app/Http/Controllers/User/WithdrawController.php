@@ -9,12 +9,14 @@ class WithdrawController extends Controller
 {
     public function store(Request $request)
     {
-        $user = $request->user();
         try {
-            $user->withdraw($request->amount, null, 0);
+            if ($request->amount == 0) {
+                throw new \Exception('Số tiền phải lớn hơn 0');
+            }
+            $request->user()->withdraw($request->amount, ['type' => 'withdraw', 'ubank_id' => $request->id], 0);
             return response()->success(['title' => 'Thành công!', 'msg' => 'Yêu cầu rút tiền đã được gửi!']);
         } catch (\Exception $e) {
-            return response()->error($e->getMessage());
+            return response()->error(__($e->getMessage()));
         }
     }
 }

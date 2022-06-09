@@ -8,26 +8,29 @@
                 </div>
                 <div class="modal-body">
                     <form id="form-bank" class="form-horizontal">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label text-sm-right">Ngân hàng nhận tiền </label>
+                        <div class="form-group row mb-2">
+                            <label class="col-sm-4 col-form-label text-sm-right">Ngân hàng nhận tiền </label>
                             <div class="col-md-6 col-sm-8">
                                 <select class="form-control" name="bank_id" @change="infoBank($event)">
-                                    <option value="0" class="" selected="selected">Chọn ngân hàng
+                                    <option value="null" selected="selected">Chọn ngân hàng
                                     </option>
                                     <option v-for="ubank in state.ubanks" :key="ubank.id" :value="ubank.id">{{ ubank.alias }}</option>
                                 </select>
 
-                                <span>Chủ tài khoản: <b>{{ state.ubank.host }}</b></span><br />
-                                <span>Số tài khoản: <b>{{ state.ubank.number }}</b></span><br />
-                                <span>Chi Nhánh: <b>{{ state.ubank.branch }}</b></span>
+                                <div v-if="state.ubank.id != null">
+                                    <span>Chủ tài khoản: <b>{{ state.ubank.host }}</b></span><br />
+                                    <span>Số tài khoản: <b>{{ state.ubank.number }}</b></span><br />
+                                    <span>Chi Nhánh: <b>{{ state.ubank.branch }}</b></span><br />
+                                    <span>Số tiền: <b>{{ currency }}</b></span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row mb-2">
-                            <label class="col-sm-4 control-label text-sm-right">Số tiền yêu cầu rút <code>*</code>
+                            <label class="col-sm-4 col-form-label text-sm-right">Số tiền yêu cầu rút <code>*</code>
                             </label>
                             <div class="col-md-6 col-sm-8">
-                                <input type="number" class="form-control" id="wd_money" name="amount"
+                                <input type="number" class="form-control" id="wd_money" v-model="state.amount"
                                     maxlength="10" placeholder="Nhập số tiền yêu cầu rút">
                             </div>
                         </div>
@@ -49,15 +52,22 @@
     </div>
 </template>
 <script setup>
-    import { reactive } from 'vue'
+    import { inject, computed, reactive } from 'vue'
 
+    const swal = inject('$swal')
+    const loading = inject('$loading')
     const state = reactive({
         ubanks: null,
+        amount: 0,
         ubank: {
+            id: null,
             host: '',
             number: '',
             branch: '',
         }
+    })
+    const currency = computed(() => {
+        return new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'vnd'}).format(state.amount);
     })
 
     getUserBanks()
@@ -67,14 +77,26 @@
     }
 
     function infoBank(e) {
+        if (e.target.value == 'null') {
+            state.ubank.id = null;
+            return;
+        }
         const rawObject = JSON.parse(JSON.stringify(state.ubanks));
         var bank = rawObject.filter(bank => bank.id == e.target.value)
         state.ubank = bank[0]
     }
 
     function withdraw() {
-        axios.post(route('user.ajax.withdraw')).then(({data}) => {
-            this.$swal.fire(data.data.title, data.data.msg, data.type)
-        }).catch(({response}) => console.log(response.errors))
+        let loader = loading.show({})
+        axios.post(route('user.ajax.withdraw'), {
+            id: state.ubank.id,
+            amount: state.amount
+        }).then(({data}) => {
+            loader.hide();
+            swal.fire(data.data.title, data.data.msg, data.type)
+        }).catch(({response}) => {
+            loader.hide();
+            swal.fire(response.data.title, response.data.msg, response.data.type)
+        })
     }
 </script>

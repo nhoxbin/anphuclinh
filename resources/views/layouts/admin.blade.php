@@ -71,7 +71,7 @@
                         <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> Dashboard</a></li>
                         @if(gup('tranx')||gup('view_tranx'))
                         <li {!! ((is_page('transactions')||is_page('transactions.pending')||is_page('transactions.approved')||is_page('transactions.bonuses'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('admin.transactions', 'pending') }}"><em class="ikon ikon-transactions"></em> Transactions</a>
+                            <a href="{{ route('admin.transactions', 'pending') }}"><em class="ikon ikon-transactions"></em> {{ __('Transactions') }}</a>
                         </li>
                         @endif
                         @if(has_route('withdraw:admin.index') && gup('withdraw'))
@@ -81,15 +81,16 @@
                         @endif
                         @if(gup('kyc')||gup('view_kyc'))
                         <li {!! ((is_page('kyc-list')||is_page('kyc-list.pending')||is_page('kyc-list.approved')||is_page('kyc-list.missing'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('admin.kycs', 'pending') }}"><em class="ikon ikon-docs"></em> KYC List</a>
+                            <a href="{{ route('admin.kycs', 'pending') }}"><em class="ikon ikon-docs"></em> {{ __('KYC List') }}</a>
                         </li>
                         @endif
                         @if(gup('user')||gup('view_user'))
                         <li {!! ((is_page('users')||is_page('users.user')||is_page('users.admin'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('admin.users', 'user') }}"><em class="ikon ikon-user-list"></em> Users List</a>
+                            <a href="{{ route('admin.users', 'user') }}"><em class="ikon ikon-user-list"></em> {{ __('Users List') }}</a>
                         </li>
                         @endif
                         <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
+                        <li><a href="{{ route('admin.posts.index') }}"><em class="ikon ikon-user"></em> {{ __('Posts') }}</a></li>
                         @if(gup('setting'))
                         <li class="has-dropdown"><a class="drop-toggle" href="javascript:void(0)"><em class="ikon ikon-settings"></em> Settings</a>
                             <ul class="navbar-dropdown">

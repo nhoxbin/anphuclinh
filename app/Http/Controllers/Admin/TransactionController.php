@@ -30,14 +30,6 @@ use Bavix\Wallet\Models\Transaction;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     * @version 1.1
-     * @since 1.0
-     * @return void
-     */
     public function index(Request $request, $status = '')
     {
         $per_page = 20;
@@ -51,9 +43,11 @@ class TransactionController extends Controller
             $trnxs = Transaction::where(['type' => 'deposit', 'confirmed' => 1, 'meta->type' => 'bonus'])->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status == 'approved') {
             // $trnxs = Transaction::whereNotIn('tnx_type', ['withdraw', 'bonus', 'referral'])->where('status', $status)->orderBy($order_by, $ordered)->paginate($per_page);
-            $trnxs = Transaction::with('payable')->where(['type' => 'deposit', 'confirmed' => 1, 'meta->type' => 'purchase'])->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs = Transaction::with('payable')->where('confirmed', 1)->whereIn('type', ['deposit', 'withdraw'])->whereIn('meta->type', ['purchase', 'withdraw'])->orderBy($order_by, $ordered)->paginate($per_page);
         }  elseif ($status == 'pending') {
             $trnxs = Transaction::where(['type' => 'deposit', 'confirmed' => 0, 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
+        } elseif ($status == 'withdraw') {
+            $trnxs = Transaction::where(['type' => 'withdraw', 'confirmed' => 0])->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status != null) {
             // $trnxs = Transaction::whereNotIn('tnx_type', ['withdraw'])->where('status', $status)->orderBy($order_by, $ordered)->paginate($per_page);
             $trnxs = Transaction::where(['type' => 'deposit', 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
@@ -80,15 +74,6 @@ class TransactionController extends Controller
         return view('admin.transactions', compact('trnxs', 'users', 'is_page', 'pagi'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param string $trnx_id
-     * @return \Illuminate\Http\Response
-     * @throws \Throwable
-     * @version 1.0.0
-     * @since 1.0
-     */
     public function show($trnx_id = '')
     {
         if ($trnx_id == '') {
@@ -99,14 +84,6 @@ class TransactionController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     * @version 1.1.0
-     * @since 1.0
-     */
     public function update(Request $request, Transaction $transaction)
     {
         $ret['msg'] = 'info';
@@ -118,22 +95,26 @@ class TransactionController extends Controller
                 $ret['message'] = __('messages.trnx.admin.already_approved');
             } else {
                 if ($request->status == 'approved') {
-                    $ret = $this->approved_tnx($transaction);
+                    if ($transaction->type == 'withdraw') {
+                        if ($transaction->payable->wallet->confirm($transaction)) {
+                            $ret['msg'] = 'success';
+                            $ret['message'] = __('messages.trnx.admin.approved');
+                        } else {
+                            $ret['msg'] = 'error';
+                            $ret['message'] = __('Not Confirmed');
+                        }
+                    } else {
+                        // deposit
+                        $ret = $this->approved_tnx($transaction);
+                    }
                 } elseif ($request->status == 'rejected') {
-                    $ret = $this->rejected_tnx($request, $transaction);
+                    $ret = $this->rejected_tnx($transaction);
                 }
             }
+        } elseif ($request->req_type == 'delete') {
+            $ret = $this->deleted_tnx($transaction);
         } else {
-            $refund = $this->refund($transaction, $request->message);
-            if ($refund) {
-                $ret['refund'] = $refund;
-                $ret['msg'] = 'success';
-                $ret['reload'] = true;
-                $ret['message'] = __('Refund Successful!');
-            } else {
-                $ret['msg'] = 'warning';
-                $ret['message'] = __('Already Refunded!');
-            }
+            $ret = $this->refund($transaction, $request->message);
         }
 
         $ret['data'] = $transaction;
@@ -143,12 +124,6 @@ class TransactionController extends Controller
         return back()->with([$ret['msg'] => $ret['message']]);
     }
 
-    /**
-     * Cancel the Transaction by Admin
-     *
-     * @version 1.0.0
-     * @since 1.1.4
-     */
     private function canceled_tnx($request, $trnx)
     {
         $ret['msg'] = 'warning';
@@ -181,12 +156,6 @@ class TransactionController extends Controller
         return $ret;
     }
 
-    /**
-     * Approve the Transaction by Admin
-     *
-     * @version 1.0.0
-     * @since 1.1.4
-     */
     private function approved_tnx(Transaction $transaction)
     {
         try {
@@ -211,30 +180,29 @@ class TransactionController extends Controller
         return $ret;
     }
 
-    public function rejected_tnx(Request $request, Transaction $transaction)
+    private function rejected_tnx(Transaction $transaction)
     {
-        $ret['msg'] = 'warning';
-            $ret['message'] = __('Rejected');
+        $transaction->amount = 0;
+        $transaction->save();
+        return [
+            'msg' => 'warning',
+            'reload' => true,
+            'message' => __('Successfully Rejected'),
+        ];
     }
 
-    /**
-     * Delete the Transaction by Admin
-     *
-     * @version 1.0.0
-     * @since 1.1.4
-     */
     private function deleted_tnx($trnx)
     {
         $ret['msg'] = 'warning';
         $ret['message'] = __('Unable to delete the transaction, reload the page.');
 
         if ($trnx) {
-            if($trnx->status == 'deleted' || $trnx->status == 'approved') {
+            if ($trnx->confirmed) {
                 $ret['msg'] = 'info';
                 $ret['message'] = ($trnx->status == 'approved') ? __('messages.trnx.admin.already_approved') : __('messages.trnx.admin.already_deleted');
                 return $ret;
             }
-            if($trnx->status == 'canceled') {
+            /* if ($trnx->status == 'canceled') {
                 $trnx->status = 'deleted';
                 $trnx->checked_by = json_encode(['name' => Auth::user()->name, 'id' => Auth::id()]);
                 $trnx->checked_time = date('Y-m-d H:i:s');
@@ -244,46 +212,24 @@ class TransactionController extends Controller
             } else {
                 $ret['msg'] = 'info';
                 $ret['message'] = __('Cancel the transaction first.');
-            }
+            } */
         }
         return $ret;
     }
 
-    /**
-     * Create Refund Transaction by Admin
-     *
-     * @version 1.0.0
-     * @since 1.1.2
-     */
     protected function refund(Transaction $transaction, $message = '')
     {
-        if(empty($transaction->refund)){
-            $refund = new Transaction();
-            $refund->fill($transaction->only([
-                'tnx_id', 'tnx_type', 'tnx_time', 'tokens', 'bonus_on_base', 'bonus_on_token', 'total_bonus', 'total_tokens', 'stage', 'user', 'amount', 'receive_amount', 'receive_currency', 'base_amount', 'base_currency', 'base_currency_rate', 'currency', 'currency_rate', 'all_currency_rate', 'wallet_address', 'payment_method', 'payment_id', 'payment_to', 'checked_by', 'added_by', 'checked_time', 'status', 'dist'
-            ]))->save();
-            IcoStage::token_add_to_account($transaction, 'sub');
-            IcoStage::token_add_to_account($transaction, null, 'sub');
-            $refund->fill([
-                'tnx_id' => set_id($refund->id, 'refund'),
-                'tnx_type' => 'refund',
-                'tnx_time'=> now()->toDateTimeString(),
-                'total_tokens' => (- $transaction->total_tokens),
-                'amount' => (- $transaction->amount),
-                'receive_amount' => (- $transaction->receive_amount),
-                'base_amount' => (- $transaction->base_amount),
-                'checked_by' => json_encode(['name' => Auth::user()->name, 'id' => Auth::id()]),
-                'added_by' => set_added_by(Auth::id(), Auth::user()->role),
-                'details' => 'Refund for #'.$transaction->tnx_id,
-                'extra' => json_encode(['trnx' => $transaction->id, 'message' => $message])
-            ])->save();
-            $transaction->refund = $refund->id;
-            $transaction->save();
-            $this->refund_email($refund, $transaction);
-            return $refund;
-        }else{
-            return false;
+        $product = Product::find($transaction->meta['product_id']);
+        $ret['msg'] = 'warning';
+        if (!$product->is_combo) {
+            $ret['message'] = 'Only refund combo';
+        } elseif (isset($transaction->meta['status']) && $transaction->meta['status'] == 'refunded') {
+            $ret['message'] = 'Giao dịch này đã được hoàn tiền!';
+        } else {
+            $ret = (new UserPurchaseProductProcessor)->refund($transaction->payable, $transaction, $product, $message);
         }
+        $ret['reload'] = true;
+        return $ret;
     }
 
     /**

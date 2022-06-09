@@ -4,8 +4,10 @@ namespace App\Services;
 
 use Curl;
 use App\Helpers\PointCalc;
+use App\Models\PointTransaction;
 use App\Models\Product;
 use App\Models\User;
+use Bavix\Wallet\Models\Transaction;
 use Illuminate\Support\Facades\Log;
 
 class UserPurchaseProductProcessor
@@ -22,7 +24,7 @@ class UserPurchaseProductProcessor
         // $curl->transactions = [$object];
         if ($curl->status == true || $force) {
             $histories = $curl->transactions;
-            $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && str_contains(strtolower($h->description), strtolower($transaction->meta['description']))));
+            $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
 
             try {
                 if ((count($history) || $force) && $user->confirm($transaction)) {
@@ -34,11 +36,11 @@ class UserPurchaseProductProcessor
                     $calc = PointCalc::getPrice($user, $product, $transaction->meta['qty']);
                     $amt = $calc['price'];
                     // tầng 1: 10%
-                    $user->ref_by()->first()->deposit(round($amt*10/100), $purchased_data);
+                    $user->ref_by->deposit(round($amt*10/100), $purchased_data);
 
                     // tầng 2: 20%
                     if ($user->ref_by->ref_by) {
-                        $user->ref_by->ref_by()->first()->deposit(round($amt*20/100), $purchased_data);
+                        $user->ref_by->ref_by->deposit(round($amt*20/100), $purchased_data);
                     }
 
                     // admin tỉnh: x2.2
@@ -50,9 +52,9 @@ class UserPurchaseProductProcessor
                     $area_admin->deposit(round($amt*1.1/100), $purchased_data);
 
                     if ($product->is_combo) {
-                        $user->addPoints(round($transaction->amount / PointCalc::getPoint('current')), 'Purchase Combo', ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]);
+                        $user->addPoints(round($transaction->amount / PointCalc::getPoint('current')), 'Purchase Combo', ['meta' => ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]]);
                     } else {
-                        $user->addPoints(-$calc['max_point_discount'], 'Purchase product', ['type' => 'purchased', 'transaction_id' => $transaction->id]);
+                        $user->addPoints(-$calc['max_point_discount'], 'Purchase product', ['meta' => ['type' => 'purchased', 'transaction_id' => $transaction->id]]);
                     }
                     if (($user->level = $user->sales_reaches_lv) > 0) {
                         $user->lv_up = now();
@@ -75,9 +77,49 @@ class UserPurchaseProductProcessor
         }
     }
 
-    public function refund(User $user, $transaction, Product $product)
+    public function reject($transaction)
     {
-        $user->addPoints(-round($transaction->amount / PointCalc::getPoint('current')), 'Refund Combo', ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]);
+        $transaction->amount = 0;
+        $transaction->save();
+    }
 
+    public function refund(User $user, $transaction, Product $product, $message)
+    {
+        try {
+            // trừ điểm
+            if (isset($transaction->meta['rate'])) {
+                $rate = $transaction->meta['rate'];
+            } else {
+                $rate = PointCalc::getPoint('current');
+            }
+            $point = round($transaction->amount / $rate);
+            if ($point > $user->currentPoints()) {
+                throw new \Exception("Số điểm hiện tại không đủ để hoàn tiền!");
+            }
+            $user->addPoints(-$point, 'Refund Transaction');
+
+            // refund
+            $qty = $transaction->meta['qty'];
+            for ($i=0; $i < $qty; $i++) {
+                $user->refund($product);
+            }
+            // thêm trạng thái refunded
+            $meta = $transaction->meta;
+            $meta['status'] = 'refunded';
+            $meta['message'] = $message;
+            $transaction->meta = $meta;
+            $transaction->save();
+
+            // trừ hoa hồng (bonus)
+            $sales = Transaction::where('meta->transaction_id', $transaction->id)->get();
+            $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, ['type' => 'refund', 'transaction_id' => $transaction->id]));
+
+            $ret['msg'] = 'success';
+            $ret['message'] = __('Successfully Refunded');
+        } catch (\Exception $e) {
+            $ret['msg'] = 'error';
+            $ret['message'] = $e->getMessage();
+        }
+        return $ret;
     }
 }

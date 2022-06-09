@@ -319,7 +319,7 @@
         swal({
             title: "Bạn chắc chứ?",
             icon: "rejected" == t ? "warning" : "info",
-            text: "rejected" == t ? "The requested token amount will re-adjust into sender account balance once rejected." : "Công thức sẽ được chạy khi xác nhận giao dịch này.",
+            text: "rejected" == t ? "Bạn chưa nhận được thanh toán và muốn từ chối giao dịch?" : "Công thức sẽ được chạy khi xác nhận giao dịch này.",
             buttons: {
                 cancel: {
                     text: "Hủy",

@@ -24,6 +24,7 @@ class PurchaseController extends Controller
 
         $meta = $transaction->meta;
         $validated['description'] = 'apl' . $transaction->id;
+        $validated['rate'] = PointCalc::getPoint('current');
         $transaction->update([
             'amount' => PointCalc::getPrice($user, $product, $validated['qty'])['price'],
             'meta' => array_merge($meta, $validated)
