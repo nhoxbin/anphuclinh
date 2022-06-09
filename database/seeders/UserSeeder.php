@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -20,6 +19,8 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name' => 'Super Admin',
             'email' => 'super_admin@gmail.com',
+            'phone' => '0922621888',
+            'level' => '8',
             'email_verified_at' => now(),
             'password' => bcrypt('apl@super_admin#123'),
             'remember_token' => Str::random(10)

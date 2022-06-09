@@ -772,14 +772,6 @@ if (!function_exists('get_gmeta')) {
     }
 }
 
-/* @function get_gmeta_value() -GlobalMeta  @version v1.0  @since 1.1.0 */
-if (!function_exists('get_gmeta_value')) {
-    function get_gmeta_value($name, $if_null = null, $pid = null)
-    {
-        return get_gmeta($name, false, $if_null, $pid);
-    }
-}
-
 /* @function get_gmeta_extra() -GlobalMeta  @version v1.0  @since 1.1.0 */
 if (!function_exists('get_gmeta_extra')) {
     function get_gmeta_extra($name, $if_null = null, $pid = null)
@@ -792,7 +784,7 @@ if (!function_exists('get_gmeta_extra')) {
 if (!function_exists('gmvl') && function_exists('get_gmeta_value')) {
     function gmvl($name, $if_null = null, $pid = null)
     {
-        return get_gmeta_value($name, $if_null, $pid);
+        return get_gmeta($name, false, $if_null, $pid);
     }
 }
 
@@ -1750,11 +1742,9 @@ if (!function_exists('referral_name')) {
 
 /* @function get_refer_id  @version v1.0.1  @since 1.1.0 */
 if (!function_exists('get_refer_id')) {
-    function get_refer_id($prefix = true)
+    function get_refer_id()
     {
-        $ref_by = (empty(request()->cookie('ico_nio_ref_by')) ? null : request()->cookie('ico_nio_ref_by'));
-        $usr_id = ($ref_by) ? set_id($ref_by) : '';
-        return ($prefix == true) ? $usr_id : ($ref_by ?? '');
+        return (empty(request()->cookie('apl_ref_by')) ? null : request()->cookie('apl_ref_by'));
     }
 }
 
@@ -2087,8 +2077,8 @@ if (!function_exists('auto_p')) {
         $pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee);
         if ($br) {
             $pee = str_replace(array('<br>', '<br />'), '<br />', $pee);
-            $pee = preg_replace('|(?
-                                <!<br />)\s*\n|', "<br />\n", $pee);
+            /* $pee = preg_replace('|(?
+                                <!<br />)\s*\n|', "<br />\n", $pee); */
         }
 
         $pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*<br />!', "$1", $pee);

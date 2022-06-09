@@ -20,9 +20,9 @@
                 value="{{ old('email') }}" required autofocus>
         </div>
         <div class="input-item">
-            <input type="password" placeholder="{{ __('Mật khẩu') }}" minlength="6"
+            <input type="password" placeholder="{{ __('Mật khẩu') }}" minlength="5"
                 data-msg-required="{{ __('Required.') }}"
-                data-msg-minlength="{{ __('At least :num chars.', ['num' => 6]) }}"
+                data-msg-minlength="{{ __('At least :num chars.', ['num' => 5]) }}"
                 class="input-bordered{{ $errors->has('password') ? ' input-error' : '' }}" name="password" required>
         </div>
         @if(! is_maintenance())
@@ -30,10 +30,10 @@
             <div class="input-item text-left">
                 <input class="input-checkbox input-checkbox-md" type="checkbox" name="remember" id="remember-me"
                     {{ old('remember') ? 'checked' : '' }}>
-                <label for="remember-me">{{ __('Ghi nhớ') }}</label>
+                <label for="remember-me">{{ __('Remember Me') }}</label>
             </div>
             <div>
-                <a href="{{ route('password.request') }}">{{ __('Quên mật khẩu?')}}</a>
+                <a href="{{ route('password.request') }}">{{ __('Forgot password?')}}</a>
                 <div class="gaps-2x"></div>
             </div>
         </div>
@@ -41,7 +41,7 @@
         @if( recaptcha() )
             <input type="hidden" name="recaptcha" id="recaptcha">
         @endif
-        <button type="submit" class="btn btn-primary btn-block">{{__('Đăng nhập')}}</button>
+        <button type="submit" class="btn btn-primary btn-block">{{__('Sign in')}}</button>
     </form>
     @if(! is_maintenance())
     @if(Schema::hasTable('settings'))

@@ -9,12 +9,8 @@ class Bank extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'host',
-        'number',
-        'branch',
-    ];
+    protected $fillable = ['name'];
+    public $timestamps = false;
 
     public function user()
     {

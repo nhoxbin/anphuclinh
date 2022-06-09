@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        $this->mapPayModuleRoutes();
+        // $this->mapPayModuleRoutes();
 
         // $this->mapNioModuleRoutes();  @v1.1.2
     }

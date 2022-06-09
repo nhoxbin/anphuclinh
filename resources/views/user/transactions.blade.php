@@ -65,11 +65,9 @@
         <table class="data-table dt-filter-init user-tnx">
             <thead>
                 <tr class="data-item data-head">
-                    <th class="data-col tnx-status dt-tnxno">{{ __('Tranx NO') }}</th>
-                    <th class="data-col dt-token">{{ __('Tokens') }}</th>
+                    <th class="data-col tnx-status dt-tnxno">{{ __('Tranx ID') }}</th>
+                    <th class="data-col dt-product">{{ __('Product Type') }}</th>
                     <th class="data-col dt-amount">{{ __('Amount') }}</th>
-                    <th class="data-col dt-base-amount">{{ base_currency(true) }} {{ __('Amount') }}</th>
-                    <th class="data-col dt-account">{{ __('To') }}</th>
                     <th class="data-col dt-type tnx-type"><div class="dt-type-text">{{ __('Type') }}</div></th>
                     <th class="data-col"></th>
                 </tr>
@@ -82,36 +80,49 @@
                 <tr class="data-item tnx-item-{{ $trnx->id }}">
                     <td class="data-col dt-tnxno">
                         <div class="d-flex align-items-center">
-                            <div class="data-state data-state-{{ str_replace(['progress','canceled'], ['pending','canceled'], __status($trnx->status, 'icon')) }}">
-                                <span class="d-none">{{ ($trnx->status=='onhold') ? ucfirst('pending') : ucfirst($trnx->status) }}</span>
+                            <div class="data-state data-state-{{ __status((!$trnx->confirmed ? 'pending' : 'approved'), 'icon') }}">
+                                <span class="d-none">{{ (!$trnx->confirmed ? ucfirst('pending') : ucfirst('Approved') ) }}</span>
                             </div>
                             <div class="fake-class">
-                                <span class="lead tnx-id">{{ $trnx->tnx_id }}</span>
-                                <span class="sub sub-date">{{_date($trnx->tnx_time)}}</span>
+                                <span class="lead tnx-id">{{ $trnx->id }}</span>
+                                <span class="sub sub-date">{{ _date($trnx->created_at) }}</span>
                             </div>
                         </div>
                     </td>
                     <td class="data-col dt-token">
-                        <span class="lead token-amount{{ $text_danger }}">{{ (str_starts_with($trnx->total_tokens, '-') ? '' : '+').$trnx->total_tokens }}</span>
-                        <span class="sub sub-symbol">{{ token_symbol() }}</span>
+                        @php
+                        $type = null;
+                        if ($trnx->meta['type'] == 'purchase') {
+                            if (isset($trnx->meta['product_id'])) {
+                                $type = App\Models\Product::find($trnx->meta['product_id']);
+                            } elseif (isset($trnx->meta['package_id'])) {
+                                $type = App\Models\Package::find($trnx->meta['package_id']);
+                            }
+                        } elseif ($trnx->meta['type'] == 'bonus') {
+                            $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
+                            $type = App\Models\Product::find($product_id);
+                        }
+                        @endphp
+                        <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
+                        <span class="sub sub-symbol">{{ $trnx->meta['type'] == 'bonus' ? 'Hoa hồng' : 'Mua' }}</span>
                     </td>
                     <td class="data-col dt-amount{{ $text_danger }}">
-                        @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
+                        {{-- @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
                             <span class="lead amount-pay">{{ '~' }}</span>
-                        @else
-                        <span class="lead amount-pay{{ $text_danger }}">{{ to_num($trnx->amount, 'max') }}</span>
-                        <span class="sub sub-symbol">{{ strtoupper($trnx->currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->currency_rate, 'max').' '.strtoupper($trnx->currency) }}"></em></span>
-                        @endif
+                        @else --}}
+                        <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
+                        {{-- <span class="sub sub-symbol">{{ strtoupper($trnx->currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->currency_rate, 'max').' '.strtoupper($trnx->currency) }}"></em></span> --}}
+                        {{-- @endif --}}
                     </td>
-                    <td class="data-col dt-usd-amount">
-                        @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
+                    {{-- <td class="data-col dt-usd-amount">
+                        @if ($trnx->meta['type'] == 'bonus')
                             <span class="lead amount-pay">{{ '~' }}</span>
                         @else
                         <span class="lead amount-pay{{ $text_danger }}">{{ to_num($trnx->base_amount, 'auto') }}</span>
                         <span class="sub sub-symbol">{{ base_currency(true) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->base_currency_rate, 'max').' '.base_currency(true) }}"></em></span>
                         @endif
-                    </td>
-                    <td class="data-col dt-account">
+                    </td> --}}
+                    {{-- <td class="data-col dt-account">
                         @php
                         $pay_to = ($trnx->payment_method=='system') ? '~' : ( ($trnx->payment_method=='bank') ? explode(',', $trnx->payment_to) : show_str($trnx->payment_to) );
                         $extra = ($trnx->tnx_type == 'refund') ? (is_json($trnx->extra, true) ?? $trnx->extra) : '';
@@ -129,7 +140,7 @@
                             @endif
                             <span class="sub sub-date">{{ ($trnx->checked_time) ? _date($trnx->checked_time) : _date($trnx->created_at) }}</span>
                         @endif
-                    </td>
+                    </td> --}}
                     <td class="data-col dt-type">
                         <span class="dt-type-md badge badge-outline badge-md badge-{{ __(__status($trnx->tnx_type,'status')) }}">{{ ucfirst($trnx->tnx_type) }}</span>
                         <span class="dt-type-sm badge badge-sq badge-outline badge-md badge-{{ __(__status($trnx->tnx_type, 'status')) }}">{{ ucfirst(substr($trnx->tnx_type, 0,1)) }}</span>

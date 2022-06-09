@@ -56,24 +56,26 @@
             <div class="container">
                 <div class="navbar-innr">
                     <ul class="navbar-menu" id="main-nav">
-                        <li><a href="{{ route('user.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
-                        <li><a href="{{ route('user.token') }}"><em class="ikon ikon-coins"></em> {{__('Buy Token')}}</a></li>
-                        @if(get_page('distribution', 'status') == 'active')
-                        <li><a href="{{ route('public.pages', 'distribution') }}"><em class="ikon ikon-distribution"></em> {{ get_page('distribution', 'title') }}</a></li>
+                        @if(gws('main_website_url') != NULL)
+                            <li><a href="{{ gws('main_website_url') }}" target="_blank"><em class="ikon ikon-home-link"></em> {{ __('Main Site') }}</a></li>
+                        @endif
+                        @if (Auth::user()->hasRole('super_admin'))
+                            <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
+                            <li {!! Route::is('admin.withdrawals.*') ? ' class="active"' : '' !!}>
+                                <a href="{{ route('admin.withdrawals.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
+                            </li>
+                            <li {!! Route::is('admin.kycs') ? ' class="active"' : '' !!}>
+                            <a href="{{ route('admin.kycs', 'pending') }}"><em class="ikon ikon-docs"></em> {{ __('KYC List') }}</a>
+                        </li>
+                        <li {!! ((is_page('users')||is_page('users.user')||is_page('users.admin'))? ' class="active"' : '') !!}>
+                            <a href="{{ route('admin.users', 'user') }}"><em class="ikon ikon-user-list"></em> {{ __('Users List') }}</a>
+                        </li>
+                        <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
+                        <li><a href="{{ route('admin.posts.index') }}"><em class="ikon ikon-user"></em> {{ __('Posts') }}</a></li>
                         @endif
                         <li><a href="{{ route('user.transactions') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
-                        {{-- @if(nio_module()->has('Withdraw') && has_route('withdraw:user.index'))
-                        <li{!! ((is_page('withdraw'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('withdraw:user.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
-                        </li>
-                        @endif --}}
-                        <li><a href="{{ route('user.account') }}"><em class="ikon ikon-user"></em> {{__('Profile')}}</a></li>
-                        @if(gws('user_mytoken_page') == 1)
-                        <li><a href="{{ route('user.token.balance') }}"><em class="ikon ikon-my-token"></em> {{ __('My Token') }}</a></li>
-                        @endif
-                        @if(gws('main_website_url') != NULL)
-                        <li><a href="{{gws('main_website_url')}}" target="_blank"><em class="ikon ikon-home-link"></em> {{__('Main Site')}}</a></li>
-                        @endif
+                        <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
+                        <li><a href="{{ route('user.account') }}"><em class="ikon ikon-user"></em> {{ __('Profile') }}</a></li>
                     </ul>
                     @if(!is_kyc_hide())
                     <ul class="navbar-btns">
@@ -106,7 +108,7 @@
                         {!! UserPanel::add_wallet_alert() !!}
                     </div>
                     @endif
-                    @include('components.menu')
+                    @include('components.menu', ['user' => Auth::user()])
                     @yield('content')
                 </div>
 

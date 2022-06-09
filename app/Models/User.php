@@ -1,60 +1,56 @@
 <?php
 
-/** @noinspection ALL */
-
-/**
- * User Model
- *
- * The User Model
- *
- * @package TokenLite
- * @author Softnio
- * @version 1.0
- */
-
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Models\KYC;
 use App\Models\Setting;
-use Illuminate\Http\Request;
 use App\Notifications\ResetPassword;
+use Bavix\Wallet\{
+    Traits\CanPay,
+    Traits\CanConfirm,
+    Interfaces\Customer,
+    Interfaces\Confirmable,
+    Models\Transaction
+};
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
+use Outhebox\Pointable\Contracts\Pointable;
+use Outhebox\Pointable\Traits\Pointable as PointableTrait;
 
-/**
- * @property mixed walletAddress
- */
-class User extends Authenticatable // implements MustVerifyEmail
+class User extends Authenticatable implements Customer, Confirmable, Pointable // implements MustVerifyEmail
 {
+    use CanPay, PointableTrait {
+        CanPay::transactions insteadof PointableTrait;
+        PointableTrait::transactions as point_transactions;
+    }
+    use CanConfirm;
     use HasRoles;
     use Notifiable;
 
-    /*
-     * Table Name Specified
-     */
-    protected $table = 'users';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'phone', 'email', 'password', 'lastLogin', 'role', 'point', 'province_code'
+        'name', 'phone', 'email', 'password', 'lastLogin', 'province_code', 'level', 'lv_up'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    protected $appends = [
+        'has_combo'
+    ];
+
+    protected $casts = [
+        'lv_up' => 'date'
+    ];
+
+    public function addPoints($amount, $message, $data = null)
+    {
+        return (new PointTransaction())->addTransaction($this, $amount, $message, $data = null);
+    }
 
     /**
      * Send the password reset notification.
@@ -119,19 +115,103 @@ class User extends Authenticatable // implements MustVerifyEmail
         return $this->belongsTo('App\Models\Activity', 'id', 'user_id');
     }
 
-    public function ref()
+    public function ref_by()
     {
-        return $this->hasMany('App\Models\Referral', 'user_id');
+        return $this->hasOneThrough(self::class, 'App\Models\Referral', 'user_id', 'id', 'id', 'refer_by');
     }
 
     public function refs()
     {
-        return $this->hasMany('App\Models\Referral', 'refer_by_id');
+        return $this->hasManyThrough(self::class, 'App\Models\Referral', 'refer_by', 'id', 'id', 'user_id')
+            ->with('refs', 'transactions');
     }
 
-	public function banks()
+    public function lv()
     {
-        return $this->hasMany('App\Models\Bank');
+        return $this->belongsTo('App\Models\Level', 'level', 'lv');
+    }
+
+    public function banks()
+    {
+        return $this->hasMany('App\Models\UserBank', 'user_id');
+    }
+
+    public function province()
+    {
+        return $this->belongsTo('App\Models\Province', 'province_code', 'code');
+    }
+
+    public function getCurrentLevelAttribute()
+    {
+        return ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
+    }
+
+    public function refs_sale($user, &$transaction_ids)
+    {
+        foreach ($user->refs as $ref) {
+            $transaction_ids->push($ref->id);
+            $this->refs_sale($ref, $transaction_ids);
+        }
+    }
+
+    public function sales($type = 'combo')
+    {
+        $transaction = Transaction::query();
+        // Tổng doanh số
+        $transaction_ids = collect([]);
+        $transaction_ids->push($this->id);
+        $this->refs_sale($this, $transaction_ids);
+
+        $transaction->whereIn('payable_id', $transaction_ids)
+            ->where('meta->type', '!=', 'package')
+            ->where([
+                'type' => 'deposit',
+                'confirmed' => 1,
+            ]);
+
+        $combo_id = Product::where('is_combo', 1)->first()->id;
+        if ($type == 'combo') {
+            $transaction->where('meta->product_id', $combo_id);
+        } elseif ($type == 'reorder') {
+            $transaction->where('meta->product_id', '<>', $combo_id);
+        }
+
+        return $transaction->sum('amount');
+    }
+
+    public function getSalesReachesLvAttribute()
+    {
+        $strong = $weak = 0;
+
+        foreach ($this->refs as $ref) {
+            $amount = $ref->sales();
+
+            if ($strong < $amount) {
+                $strong = $weak = $amount;
+            }
+            if ($weak > $amount && $amount < $strong) {
+                $weak = $amount;
+            }
+        }
+
+        $lv = -1;
+        $levels = Level::all();
+        foreach ($levels as $level) {
+            if ($level->strong > 0 && $strong >= $level->strong && $weak >= $level->strong*50/100) {
+                $lv = $level->lv;
+            }
+        }
+        return $lv;
+    }
+
+    public function getHasComboAttribute()
+    {
+        return $this->transactions()->where([
+            'type' => 'deposit',
+            'confirmed' => 1,
+            'meta->type' => 'purchase',
+            'meta->product_id' => Product::where('is_combo', 1)->first()->id
+        ])->exists();
     }
 
     /**
@@ -157,8 +237,7 @@ class User extends Authenticatable // implements MustVerifyEmail
     public static function AdvancedFilter(Request $request)
     {
         if ($request->s) {
-            $users = User::whereNotIn('status', ['deleted'])->where('role', 'user')
-                ->where(function ($q) use ($request) {
+            $users = User::where(function ($q) use ($request) {
                     $id_num = (int)(str_replace(config('icoapp.user_prefix'), '', $request->s));
                     $q->orWhere('id', $id_num)->orWhere('email', 'like', '%' . $request->s . '%')->orWhere('name', 'like', '%' . $request->s . '%');
                 });
@@ -276,7 +355,7 @@ class User extends Authenticatable // implements MustVerifyEmail
      * @since 1.0
      * @return string
      */
-    public function wallet($output = 'status')
+    /* public function wallet($output = 'status')
     {
         $wrc = GlobalMeta::where(['pid' => $this->id, 'name' => 'user_wallet_address_change_request'])->first();
         $return = false;
@@ -286,7 +365,7 @@ class User extends Authenticatable // implements MustVerifyEmail
         $return = ($output == 'current') ? $this->walletAddress : $return;
         $return = ($output == 'new') ? $wrc->data()->address : $return;
         return $return;
-    }
+    } */
 
     /**
      *

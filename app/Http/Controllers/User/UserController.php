@@ -11,6 +11,7 @@ namespace App\Http\Controllers\User;
  * @version 1.0.6
  */
 use Auth;
+use Illuminate\Support\Str;
 use Validator;
 use IcoHandler;
 use Carbon\Carbon;
@@ -20,12 +21,15 @@ use App\Models\IcoStage;
 use App\Models\UserMeta;
 use App\Models\Activity;
 use App\Helpers\NioModule;
+use App\Helpers\PointCalc;
 use App\Models\GlobalMeta;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use App\Notifications\PasswordChange;
 use App\Http\Controllers\Controller;
+use App\Models\Package;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -46,19 +50,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        /* if( !$this->handler->check_body() && empty(app_key()) ){
-            Auth::logout();
-            return redirect()->route('login')->with([
-                'warning' => $this->handler->accessMessage()
-            ]);
-        } */
-        $user = Auth::user()->refs()->with('user', 'refs.user')->get();
-        // dd($user);
-        // $stage = active_stage();
-        // $contribution = Transaction::user_contribution();
-        // $tc = new \App\Helpers\TokenCalculate();
-        // $active_bonus = $tc->get_current_bonus('active');
-        return view('user.dashboard', compact('user'));
+        $user = auth()->user();
+        $products = Product::all();
+        $packages = Package::all();
+        $current_point = PointCalc::getPoint('current');
+        return view('user.dashboard', compact('user', 'products', 'current_point', 'packages'));
     }
 
 
@@ -407,9 +403,11 @@ class UserController extends Controller
                         $userMeta->email_token = Str::random(65);
                         if ($userMeta->save()) {
                             try {
-                                $user->notify(new PasswordChange($user, $userMeta));
+                                // $user->notify(new PasswordChange($user, $userMeta));
+                                // apl change pwd right away
+                                $this->password_confirm($userMeta->email_token);
                                 $ret['msg'] = 'success';
-                                $ret['message'] = __('messages.password.changed');
+                                $ret['message'] = __('Cập nhật mật khẩu thành công.');
                             } catch (\Exception $e) {
                                 $ret['msg'] = 'warning';
                                 $ret['message'] = __('messages.email.password_change',['email' => get_setting('site_email')]);
@@ -510,21 +508,12 @@ class UserController extends Controller
      */
     public function referral()
     {
-        $page = Page::where('slug', 'referral')->where('status', 'active')->first();
-        $reffered = User::where('referral', auth()->id())->get();
-        if(get_page('referral', 'status') == 'active'){
-            return view('user.referral', compact('page', 'reffered'));
-        }else{
-            abort(404);
-        }
+        $page = Page::where('slug', 'referral')->first();
+        $reffered = auth()->user()->refs;
+        // $reffered = User::where('referral', auth()->id())->get();
+        return view('user.referral', compact('page', 'reffered'));
     }
-    public function history(){
-        return view('user.history.index');
-    }
-    public function listReferral(){
-        $user = Auth::user()->refs()->with('user', 'refs.user')->paginate(40);
-        return view('user.referral.index',compact('user'));
-    }
+
     public function package(){
         return view('user.package.index');
     }

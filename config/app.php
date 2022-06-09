@@ -181,8 +181,8 @@ return [
         App\Providers\EMailServiceProvider::class,
         // Override the Translation System
         App\Providers\NioTranslationServiceProvider::class,
-
-
+        // macro response
+        App\Providers\ResponseMacroServiceProvider::class
     ],
 
     /*

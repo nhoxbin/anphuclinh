@@ -8,7 +8,116 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+$main-color: #3646cd;
+$paragraph: #313131;
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.side-modal-dialog {
+  bottom: 0;
+  top: 0;
+  margin: 0;
+  width: 280px;
+  // height: calc(100% - 67px);
+  position: absolute;
+  max-width: 280px;
+  .modal-content {
+    height: 100%;
+    border-radius: 0;
+  }
+  .modal-body {
+    max-height: 485px;
+  }
+
+  .sidebar-modal-header {
+    text-align: left;
+    justify-content: flex-start;
+    border-bottom: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    .btn-close {
+        right: 24px;
+        top: 0;
+    }
+  }
+  .sidebar-profile-info {
+    display: flex;
+    align-items: center;
+  }
+  .sidebar-profile-thumb {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $main-color;
+    margin-right: 10px;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+  }
+  .sidebar-profile-text {
+    h3 {
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+    p {
+      font-size: 13px;
+      margin-bottom: 0;
+      a {
+        color: $paragraph;
+        &:hover {
+          color: $main-color;
+        }
+      }
+    }
+  }
+}
+
+table#packageTable {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+  td, th {
+    border: 1px solid #f8e748;
+    padding: 8px;
+  }
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  tr:nth-child(even){background-color: #fffaa0;}
+  tr:nth-child(odd){background-color: #fffbb6;}
+  tr:hover {background-color: #ddd;}
+}
+
+.table-payment {
+  border-collapse: collapse;
+  width: 100%;
+
+  td, th {
+    border: 1px solid #ddd;
+    padding: 8px !important;
+    font-size: 16px;
+  }
+  th {
+    padding: 12px !important;
+    text-align: left;
+
+    background-color: #f44336;
+    color: white;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2;}
+  tr:nth-child(odd){background-color: #fffbb6;}
+  tr:hover {background-color: #ddd;}
 }

@@ -90,7 +90,7 @@ $header_logo = '<div class="page-ath-header"><a href="'.url('/').'" class="page-
     {{ html_string(get_setting('site_footer_code')) }}
     @endif
 
-    @if (in_array(request()->route()->getName(), ['login', 'register']))
+    @if (in_array(request()->route()->getName(), ['register']))
         <script type="module">
             import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js';
             import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js';

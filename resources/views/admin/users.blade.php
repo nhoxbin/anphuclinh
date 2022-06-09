@@ -9,7 +9,7 @@
         <div class="card content-area content-area-mh">
             <div class="card-innr">
                 <div class="card-head has-aside">
-                    <h4 class="card-title">{{ ucfirst($is_page) }} User List</h4>
+                    <h4 class="card-title">{{ __(ucfirst($is_page) . ' User List') }}</h4>
                     <div class="relative d-inline-block d-md-none">
                         <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a>
                         <div class="toggle-class dropdown-content dropdown-content-center-left pd-2x">
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-opt data-action-list d-none d-md-inline-flex">
+                    {{-- <div class="card-opt data-action-list d-none d-md-inline-flex">
                         <ul class="btn-grp btn-grp-block guttar-20px">
                             <li><a class="btn btn-info btn-outline btn-sm" href="{{ route('admin.users.wallet.change') }}">Wallet Change Request</a></li>
                             <li>
@@ -35,16 +35,16 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="page-nav-wrap">
                     <div class="page-nav-bar justify-content-between bg-lighter">
                         <div class="page-nav w-100 w-lg-auto">
                             <ul class="nav">
-                                <li class="nav-item{{ (is_page('users.user') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.users', 'user') }}">Investor / Users</a></li>
-                                <li class="nav-item {{ (is_page('users.admin') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.users', 'admin') }}">Admin Account</a></li>
-                                <li class="nav-item {{ (is_page('users') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.users') }}">All</a></li>
+                                <li class="nav-item{{ (is_page('users.user') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.users', 'user') }}">{{ __('Investor / Users') }}</a></li>
+                                <li class="nav-item {{ (is_page('users.admin') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.users', 'admin') }}">{{ __('Admin Account') }}</a></li>
+                                <li class="nav-item {{ (is_page('users') ? ' active' : '') }}"><a class="nav-link" href="{{ route('admin.users') }}">{{ __('All') }}</a></li>
                             </ul>
                         </div>
                         <div class="search flex-grow-1 pl-lg-4 w-100 w-sm-auto">
@@ -84,28 +84,28 @@
                                             <form class="update-meta" action="#" data-type="user_page_meta">
                                                 <ul class="dropdown-list">
                                                     <li><h6 class="dropdown-title">Show</h6></li>
-                                                    <li{!! (gmvl('user_per_page', 10)==10) ? ' class="active"' : '' !!}>
+                                                    <li class="active">
                                                         <a href="#" data-meta="perpage=10">10</a></li>
-                                                    <li{!! (gmvl('user_per_page', 10)==20) ? ' class="active"' : '' !!}>
+                                                    {{-- <li{!! (gmvl('user_per_page', 10)==20) ? ' class="active"' : '' !!}>
                                                         <a href="#" data-meta="perpage=20">20</a></li>
                                                     <li{!! (gmvl('user_per_page', 10)==50) ? ' class="active"' : '' !!}>
-                                                        <a href="#" data-meta="perpage=50">50</a></li>
+                                                        <a href="#" data-meta="perpage=50">50</a></li> --}}
                                                 </ul>
                                                 <ul class="dropdown-list">
                                                     <li><h6 class="dropdown-title">Order By</h6></li>
-                                                    <li{!! (gmvl('user_order_by', 'id')=='id') ? ' class="active"' : '' !!}>
+                                                    <li class="active">
                                                         <a href="#" data-meta="orderby=id">User ID</a></li>
-                                                    <li{!! (gmvl('user_order_by', 'id')=='name') ? ' class="active"' : '' !!}>
+                                                    {{-- <li{!! (gmvl('user_order_by', 'id')=='name') ? ' class="active"' : '' !!}>
                                                         <a href="#" data-meta="orderby=name">Name</a></li>
                                                     <li{!! (gmvl('user_order_by', 'id')=='token') ? ' class="active"' : '' !!}>
-                                                        <a href="#" data-meta="orderby=token">Token</a></li>
+                                                        <a href="#" data-meta="orderby=token">Token</a></li> --}}
                                                 </ul>
                                                 <ul class="dropdown-list">
                                                     <li><h6 class="dropdown-title">Order</h6></li>
-                                                    <li{!! (gmvl('user_ordered', 'DESC')=='DESC') ? ' class="active"' : '' !!}>
+                                                    <li class="active">
                                                         <a href="#" data-meta="ordered=DESC">DESC</a></li>
-                                                    <li{!! (gmvl('user_ordered', 'DESC')=='ASC') ? ' class="active"' : '' !!}>
-                                                        <a href="#" data-meta="ordered=ASC">ASC</a></li>
+                                                    {{-- <li{!! (gmvl('user_ordered', 'DESC')=='ASC') ? ' class="active"' : '' !!}>
+                                                        <a href="#" data-meta="ordered=ASC">ASC</a></li> --}}
                                                 </ul>
                                             </form>
                                         </div>
@@ -255,12 +255,12 @@
                 <table class="data-table user-list">
                     <thead>
                         <tr class="data-item data-head">
-                            <th class="data-col data-col-wd-md filter-data dt-user">User</th>
-                            <th class="data-col data-col-wd-md dt-email">Email</th>
-                            <th class="data-col dt-token">Tokens</th>
-                            <th class="data-col dt-verify">Verified Status</th>
-                            <th class="data-col dt-login">Last Login</th>
-                            <th class="data-col dt-status">Status</th>
+                            <th class="data-col data-col-wd-md filter-data dt-user">{{ __('User') }}</th>
+                            <th class="data-col data-col-wd-md dt-email">{{ __('Email') }}</th>
+                            <th class="data-col dt-sales">{{ __('Sales') }}</th>
+                            <th class="data-col dt-verify">{{ __('Verified Status') }}</th>
+                            <th class="data-col dt-login">{{ __('Last Login') }}</th>
+                            <th class="data-col dt-level">{{ __('Level') }}</th>
                             <th class="data-col"></th>
                         </tr>
                     </thead>
@@ -271,9 +271,9 @@
                                 <div class="d-flex align-items-center">
                                     <div class="fake-class">
                                         <span class="lead user-name text-wrap">{{ $user->name }}</span>
-                                        <span class="sub user-id">{{ set_id($user->id, 'user') }}
-                                            @if($user->role == 'admin')
-                                            <span class="badge badge-xs badge-dim badge-{{($user->type != 'demo')?'success':'danger'}}">ADMIN</span>
+                                        <span class="sub user-id">{{ $user->phone }}
+                                            @if ($user->hasRole('super_admin'))
+                                            <span class="badge badge-xs badge-dim badge-{{($user->type != 'demo') ? 'success' : 'danger'}}">SUPER ADMIN</span>
                                             @endif
                                         </span>
                                     </div>
@@ -283,7 +283,7 @@
                                 <span class="sub sub-s2 sub-email text-wrap">{{ explode_user_for_demo($user->email, auth()->user()->type ) }}</span>
                             </td>
                             <td class="data-col dt-token">
-                                <span class="lead lead-btoken">{{ number_format($user->tokenBalance) }}</span>
+                                <span class="lead lead-btoken">{{ number_format($user->sales()) }}</span>
                             </td>
                             <td class="data-col dt-verify">
                                 <ul class="data-vr-list">
@@ -301,9 +301,10 @@
                             <td class="data-col dt-login">
                                 <span class="sub sub-s2 sub-time">{{ $user->lastLogin && $user->email_verified_at !== null ? _date($user->lastLogin) : 'Not logged yet' }}</span>
                             </td>
-                            <td class="data-col dt-status">
-                                <span class="dt-status-md badge badge-outline badge-md badge-{{ __status($user->status,'status') }}">{{ __status($user->status,'text') }}</span>
-                                <span class="dt-status-sm badge badge-sq badge-outline badge-md badge-{{ __status($user->status,'status') }}">{{ substr(__status($user->status,'text'), 0, 1) }}</span>
+                            <td class="data-col dt-level">
+                                {{-- <span class="dt-status-md badge badge-outline badge-md badge-{{ __status($user->status,'status') }}">{{ __status($user->status,'text') }}</span>
+                                <span class="dt-status-sm badge badge-sq badge-outline badge-md badge-{{ __status($user->status,'status') }}">{{ substr(__status($user->status,'text'), 0, 1) }}</span> --}}
+                                <span class="dt-status-md badge badge-outline badge-md">{{ $user->has_combo ? 'Đại lý' : $user->lv->name }}</span>
                             </td>
                             <td class="data-col text-right">
                                 <div class="relative d-inline-block">
@@ -313,24 +314,25 @@
                                             <li><a href="{{ route('admin.users.view', [$user->id, 'details'] ) }}"><em class="far fa-eye"></em> View Details</a></li>
                                             <li><a class="user-email-action" href="#EmailUser" data-uid="{{ $user->id }}" data-toggle="modal"><em class="far fa-envelope"></em>Send Email</a></li>
                                             @if($user->role=='user')
-                                            <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="transactions" class="user-form-action user-action"><em class="fas fa-random"></em>Transaction</a></li>
+                                                <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="transactions" class="user-form-action user-action"><em class="fas fa-random"></em>Transaction</a></li>
                                             @endif
                                             <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="activities" class="user-form-action user-action"><em class="fas fa-sign-out-alt"></em>Activities</a></li>
                                             <li><a href="javascript:void(0)" data-uid="{{ $user->id }}" data-type="referrals" class="user-form-action user-action"><em class="fas fa-users"></em>Referrals</a></li>
 
                                             @if($user->id != save_gmeta('site_super_admin')->value)
-                                            <li><a class="user-form-action user-action" href="#" data-type="reset_pwd" data-uid="{{ $user->id }}" ><em class="fas fa-shield-alt"></em>Reset Pass</a></li>
+                                                <li><a class="user-form-action user-action" href="#" data-type="reset_pwd" data-uid="{{ $user->id }}" ><em class="fas fa-shield-alt"></em>Reset Pass</a></li>
                                             @endif
                                             @if($user->google2fa == 1)
-                                            <li><a class="user-form-action user-action" href="javascript:void(0)" data-type="reset_2fa" data-uid="{{ $user->id }}" ><em class="fas fa-unlink"></em>Reset 2FA</a></li>
+                                                <li><a class="user-form-action user-action" href="javascript:void(0)" data-type="reset_2fa" data-uid="{{ $user->id }}" ><em class="fas fa-unlink"></em>Reset 2FA</a></li>
                                             @endif
 
-                                            @if(Auth::id() != $user->id && $user->id != save_gmeta('site_super_admin')->value) @if($user->status != 'suspend')
-                                            <li><a href="#" data-uid="{{ $user->id }}" data-type="suspend_user" class="user-action front"><em class="fas fa-ban"></em>Suspend</a></li>
-
-                                            @else
-                                            <li><a href="#" id="front" data-uid="{{ $user->id }}" data-type="active_user" class="user-action"><em class="fas fa-ban"></em>Active</a></li>
-                                            @endif @endif
+                                            @if(Auth::id() != $user->id && $user->id != save_gmeta('site_super_admin')->value)
+                                                @if($user->status != 'suspend')
+                                                    <li><a href="#" data-uid="{{ $user->id }}" data-type="suspend_user" class="user-action front"><em class="fas fa-ban"></em>{{ __('Delete') }}</a></li>
+                                                @else
+                                                    <li><a href="#" id="front" data-uid="{{ $user->id }}" data-type="active_user" class="user-action"><em class="fas fa-ban"></em>Active</a></li>
+                                                @endif
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>

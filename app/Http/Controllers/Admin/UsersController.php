@@ -19,8 +19,10 @@ use Illuminate\Http\Request;
 use App\Notifications\Reset2FA;
 use App\Notifications\ConfirmEmail;
 use App\Http\Controllers\Controller;
+use App\Models\Referral;
 use App\Notifications\PasswordResetByAdmin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
@@ -35,25 +37,33 @@ class UsersController extends Controller
     public function index(Request $request, $role = '')
     {
         $role_data  = '';
-        $per_page   = gmvl('user_per_page', 10);
-        $order_by   = (gmvl('user_order_by', 'id')=='token') ? 'tokenBalance' : gmvl('user_order_by', 'id');
-        $ordered    = gmvl('user_ordered', 'DESC');
-        $is_page    = (empty($role) ? 'all' : ($role=='user' ? 'investor' : $role));
+        $per_page   = 10;
+        $is_page    = (empty($role) ? 'all' : ($role == 'user' ? 'member' : $role));
+        $order_by   = 'id';
+        $ordered    = 'DESC';
 
         if(!empty($role)) {
-            $users = User::whereNotIn('status', ['deleted'])->where('role', $role)->orderBy($order_by, $ordered)->paginate($per_page);
+            if ($role == 'admin') {
+                $users = User::whereHas('roles', function ($query) {
+                            $query->where('name', 'area_admin');
+                        })->orWhereHas('roles', function ($query) {
+                            $query->where('name', 'provincial_admin');
+                        })->orderBy($order_by, 'ASC')->paginate($per_page);
+            } else {
+                $users = User::whereRelation('roles', 'name', '=', $is_page)->orderBy($order_by, $ordered)->paginate($per_page);
+            }
         } else {
-            $users = User::whereNotIn('status', ['deleted'])->orderBy($order_by, $ordered)->paginate($per_page);
+            $users = User::orderBy($order_by, $ordered)->paginate($per_page);
         }
 
         if($request->s){
             $users = User::AdvancedFilter($request)
-                        ->orderBy($order_by, $ordered)->paginate($per_page);
+                        ->paginate($per_page);
         }
 
         if ($request->filter) {
             $users = User::AdvancedFilter($request)
-                        ->orderBy($order_by, $ordered)->paginate($per_page);
+                        ->paginate($per_page);
         }
 
         $pagi = $users->appends(request()->all());
@@ -242,9 +252,9 @@ class UsersController extends Controller
             }
             // v1.1
             if ($type == 'referrals') {
-                $refered = User::where('referral', $user->id)->get(['id', 'name', 'created_at']);
+                $refered = $user->refs;
                 foreach ($refered as $refer) {
-                    $ref_count = User::where('referral', $refer->id)->count();
+                    $ref_count = $refer->refs()->count();
                     if($ref_count > 0){
                         $refer->refer_to = $ref_count;
                     }else{
@@ -257,7 +267,7 @@ class UsersController extends Controller
 
         $user = User::FindOrFail($id);
         if ($type == 'details') {
-            $refered = User::FindOrFail($id)->referrals();
+            $refered = User::FindOrFail($id)->refs;
             return view('admin.user_details', compact('user', 'refered'))->render();
         }
     }
@@ -279,25 +289,25 @@ class UsersController extends Controller
         }
 
         if ($type == 'suspend_user') {
-            $admin_count = User::where('role', 'admin')->count();
+            $admin_count = User::whereRelation('roles', 'name', '=', 'super_admin')->count();
             if ($admin_count >= 1) {
-                $up = User::where('id', $id)->update([
-                    'status' => 'suspend',
-                ]);
-                if ($up) {
-                    $result['msg'] = 'warning';
-                    $result['css'] = 'danger';
-                    $result['status'] = 'active_user';
-                    $result['message'] = 'User Suspend Success!!';
+                $user = User::find($id);
+                if ($user) {
+                    Referral::where('user_id', $id)->orWhere('refer_by', $id)->delete();
+                    $user->transactions()->delete();
+                    $user->point_transactions()->delete();
+                    $user->delete();
+                    // $user->notify(new Reset2FA($user));
+                    $result['msg'] = 'success';
+                    $result['message'] = 'Đã xóa thành viên.';
                 } else {
                     $result['msg'] = 'warning';
-                    $result['message'] = 'Failed to Suspend!!';
+                    $result['message'] = 'Thành viên không tồn tại!';
                 }
             } else {
                 $result['msg'] = 'warning';
                 $result['message'] = 'Minimum one admin account is required!';
             }
-
             return response()->json($result);
         }
         if ($type == 'active_user') {

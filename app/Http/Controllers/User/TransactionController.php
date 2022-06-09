@@ -27,23 +27,23 @@ class TransactionController extends Controller
      * @since 1.0
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        Transaction::where(['user' => auth()->id(), 'status' => 'new'])->delete();
-        $trnxs = Transaction::where('user', Auth::id())
-                    ->where('status', '!=', 'deleted')
-                    ->where('status', '!=', 'new')
-                    ->whereNotIn('tnx_type', ['withdraw'])
-                    ->orderBy('created_at', 'DESC')->get();
-        $transfers = Transaction::get_by_own(['tnx_type' => 'transfer'])->get()->count();
-        $referrals = Transaction::get_by_own(['tnx_type' => 'referral'])->get()->count();
-        $bonuses   = Transaction::get_by_own(['tnx_type' => 'bonus'])->get()->count();
-        $refunds   = Transaction::get_by_own(['tnx_type' => 'refund'])->get()->count();
+        // Transaction::where(['user' => auth()->id(), 'status' => 'new'])->delete();
+        $trnxs = $request->user()->transactions()
+            ->where(['type' => 'deposit'])
+            ->where('amount', '>', 0)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        // $transfers = Transaction::get_by_own(['tnx_type' => 'deposit'])->get()->count();
+        // $referrals = Transaction::get_by_own(['tnx_type' => 'referral'])->get()->count();
+        // $bonuses   = Transaction::get_by_own(['tnx_type' => 'bonus'])->get()->count();
+        // $refunds   = Transaction::get_by_own(['tnx_type' => 'refund'])->get()->count();
         $has_trnxs = (object) [
-            'transfer' => ($transfers > 0) ? true : false,
-            'referral' => ($referrals > 0) ? true : false,
-            'bonus' => ($bonuses > 0) ? true : false,
-            'refund' => ($refunds > 0) ? true : false
+            // 'transfer' => 10, // ($transfers > 0) ? true : false,
+            // 'referral' => 10, // ($referrals > 0) ? true : false,
+            // 'bonus' => 10, // ($bonuses > 0) ? true : false,
+            // 'refund' => 10, // ($refunds > 0) ? true : false
         ];
         return view('user.transactions', compact('trnxs', 'has_trnxs'));
     }

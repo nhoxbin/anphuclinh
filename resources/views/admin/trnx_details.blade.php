@@ -27,7 +27,7 @@
                     </div>
                     <div class="fake-class">
                         @if($trnx->tnx_type=='refund')
-                            @php 
+                            @php
                             $trnx_extra = (is_json($trnx->extra, true) ?? $trnx->extra);
                             @endphp
                             <span class="data-details-title">Refund Note</span>
@@ -62,8 +62,8 @@
                     <li>
                         <div class="data-details-head">Bonus Apply</div>
                         <div class="data-details-des">
-                            <span>{{ get_meta($trnx->extra, 'bonus') }}{{ (get_meta($trnx->extra, 'calc') =='percent' ? '%' : ' (Fixed)') }}{{ (get_meta($trnx->extra, 'level') ? ' - '.strtoupper(get_meta($trnx->extra, 'level')) : '' ) }}</span>
-                            <span>{{ get_meta($trnx->extra, 'tokens').' '.token_symbol() }}</span>
+                            {{-- <span>{{ get_meta($trnx->extra, 'bonus') }}{{ (get_meta($trnx->extra, 'calc') =='percent' ? '%' : ' (Fixed)') }}{{ (get_meta($trnx->extra, 'level') ? ' - '.strtoupper(get_meta($trnx->extra, 'level')) : '' ) }}</span> --}}
+                            {{-- <span>{{ get_meta($trnx->extra, 'tokens').' '.token_symbol() }}</span> --}}
                         </div>
                     </li>
                     @endif
@@ -131,7 +131,7 @@
                     <li>
                         <div class="data-details-head">Token {{ ($trnx->tnx_type=='refund') ? 'Refund' : 'Added' }} To</div>
                         <div class="data-details-des">
-                            <span><strong>{{ set_id($trnx->user) }} 
+                            <span><strong>{{ set_id($trnx->user) }}
                                 <small> - {{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '...' }}</small>
                             </strong></span>
                             <span>{!! isset($trnx->tnxUser->walletAddress) ? '<em class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Profile Receiving Wallet ('.ucfirst($trnx->tnxUser->walletType).')"></em> '.$trnx->tnxUser->walletAddress : '' !!}</span>
@@ -141,7 +141,7 @@
                     <li>
                         <div class="data-details-head">Token (T)</div>
                         <div class="data-details-des">
-                            <span>{{ to_num($trnx->tokens, 'min', '', false) }} {{ token_symbol() }}</span>
+                            {{-- <span>{{ to_num($trnx->tokens, 'min', '', false) }} {{ token_symbol() }}</span> --}}
                         </div>
                     </li>
                     @endif
@@ -149,14 +149,14 @@
                     <li>
                         <div class="data-details-head">Bonus Tokens (B)</div>
                         <div class="data-details-des">
-                            <span>{{ to_num($trnx->total_bonus, 'min', '', false) }} {{ token_symbol() }}</span>
+                            {{-- <span>{{ to_num($trnx->total_bonus, 'min', '', false) }} {{ token_symbol() }}</span> --}}
                             <span>({{ $trnx->bonus_on_token }} + {{ $trnx->bonus_on_base }})</span>
                         </div>
                     </li>
                     <li>
                         <div class="data-details-head">Total Token</div>
                         <div class="data-details-des">
-                            <span><strong>{{ to_num($trnx->total_tokens, 'min', '', false) }} {{ token_symbol() }}</strong></span>
+                            {{-- <span><strong>{{ to_num($trnx->total_tokens, 'min', '', false) }} {{ token_symbol() }}</strong></span> --}}
                             <span>(T+B)</span>
                         </div>
                     </li>
@@ -165,7 +165,7 @@
                     <li>
                         <div class="data-details-head">Refund Token</div>
                         <div class="data-details-des">
-                            <span><strong class="text-danger">{{ round($trnx->total_tokens, min_decimal()) }} {{ token_symbol() }}</strong></span>
+                            {{-- <span><strong class="text-danger">{{ round($trnx->total_tokens, min_decimal()) }} {{ token_symbol() }}</strong></span> --}}
                         </div>
                     </li>
                     @endif
@@ -177,4 +177,3 @@
     </div>{{-- .container --}}
 </div>{{-- .page-content --}}
 @endsection
-

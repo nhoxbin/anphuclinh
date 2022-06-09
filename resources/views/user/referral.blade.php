@@ -25,8 +25,8 @@
             <div class="copy-wrap mgb-1-5x mgt-1-5x">
                 <span class="copy-feedback"></span>
                 <em class="copy-icon fas fa-link"></em>
-                <input type="text" class="copy-address" value="{{ route('public.referral').'?ref='.set_id(auth()->id()) }}" disabled>
-                <button class="copy-trigger copy-clipboard" data-clipboard-text="{{ route('public.referral').'?ref='.set_id(auth()->id()) }}"><em class="ti ti-files"></em></button>
+                <input type="text" class="copy-address" value="{{ route('public.referral').'?ref='.auth()->user()->phone }}" disabled>
+                <button class="copy-trigger copy-clipboard" data-clipboard-text="{{ route('public.referral').'?ref='.auth()->user()->phone }}"><em class="ti ti-files"></em></button>
             </div>
             <p class="text-light mgmt-1x"><em><small>{{ __('Use above link to refer your friend and get referral bonus.') }}</small></em></p>
         </div>
@@ -37,18 +37,28 @@
         <table class="data-table dt-init refferal-table" data-items="10">
             <thead>
                 <tr class="data-item data-head">
-                    <th class="data-col refferal-name"><span>{{ __('User Name') }}</span></th>
-                    <th class="data-col refferal-tokens"><span>{{ __('Earn Token') }}</span></th>
-                    <th class="data-col refferal-date"><span>{{ __('Register Date') }}</span></th>
+                    <th class="data-col refferal-name"><span>{{ __('Full Name') }}</span></th>
+                    <th class="data-col refferal-tokens"><span>{{ __('Phone Number') }}</span></th>
+                    <th class="data-col refferal-sales"><span>{{ __('Sales') }}</span></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($reffered as $refer)
                 <tr class="data-item">
                     <td class="data-col refferal-name">{{ $refer->name }}</td>
-                    <td class="data-col refferal-tokens">{{ (referral_bonus($refer->id)) ? referral_bonus($refer->id).' '.token_symbol() : __('~') }}</td>
-                    <td class="data-col refferal-date">{{ _date($refer->created_at) }}</td>
+                    <td class="data-col refferal-phone">{{ $refer->phone }}</td>
+                    <td class="data-col refferal-sales">{{ number_format($refer->sales()) }}<sup>đ</sup></td>
                 </tr>
+                @foreach ($refer->refs as $key => $ref)
+                @if ($key+1 > 2)
+                    @break
+                @endif
+                <tr class="data-item">
+                    <td class="data-col refferal-name" style="padding-left: 20px;">{{ $ref->name }}</td>
+                    <td class="data-col refferal-phone">{{ $ref->phone }}</td>
+                    <td class="data-col refferal-sales">{{ number_format($ref->sales()) }}<sup>đ</sup></td>
+                </tr>
+                @endforeach
                 @empty
                 <tr class="data-item">
                     <td class="data-col">{{ __('No one join yet!') }}</td>

@@ -14,10 +14,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            // PackageSeeder::class,
+            // ProductSeeder::class,
+            // LevelSeeder::class,
+            // BankSeeder::class,
             // PermissionRoleSeeder::class,
             // UserSeeder::class,
-            // LevelSeeder::class,
-            // ProvinceSeeder::class
+            // ProvinceSeeder::class,
+            // ReferralSeeder::class,
+            // UsersRefsSeeding::class,
+            // PointSeeder::class,
+            // SalesSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }

@@ -19,7 +19,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         // $check_dt = \App\Helpers\IcoHandler::checkDB();
-        $user = Auth::user();
+        /* $user = Auth::user();
         if (Auth::guard($guard)->check()) {
             if ($user->status == 'active') {
                 $link = ($user->role == 'admin') ? '/admin' : '/user';
@@ -31,7 +31,7 @@ class RedirectIfAuthenticated
                 Auth::logout();
                 return redirect(route('login'))->with(['danger' => 'You are not a user']);
             }
-        }
+        } */
         /* if (empty($check_dt)) {
         } else {
             $migrations = $this->getMigrations();
