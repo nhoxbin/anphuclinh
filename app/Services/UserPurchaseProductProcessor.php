@@ -98,21 +98,22 @@ class UserPurchaseProductProcessor
             }
             $user->addPoints(-$point, 'Refund Transaction');
 
+            // trừ hoa hồng (bonus)
+            $sales = Transaction::where('meta->transaction_id', $transaction->id)->get();
+            $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, ['type' => 'refund', 'transaction_id' => $transaction->id]));
+
             // refund
             $qty = $transaction->meta['qty'];
             for ($i=0; $i < $qty; $i++) {
                 $user->refund($product);
             }
+
             // thêm trạng thái refunded
             $meta = $transaction->meta;
             $meta['status'] = 'refunded';
             $meta['message'] = $message;
             $transaction->meta = $meta;
             $transaction->save();
-
-            // trừ hoa hồng (bonus)
-            $sales = Transaction::where('meta->transaction_id', $transaction->id)->get();
-            $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, ['type' => 'refund', 'transaction_id' => $transaction->id]));
 
             $ret['msg'] = 'success';
             $ret['message'] = __('Successfully Refunded');

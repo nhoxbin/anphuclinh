@@ -18,7 +18,7 @@
                     <div class="sidebar-nav-item">
                         <h3 style="padding-left: 35px">Menu</h3>
                         <ul class="sidebar-nav-list">
-                        <li><a href="{{ route('admin.home') }}"><i class="flaticon-house"></i> Trang chủ</a></li>
+                        <li><a href="@if (request()->user()->hasRole('super_admin')) {{ route('admin.home') }} @else / @endif"><i class="flaticon-house"></i> Trang chủ</a></li>
                         <li><a href="{{ route('user.kyc') }}"><i class="ikon ikon-coins"></i> KYC</a></li>
                         <li><a href=""><i class="flaticon-invoice"></i> Tin tức</a></li>
                         <li><a href=""><i class="flaticon-call-center-agent"></i> Liên hệ</a></li>

@@ -40,9 +40,9 @@
     "messages.trnx.payments.not_available": "Sorry! Currently payment method not available in your selected currency!",
     "messages.trnx.manual.success": "Transaction successful!",
     "messages.trnx.manual.failed": "Transaction Failed!",
-    "messages.trnx.admin.approved": "Transaction approved and token added to user.",
-    "messages.trnx.admin.canceled": "Transaction canceled.",
-    "messages.trnx.admin.deleted": "Transaction Deleted.",
+    "messages.trnx.admin.approved": "Giao dịch đã được xác nhận.",
+    "messages.trnx.admin.canceled": "Giao dịch đã bị hủy.",
+    "messages.trnx.admin.deleted": "Giao dịch đã bị xóa.",
     "messages.trnx.admin.already_deleted": "This transaction is already deleted.",
     "messages.trnx.admin.already_approved": "This transaction is already approved.",
     "messages.token.success": "Token added to the user account!",
@@ -653,5 +653,8 @@
     "Successfully Rejected": "Đã từ chối giao dịch!",
     "Successfully Refunded": "Đã hoàn tiền giao dịch!",
     "Only refund combo": "Chỉ được hoàn tiền với giao dịch combo",
-    "refunded": "Đã hoàn tiền"
+    "refunded": "Đã hoàn tiền",
+    "Posts created": "Tạo bài viết thành công.",
+    "Posts updated": "Bài viết đã được cập nhật.",
+    "Posts deleted": "Đã xóa bài viết."
 }

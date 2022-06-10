@@ -20,8 +20,8 @@ class KycController extends Controller
 {
     public function index(Request $request, $status = '')
     {
-        $per_page   = gmvl('kyc_per_page', 10);
-        $ordered    = gmvl('kyc_ordered', 'DESC');
+        $per_page   = 10;
+        $ordered    = 'DESC';
 
         $kycs = KYC::when($status, function($q) use ($status){
             $q->where('status', $status);

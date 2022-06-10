@@ -10,7 +10,7 @@
                     <p>Ví hoa hồng</p>
                     <h3 style="color: #fff">{{ number_format($user->balance) }}<sup>đ</sup></h3>
                 </div>
-                <div class="add-card-item add-balance" data-bs-toggle="modal" data-bs-target="#addBalance">
+                <div class="add-card-item withdraw" data-bs-toggle="modal" data-bs-target="#ruttien">
                     <a href="javscript:;"><i class="flaticon-left-arrow-1"></i></a>
                     <p>Rút tiền</p>
                 </div>

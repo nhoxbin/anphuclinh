@@ -168,7 +168,7 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->g
     Route::get('/languages', 'Admin\LanguageController@index')->name('lang.manage'); // v1.1.3
     Route::get('/languages/translate/{code}', 'Admin\LanguageController@translator')->name('lang.translate'); // v1.1.3
 
-    Route::resource('posts', 'Admin\PostController');
+    Route::resource('posts', 'Admin\PostController')->except(['show']);
 
     /* Admin Ajax Route */
     Route::name('ajax.')->prefix('ajax')->group(function () {

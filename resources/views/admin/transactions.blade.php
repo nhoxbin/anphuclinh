@@ -275,9 +275,7 @@
                             </td>
                             <td class="data-col dt-amount">
                                 <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                @if ($trnx->type != 'withdraw')
-                                <span class="sub sub-symbol">{{ isset($trnx->meta['status']) ? __($trnx->meta['status']) : ($trnx->meta['type'] == 'bonus' ? __('Bonus') : __('Purchase')) }}</span>
-                                @endif
+                                <span class="sub sub-symbol">{{ $trnx->type == 'withdraw' ? __('Withdraw') : (isset($trnx->meta['status']) ? __($trnx->meta['status']) : ($trnx->meta['type'] == 'bonus' ? __('Bonus') : __('Purchase'))) }}</span>
                             </td>
                             {{-- <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">

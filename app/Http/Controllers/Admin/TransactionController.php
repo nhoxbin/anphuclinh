@@ -36,20 +36,15 @@ class TransactionController extends Controller
         $order_by = 'updated_at';
         $ordered  = 'DESC';
 
-        if($status=='referral' || $status=='bonus') {
-            $trnxs = Transaction::where('tnx_type', $status)->orderBy($order_by, $ordered)->paginate($per_page);
-        } elseif ($status == 'bonuses') {
-            // $trnxs = Transaction::whereNotIn('tnx_type', ['withdraw'])->whereIn('tnx_type', ['referral', 'bonus'])->orderBy($order_by, $ordered)->paginate($per_page);
+        if ($status == 'bonuses') {
             $trnxs = Transaction::where(['type' => 'deposit', 'confirmed' => 1, 'meta->type' => 'bonus'])->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status == 'approved') {
-            // $trnxs = Transaction::whereNotIn('tnx_type', ['withdraw', 'bonus', 'referral'])->where('status', $status)->orderBy($order_by, $ordered)->paginate($per_page);
             $trnxs = Transaction::with('payable')->where('confirmed', 1)->whereIn('type', ['deposit', 'withdraw'])->whereIn('meta->type', ['purchase', 'withdraw'])->orderBy($order_by, $ordered)->paginate($per_page);
         }  elseif ($status == 'pending') {
             $trnxs = Transaction::where(['type' => 'deposit', 'confirmed' => 0, 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status == 'withdraw') {
             $trnxs = Transaction::where(['type' => 'withdraw', 'confirmed' => 0])->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status != null) {
-            // $trnxs = Transaction::whereNotIn('tnx_type', ['withdraw'])->where('status', $status)->orderBy($order_by, $ordered)->paginate($per_page);
             $trnxs = Transaction::where(['type' => 'deposit', 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         } else {
             $trnxs = Transaction::where(['type' => 'deposit', 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
@@ -68,7 +63,6 @@ class TransactionController extends Controller
         }
 
         $is_page = (empty($status) ? 'all' : $status);
-        // $stages = IcoStage::whereNotIn('status', ['deleted'])->get();
         $users = User::whereRelation('roles', 'name', '<>', 'super_admin')->get();
         $pagi = $trnxs->appends(request()->all());
         return view('admin.transactions', compact('trnxs', 'users', 'is_page', 'pagi'));
@@ -89,32 +83,33 @@ class TransactionController extends Controller
         $ret['msg'] = 'info';
         $ret['message'] = __('messages.nothing');
 
-        if ($request->req_type != 'refund') {
+        if ($request->req_type == 'refund') {
+            $ret = $this->refund($transaction, $request->message);
+        } else {
             if ($transaction->confirmed) {
-                $ret['msg'] = 'info';
                 $ret['message'] = __('messages.trnx.admin.already_approved');
             } else {
-                if ($request->status == 'approved') {
-                    if ($transaction->type == 'withdraw') {
-                        if ($transaction->payable->wallet->confirm($transaction)) {
-                            $ret['msg'] = 'success';
-                            $ret['message'] = __('messages.trnx.admin.approved');
+                if ($request->req_type == 'delete') {
+                    $ret = $this->deleted_tnx($transaction);
+                } else {
+                    if ($request->status == 'approved') {
+                        if ($transaction->type == 'withdraw') {
+                            if ($transaction->payable->wallet->confirm($transaction)) {
+                                $ret['msg'] = 'success';
+                                $ret['message'] = __('messages.trnx.admin.approved');
+                            } else {
+                                $ret['msg'] = 'error';
+                                $ret['message'] = __('Not Confirmed');
+                            }
                         } else {
-                            $ret['msg'] = 'error';
-                            $ret['message'] = __('Not Confirmed');
+                            // deposit
+                            $ret = $this->approved_tnx($transaction);
                         }
-                    } else {
-                        // deposit
-                        $ret = $this->approved_tnx($transaction);
+                    } elseif ($request->status == 'rejected') {
+                        $ret = $this->rejected_tnx($transaction);
                     }
-                } elseif ($request->status == 'rejected') {
-                    $ret = $this->rejected_tnx($transaction);
                 }
             }
-        } elseif ($request->req_type == 'delete') {
-            $ret = $this->deleted_tnx($transaction);
-        } else {
-            $ret = $this->refund($transaction, $request->message);
         }
 
         $ret['data'] = $transaction;
@@ -124,7 +119,7 @@ class TransactionController extends Controller
         return back()->with([$ret['msg'] => $ret['message']]);
     }
 
-    private function canceled_tnx($request, $trnx)
+    /* private function canceled_tnx($request, $trnx)
     {
         $ret['msg'] = 'warning';
         $ret['message'] = __('Unable to cancel the transaction, reload the page.');
@@ -154,7 +149,7 @@ class TransactionController extends Controller
             }
         }
         return $ret;
-    }
+    } */
 
     private function approved_tnx(Transaction $transaction)
     {
@@ -185,7 +180,7 @@ class TransactionController extends Controller
         $transaction->amount = 0;
         $transaction->save();
         return [
-            'msg' => 'warning',
+            'msg' => 'success',
             'reload' => true,
             'message' => __('Successfully Rejected'),
         ];
@@ -193,26 +188,17 @@ class TransactionController extends Controller
 
     private function deleted_tnx($trnx)
     {
-        $ret['msg'] = 'warning';
-        $ret['message'] = __('Unable to delete the transaction, reload the page.');
-
-        if ($trnx) {
-            if ($trnx->confirmed) {
-                $ret['msg'] = 'info';
-                $ret['message'] = ($trnx->status == 'approved') ? __('messages.trnx.admin.already_approved') : __('messages.trnx.admin.already_deleted');
-                return $ret;
-            }
-            /* if ($trnx->status == 'canceled') {
-                $trnx->status = 'deleted';
-                $trnx->checked_by = json_encode(['name' => Auth::user()->name, 'id' => Auth::id()]);
-                $trnx->checked_time = date('Y-m-d H:i:s');
-                $trnx->save();
+        $ret['msg'] = 'info';
+        if ($trnx->confirmed) {
+            $ret['message'] = __('messages.trnx.admin.already_approved');
+        } else {
+            if ($trnx->amount > 0) {
+                $ret['message'] = __('Cancel the transaction first.');
+            } else {
+                $trnx->delete();
                 $ret['msg'] = 'success';
                 $ret['message'] = __('messages.trnx.admin.deleted');
-            } else {
-                $ret['msg'] = 'info';
-                $ret['message'] = __('Cancel the transaction first.');
-            } */
+            }
         }
         return $ret;
     }
@@ -221,14 +207,12 @@ class TransactionController extends Controller
     {
         $product = Product::find($transaction->meta['product_id']);
         $ret['msg'] = 'warning';
-        if (!$product->is_combo) {
-            $ret['message'] = 'Only refund combo';
-        } elseif (isset($transaction->meta['status']) && $transaction->meta['status'] == 'refunded') {
+        if (isset($transaction->meta['status']) && $transaction->meta['status'] == 'refunded') {
             $ret['message'] = 'Giao dịch này đã được hoàn tiền!';
         } else {
             $ret = (new UserPurchaseProductProcessor)->refund($transaction->payable, $transaction, $product, $message);
+            $ret['reload'] = true;
         }
-        $ret['reload'] = true;
         return $ret;
     }
 

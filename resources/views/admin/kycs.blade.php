@@ -65,19 +65,19 @@
                                             <form class="update-meta" action="#" data-type="kyc_page_meta">
                                                 <ul class="dropdown-list">
                                                     <li><h6 class="dropdown-title">Show</h6></li>
-                                                    <li{!! (gmvl('kyc_per_page', 10)==10) ? ' class="active"' : '' !!}>
+                                                    <li class="active">
                                                         <a href="#" data-meta="perpage=10">10</a></li>
-                                                    <li{!! (gmvl('kyc_per_page', 10)==20) ? ' class="active"' : '' !!}>
+                                                    {{-- <li{!! (gmvl('kyc_per_page', 10)==20) ? ' class="active"' : '' !!}>
                                                         <a href="#" data-meta="perpage=20">20</a></li>
                                                     <li{!! (gmvl('kyc_per_page', 10)==50) ? ' class="active"' : '' !!}>
-                                                        <a href="#" data-meta="perpage=50">50</a></li>
+                                                        <a href="#" data-meta="perpage=50">50</a></li> --}}
                                                 </ul>
                                                 <ul class="dropdown-list">
                                                     <li><h6 class="dropdown-title">Order</h6></li>
-                                                    <li{!! (gmvl('kyc_ordered', 'DESC')=='DESC') ? ' class="active"' : '' !!}>
+                                                    <li  class="active">
                                                         <a href="#" data-meta="ordered=DESC">DESC</a></li>
-                                                    <li{!! (gmvl('kyc_ordered', 'DESC')=='ASC') ? ' class="active"' : '' !!}>
-                                                        <a href="#" data-meta="ordered=ASC">ASC</a></li>
+                                                    {{-- <li{!! (gmvl('kyc_ordered', 'DESC')=='ASC') ? ' class="active"' : '' !!}>
+                                                        <a href="#" data-meta="ordered=ASC">ASC</a></li> --}}
                                                 </ul>
                                             </form>
                                         </div>
@@ -184,7 +184,7 @@
                             <td class="data-col dt-user">
                                 <span class="d-none">{{ $kyc->status }}</span>
                                 <span class="lead user-name">{{ _x($kyc->firstName).' '._x($kyc->lastName) }}</span>
-                                <span class="sub user-id">{{ set_id($kyc->userId) }}</span>
+                                <span class="sub user-id">{{ $kyc->user->phone }}</span>
                             </td>
                             <td class="data-col dt-doc-type">
                                 <span class="sub sub-s2 sub-dtype">{{ ucfirst($kyc->documentType) }}</span>
