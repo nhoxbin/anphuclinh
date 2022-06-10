@@ -37,22 +37,17 @@ class UserPurchaseProductProcessor
                     $calc = PointCalc::getPrice($user, $product, $qty);
                     $amt = $calc['price'];
                     if ($product->is_combo) {
-                        // tầng 1: 10%
-                        $user->ref_by->deposit(round($amt*10/100), $purchased_data);
-
-                        // tầng 2: 20%
-                        if ($user->ref_by->ref_by) {
-                            $user->ref_by->ref_by->deposit(round($amt*20/100), $purchased_data);
-                        }
+                        $ref1 = round($amt*10/100); // tầng 1: 10%
+                        $ref2 = round($amt*20/100); // tầng 2: 20%
                     } else {
                         // tái đơn
-                        // tầng 1: 5000*số lượng
-                        $user->ref_by->deposit($qty*5000, $purchased_data);
+                        $ref1 = $qty*5000; // tầng 1: 5000*số lượng
+                        $ref2 = $qty*10000; // tầng 2: 10000*số lượng
+                    }
+                    $user->ref_by->deposit($ref1, $purchased_data);
 
-                        // tầng 2: 10000*số lượng
-                        if ($user->ref_by->ref_by) {
-                            $user->ref_by->ref_by->deposit($qty*10000, $purchased_data);
-                        }
+                    if ($user->ref_by->ref_by) {
+                        $user->ref_by->ref_by->deposit($ref2, $purchased_data);
                     }
 
                     // admin tỉnh: x2.2
@@ -97,25 +92,31 @@ class UserPurchaseProductProcessor
 
     public function refund(User $user, $transaction, Product $product, $message)
     {
+        $qty = $transaction->meta['qty'];
+        $calc = PointCalc::getPrice($user, $product, $qty);
         try {
-            // trừ điểm
             if (isset($transaction->meta['rate'])) {
                 $rate = $transaction->meta['rate'];
             } else {
                 $rate = PointCalc::getPoint('current');
             }
-            $point = round($transaction->amount / $rate);
-            if ($point > $user->currentPoints()) {
-                throw new \Exception("Số điểm hiện tại không đủ để hoàn tiền!");
+
+            // cộng điểm
+            $point = $calc['max_point_discount'];
+            if ($product->is_combo) {
+                // trừ điểm
+                $point = -round($transaction->amount / $rate);
+                if (-$point > $user->currentPoints()) {
+                    throw new \Exception("Số điểm hiện tại không đủ để hoàn tiền!");
+                }
             }
-            $user->addPoints(-$point, 'Refund Transaction');
+            $user->addPoints($point, 'Refund Transaction');
 
             // trừ hoa hồng (bonus)
             $sales = Transaction::where('meta->transaction_id', $transaction->id)->get();
             $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, ['type' => 'refund', 'transaction_id' => $transaction->id]));
 
             // refund
-            $qty = $transaction->meta['qty'];
             for ($i=0; $i < $qty; $i++) {
                 $user->refund($product);
             }
