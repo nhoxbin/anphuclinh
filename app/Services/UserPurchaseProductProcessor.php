@@ -28,19 +28,31 @@ class UserPurchaseProductProcessor
 
             try {
                 if ((count($history) || $force) && $user->confirm($transaction)) {
+                    $qty = $transaction->meta['qty'];
                     for ($i=0; $i < $transaction->meta['qty']; $i++) {
                         $user->pay($product);
                     }
                     $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
 
-                    $calc = PointCalc::getPrice($user, $product, $transaction->meta['qty']);
+                    $calc = PointCalc::getPrice($user, $product, $qty);
                     $amt = $calc['price'];
-                    // tầng 1: 10%
-                    $user->ref_by->deposit(round($amt*10/100), $purchased_data);
+                    if ($product->is_combo) {
+                        // tầng 1: 10%
+                        $user->ref_by->deposit(round($amt*10/100), $purchased_data);
 
-                    // tầng 2: 20%
-                    if ($user->ref_by->ref_by) {
-                        $user->ref_by->ref_by->deposit(round($amt*20/100), $purchased_data);
+                        // tầng 2: 20%
+                        if ($user->ref_by->ref_by) {
+                            $user->ref_by->ref_by->deposit(round($amt*20/100), $purchased_data);
+                        }
+                    } else {
+                        // tái đơn
+                        // tầng 1: 5000*số lượng
+                        $user->ref_by->deposit($qty*5000, $purchased_data);
+
+                        // tầng 2: 10000*số lượng
+                        if ($user->ref_by->ref_by) {
+                            $user->ref_by->ref_by->deposit($qty*10000, $purchased_data);
+                        }
                     }
 
                     // admin tỉnh: x2.2
