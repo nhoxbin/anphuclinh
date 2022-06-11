@@ -172,11 +172,13 @@ class PublicController extends Controller
         $key = $request->get('ref');
         $expire =  (60*24*30);
 
-        if ($key != NULL) {
+        if ($key != NULL && $key != 0) {
             $user = User::where('phone', $key)->first();
             if ($user) {
-                $_key = Cookie::queue(Cookie::make('apl_ref_by', $key, $expire));
+                Cookie::queue(Cookie::make('apl_ref_by', $key, $expire));
             }
+        } else {
+            Cookie::queue(Cookie::forget('apl_ref_by'));
         }
         return redirect()->route('register');
     }

@@ -61,9 +61,9 @@
                         @endif
                         @if (Auth::user()->hasRole('super_admin'))
                             <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
-                            <li {!! Route::is('admin.withdrawals.*') ? ' class="active"' : '' !!}>
+                            {{-- <li {!! Route::is('admin.withdrawals.*') ? ' class="active"' : '' !!}>
                                 <a href="{{ route('admin.withdrawals.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
-                            </li>
+                            </li> --}}
                             <li {!! Route::is('admin.kycs') ? ' class="active"' : '' !!}>
                             <a href="{{ route('admin.kycs', 'pending') }}"><em class="ikon ikon-docs"></em> {{ __('KYC List') }}</a>
                         </li>

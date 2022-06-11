@@ -9,8 +9,7 @@
 @endpush
 @endif
 <div class="page-ath-form">
-
-    <h2 class="page-ath-heading">{{__('Đăng ký')}} <small>{{__('Tạo tài khoản ')}} {{ site_info('name') }} {{__( 'mới')}}</small></h2>
+    <h2 class="page-ath-heading">{{__('Đăng ký')}} <small>{{ __('Tạo tài khoản ') }} {{ site_info('name') }} {{ __( 'mới') }}</small></h2>
     <form class="register-form" method="POST" action="{{ route('register') }}" id="regForm">
         @csrf
         <div id="recaptcha-container"></div>
