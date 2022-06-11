@@ -15,9 +15,26 @@
                 </div>
 
                 <form class="" action="{{ route('admin.posts.store') }}" method="post">
-                    <textarea>
-                        Welcome to TinyMCE!
-                    </textarea>
+                    @csrf
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label" for="title">{{ __('Title') }}</label>
+                        <div class="col-sm-12">
+                            <input class="form-control" id="title" type="text" name="title">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-form-label" for="title">{{ __('Content') }}</label>
+                        <div class="col-sm-12">
+                            <textarea name="content">
+                                Hello, An Phúc Linh!
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button class="btn btn-primary" type="submit">Lưu bài viết</button>
+                        </div>
+                    </div>
                 </form>
             </div>{{-- .card-innr --}}
         </div>{{-- .card --}}

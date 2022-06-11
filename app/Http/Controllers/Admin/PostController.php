@@ -10,13 +10,16 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
-        return view('admin.posts.index', compact('posts'));
+        $posts = Post::paginate(10);
+        $pagi = $posts->appends(request()->all());
+        return view('admin.posts.index', compact('posts', 'pagi'));
     }
 
     public function store(PostRequest $request)
     {
-        Post::create($request->validated() + ['created_by' => $request->user()]);
+        $validated = $request->validated();
+        $validated['content'] = e(nl2br($validated['content']));
+        Post::create($validated + ['created_by' => $request->user()]);
         return back()->with('success', __('Posts created'));
     }
 

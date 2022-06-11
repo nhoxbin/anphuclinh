@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ucfirst($is_page).' Transactions')
+@section('title', 'Posts')
 @section('content')
 <div class="page-content">
     <div class="container">
@@ -8,7 +8,16 @@
         <div class="card content-area content-area-mh">
             <div class="card-innr">
                 <div class="card-head has-aside">
-                    <h4 class="card-title">{{ ucfirst($is_page) }} Transactions</h4>
+                    <h4 class="card-title">{{ __('Posts') }}</h4>
+                    <div class="card-opt data-action-list d-none d-md-inline-flex">
+                        <ul class="btn-grp btn-grp-block guttar-20px">
+                            <li>
+                                <a href="{{ route('admin.posts.create') }}" class="btn btn-auto btn-sm btn-primary">
+                                    <em class="fas fa-plus-circle"> </em><span>Add <span class="d-none d-md-inline-block">Post</span></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="page-nav-wrap">
@@ -29,7 +38,7 @@
                     </div>
                 </div>
 
-                @if($trnxs->total() > 0)
+                @if($posts->total() > 0)
                 <table class="data-table admin-tnx">
                     <thead>
                         <tr class="data-item data-head">
@@ -174,7 +183,7 @@
                 </table>
                 @else
                     <div class="bg-light text-center rounded pdt-5x pdb-5x">
-                        <p><em class="ti ti-server fs-24"></em><br>{{ ($is_page=='all') ? __('No transaction found!') : 'No '.$is_page.' transaction here!' }}</p>
+                        <p><em class="ti ti-server fs-24"></em><br>{{ __('No posts found!') }}</p>
                         <p><a class="btn btn-primary btn-auto" href="{{ route('admin.transactions') }}">{{ __('View All Transactions') }}</a></p>
                     </div>
                 @endif
