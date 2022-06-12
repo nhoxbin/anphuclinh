@@ -22,11 +22,13 @@ class PurchaseController extends Controller
         }
         $user = $request->user();
 
+        $calc = PointCalc::getPrice($user, $product, $validated['qty'], $request->is_uses_point);
         $meta = $transaction->meta;
-        $validated['description'] = 'apl' . $transaction->id;
-        $validated['rate'] = PointCalc::getPoint('current');
+        $meta['description'] = 'apl' . $transaction->id;
+        $meta['rate'] = PointCalc::getPoint('current');
+        $meta['point_uses'] = $calc['max_point_discount'];
         $transaction->update([
-            'amount' => PointCalc::getPrice($user, $product, $validated['qty'])['price'],
+            'amount' => $calc['price'],
             'meta' => array_merge($meta, $validated)
         ]);
 

@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function priceCalc(Request $request, Product $product, $amount = 1)
+    public function priceCalc(Request $request, Product $product)
     {
-        return json_encode(PointCalc::getPrice($request->user(), $product, $amount));
+        return json_encode(PointCalc::getPrice($request->user(), $product, $request->amount, $request->is_uses_point));
     }
 
     public function show(Product $product)

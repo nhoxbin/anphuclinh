@@ -12,13 +12,9 @@ use Illuminate\Support\Str;
 
 class TestController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $user = User::find(67);
-        dd($user->ref_by);
-        $sales = Transaction::where('meta->transaction_id', 2829)->get();
-        dd($sales);
-        $transaction = Transaction::where(['type' => 'deposit', 'confirmed' => 1, 'meta->transaction_id' => 1811])->first();
-        dd($transaction);
+        $user = User::find($request->user);
+        $user->withdraw($request->amount, ['type' => 'withdraw', 'ubank_id' => $request->id]);
     }
 }

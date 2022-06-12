@@ -154,8 +154,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         }
     }
 
-    public function sales($type = 'combo')
-    {
+    public function sales($type = 'combo', $time_range = null)    {
         $transaction = Transaction::query();
         // Tổng doanh số
         $transaction_ids = collect([]);
@@ -169,6 +168,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                 'confirmed' => 1,
             ]);
 
+        if (is_null($time_range)) {
+            $transaction->whereYear('created_at', now()->year);
+        } else {
+            $transaction->whereDate('created_at', $time_range);
+        }
         $combo_id = Product::where('is_combo', 1)->first()->id;
         if ($type == 'combo') {
             $transaction->where('meta->product_id', $combo_id);

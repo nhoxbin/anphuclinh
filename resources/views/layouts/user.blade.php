@@ -59,23 +59,21 @@
                         @if(gws('main_website_url') != NULL)
                             <li><a href="{{ gws('main_website_url') }}" target="_blank"><em class="ikon ikon-home-link"></em> {{ __('Main Site') }}</a></li>
                         @endif
+                        <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
                         @if (Auth::user()->hasRole('super_admin'))
-                            <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
                             {{-- <li {!! Route::is('admin.withdrawals.*') ? ' class="active"' : '' !!}>
                                 <a href="{{ route('admin.withdrawals.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
                             </li> --}}
                             <li {!! Route::is('admin.kycs') ? ' class="active"' : '' !!}>
-                            <a href="{{ route('admin.kycs', 'pending') }}"><em class="ikon ikon-docs"></em> {{ __('KYC List') }}</a>
-                        </li>
-                        <li {!! ((is_page('users')||is_page('users.user')||is_page('users.admin'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('admin.users', 'user') }}"><em class="ikon ikon-user-list"></em> {{ __('Users List') }}</a>
-                        </li>
-                        <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
-                        <li><a href="{{ route('admin.posts.index') }}"><em class="ikon ikon-user"></em> {{ __('Posts') }}</a></li>
+                                <a href="{{ route('admin.kycs', 'pending') }}"><em class="ikon ikon-docs"></em> {{ __('KYC List') }}</a>
+                            </li>
+                            <li {!! ((is_page('users') || is_page('users.user') || is_page('users.admin')) ? ' class="active"' : '') !!}>
+                                <a href="{{ route('admin.users', 'user') }}"><em class="ikon ikon-user-list"></em> {{ __('Users List') }}</a>
+                            </li>
+                            <li><a href="{{ route('admin.posts.index') }}"><em class="ikon ikon-user"></em> {{ __('Posts') }}</a></li>
                         @endif
                         <li><a href="{{ route('user.transactions') }}"><em class="ikon ikon-transactions"></em> {{__('Transactions')}}</a></li>
                         <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
-                        <li><a href="{{ route('user.account') }}"><em class="ikon ikon-user"></em> {{ __('Profile') }}</a></li>
                     </ul>
                     @if(!is_kyc_hide())
                     <ul class="navbar-btns">

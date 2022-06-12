@@ -129,7 +129,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
         Route::resource('ubanks', 'UserBankController');
         Route::post('withdraw', 'WithdrawController@store')->name('withdraw');
         // Route::get('user_banks', 'UserBankController@getBanks')->name('banks.get');
-        Route::get('price-calculate/{product}/{amount}', 'ProductController@priceCalc')->name('product.calc');
+        Route::post('price-calculate/{product}', 'ProductController@priceCalc')->name('product.calc');
 
         Route::middleware('is_kyc')->prefix('purchases')->name('purchases.')->group(function() {
             Route::post('product/{product}/transaction/{transaction}', 'PurchaseController@product')->name('products.store');

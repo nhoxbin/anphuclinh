@@ -74,6 +74,12 @@
                                     autocomplete="address-line1" />
                             </span>
                         </p>
+                        <div class="form-check" style="font-size: 20px;">
+                            <input class="form-check-input" type="checkbox" v-model="order_info.is_uses_point" v-bind:value="true" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+                                Sử dụng điểm để thanh khoản
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -220,6 +226,7 @@ export default {
                 address: '',
                 qty: 1,
                 notes: '',
+                is_uses_point : true
             },
             districts: [],
             wards: [],
@@ -241,10 +248,12 @@ export default {
     },
     methods: {
         updateQty(val) {
-            axios.get(route('user.ajax.product.calc', {
-                'product': this.product.id,
-                'amount': val
-            })).then(({data}) => {
+            axios.post(route('user.ajax.product.calc', {
+                'product': this.product.id
+            }), {
+                'amount': val,
+                'is_uses_point': this.order_info.is_uses_point
+            }).then(({data}) => {
                 this.calculated_product = data;
             })
         },
@@ -289,6 +298,7 @@ export default {
             if (province.length && district.length && ward.length) {
                 var addresses = [this.order_info.address, ward[0].name, district[0].name, province[0].name];
                 this.order_info.address = addresses.join(', ');
+
                 await axios.post(route('user.ajax.purchases.products.store', {
                     product: this.product.id,
                     transaction: this.transaction.id

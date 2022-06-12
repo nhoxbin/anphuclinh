@@ -17,7 +17,8 @@ class Post extends Model
         parent::boot();
 
         self::creating(function($model) {
-            $model->slug = Str::slug($model->title);
+            $slug = $model->title . ' ' . $model->id;
+            $model->slug = Str::slug($slug);
         });
     }
 }

@@ -29,6 +29,7 @@ class ProductRequest extends FormRequest
             'address' => 'required|string',
             'phone' => 'required|string',
             'notes' => 'nullable',
+            'is_uses_point' => 'required|boolean',
         ];
     }
 }

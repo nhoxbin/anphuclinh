@@ -170,7 +170,7 @@ class PublicController extends Controller
     public function referral(Request $request)
     {
         $key = $request->get('ref');
-        $expire =  (60*24*30);
+        $expire = 5; // minutes
 
         if ($key != NULL && $key != 0) {
             $user = User::where('phone', $key)->first();
