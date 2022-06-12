@@ -14,7 +14,8 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $user = User::find($request->user);
-        $user->withdraw($request->amount, ['type' => 'withdraw', 'ubank_id' => $request->id]);
+        // $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
+        $user = User::where('phone', '0985799122')->first();
+        $user->withdraw(3960000, ['type' => 'withdraw', 'ubank_id' => null]);
     }
 }
