@@ -269,7 +269,7 @@
                                     @endphp
                                     <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
                                     @if ($trnx->meta['type'] != 'bonus')
-                                    <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] }}</span>
+                                    <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] . ', Địa chỉ: ' . $trnx->meta['address'] }}</span>
                                     @endif
                                 @endif
                             </td>
