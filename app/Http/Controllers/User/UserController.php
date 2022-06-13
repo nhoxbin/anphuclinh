@@ -469,7 +469,7 @@ class UserController extends Controller
                     $user->is_uses_point = $request->is_uses_point;
                     if ($user->save()) {
                         $ret['msg'] = 'success';
-                        $ret['message'] = __('messages.update.success', ['what' => 'Account']);
+                        $ret['message'] = __('messages.update.success', ['what' => __('Account')]);
                     } else {
                         $ret['message'] = __('messages.update.warning');
                     }
