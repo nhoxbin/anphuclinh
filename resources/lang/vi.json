@@ -59,6 +59,7 @@
     "messages.stage.completed": "Our token sales has been finished. Thank you very much for your contribution.",
     "messages.update.success": ":what has been updated!",
     "messages.update.warning": "Something is wrong!",
+    "messages.update.pending_tnx": "Bạn đang có 1 giao dịch đang chờ xử lý, không thể thao tác!",
     "messages.update.failed": ":what updating failed!",
     "messages.password.old_err": "Your old password is incorrect.",
     "messages.password.success": "Password successfully changed!",

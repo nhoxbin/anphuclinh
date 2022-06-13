@@ -29,16 +29,17 @@ class PointCalc {
         return null;
     }
 
-    public static function getPrice($user, Product $product, $qty = 1, $is_uses_point = true)
+    public static function getPrice($user, Product $product, $qty = 1)
     {
-        $price = $product->price * $qty;
+        $price = ($user->has_combo ? $product->combo_price : $product->price) * $qty;
+        $is_uses_point = (bool) $user->is_uses_point;
         $currentPoints = $user->currentPoints();
         $rate = self::getPoint('current');
         $vat = $max_price_discount = $max_point_discount = 0;
 
         if (!$product->is_combo) {
             // tái đơn
-            if ((bool) $is_uses_point) {
+            if ($is_uses_point) {
                 if ($user->has_combo) {
                     $percent = 50; // đã mua combo
                 } else {
@@ -47,13 +48,10 @@ class PointCalc {
             } else {
                 $percent = 0;
             }
-            if ($user->has_combo) {
-                $price = $product->combo_price * $qty;
-            }
             // giảm tối đa $percent trong tổng số điểm hiện có
             $max_price_discount = $price*$percent/100;
             $max_point_discount = round($max_price_discount/$rate);
-            if ((bool) $is_uses_point && $max_point_discount > $currentPoints) $max_point_discount = $currentPoints;
+            if ($is_uses_point && $max_point_discount > $currentPoints) $max_point_discount = $currentPoints;
             if ($max_price_discount > $max_point_discount*$rate) $max_price_discount = $max_point_discount*$rate;
 
             $vat = round(($price-$max_price_discount)*10/100);
@@ -61,6 +59,7 @@ class PointCalc {
         }
         return [
             'price' => $price,
+            'is_uses_point' => $is_uses_point,
             'point' => $currentPoints,
             'vat' => $vat,
             'max_price_discount' => $max_price_discount,

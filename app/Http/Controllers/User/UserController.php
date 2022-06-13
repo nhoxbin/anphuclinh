@@ -423,7 +423,7 @@ class UserController extends Controller
                 }
             }
         }
-        if($type == 'google2fa_setup'){
+        if ($type == 'google2fa_setup'){
             $google2fa = $request->input('google2fa', 0);
             $user = User::FindOrFail(Auth::id());
             if($user){
@@ -450,6 +450,31 @@ class UserController extends Controller
                 }else{
                     $ret['msg'] = 'warning';
                     $ret['message'] = __('Please enter a valid authentication code!');
+                }
+            }
+        }
+        if ($type == 'is_uses_point') {
+            $validator = Validator::make($request->all(), [
+                'is_uses_point' => 'required|boolean'
+            ]);
+
+            $ret['msg'] = 'warning';
+            if ($validator->fails()) {
+                $ret['message'] = __('messages.form.wrong');
+                return response()->json($ret);
+            } else {
+                $user = $request->user();
+                $pending_tnx = $user->transactions()->where(['type' => 'deposit', 'confirmed' => 0])->where('amount', '<>', 0)->exists();
+                if (!$pending_tnx) {
+                    $user->is_uses_point = $request->is_uses_point;
+                    if ($user->save()) {
+                        $ret['msg'] = 'success';
+                        $ret['message'] = __('messages.update.success', ['what' => 'Account']);
+                    } else {
+                        $ret['message'] = __('messages.update.warning');
+                    }
+                } else {
+                    $ret['message'] = __('messages.update.pending_tnx');
                 }
             }
         }
@@ -510,7 +535,6 @@ class UserController extends Controller
     {
         $page = Page::where('slug', 'referral')->first();
         $reffered = auth()->user()->refs;
-        // $reffered = User::where('referral', auth()->id())->get();
         return view('user.referral', compact('page', 'reffered'));
     }
 

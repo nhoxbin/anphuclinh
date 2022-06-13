@@ -22,7 +22,7 @@ class PurchaseController extends Controller
         }
         $user = $request->user();
 
-        $calc = PointCalc::getPrice($user, $product, $validated['qty'], $request->is_uses_point);
+        $calc = PointCalc::getPrice($user, $product, $validated['qty']);
         $meta = $transaction->meta;
         $meta['description'] = 'apl' . $transaction->id;
         $meta['rate'] = PointCalc::getPoint('current');

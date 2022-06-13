@@ -35,6 +35,7 @@
                                 <purchase-component :product="{{ $product }}"
                                                     :provinces="{{ $provinces }}"
                                                     :user="{{ $user }}"
+                                                    :meta="{{ $meta }}"
                                                     :bank="{{ $bank }}"
                                                     :transaction="{{ $transaction }}">
                                 </purchase-component>

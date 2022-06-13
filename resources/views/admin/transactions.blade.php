@@ -18,8 +18,6 @@
                             <ul class="nav">
                                 <li class="nav-item {{ (is_page('transactions.pending') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'pending') }}">{{ __('Pending') }}</a></li>
                                 <li class="nav-item {{ (is_page('transactions.approved') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'approved') }}">{{ __('Approved') }}</a></li>
-                                <li class="nav-item {{ (is_page('transactions.bonuses') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'bonuses') }}">{{ __('Bonuses') }}</a></li>
-                                <li class="nav-item {{ (is_page('transactions.withdraw') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'withdraw') }}">{{ __('Withdraw') }}</a></li>
                                 <li class="nav-item {{ (is_page('transactions') ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions') }}">{{ __('All') }}</a></li>
                             </ul>
                         </div>

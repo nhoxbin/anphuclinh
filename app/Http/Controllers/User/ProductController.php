@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function priceCalc(Request $request, Product $product)
     {
-        return json_encode(PointCalc::getPrice($request->user(), $product, $request->amount, $request->is_uses_point));
+        return json_encode(PointCalc::getPrice($request->user(), $product, $request->amount));
     }
 
     public function show(Product $product)
@@ -30,10 +30,12 @@ class ProductController extends Controller
 
         $provinces = Province::all();
         $bank = json_encode(config('bank'));
+        $meta = json_encode($user->transactions()->where(['type' => 'deposit', 'confirmed' => 1])->latest()->first()->meta);
         return view('user.purchase.show', compact(
             'product',
             'provinces',
             'user',
+            'meta',
             'bank',
             'transaction'
         ));

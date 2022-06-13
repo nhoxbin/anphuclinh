@@ -25,60 +25,56 @@
                                     autocomplete="tel" />
                             </span>
                         </p>
-                        <p class="form-row validate-required" id="billing_svw_province_field"
-                            data-priority="90">
-                            <label for="billing_svw_province" class="">Tỉnh/Thành Phố&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
-                            <span class="woocommerce-input-wrapper">
-                                <select id="billing_svw_province"
-                                    class="select wc-enhanced-select svw-select-province"
-                                    data-placeholder=""
-                                    v-model="selectedProvince"
-                                    @change="onChange($event, 'p', 'selectedProvince', 'districts')">
-                                    <option v-for="province in provinces" :value="province.code">{{ province.name }}</option>
-                                </select>
-                            </span>
-                        </p>
-                        <p class="form-row form-row-wide validate-required"
-                            id="billing_svw_district_field" data-priority="90">
-                            <label for="billing_svw_district" class="">Quận/Huyện&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
-                            <span class="woocommerce-input-wrapper">
-                                <select id="billing_svw_district"
-                                    class="select wc-enhanced-select svw-select-district"
-                                    data-allow_clear="true" data-placeholder="Chọn Quận/ Huyện"
-                                    v-model="selectedDistrict"
-                                    @change="onChange($event, 'd', 'selectedDistricts', 'wards')">
-                                    <option v-for="district in districts" :value="district.code">{{ district.name }}</option>
-                                </select>
-                            </span>
-                        </p>
-                        <p class="form-row form-row-wide update_totals_on_change validate-required"
-                            id="billing_svw_ward_field" data-priority="100">
-                            <label for="billing_svw_ward" class="">Phường/Xã&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
-                            <span class="woocommerce-input-wrapper">
-                                <select id="billing_svw_ward"
-                                    class="select wc-enhanced-select svw-select-ward"
-                                    v-model="selectedWard"
-                                    data-allow_clear="true" data-placeholder="Chọn Phường/ Xã">
-                                    <option v-for="ward in wards" :value="ward.code">{{ ward.name }}</option>
-                                </select>
-                            </span>
-                        </p>
-                        <p class="form-row form-row-wide address-field thwcfd-field-wrapper thwcfd-field-text validate-required"
-                            id="billing_address_1_field" data-priority="1000">
-                            <label for="billing_address_1" class="">Địa chỉ&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
-                            <span class="woocommerce-input-wrapper">
-                                <input type="text"
-                                    class="form-control" name="address_1"
-                                    id="billing_address_1" placeholder="Địa chỉ"
-                                    v-model="order_info.address"
-                                    autocomplete="address-line1" />
-                            </span>
-                        </p>
-                        <div class="form-check" style="font-size: 20px;">
-                            <input class="form-check-input" type="checkbox" v-model="order_info.is_uses_point" v-bind:value="true" id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Sử dụng điểm để thanh khoản
-                            </label>
+                        <div v-if="!use_old_address">
+                            <p class="form-row validate-required" id="billing_svw_province_field"
+                                data-priority="90">
+                                <label for="billing_svw_province" class="">Tỉnh/Thành Phố&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
+                                <span class="woocommerce-input-wrapper">
+                                    <select id="billing_svw_province"
+                                        class="select wc-enhanced-select svw-select-province"
+                                        data-placeholder=""
+                                        v-model="selectedProvince"
+                                        @change="onChange($event, 'p', 'selectedProvince', 'districts')">
+                                        <option v-for="province in provinces" :value="province.code">{{ province.name }}</option>
+                                    </select>
+                                </span>
+                            </p>
+                            <p class="form-row form-row-wide validate-required"
+                                id="billing_svw_district_field" data-priority="90">
+                                <label for="billing_svw_district" class="">Quận/Huyện&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
+                                <span class="woocommerce-input-wrapper">
+                                    <select id="billing_svw_district"
+                                        class="select wc-enhanced-select svw-select-district"
+                                        data-allow_clear="true" data-placeholder="Chọn Quận/ Huyện"
+                                        v-model="selectedDistrict"
+                                        @change="onChange($event, 'd', 'selectedDistricts', 'wards')">
+                                        <option v-for="district in districts" :value="district.code">{{ district.name }}</option>
+                                    </select>
+                                </span>
+                            </p>
+                            <p class="form-row form-row-wide update_totals_on_change validate-required"
+                                id="billing_svw_ward_field" data-priority="100">
+                                <label for="billing_svw_ward" class="">Phường/Xã&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
+                                <span class="woocommerce-input-wrapper">
+                                    <select id="billing_svw_ward"
+                                        class="select wc-enhanced-select svw-select-ward"
+                                        v-model="selectedWard"
+                                        data-allow_clear="true" data-placeholder="Chọn Phường/ Xã">
+                                        <option v-for="ward in wards" :value="ward.code">{{ ward.name }}</option>
+                                    </select>
+                                </span>
+                            </p>
+                            <p class="form-row form-row-wide address-field thwcfd-field-wrapper thwcfd-field-text validate-required"
+                                id="billing_address_1_field" data-priority="1000">
+                                <label for="billing_address_1" class="">Địa chỉ&nbsp;<abbr class="required" title="bắt buộc">*</abbr></label>
+                                <span class="woocommerce-input-wrapper">
+                                    <input type="text"
+                                        class="form-control" name="address_1"
+                                        id="billing_address_1" placeholder="Địa chỉ"
+                                        v-model="order_info.address"
+                                        autocomplete="address-line1" />
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -97,6 +93,18 @@
                                     rows="2" cols="5"></textarea>
                             </span>
                         </p>
+                        <div class="form-check" style="font-size: 20px;">
+                            <input class="form-check-input" type="checkbox" v-model="use_old_address" v-bind:value="true" id="addressCheckChecked" checked>
+                            <label class="form-check-label" for="addressCheckChecked">
+                                Sử dụng địa chỉ đã đặt hàng trước đó: {{ meta.address }}
+                            </label>
+                        </div>
+                        <div class="form-check" style="font-size: 20px;">
+                            <input class="form-check-input" type="checkbox" v-model="order_info.is_uses_point" v-bind:value="true" id="usePointCheckChecked" checked>
+                            <label class="form-check-label" for="usePointCheckChecked">
+                                Sử dụng điểm để thanh khoản
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -177,8 +185,8 @@
                                 <p class="woo-apl-detail">Tên ngân hàng: <strong>{{ bank.name }}</strong></p>
                                 <p class="woo-apl-detail">CHỦ TÀI KHOẢN: <strong> {{ bank.owner }}</strong></p>
                                 <p>SỐ TÀI KHOẢN: <strong>{{ bank.number }}</strong></p>
-                                <p>NỘI DUNG: <strong>apl{{ transaction.id }}</strong>
-                                </p>
+                                <p>NỘI DUNG: <strong>apl{{ transaction.id }}</strong></p>
+                                <p>LƯU Ý: <strong>Nếu số tiền trong tài khoản đủ với giao dịch, hệ thống sẽ tự động trừ vào ví chính, bạn không cần chuyển khoản!</strong></p>
                             </div>
                         </div>
                     </li>
@@ -216,23 +224,24 @@
 import axios from 'axios'
 
 export default {
-    props: ['provinces', 'product', 'user', 'bank', 'transaction'],
+    props: ['meta', 'provinces', 'product', 'user', 'bank', 'transaction'],
     data() {
         return {
             endpoint: 'https://provinces.open-api.vn/api/',
             order_info: {
-                name: '',
-                phone: '',
+                name: this.meta.name || '',
+                phone: this.meta.phone || '',
                 address: '',
                 qty: 1,
                 notes: '',
-                is_uses_point : true
+                is_uses_point : this.user.is_uses_point
             },
             districts: [],
             wards: [],
             selectedProvince: 1,
             selectedDistrict: 1,
             selectedWard: null,
+            use_old_address: true,
             calculated_product: {},
             isLoading: false,
         }
@@ -240,19 +249,34 @@ export default {
     watch: {
         'order_info.qty': function(val) {
             this.updateQty(val);
-        }
+        },
+        'order_info.is_uses_point': async function(val) {
+            let loader = this.$loading.show({})
+            await axios.post(route('user.ajax.account.update'), {
+                action_type: 'is_uses_point',
+                is_uses_point: val
+            }).then(({data}) => {
+                loader.hide();
+                this.$swal.fire((data.msg == 'success' ? 'Thành công' : 'Lỗi!'), data.message, data.msg).then(result => {
+                    if (result.isConfirmed && data.msg != 'success') {
+                        location.reload();
+                    }
+                })
+            })
+            .catch(({response}) => console.log(response.data))
+            await this.updateQty(this.order_info.qty);
+        },
     },
     mounted() {
         this.getProvinces('p', 'selectedProvince', 'districts');
         this.updateQty(1);
     },
     methods: {
-        updateQty(val) {
-            axios.post(route('user.ajax.product.calc', {
+        async updateQty(val) {
+            await axios.post(route('user.ajax.product.calc', {
                 'product': this.product.id
             }), {
-                'amount': val,
-                'is_uses_point': this.order_info.is_uses_point
+                'amount': val
             }).then(({data}) => {
                 this.calculated_product = data;
             })
@@ -295,9 +319,13 @@ export default {
             var district = this.districts.filter(d => d.code == this.selectedDistrict)
             var ward = this.wards.filter(w => w.code == this.selectedWard)
 
-            if (province.length && district.length && ward.length) {
-                var addresses = [this.order_info.address, ward[0].name, district[0].name, province[0].name];
-                this.order_info.address = addresses.join(', ');
+            if (this.use_old_address || (province.length && district.length && ward.length)) {
+                if (this.use_old_address) {
+                    this.order_info.address = this.meta.address;
+                } else {
+                    var addresses = [this.order_info.address, ward[0].name, district[0].name, province[0].name];
+                    this.order_info.address = addresses.join(', ');
+                }
 
                 await axios.post(route('user.ajax.purchases.products.store', {
                     product: this.product.id,

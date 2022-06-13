@@ -32,7 +32,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     use Notifiable;
 
     protected $fillable = [
-        'name', 'phone', 'email', 'password', 'lastLogin', 'province_code', 'level', 'lv_up'
+        'name', 'phone', 'email', 'password', 'lastLogin', 'province_code', 'level', 'is_uses_point', 'lv_up'
     ];
 
     protected $hidden = [
@@ -44,7 +44,8 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     ];
 
     protected $casts = [
-        'lv_up' => 'date'
+        'lv_up' => 'date',
+        'is_uses_point' => 'boolean',
     ];
 
     public function addPoints($amount, $message, $data = null)
@@ -162,7 +163,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $this->refs_sale($this, $transaction_ids);
 
         $transaction->whereIn('payable_id', $transaction_ids)
-            ->where('meta->type', '!=', 'package')
+            // ->where('meta->type', '!=', 'package')
             ->where([
                 'type' => 'deposit',
                 'confirmed' => 1,
@@ -216,6 +217,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             'meta->type' => 'purchase',
             'meta->product_id' => Product::where('is_combo', 1)->first()->id
         ])->exists();
+    }
+
+    public function getCommissionAttribute()
+    {
+        return 0;
     }
 
     /**

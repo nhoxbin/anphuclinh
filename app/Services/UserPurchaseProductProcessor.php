@@ -12,6 +12,20 @@ use Illuminate\Support\Facades\Log;
 
 class UserPurchaseProductProcessor
 {
+    public function pay($user, $transaction, $product)
+    {
+        $user->withdraw($transaction->amount, [
+            "type" => "purchased",
+            "title" => $product->name,
+            "description" => "Purchase of Product #" . $product->id
+        ]);
+        $product->deposit($transaction->amount, [
+            "type" => "purchased",
+            "title" => $product->name,
+            "description" => "Purchase of Product #" . $product->id
+        ]);
+    }
+
     public function handle(User $user, $transaction, Product $product, $force = 0)
     {
         /* $object = (object) [
@@ -23,14 +37,19 @@ class UserPurchaseProductProcessor
         $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
         // $curl->transactions = [$object];
         if ($curl->status == true || $force) {
+            $amount = $transaction->amount;
             $histories = $curl->transactions;
-            $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
+            $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
 
             try {
-                if ((count($history) || $force) && $user->confirm($transaction)) {
+                if ((count($history) || $force)) {
                     $qty = $transaction->meta['qty'];
-                    for ($i=0; $i < $transaction->meta['qty']; $i++) {
-                        $user->pay($product);
+
+                    if ($user->balance < $amount && $user->confirm($transaction)) {
+                        $this->pay($user, $transaction, $product);
+                    } else {
+                        $this->pay($user, $transaction, $product);
+                        $this->reject($transaction);
                     }
                     $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
 
@@ -59,23 +78,25 @@ class UserPurchaseProductProcessor
                     $area_admin->deposit(round($amt*1.1/100), $purchased_data);
 
                     if ($product->is_combo) {
-                        $user->addPoints(round($transaction->amount / PointCalc::getPoint('current')), 'Purchase Combo', ['meta' => ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]]);
+                        $user->addPoints(round($amount / $transaction->meta['rate']), 'Purchase Combo', ['meta' => ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]]);
                     } else {
-                        $user->addPoints(-$calc['max_point_discount'], 'Purchase product', ['meta' => ['type' => 'purchased', 'transaction_id' => $transaction->id]]);
+                        if ($transaction->meta['point_uses'] > 0) {
+                            $user->addPoints(-$transaction->meta['point_uses'], 'Purchase product', ['meta' => ['type' => 'purchased', 'transaction_id' => $transaction->id]]);
+                        }
                     }
                     if (($user->level = $user->sales_reaches_lv) > 0) {
                         $user->lv_up = now();
                         $user->save();
                     }
                 } else {
-                    Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);
+                    // Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);
                 }
             } catch (\Exception $e) {
-                $user->wallet->balance -= $transaction->amount;
-                $user->wallet->save();
-                $transaction->confirmed = 0;
-                $transaction->amount = 0;
-                $transaction->save();
+                if ($transaction->confirmed) {
+                    $user->wallet->balance -= $amount;
+                    $user->wallet->save();
+                    $this->reject($transaction);
+                }
 
                 Log::error($e->getMessage());
             }
@@ -86,25 +107,19 @@ class UserPurchaseProductProcessor
 
     public function reject($transaction)
     {
+        $transaction->confirmed = 0;
         $transaction->amount = 0;
         $transaction->save();
     }
 
     public function refund(User $user, $transaction, Product $product, $message)
     {
-        $qty = $transaction->meta['qty'];
-        $calc = PointCalc::getPrice($user, $product, $qty);
         try {
-            if (isset($transaction->meta['rate'])) {
-                $rate = $transaction->meta['rate'];
-            } else {
-                $rate = PointCalc::getPoint('current');
-            }
-
-            // cộng điểm
-            $point = $calc['max_point_discount'];
+            // sp thường => cộng điểm
+            $rate = $transaction->meta['rate'];
+            $point = $transaction->meta['point_uses'];
             if ($product->is_combo) {
-                // trừ điểm
+                // combo => trừ điểm
                 $point = -round($transaction->amount / $rate);
                 if (-$point > $user->currentPoints()) {
                     throw new \Exception("Số điểm hiện tại không đủ để hoàn tiền!");
@@ -117,6 +132,7 @@ class UserPurchaseProductProcessor
             $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, ['type' => 'refund', 'transaction_id' => $transaction->id]));
 
             // refund
+            $qty = $transaction->meta['qty'];
             for ($i=0; $i < $qty; $i++) {
                 $user->refund($product);
             }

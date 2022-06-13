@@ -36,14 +36,13 @@ class TransactionController extends Controller
         $order_by = 'updated_at';
         $ordered  = 'DESC';
 
-        if ($status == 'bonuses') {
-            $trnxs = Transaction::where(['type' => 'deposit', 'confirmed' => 1, 'meta->type' => 'bonus'])->orderBy($order_by, $ordered)->paginate($per_page);
-        } elseif ($status == 'approved') {
-            $trnxs = Transaction::with('payable')->where('confirmed', 1)->whereIn('type', ['deposit', 'withdraw'])->whereIn('meta->type', ['purchase', 'withdraw'])->orderBy($order_by, $ordered)->paginate($per_page);
+        if ($status == 'approved') {
+            $trnxs = Transaction::with('payable')->where('confirmed', 1)->whereIn('meta->type', ['purchase', 'withdraw', 'bonus'])->orderBy($order_by, $ordered)->paginate($per_page);
         }  elseif ($status == 'pending') {
-            $trnxs = Transaction::where(['type' => 'deposit', 'confirmed' => 0, 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
-        } elseif ($status == 'withdraw') {
-            $trnxs = Transaction::where(['type' => 'withdraw', 'confirmed' => 0])->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs = Transaction::where(['confirmed' => 0])
+                ->whereIn('meta->type', ['withdraw', 'purchase'])
+                // ->whereIn('type', ['deposit', 'withdraw'])
+                ->where('amount', '<>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status != null) {
             $trnxs = Transaction::where(['type' => 'deposit', 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         } else {

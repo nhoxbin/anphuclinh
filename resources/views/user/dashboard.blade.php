@@ -31,11 +31,7 @@
                     display: flex;
                     align-items: center;">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#goidautu" style="padding: 14px 0">
-                            {{-- <div class="option-card-icon">
-                                <i class="flaticon-right-arrow"></i>
-                            </div>
-                            <p>Chuyển điểm</p> --}}
-                            <img src="{{asset('images/dautu1-1.png')}}" alt="" style="width:90%;max-width:500px">
+                            <img src="{{ asset('images/dautu1-1.png') }}" alt="" style="width:90%;max-width:500px">
                         </a>
                     </div>
                 </div>
@@ -65,6 +61,7 @@
         <!-- Feature-section -->
         <div class="feature-section mb-15">
             <div class="row gx-3">
+                @if (!$user->hasRole('member'))
                 <div class="col-6 col-sm-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
@@ -72,7 +69,19 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Hoa hồng</p>
-                            <h3>0 VNĐ</h3>
+                            <h3>{{ $user->commission }}</h3>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                <div class="col-6 col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green pd" style="background-image: url({{ asset('images/button.png') }})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-expenses"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Tỉ giá chuyển đổi / điểm</p>
+                            <h3>{{ $current_point }}</h3>
                         </div>
                     </div>
                 </div>
@@ -84,17 +93,6 @@
                         <div class="feature-card-details">
                             <p>Điểm</p>
                             <h3>{{ $user->currentPoints() }}</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-6 pb-15">
-                    <div class="feature-card feature-card-green pd" style="background-image: url({{ asset('images/button.png') }})">
-                        <div class="feature-card-thumb">
-                            <i class="flaticon-expenses"></i>
-                        </div>
-                        <div class="feature-card-details">
-                            <p>Tỉ giá chuyển đổi / điểm</p>
-                            <h3>{{ $current_point }}</h3>
                         </div>
                     </div>
                 </div>

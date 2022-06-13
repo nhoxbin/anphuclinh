@@ -12,7 +12,7 @@ class Product extends Model implements ProductInterface
 {
     use HasWallet;
 
-    protected $fillable = ['name', 'price', 'is_combo', 'box', 'image'];
+    protected $fillable = ['name', 'price', 'combo_price', 'is_combo', 'box', 'image'];
 
     public function canBuy(Customer $customer, int $quantity = 1, bool $force = false): bool
     {
