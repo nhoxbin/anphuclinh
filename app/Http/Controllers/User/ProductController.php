@@ -30,7 +30,10 @@ class ProductController extends Controller
 
         $provinces = Province::all();
         $bank = json_encode(config('bank'));
-        $meta = json_encode($user->transactions()->where(['type' => 'deposit', 'confirmed' => 1])->latest()->first()->meta);
+        $info = $user->transactions()->where(['type' => 'deposit', 'confirmed' => 1])->latest()->first();
+        if (!is_null($info)) {
+            $meta = $info->meta;
+        }
         return view('user.purchase.show', compact(
             'product',
             'provinces',
