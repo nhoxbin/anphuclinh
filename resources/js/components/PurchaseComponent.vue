@@ -229,8 +229,9 @@ export default {
         return {
             endpoint: 'https://provinces.open-api.vn/api/',
             order_info: {
-                name: this.meta.name || '',
-                phone: this.meta.phone || '',
+
+                name: Object.keys(this.meta).length ? this.meta.name : '',
+                phone: Object.keys(this.meta).length ? this.meta.phone : '',
                 address: '',
                 qty: 1,
                 notes: '',
@@ -241,7 +242,7 @@ export default {
             selectedProvince: 1,
             selectedDistrict: 1,
             selectedWard: null,
-            use_old_address: true,
+            use_old_address: Object.keys(this.meta).length ? true : false,
             calculated_product: {},
             isLoading: false,
         }
