@@ -93,7 +93,7 @@
                                     rows="2" cols="5"></textarea>
                             </span>
                         </p>
-                        <div class="form-check" style="font-size: 20px;">
+                        <div class="form-check" style="font-size: 20px;" v-if="Object.keys(this.meta).length > 0">
                             <input class="form-check-input" type="checkbox" v-model="use_old_address" v-bind:value="true" id="addressCheckChecked" checked>
                             <label class="form-check-label" for="addressCheckChecked">
                                 Sử dụng địa chỉ đã đặt hàng trước đó: {{ meta.address }}
@@ -229,9 +229,8 @@ export default {
         return {
             endpoint: 'https://provinces.open-api.vn/api/',
             order_info: {
-
-                name: Object.keys(this.meta).length ? this.meta.name : '',
-                phone: Object.keys(this.meta).length ? this.meta.phone : '',
+                name: '',
+                phone: '',
                 address: '',
                 qty: 1,
                 notes: '',
@@ -242,9 +241,8 @@ export default {
             selectedProvince: 1,
             selectedDistrict: 1,
             selectedWard: null,
-            use_old_address: Object.keys(this.meta).length ? true : false,
+            use_old_address: false,
             calculated_product: {},
-            isLoading: false,
         }
     },
     watch: {
@@ -269,6 +267,11 @@ export default {
         },
     },
     mounted() {
+        if (Object.keys(this.meta).length) {
+            this.order_info.name = this.meta.name;
+            this.order_info.phone = this.meta.phone;
+            this.use_old_address = true;
+        }
         this.getProvinces('p', 'selectedProvince', 'districts');
         this.updateQty(1);
     },

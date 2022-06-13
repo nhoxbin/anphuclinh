@@ -14,16 +14,13 @@ class UserPurchaseProductProcessor
 {
     public function pay($user, $transaction, $product)
     {
-        $user->withdraw($transaction->amount, [
+        $data = [
             "type" => "purchased",
             "title" => $product->name,
             "description" => "Purchase of Product #" . $product->id
-        ]);
-        $product->deposit($transaction->amount, [
-            "type" => "purchased",
-            "title" => $product->name,
-            "description" => "Purchase of Product #" . $product->id
-        ]);
+        ];
+        $user->withdraw($transaction->amount, $data);
+        $product->deposit($transaction->amount, $data);
     }
 
     public function handle(User $user, $transaction, Product $product, $force = 0)
