@@ -104,14 +104,16 @@
                         }
                         @endphp
                         <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
-                        <span class="sub sub-symbol">{{ $trnx->meta['type'] == 'bonus' ? 'Hoa hồng' : 'Mua' }}</span>
+                        @if ($trnx->meta['type'] != 'bonus')
+                        <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] . (isset($trnx->meta['address']) ? ', Địa chỉ: ' . $trnx->meta['address'] : null) }}</span>
+                        @endif
                     </td>
                     <td class="data-col dt-amount{{ $text_danger }}">
                         {{-- @if ($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus')
                             <span class="lead amount-pay">{{ '~' }}</span>
                         @else --}}
                         <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                        {{-- <span class="sub sub-symbol">{{ strtoupper($trnx->currency) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="1 {{ token('symbol') }} = {{ to_num($trnx->currency_rate, 'max').' '.strtoupper($trnx->currency) }}"></em></span> --}}
+                        <span class="sub sub-symbol">{{ $trnx->meta['type'] == 'bonus' ? 'Hoa hồng' : 'Mua' }}</span>
                         {{-- @endif --}}
                     </td>
                     {{-- <td class="data-col dt-usd-amount">

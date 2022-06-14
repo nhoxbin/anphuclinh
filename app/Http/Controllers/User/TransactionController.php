@@ -33,6 +33,7 @@ class TransactionController extends Controller
         $trnxs = $request->user()->transactions()
             ->where(['type' => 'deposit'])
             ->where('amount', '>', 0)
+            ->whereIn('meta->type', ['purchase', 'bonus'])
             ->orderBy('created_at', 'DESC')
             ->get();
         // $transfers = Transaction::get_by_own(['tnx_type' => 'deposit'])->get()->count();

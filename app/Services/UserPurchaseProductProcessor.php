@@ -16,8 +16,7 @@ class UserPurchaseProductProcessor
     {
         $data = [
             "type" => "purchased",
-            "title" => $product->name,
-            "description" => "Purchase of Product #" . $product->id
+            'transaction_id' => $transaction->id
         ];
         $user->withdraw($transaction->amount, $data);
         $product->deposit($transaction->amount, $data);
@@ -48,7 +47,6 @@ class UserPurchaseProductProcessor
                         $this->pay($user, $transaction, $product);
                         $this->reject($transaction);
                     }
-                    $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
 
                     $calc = PointCalc::getPrice($user, $product, $qty);
                     $amt = $calc['price'];
@@ -60,6 +58,8 @@ class UserPurchaseProductProcessor
                         $ref1 = $qty*5000; // tầng 1: 5000*số lượng
                         $ref2 = $qty*10000; // tầng 2: 10000*số lượng
                     }
+
+                    $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
                     $user->ref_by->deposit($ref1, $purchased_data);
 
                     if ($user->ref_by->ref_by) {
@@ -112,11 +112,11 @@ class UserPurchaseProductProcessor
     public function refund(User $user, $transaction, Product $product, $message)
     {
         try {
-            // sp thường => cộng điểm
+            // if re-order => + points
             $rate = $transaction->meta['rate'];
             $point = $transaction->meta['point_uses'];
             if ($product->is_combo) {
-                // combo => trừ điểm
+                // if combo => - points
                 $point = -round($transaction->amount / $rate);
                 if (-$point > $user->currentPoints()) {
                     throw new \Exception("Số điểm hiện tại không đủ để hoàn tiền!");
@@ -124,15 +124,19 @@ class UserPurchaseProductProcessor
             }
             $user->addPoints($point, 'Refund Transaction');
 
+            $data = [
+                'type' => 'refund',
+                'status' => 'refunded',
+                'transaction_id' => $transaction->id
+            ];
+
             // trừ hoa hồng (bonus)
             $sales = Transaction::where('meta->transaction_id', $transaction->id)->get();
-            $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, ['type' => 'refund', 'transaction_id' => $transaction->id]));
+            $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, $data));
 
             // refund
-            $qty = $transaction->meta['qty'];
-            for ($i=0; $i < $qty; $i++) {
-                $user->refund($product);
-            }
+            $user->deposit($transaction->amount, $data);
+            $product->withdraw($transaction->amount, $data);
 
             // thêm trạng thái refunded
             $meta = $transaction->meta;

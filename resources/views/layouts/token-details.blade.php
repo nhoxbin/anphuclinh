@@ -1,29 +1,29 @@
-@if ($details==true) 
+@if ($details==true)
     <div class="card-head d-flex justify-content-between align-items-center">
-        <h4 class="card-title mb-0">{{__('Transaction Details')}}</h4>
+        <h4 class="card-title mb-0">{{ __('Transaction Details') }}</h4>
         <div class="trans-status">
-            @if($transaction->status == 'approved')
-            <span class="badge badge-success ucap">{{__('Approved')}}</span>
-            @elseif($transaction->status == 'pending')
-            <span class="badge badge-warning ucap">{{__('Pending')}}</span>
-            @elseif($transaction->status == 'onhold')
-            <span class="badge badge-info ucap">{{__('Progress')}}</span>
+            @if($transaction->confirmed)
+            <span class="badge badge-success ucap">{{ __('Approved') }}</span>
             @else
             <span class="badge badge-danger ucap">{{__('Rejected')}}</span>
             @endif
         </div>
     </div>
 
-    @if($transaction->tnx_type=='purchase')
+    @if ($transaction->meta['type'] == 'bonus')
     <div class="trans-details">
         <div class="gaps-1x"></div>
-        @if($transaction->status == 'approved')
+        {{-- @if($transaction->status == 'approved')
         <p class="lead-lg text-primary"><strong>{{ __('You have successfully paid this transaction') }}</strong> ({{ ucfirst($transaction->payment_method) }} <small>- {{ gateway_type($transaction->payment_method) }}</small>).</p>
         @endif
         <p>{!! __('The order no. :orderid was placed on :datetime.', ['orderid' => '<strong class="text-primary">'.$transaction->tnx_id.'</strong>', 'datetime' => _date($transaction->tnx_time)]) !!}</p>
         @if($transaction->checked_time != NUll && ($transaction->status == 'rejected' || $transaction->status == 'canceled'))
         <p class="text-danger fs-14">{!! __('Sorry! Your order has been :status due to payment.', ['status' => '<strong>'.$transaction->status.'</strong>']) !!}</p>
-        @endif
+        @endif --}}
+        @php
+            $reward_amount = $transaction->payable->reward_amount($transaction);
+        @endphp
+        <p>{!! __('Received :amount from :orderid.', ['orderid' => '<strong class="text-primary">'.$transaction->meta['transaction_id'].'</strong>', 'amount' => $reward_amount[1]]) !!}</p>
         <div class="gaps-0-5x"></div>
     </div>
     @endif
@@ -31,38 +31,34 @@
 @endif
 
 <div class="gaps-1x"></div>
-<h6 class="card-sub-title">{{ __('Token Details') }}</h6>
+<h6 class="card-sub-title">{{ __('Details') }}</h6>
 <ul class="data-details-list">
     <li>
-        <div class="data-details-head">{{__('Types')}}</div>
-        <div class="data-details-des">{{ ucfirst($transaction->tnx_type) }}</div>
+        <div class="data-details-head">{{ __('Quantity') }}</div>
+        <div class="data-details-des">{{ $reward_amount[2]->meta['qty'] }}</div>
     </li>
-    @if(!empty($transaction->ico_stage))
     <li>
-        <div class="data-details-head">{{__('Token of Stage')}}</div>
-        <div class="data-details-des"><strong>{{ $transaction->ico_stage->name }}</strong></div>
+        <div class="data-details-head">{{ __('Product Type') }}</div>
+        <div class="data-details-des"><strong>{{ $reward_amount[0] }}</strong></div>
     </li>
-    @endif
     @if($transaction->tnx_type!='refund')
     <li>
-        <div class="data-details-head">{{__('Token Amount (T)')}}</div>
-        <div class="data-details-des">
-            <span>{{ to_num($transaction->tokens, 'zero', '', false) }} {{ token_symbol() }}</span>
-        </div>
+        <div class="data-details-head">{{ __('Name') }}/{{ __('Mobile Number') }}</div>
+        <div class="data-details-des">{{ $reward_amount[2]->payable->name . '/' . $reward_amount[2]->payable->phone }}</div>
     </li>
     @endif
     @if($transaction->tnx_type=='purchase')
     <li>
         <div class="data-details-head">{{__('Bonus Token (B)')}}</div>
         <div class="data-details-des">
-            <span>{{ to_num($transaction->total_bonus, 'zero', '', false) }} {{ token_symbol() }}</span>
+            {{-- <span>{{ to_num($transaction->total_bonus, 'zero', '', false) }} {{ token_symbol() }}</span> --}}
             <span>({{ $transaction->bonus_on_token }} + {{ $transaction->bonus_on_base }})</span>
         </div>
     </li>
     <li>
         <div class="data-details-head">{{__('Total Token')}}</div>
         <div class="data-details-des">
-            <span><strong>{{ to_num($transaction->total_tokens, 'zero', '', false) }} {{ token_symbol() }}</strong></span>
+            {{-- <span><strong>{{ to_num($transaction->total_tokens, 'zero', '', false) }} {{ token_symbol() }}</strong></span> --}}
             <span>(T+B)</span>
         </div>
     </li>
@@ -78,7 +74,7 @@
     <li>
         <div class="data-details-head">{{__('Refunded Token')}}</div>
         <div class="data-details-des">
-            <span><strong class="text-danger">{{ round($transaction->total_tokens, min_decimal()) }} {{ token_symbol() }}</strong></span>
+            {{-- <span><strong class="text-danger">{{ round($transaction->total_tokens, min_decimal()) }} {{ token_symbol() }}</strong></span> --}}
         </div>
     </li>
     <li>
@@ -97,7 +93,7 @@
         </div>
     </li>
     @endif
-    @if($transaction->details && ($transaction->tnx_type!='purchase')) 
+    @if($transaction->details && ($transaction->tnx_type!='purchase'))
     <li>
         <div class="data-details-head">{{ ($transaction->tnx_type=='refund' || $transaction->tnx_type=='transfer') ? __('Notes') : __('Details') }}</div>
         <div class="data-details-des">
@@ -109,14 +105,14 @@
     <li>
         <div class="data-details-head">{{__('Referral Bonus For')}}</div>
         <div class="data-details-des">
-            @php 
+            @php
             $referral = (get_meta($transaction->extra, 'who')) ? $transaction->user(get_meta($transaction->extra, 'who')) : '';
             @endphp
             <span>{{ $referral->name }}
         </div>
     </li>
     @endif
-    @php 
+    @php
         $trnx_extra = (is_json($transaction->extra, true) ?? $transaction->extra);
     @endphp
     @if(!empty($trnx_extra->message))

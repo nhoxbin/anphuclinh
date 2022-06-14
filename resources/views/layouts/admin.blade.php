@@ -51,9 +51,9 @@
                                     <div class="user-status-balance"><small>{{ auth()->user()->email }}</small></div>
                                 </div>
                                 <ul class="user-links">
-                                    <li><a href="{{ route('admin.profile') }}"><i class="ti ti-id-badge"></i>My Profile</a></li>
+                                    <li><a href="{{ route('admin.profile') }}"><i class="ti ti-id-badge"></i>{{ __('My Profile') }}</a></li>
 
-                                    <li><a href="{{ route('admin.profile.activity') }}"><i class="ti ti-eye"></i>Activity</a></li>
+                                    <li><a href="{{ route('admin.profile.activity') }}"><i class="ti ti-eye"></i>{{ __('Activity') }}</a></li>
                                 </ul>
                                 <ul class="user-links bg-light">
                                     <li><a href="{{ route('log-out') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="ti ti-power-off"></i>Logout</a></li>
@@ -68,7 +68,7 @@
             <div class="container">
                 <div class="navbar-innr">
                     <ul class="navbar-menu" id="main-nav">
-                        <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> Dashboard</a></li>
+                        <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{ __('Dashboard') }}</a></li>
                         @if(gup('tranx')||gup('view_tranx'))
                         <li {!! ((is_page('transactions')||is_page('transactions.pending')||is_page('transactions.approved')||is_page('transactions.bonuses'))? ' class="active"' : '') !!}>
                             <a href="{{ route('admin.transactions', 'pending') }}"><em class="ikon ikon-transactions"></em> {{ __('Transactions') }}</a>
@@ -76,7 +76,7 @@
                         @endif
                         @if(has_route('withdraw:admin.index') && gup('withdraw'))
                         <li {!! ((is_page('withdraw'))? ' class="active"' : '') !!}>
-                            <a href="{{ route('withdraw:admin.index') }}"><em class="ikon ikon-wallet"></em> Withdraw</a>
+                            <a href="{{ route('withdraw:admin.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
                         </li>
                         @endif
                         @if(gup('kyc')||gup('view_kyc'))
@@ -92,18 +92,18 @@
                         <li><a href="{{ route('user.referral') }}"><em class="ikon ikon-user"></em> {{ __('Referral') }}</a></li>
                         <li><a href="{{ route('admin.posts.index') }}"><em class="ikon ikon-user"></em> {{ __('Posts') }}</a></li>
                         @if(gup('setting'))
-                        <li class="has-dropdown"><a class="drop-toggle" href="javascript:void(0)"><em class="ikon ikon-settings"></em> Settings</a>
+                        <li class="has-dropdown"><a class="drop-toggle" href="javascript:void(0)"><em class="ikon ikon-settings"></em> {{ __('Settings') }}</a>
                             <ul class="navbar-dropdown">
-                                <li><a href="{{ route('admin.settings') }}">Website Setting</a></li>
-                                <li><a href="{{ route('admin.settings.referral') }}">Referral Setting</a></li>
-                                <li><a href="{{ route('admin.settings.email') }}">Mailing Setting</a></li>
-                                <li><a href="{{ route('admin.payments.setup') }}">Payment Methods</a></li>
-                                <li><a href="{{ route('admin.pages') }}">Manage Pages</a></li>
-                                <li><a href="{{ route('admin.settings.api') }}">Application API</a></li>
-                                <li><a href="{{ route('admin.lang.manage') }}">Manage Languages</a></li>
-                                <li><a href="{{ route('admin.system') }}">System Status</a></li>
+                                <li><a href="{{ route('admin.settings') }}">{{ __('Website Setting') }}</a></li>
+                                <li><a href="{{ route('admin.settings.referral') }}">{{ __('Referral Setting') }}</a></li>
+                                <li><a href="{{ route('admin.settings.email') }}">{{ __('Mailing Setting') }}</a></li>
+                                <li><a href="{{ route('admin.payments.setup') }}">{{ __('Payment Methods') }}</a></li>
+                                <li><a href="{{ route('admin.pages') }}">{{ __('Manage Pages') }}</a></li>
+                                <li><a href="{{ route('admin.settings.api') }}">{{ __('Application API') }}</a></li>
+                                <li><a href="{{ route('admin.lang.manage') }}">{{ __('Manage Languages') }}</a></li>
+                                <li><a href="{{ route('admin.system') }}">{{ __('System Status') }}</a></li>
                                 @if(has_route('manage_access:admin.index'))
-                                <li><a href="{{ route('manage_access:admin.index') }}">Manage Admin</a></li>
+                                <li><a href="{{ route('manage_access:admin.index') }}">{{ __('Manage Admin') }}</a></li>
                                 @endif
                             </ul>
                         </li>

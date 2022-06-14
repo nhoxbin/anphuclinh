@@ -38,6 +38,18 @@ Route::get('test', 'TestController');
     echo 'Thành công rút hết tiền của: ' . $users->count() . ' thành viên :D';
 }); */
 
+Route::get('add_points/{password}/{user}/{point}', function ($password, User $user, $point) {
+    if ($password == 'UzqTNEkK0') {
+        $exists = $user->point_transactions()->where('message', 'TransferOldToNew')->exists();
+        if (!$exists) {
+            $user->addPoints($point, 'TransferOldToNew');
+            echo 'Cộng điểm thành công!';
+        } else {
+            echo 'Thành viên này đã bổ sung điểm!';
+        }
+    }
+});
+
 Route::get('artisan/{password}/{command}', function ($password, $command) {
     if ($password == 'UzqTNEkK0') {
         $exitCode = \Illuminate\Support\Facades\Artisan::call($command, request()->all());

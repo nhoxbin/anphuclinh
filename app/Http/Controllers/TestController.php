@@ -14,9 +14,14 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $user1 = User::find(1351); // ref1
-        $user2 = User::find(1070); // ref2
-        $user1->deposit(300000, ['type' => 'bonus', 'transaction_id' => 1042]);
-        $user2->deposit(600000, ['type' => 'bonus', 'transaction_id' => 1042]);
+        $tnx_current = Transaction::find(3303);
+        $tnx = $tnx_current->payable->reward_amount($tnx_current);
+        dd($tnx);
+        /* foreach ($tnxs as $tnx) {
+            $meta = $tnx->meta;
+            $meta['status'] = 'purchased';
+            $tnx->meta = $meta;
+            $tnx->save();
+        } */
     }
 }

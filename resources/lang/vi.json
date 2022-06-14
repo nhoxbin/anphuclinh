@@ -660,5 +660,6 @@
     "Posts deleted": "Đã xóa bài viết.",
     "Title": "Tiêu đề",
     "Content": "Nội dung",
-    "Commission": "Hoa hồng"
+    "Commission": "Hoa hồng",
+    "Received :amount from :orderid.": "Nhận được :amount từ giao dịch :orderid."
 }

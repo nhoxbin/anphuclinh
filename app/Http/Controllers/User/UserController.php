@@ -2,14 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-/**
- * User Controller
- *
- *
- * @package TokenLite
- * @author Softnio
- * @version 1.0.6
- */
 use Auth;
 use Illuminate\Support\Str;
 use Validator;

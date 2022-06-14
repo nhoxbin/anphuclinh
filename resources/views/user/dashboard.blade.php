@@ -62,7 +62,7 @@
         <div class="feature-section mb-15">
             <div class="row gx-3">
                 @if (!$user->hasRole('member'))
-                <div class="col-6 col-sm-6 pb-15">
+                <div class="col-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-income"></i>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 @endif
-                <div class="col-6 col-sm-6 pb-15">
+                <div class="col-6 pb-15">
                     <div class="feature-card feature-card-green pd" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-expenses"></i>
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-sm-6 pb-15">
+                <div class="col-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-savings"></i>
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-sm-6 pb-15">
+                <div class="col-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-invoice"></i>
@@ -107,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 pb-15">
+                <div class="col-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-credit-card"></i>

@@ -147,6 +147,35 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
     }
 
+    public function reward_amount($tnx_current)
+    {
+        $tnx = Transaction::find($tnx_current->meta['transaction_id']);
+        $product = Product::find($tnx->meta['product_id']);
+        $is_ref1 = $tnx->payable->ref_by->id == $tnx_current->payable_id;
+        $is_ref2 = $tnx->payable->ref_by->ref_by && $tnx->payable->ref_by->ref_by->id == $tnx_current->payable_id;
+        if ($product->is_combo) {
+            if ($is_ref1) {
+                $amount = '10%';
+            } elseif ($is_ref2) {
+                $amount = '20%';
+            }
+        } else {
+            if ($is_ref1) {
+                $amount = 5000 . '<sup>đ</sup>';
+            } elseif ($is_ref2) {
+                $amount = 10000 . '<sup>đ</sup>';
+            }
+        }
+        if (!isset($amount)) {
+            if ($tnx_current->payable->hasRole('area_admin')) {
+                $amount = '1.1%';
+            } else {
+                $amount = '2.2%';
+            }
+        }
+        return [$product->name, $amount, $tnx];
+    }
+
     public function refs_sale($user, &$transaction_ids)
     {
         foreach ($user->refs as $ref) {
@@ -163,11 +192,10 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $this->refs_sale($this, $transaction_ids);
 
         $transaction->whereIn('payable_id', $transaction_ids)
-            // ->where('meta->type', '!=', 'package')
             ->where([
                 'type' => 'deposit',
                 'confirmed' => 1,
-            ]);
+            ])->where('meta->status', '<>', 'refunded');
 
         if (is_null($time_range)) {
             $transaction->whereYear('created_at', now()->year);
