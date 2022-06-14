@@ -41,12 +41,11 @@
         <div class="data-details-head">{{ __('Product Type') }}</div>
         <div class="data-details-des"><strong>{{ $reward_amount[0] }}</strong></div>
     </li>
-    @if($transaction->tnx_type!='refund')
     <li>
         <div class="data-details-head">{{ __('Name') }}/{{ __('Mobile Number') }}</div>
         <div class="data-details-des">{{ $reward_amount[2]->payable->name . '/' . $reward_amount[2]->payable->phone }}</div>
     </li>
-    @endif
+
     @if($transaction->tnx_type=='purchase')
     <li>
         <div class="data-details-head">{{__('Bonus Token (B)')}}</div>
