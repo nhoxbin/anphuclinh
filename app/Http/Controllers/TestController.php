@@ -14,7 +14,9 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $user = User::find(1392);
-        $user->withdraw($user->balance, ['type' => 'withdraw', 'ubank_id' => null]);
+        $user1 = User::find(1351); // ref1
+        $user2 = User::find(1070); // ref2
+        $user1->deposit(300000, ['type' => 'bonus', 'transaction_id' => 1042]);
+        $user2->deposit(600000, ['type' => 'bonus', 'transaction_id' => 1042]);
     }
 }
