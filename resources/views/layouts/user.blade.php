@@ -59,8 +59,8 @@
                         @if(gws('main_website_url') != NULL)
                             <li><a href="{{ gws('main_website_url') }}" target="_blank"><em class="ikon ikon-home-link"></em> {{ __('Main Site') }}</a></li>
                         @endif
-                        <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
                         @if (Auth::user()->hasRole('super_admin'))
+                            <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
                             {{-- <li {!! Route::is('admin.withdrawals.*') ? ' class="active"' : '' !!}>
                                 <a href="{{ route('admin.withdrawals.index') }}"><em class="ikon ikon-wallet"></em> {{ __('Withdraw') }}</a>
                             </li> --}}
@@ -112,7 +112,7 @@
 
                 @if ($has_sidebar==true)
                 <div class="aside sidebar-right {{ empty($col_side_cls2) ? $col_side_cls : $col_side_cls2 }}">
-                    @if(/* !has_wallet() &&  */gws('token_wallet_req')==1 && !empty(token_wallet()))
+                    @if(gws('token_wallet_req')==1 && !empty(token_wallet()))
                     <div class="d-none d-lg-block">
                         {!! UserPanel::add_wallet_alert() !!}
                     </div>

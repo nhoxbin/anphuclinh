@@ -168,8 +168,9 @@ class UserController extends Controller
         if ($type == 'personal_data') {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|min:3',
-                'email' => 'required|email',
-                'dateOfBirth' => 'required|date_format:"m/d/Y"'
+                'phone' => 'required|numeric|digits_between:10,11',
+                'email' => 'nullable|email',
+                'dateOfBirth' => 'nullable|date_format:"m/d/Y"'
             ]);
 
             if ($validator->fails()) {
@@ -185,9 +186,8 @@ class UserController extends Controller
                 $user = User::FindOrFail(Auth::id());
                 $user->name = strip_tags($request->input('name'));
                 $user->email = $request->input('email');
-                $user->mobile = strip_tags($request->input('mobile'));
+                $user->phone = strip_tags($request->input('phone'));
                 $user->dateOfBirth = $request->input('dateOfBirth');
-                $user->nationality = strip_tags($request->input('nationality'));
                 $user_saved = $user->save();
 
                 if ($user) {

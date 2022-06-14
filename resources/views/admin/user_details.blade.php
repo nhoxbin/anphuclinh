@@ -21,15 +21,14 @@
                                 <ul class="dropdown-list more-menu-{{$user->id}}">
                                     <li><a class="user-email-action" href="#EmailUser" data-uid="{{ $user->id }}" data-toggle="modal"><em class="far fa-envelope"></em>Send Email</a></li>
                                     @if($user->id != save_gmeta('site_super_admin')->value)
-                                    <li><a class="user-form-action user-action" href="#" data-type="reset_pwd" data-uid="{{ $user->id }}" ><em class="fas fa-shield-alt"></em>Reset Pass</a></li>
+                                        <li><a class="user-form-action user-action" href="#" data-type="reset_pwd" data-uid="{{ $user->id }}" ><em class="fas fa-shield-alt"></em>Reset Pass</a></li>
                                     @endif
                                     @if(Auth::id() != $user->id && $user->id != save_gmeta('site_super_admin')->value)
-                                    @if($user->status != 'suspend')
-                                    <li><a href="#" data-uid="{{ $user->id }}" data-type="suspend_user" class="user-action"><em class="fas fa-ban"></em>Suspend</a></li>
-
-                                    @else
-                                    <li><a href="#" data-uid="{{ $user->id }}" data-type="active_user" class="user-action"><em class="fas fa-ban"></em>Active</a></li>
-                                    @endif
+                                        @if($user->status != 'suspend')
+                                        <li><a href="#" data-uid="{{ $user->id }}" data-type="suspend_user" class="user-action"><em class="fas fa-ban"></em>Suspend</a></li>
+                                        @else
+                                        <li><a href="#" data-uid="{{ $user->id }}" data-type="active_user" class="user-action"><em class="fas fa-ban"></em>Active</a></li>
+                                        @endif
                                     @endif
                                 </ul>
                             </div>

@@ -47,7 +47,7 @@
                             <a class="toggle-tigger user-thumb" href="#"><em class="ti ti-user"></em></a>
                             <div class="toggle-class dropdown-content dropdown-content-right dropdown-arrow-right user-dropdown">
                                 <div class="user-status">
-                                    <h6 class="user-status-title">{{ auth()->user()->name }} <span class="text-white-50">({{ set_id(auth()->user()->id) }})</span></h6>
+                                    <h6 class="user-status-title">{{ auth()->user()->name }} <span class="text-white-50">{{ auth()->user()->phone }}</span></h6>
                                     <div class="user-status-balance"><small>{{ auth()->user()->email }}</small></div>
                                 </div>
                                 <ul class="user-links">

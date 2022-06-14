@@ -1,7 +1,7 @@
 <?php
 
 /**
- * UserPanel Helper 
+ * UserPanel Helper
  *
  * This class for manage user panel data etc.
  *
@@ -38,13 +38,13 @@ class UserPanel
         $g_cls = ($class) ? css_class($class) : '';
 
         $return = '<div' . $g_id . ' class="user-dropdown-head' . $g_cls . '">
-        <h6 class="user-dropdown-name">' . $user->name . '<span>(' . set_id($user->id) . ')</span></h6>
+        <h6 class="user-dropdown-name">' . $user->name . '<span>' . $user->name . '</span></h6>
         <span class="user-dropdown-email">' . $user->email . '</span>
         </div>
 
         <div class="user-status">
-        <h6 class="user-status-title">' . __('Token Balance') . '</h6>
-        <div class="user-status-balance">' . to_num_token($user->tokenBalance) . ' <small>' . token('symbol') . '</small></div>
+        <h6 class="user-status-title">' . __('Commission') . '</h6>
+        <div class="user-status-balance">' . number_format($user->balance) . ' <small><sup>đ</sup></small></div>
         </div>';
 
         return $return;
@@ -67,9 +67,9 @@ class UserPanel
         $g_cls = ($class) ? css_class($class) : '';
 
         $return = '<div' . $g_id . ' class="user-status' . $g_cls . '">
-        <h6 class="text-white">' . $user->email . ' <small class="text-white-50">(' . set_id($user->id) . ')</small></h6>
-        <h6 class="user-status-title">' . __('Token Balance') . '</h6>
-        <div class="user-status-balance">' . to_num_token($user->tokenBalance) . ' <small>' . token('symbol') . '</small></div>
+        <h6 class="text-white">' . $user->email . ' <small class="text-white-50">' . $user->name . '</small></h6>
+        <h6 class="user-status-title">' . __('Commission') . '</h6>
+        <div class="user-status-balance">' . number_format($user->balance) . ' <small><sup>đ</sup></small></div>
         </div>';
 
         return $return;

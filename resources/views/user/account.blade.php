@@ -38,7 +38,7 @@
                             <div class="input-item input-with-label">
                                 <label for="email-address" class="input-item-label">{{__('Email Address')}}</label>
                                 <div class="input-wrap">
-                                    <input class="input-bordered" type="text" id="email-address" name="email" required="required" placeholder="{{ __('Enter Email Address') }}" value="{{ $user->email }}" readonly>
+                                    <input class="input-bordered" type="text" id="email-address" name="email" placeholder="{{ __('Enter Email Address') }}" value="{{ $user->email }}">
                                 </div>
                             </div>{{-- .input-item --}}
                         </div>
@@ -46,7 +46,7 @@
                             <div class="input-item input-with-label">
                                 <label for="mobile-number" class="input-item-label">{{__('Mobile Number')}}</label>
                                 <div class="input-wrap">
-                                    <input class="input-bordered" type="text" id="mobile-number" name="mobile" placeholder="{{ __('Enter Mobile Number') }}" value="{{ $user->mobile }}">
+                                    <input class="input-bordered" type="text" id="mobile-number" name="phone" placeholder="{{ __('Enter Mobile Number') }}" value="{{ $user->phone }}" required="required">
                                 </div>
                             </div>{{-- .input-item --}}
                         </div>
@@ -54,20 +54,7 @@
                             <div class="input-item input-with-label">
                                 <label for="date-of-birth" class="input-item-label">{{__('Date of Birth')}}</label>
                                 <div class="input-wrap">
-                                    <input class="input-bordered date-picker-dob" type="text" id="date-of-birth" name="dateOfBirth" required="required" placeholder="mm/dd/yyyy" value="{{ ($user->dateOfBirth != NULL ? _date($user->dateOfBirth, 'm/d/Y') : '') }}">
-                                </div>
-                            </div>{{-- .input-item --}}
-                        </div>{{-- .col --}}
-                        <div class="col-md-6">
-                            <div class="input-item input-with-label">
-                                <label for="nationality" class="input-item-label">{{__('Nationality')}}</label>
-                                <div class="input-wrap">
-                                    <select class="select-bordered select-block" name="nationality" id="nationality" required="required" data-dd-class="search-on">
-                                        <option value="">{{__('Select Country')}}</option>
-                                        @foreach($countries as $country)
-                                        <option {{$user->nationality == $country ? 'selected ' : ''}}value="{{ $country }}">{{ $country }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input class="input-bordered date-picker-dob" type="text" id="date-of-birth" name="dateOfBirth" placeholder="mm/dd/yyyy" value="{{ ($user->dateOfBirth != NULL ? _date($user->dateOfBirth, 'm/d/Y') : '') }}">
                                 </div>
                             </div>{{-- .input-item --}}
                         </div>{{-- .col --}}
