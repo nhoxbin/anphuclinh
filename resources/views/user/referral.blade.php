@@ -44,27 +44,24 @@
             </thead>
             <tbody>
                 @forelse($reffered as $refer)
-                <tr class="data-item">
-                    <td class="data-col refferal-name">{{ $refer->name }}</td>
-                    <td class="data-col refferal-phone">{{ $refer->phone }}</td>
-                    <td class="data-col refferal-sales">{{ number_format($refer->sales()) }}<sup>đ</sup></td>
-                </tr>
-                @foreach ($refer->refs as $key => $ref)
-                @if ($key+1 > 2)
-                    @break
-                @endif
-                <tr class="data-item">
-                    <td class="data-col refferal-name" style="padding-left: 20px;">{{ $ref->name }}</td>
-                    <td class="data-col refferal-phone">{{ $ref->phone }}</td>
-                    <td class="data-col refferal-sales">{{ number_format($ref->sales()) }}<sup>đ</sup></td>
-                </tr>
-                @endforeach
+                    <tr class="data-item">
+                        <td class="data-col refferal-name">{{ $refer->name }}</td>
+                        <td class="data-col refferal-phone">{{ $refer->phone }}</td>
+                        <td class="data-col refferal-sales">{{ number_format($refer->sales()) }}<sup>đ</sup></td>
+                    </tr>
+                    @foreach ($refer->refs as $key => $ref)
+                    <tr class="data-item">
+                        <td class="data-col refferal-name" style="padding-left: 20px;">{{ $ref->name }}</td>
+                        <td class="data-col refferal-phone">{{ $ref->phone }}</td>
+                        <td class="data-col refferal-sales">{{ number_format($ref->sales()) }}<sup>đ</sup></td>
+                    </tr>
+                    @endforeach
                 @empty
-                <tr class="data-item">
-                    <td class="data-col">{{ __('No one join yet!') }}</td>
-                    <td class="data-col"></td>
-                    <td class="data-col"></td>
-                </tr>
+                    <tr class="data-item">
+                        <td class="data-col">{{ __('No one join yet!') }}</td>
+                        <td class="data-col"></td>
+                        <td class="data-col"></td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
