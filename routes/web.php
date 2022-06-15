@@ -38,8 +38,9 @@ Route::get('test', 'TestController');
     echo 'Thành công rút hết tiền của: ' . $users->count() . ' thành viên :D';
 }); */
 
-Route::get('add_points/{password}/{user}/{point}', function ($password, User $user, $point) {
+Route::get('add_points/{password}/{phone}/{point}', function ($password, $phone, $point) {
     if ($password == 'UzqTNEkK0') {
+        $user = User::where('phone', $phone)->firstOrFail();
         $exists = $user->point_transactions()->where('message', 'TransferOldToNew')->exists();
         if (!$exists) {
             $user->addPoints($point, 'TransferOldToNew');
