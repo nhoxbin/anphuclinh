@@ -21,13 +21,12 @@ class TestController extends Controller
             'type' => 'deposit',
             'confirmed' => 1,
             'meta->type' => 'purchase'
-        ])->where('meta', 'NOT LIKE', 'status');
-        dd($tnxs);
-        /* foreach ($tnxs as $tnx) {
+        ])->where('meta', 'NOT LIKE', 'status')->get();
+        foreach ($tnxs as $tnx) {
             $meta = $tnx->meta;
             $meta['status'] = 'purchased';
             $tnx->meta = $meta;
             $tnx->save();
-        } */
+        }
     }
 }
