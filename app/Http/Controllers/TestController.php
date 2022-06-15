@@ -22,11 +22,12 @@ class TestController extends Controller
             'confirmed' => 1,
             'meta->type' => 'purchase'
         ])->where('meta', 'NOT LIKE', 'status');
-        foreach ($tnxs as $tnx) {
+        dd($tnxs);
+        /* foreach ($tnxs as $tnx) {
             $meta = $tnx->meta;
             $meta['status'] = 'purchased';
             $tnx->meta = $meta;
             $tnx->save();
-        }
+        } */
     }
 }
