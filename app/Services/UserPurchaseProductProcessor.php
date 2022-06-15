@@ -39,8 +39,6 @@ class UserPurchaseProductProcessor
 
             try {
                 if ((count($history) || $force)) {
-                    $qty = $transaction->meta['qty'];
-
                     if ($user->balance < $amount && $user->confirm($transaction)) {
                         $this->pay($user, $transaction, $product);
                     } else {
@@ -48,6 +46,7 @@ class UserPurchaseProductProcessor
                         $this->reject($transaction);
                     }
 
+                    $qty = $transaction->meta['qty'];
                     $calc = PointCalc::getPrice($user, $product, $qty);
                     $amt = $calc['price'];
                     if ($product->is_combo) {
@@ -85,6 +84,10 @@ class UserPurchaseProductProcessor
                         $user->lv_up = now();
                         $user->save();
                     }
+                    $meta = $transaction->meta;
+                    $meta['status'] = 'purchased';
+                    $transaction->meta = $meta;
+                    $transaction->save();
                 } else {
                     // Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);
                 }

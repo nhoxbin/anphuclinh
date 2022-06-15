@@ -14,14 +14,19 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $tnx_current = Transaction::find(3303);
+        /* $tnx_current = Transaction::find(3303);
         $tnx = $tnx_current->payable->reward_amount($tnx_current);
-        dd($tnx);
-        /* foreach ($tnxs as $tnx) {
+        dd($tnx); */
+        $tnxs = Transaction::where([
+            'type' => 'deposit',
+            'confirmed' => 1,
+            'meta->type' => 'purchase'
+        ])->where('meta', 'NOT LIKE', 'status');
+        foreach ($tnxs as $tnx) {
             $meta = $tnx->meta;
             $meta['status'] = 'purchased';
             $tnx->meta = $meta;
             $tnx->save();
-        } */
+        }
     }
 }
