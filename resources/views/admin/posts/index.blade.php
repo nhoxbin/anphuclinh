@@ -13,7 +13,7 @@
                         <ul class="btn-grp btn-grp-block guttar-20px">
                             <li>
                                 <a href="{{ route('admin.posts.create') }}" class="btn btn-auto btn-sm btn-primary">
-                                    <em class="fas fa-plus-circle"> </em><span>Add <span class="d-none d-md-inline-block">Post</span></span>
+                                    <em class="fas fa-plus-circle"> </em><span>Thêm <span class="d-none d-md-inline-block">{{ __('Posts') }}</span></span>
                                 </a>
                             </li>
                         </ul>
@@ -42,137 +42,32 @@
                 <table class="data-table admin-tnx">
                     <thead>
                         <tr class="data-item data-head">
-                            <th class="data-col tnx-status dt-tnxno">{{ __('Tranx ID') }}</th>
-                            <th class="data-col dt-name">{{ __('Name') }}</th>
-                            <th class="data-col dt-product-type">{{ __('Product Type') }}</th>
-                            <th class="data-col dt-amount">{{ __('Amount') }}</th>
-                            <th class="data-col dt-type tnx-type">{{ __('Type') }}</th>
+                            <th class="data-col dt-name">{{ __('Title') }}</th>
+                            <th class="data-col dt-product-type">{{ __('Content') }}</th>
                             <th class="data-col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($trnxs as $trnx)
-                        @php
-                            $status = !$trnx->confirmed ? 'pending' : 'approved';
-                            $text_danger = ( $status == 'pending') ? ' text-danger' : '';
-                        @endphp
-                        <tr class="data-item" id="tnx-item-{{ $trnx->id }}">
-                            <td class="data-col dt-tnxno">
-                                <div class="d-flex align-items-center">
-                                    <div id="ds-{{ $trnx->id }}" data-toggle="tooltip" data-placement="top" title="{{ __status($status, 'text') }}" class="data-state data-state-{{ __status($status, 'icon') }}">
-                                        <span class="d-none">{{ ucfirst($status) }}</span>
-                                    </div>
-                                    <div class="fake-class">
-                                        <span class="lead tnx-id">{{ $trnx->id }}</span>
-                                        <span class="sub sub-date">{{ _date($trnx->updated_at) }}</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="data-col dt-name">
-                                <span class="lead amount-pay{{ $text_danger }}">{{ $trnx->payable->name }}</span>
-                                <span class="sub sub-symbol">{{ $trnx->payable->phone }}</span>
+                        @foreach($posts as $post)
+                        <tr class="data-item" id="tnx-item-{{ $post->id }}">
+                            <td class="data-col dt-title">
+                                <span class="lead amount-pay">{{ $post->title }}</span>
+                                {{-- <span class="sub sub-symbol">{{ $post }}</span> --}}
                             </td>
                             <td class="data-col dt-product-type">
-                                @if ($trnx->type == 'withdraw')
-                                    @php
-                                        $type = App\Models\UserBank::find($trnx->meta['ubank_id']);
-                                    @endphp
-                                    <span class="lead token-amount{{ $text_danger }}">{{ $type->user->name }}</span>
-                                    <span class="sub sub-symbol">{!! 'Bank: ' . $type->bank->name . "<br /> Chủ tk: " . $type->host . ', STK: ' . $type->number . ', Chi nhánh: ' . $type->branch !!}</span>
-                                @else
-                                    @php
-                                    $type = null;
-                                    if ($trnx->meta['type'] == 'purchase') {
-                                        if (isset($trnx->meta['product_id'])) {
-                                            $type = App\Models\Product::find($trnx->meta['product_id']);
-                                        } elseif (isset($trnx->meta['package_id'])) {
-                                            $type = App\Models\Package::find($trnx->meta['package_id']);
-                                        }
-                                    } elseif ($trnx->meta['type'] == 'bonus') {
-                                        $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
-                                        $type = App\Models\Product::find($product_id);
-                                    }
-                                    @endphp
-                                    <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
-                                    @if ($trnx->meta['type'] != 'bonus')
-                                    <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] }}</span>
-                                    @endif
-                                @endif
-                            </td>
-                            <td class="data-col dt-amount">
-                                <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                @if ($trnx->type != 'withdraw')
-                                <span class="sub sub-symbol">{{ isset($trnx->meta['status']) ? __($trnx->meta['status']) : ($trnx->meta['type'] == 'bonus' ? __('Bonus') : __('Purchase')) }}</span>
-                                @endif
-                            </td>
-                            {{-- <td class="data-col dt-account">
-                                <span class="sub sub-s2 pay-with">
-                                    @if ($trnx->tnx_type=='bonus' && $trnx->added_by!=set_added_by('0'))
-                                        {{ 'Added by '.transaction_by($trnx->added_by) }}
-                                    @elseif($trnx->tnx_type == 'refund')
-                                        {{ $trnx->details }}
-                                    @elseif($trnx->tnx_type == 'transfer')
-                                        {{ $trnx->details }}
-                                    @else
-                                        {{ (is_gateway($trnx->payment_method, 'internal') ? gateway_type($trnx->payment_method, 'name') : ( (is_gateway($trnx->payment_method, 'online') || $trnx->payment_method=='bank') ? 'Pay via '.ucfirst($trnx->payment_method) : 'Pay with '.strtoupper($trnx->currency) ) ) }}
-                                    @endif
-                                    @if ($trnx->meta['type'] != 'bonus')
-                                        <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ $trnx->wallet_address }}"></em>
-                                    @endif
-                                </span>
-                                @if($trnx->tnx_type == 'refund')
-                                    @php
-                                    $extra = (is_json($trnx->extra, true) ?? $trnx->extra);
-                                    @endphp
-                                    <span class="sub sub-email"><a href="{{ route('admin.transactions.view', ($extra->trnx ?? $trnx->id)) }}">View Transaction</a></span>
-                                @else
-                                    <span class="sub sub-email">{{ set_id($trnx->user) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '' }}"></em></span>
-                                @endif
-                            </td> --}}
-                            <td class="data-col data-type">
-                                <span class="dt-type-md badge badge-outline badge-md badge-{{$trnx->id}} badge-{{__status($trnx->tnx_type,'status')}}">{{ ucfirst($trnx->tnx_type) }}</span>
-                                <span class="dt-type-sm badge badge-sq badge-outline badge-md badge-{{$trnx->id}} badge-{{__status($trnx->tnx_type,'status')}}">{{ ucfirst(substr($trnx->tnx_type, 0, 1)) }}</span>
+                                <span class="lead amount-pay">{!! substr(strip_tags(htmlspecialchars_decode($post->content)), 0, 100) !!}</span>
                             </td>
                             <td class="data-col text-right">
                                 <div class="relative d-inline-block">
                                     <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a>
                                     <div class="toggle-class dropdown-content dropdown-content-top-left">
-                                        <ul id="more-menu-{{ $trnx->id }}" class="dropdown-list">
-                                            {{-- <li><a href="{{ route('admin.transactions.view', $trnx->id) }}">
-                                                <em class="ti ti-eye"></em> View Details</a></li> --}}
-                                            @if (!$trnx->confirmed)
-                                                <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="approved" data-tnx_id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em> {{ __('Approve') }}</a></li>
-                                                <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="rejected" data-tnx_id="{{ $trnx->id }}">
-                                                    <em class="fas fa-ban"></em> {{ __('Reject') }}</a></li>
-                                            @else
-                                                @if (!isset($trnx->meta['status']))
-                                                <li><a href="javascript:void(0)" class="tnx-action" data-type="refund" data-id="{{ $trnx->id }}">
-                                                    <em class="fas fa-reply"></em> {{ __('Refund') }}</a></li>
-                                                @endif
-                                                <li><a href="javascript:void(0)" class="tnx-action" data-type="delete" data-id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em> {{ __('Delete') }}</a></li>
-                                            @endif
-                                            {{-- @if($trnx->status == 'pending' || $trnx->status == 'onhold')
-                                                @if($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual')
-                                                <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em>Approve</a></li>
-                                                @endif
-                                                @if($trnx->tnx_type != 'transfer')
-                                                <li id="canceled"><a href="javascript:void(0)" class="tnx-action" data-type="canceled" data-id="{{ $trnx->id }}">
-                                                    <em class="fas fa-ban"></em>Cancel</a></li>
-                                                @endif
-                                            @endif
-                                            @if($trnx->status == 'canceled')
-                                                @if( !empty($trnx->checked_by) && ($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual'))
-                                                <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em>Approve</a></li>
-                                                @endif
-                                            @endif --}}
-                                            {{-- @if( !empty($trnx->checked_by) && ($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual'))
-                                            <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
-                                                <em class="far fa-check-square"></em>Delete</a></li>
-                                            @endif --}}
+                                        <ul id="more-menu-{{ $post->id }}" class="dropdown-list">
+                                            <li><a href="{{ route('admin.posts.edit', $post->id) }}">
+                                                <em class="ti ti-eye"></em> {{ __('Edit') }}</a></li>
+                                            <li><a href="{{ route('public.posts.show', $post->slug) }}">
+                                                <em class="ti ti-eye"></em> {{ __('View Details') }}</a></li>
+                                            <li><a href="javascript:void(0)" id="delete_post" data-id="{{ $post->id }}">
+                                                <em class="far fa-check-square"></em> {{ __('Delete') }}</a></li>
                                         </ul>
                                     </div>
                                 </div>

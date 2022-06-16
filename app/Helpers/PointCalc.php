@@ -17,11 +17,11 @@ class PointCalc {
         $increase_percent = 5; // %
         $refer_bonus = 500000;
 
-        $current_point = (float) file_get_contents(self::getFile());
+        $rate = (float) file_get_contents(self::getFile());
         $points = [
-            'current' => ['amount' => $current_point],
-            'refer' => ['amount' => $refer_bonus / $current_point],
-            'increase' => ['amount' => $current_point * ($increase_percent / 100)],
+            'current' => ['amount' => $rate],
+            'refer' => ['amount' => $refer_bonus / $rate],
+            'increase' => ['amount' => $rate * ($increase_percent / 100)],
         ];
         if (in_array($type, array_keys($points))) {
             return round($points[$type]['amount']);

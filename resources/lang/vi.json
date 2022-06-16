@@ -661,5 +661,10 @@
     "Title": "Tiêu đề",
     "Content": "Nội dung",
     "Commission": "Hoa hồng",
-    "Received :amount from :orderid.": "Nhận được :amount từ giao dịch :orderid."
+    "Received :amount from :orderid.": "Nhận được :amount từ giao dịch :orderid.",
+    "This field is required!": "Ô này là bắt buộc!",
+    "Image": "Hình ảnh",
+    "Edit Posts": "Sửa bài viết",
+    "Image cannot be null!": "Hình ảnh không được bỏ trống!",
+    "Posted on :time": "Đăng lúc :time"
 }

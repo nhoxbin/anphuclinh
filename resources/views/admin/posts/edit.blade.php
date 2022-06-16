@@ -11,15 +11,16 @@
         <div class="card content-area content-area-mh">
             <div class="card-innr">
                 <div class="card-head has-aside">
-                    <h4 class="card-title">{{ __('Posts') }}</h4>
+                    <h4 class="card-title">{{ __('Edit Posts') }}</h4>
                 </div>
 
-                <form class="" action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data">
+                <form class="" action="{{ route('admin.posts.update', $post->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('put')
                     <div class="form-group row">
                         <label class="col-sm-12 col-form-label" for="title">{{ __('Title') }}</label>
                         <div class="col-sm-12">
-                            <input class="form-control" id="title" type="text" name="title" value="{{ old('title') }}">
+                            <input class="form-control" id="title" type="text" name="title" value="{{ old('title', $post->title) }}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -32,7 +33,7 @@
                         <label class="col-sm-12 col-form-label" for="title">{{ __('Content') }}</label>
                         <div class="col-sm-12">
                             <textarea name="content">
-                                {{ old('content', 'Hello, An Phúc Linh!') }}
+                                {!! old('content', $post->content) !!}
                             </textarea>
                         </div>
                     </div>
@@ -42,8 +43,8 @@
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div>{{-- .card-innr --}}
+        </div>{{-- .card --}}
     </div>
 </div>
 @endsection

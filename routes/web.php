@@ -51,6 +51,19 @@ Route::get('add_points/{password}/{phone}/{point}', function ($password, $phone,
     }
 });
 
+Route::get('add_commission/{password}/{phone}/{money}', function ($password, $phone, $money) {
+    if ($password == 'UzqTNEkK0') {
+        $user = User::where('phone', $phone)->firstOrFail();
+        $exists = $user->transactions()->where(['type' => 'deposit', 'confirmed' => 1, 'meta->type' => 'additional', 'meta->status' => 'approved'])->exists();
+        if (!$exists) {
+            $user->deposit($money, ['type' => 'additional', 'status' => 'approved']);
+            echo 'Cộng tiền thành công!';
+        } else {
+            echo 'Thành viên này đã bổ sung hoa hồng!';
+        }
+    }
+});
+
 Route::get('artisan/{password}/{command}', function ($password, $command) {
     if ($password == 'UzqTNEkK0') {
         $exitCode = \Illuminate\Support\Facades\Artisan::call($command, request()->all());
@@ -262,6 +275,7 @@ Route::name('public.')->group(function () {
     })->name('white.paper');
 
     Route::get('/{slug}', 'PublicController@site_pages')->name('pages');
+    Route::get('posts/{post}', 'PostController@show')->name('posts.show');
 });
 
 // Ajax Routes

@@ -21,6 +21,7 @@ use PragmaRX\Google2FA\Google2FA;
 use App\Notifications\PasswordChange;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
+use App\Models\Post;
 use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
@@ -45,8 +46,9 @@ class UserController extends Controller
         $user = auth()->user();
         $products = Product::all();
         $packages = Package::all();
-        $current_point = PointCalc::getPoint('current');
-        return view('user.dashboard', compact('user', 'products', 'current_point', 'packages'));
+        $posts = Post::all();
+        $rate = PointCalc::getPoint('current');
+        return view('user.dashboard', compact('user', 'posts', 'products', 'rate', 'packages'));
     }
 
 

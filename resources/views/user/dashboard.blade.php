@@ -81,7 +81,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Tỉ giá chuyển đổi / điểm</p>
-                            <h3>{{ $current_point }}</h3>
+                            <h3>{{ $rate }}</h3>
                         </div>
                     </div>
                 </div>
@@ -218,134 +218,27 @@
                 </div>
             </div>
             <div class="row gx-3">
+                @foreach ($posts as $key => $post)
+                @if ($key+1 > 8)
+                    @break
+                @endif
                 <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-1.jpg')}}" alt="blog">
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="Bài viết">
                             </a>
                         </div>
                         <div class="blog-card-details">
                             <ul class="blog-entry">
-                                <li>Smith Rob</li>
-                                <li>15 Jan, 2021</li>
+                                <li>{{ $post->user->name }}</li>
+                                <li>{{ $post->created_at->diffForHumans() }}</li>
                             </ul>
-                            <h3><a href="#">Financing Loans Available To Small Businesses</a></h3>
+                            <h3><a href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h3>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-sm-3 pb-15">
-                    <div class="blog-card">
-                        <div class="blog-card-thumb">
-                            <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-card-details">
-                            <ul class="blog-entry">
-                                <li>John Doe</li>
-                                <li>13 Jan, 2021</li>
-                            </ul>
-                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3 pb-15">
-                    <div class="blog-card">
-                        <div class="blog-card-thumb">
-                            <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-card-details">
-                            <ul class="blog-entry">
-                                <li>John Doe</li>
-                                <li>13 Jan, 2021</li>
-                            </ul>
-                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3 pb-15">
-                    <div class="blog-card">
-                        <div class="blog-card-thumb">
-                            <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-card-details">
-                            <ul class="blog-entry">
-                                <li>John Doe</li>
-                                <li>13 Jan, 2021</li>
-                            </ul>
-                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3 pb-15">
-                    <div class="blog-card">
-                        <div class="blog-card-thumb">
-                            <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-card-details">
-                            <ul class="blog-entry">
-                                <li>John Doe</li>
-                                <li>13 Jan, 2021</li>
-                            </ul>
-                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3 pb-15">
-                    <div class="blog-card">
-                        <div class="blog-card-thumb">
-                            <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-card-details">
-                            <ul class="blog-entry">
-                                <li>John Doe</li>
-                                <li>13 Jan, 2021</li>
-                            </ul>
-                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3 pb-15">
-                    <div class="blog-card">
-                        <div class="blog-card-thumb">
-                            <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-card-details">
-                            <ul class="blog-entry">
-                                <li>John Doe</li>
-                                <li>13 Jan, 2021</li>
-                            </ul>
-                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-sm-3 pb-15">
-                    <div class="blog-card">
-                        <div class="blog-card-thumb">
-                            <a href="#">
-                                <img src="{{asset('assets1/images/blogs/blog-2.jpg')}}" alt="blog">
-                            </a>
-                        </div>
-                        <div class="blog-card-details">
-                            <ul class="blog-entry">
-                                <li>John Doe</li>
-                                <li>13 Jan, 2021</li>
-                            </ul>
-                            <h3><a href="#">Need Financial Help To Open Your New Business</a></h3>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         <!-- Latest-news-section -->

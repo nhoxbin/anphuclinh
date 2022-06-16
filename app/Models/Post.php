@@ -10,15 +10,20 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['title', 'slug', 'image', 'content', 'user_id'];
 
     public static function boot()
     {
         parent::boot();
 
-        self::creating(function($model) {
-            $slug = $model->title . ' ' . $model->id;
-            $model->slug = Str::slug($slug);
+        self::created(function($model) {
+            $model->slug .= '-' . $model->id;
+            $model->save();
         });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
 }
