@@ -265,9 +265,9 @@
                                         $type = App\Models\Product::find($product_id);
                                     }
                                     @endphp
-                                    <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
+                                    <span class="lead token-amount{{ $text_danger }}">{!! $type->name ?? $trnx->meta['title'] . '<sup>đ</sup>' !!}</span>
                                     @if ($trnx->meta['type'] != 'bonus')
-                                    <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] . (isset($trnx->meta['address']) ? ', Địa chỉ: ' . $trnx->meta['address'] : null) }}</span>
+                                    <span class="sub sub-symbol">{{ __('Quantity') . ': ' . ($trnx->meta['qty'] ?? 1) . (isset($trnx->meta['address']) ? ', Địa chỉ: ' . $trnx->meta['address'] : null) }}</span>
                                     @endif
                                 @endif
                             </td>

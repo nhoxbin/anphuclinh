@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\PointCalc;
 use Bavix\Wallet\Interfaces\Customer;
 use Illuminate\Database\Eloquent\Model;
 use Bavix\Wallet\Interfaces\Product as ProductInterface;
@@ -32,9 +33,9 @@ class Package extends Model implements ProductInterface
     public function getMetaProduct(): ?array
     {
         return [
-            'title' => 'Gói đầu tư ' . $this->name,
-            'type' => 'package-purchased',
-            'description' => 'Purchase of Package #' . $this->id,
+            'title' => 'Gói đầu tư ' . number_format($this->amount),
+            'type' => 'package',
+            'status' => 'purchased',
         ];
     }
 }

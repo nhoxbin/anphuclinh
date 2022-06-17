@@ -44,6 +44,8 @@ class PurchaseController extends Controller
         $user = $request->user();
 
         $meta = $transaction->meta;
+        $meta['title'] = 'Gói đầu tư ' . number_format($package->amount);
+        $meta['rate'] = PointCalc::getPoint('current');
         $meta['description'] = 'apl' . $transaction->id;
         $transaction->update([
             'amount' => $package->amount,

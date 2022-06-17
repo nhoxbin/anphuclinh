@@ -40,7 +40,7 @@ class TransactionController extends Controller
             $trnxs = Transaction::with('payable')->where('confirmed', 1)->whereIn('meta->type', ['purchase', 'withdraw', 'bonus'])->orderBy($order_by, $ordered)->paginate($per_page);
         }  elseif ($status == 'pending') {
             $trnxs = Transaction::where(['confirmed' => 0])
-                ->whereIn('meta->type', ['withdraw', 'purchase'])
+                ->whereIn('meta->type', ['withdraw', 'purchase', 'package'])
                 // ->whereIn('type', ['deposit', 'withdraw'])
                 ->where('amount', '<>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status != null) {

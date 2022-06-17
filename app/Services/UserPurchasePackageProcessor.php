@@ -42,7 +42,7 @@ class UserPurchasePackageProcessor
                     $area_admin = User::whereRelation('province', 'area', '=', $user->province->area)->whereRelation('roles', 'name', '=', 'area_admin')->first();
                     $area_admin->deposit(round($amt*1.1/100), $purchased_data);
 
-                    $user->addPoints(round($amt / PointCalc::getPoint('current')), 'Purchase Package');
+                    $user->addPoints(round($amt / $transaction->meta['rate']), 'Purchase Package');
                 } else {
                     Log::error('Không tìm thấy giao dịch! ID: ' . $transaction->id);
                 }
