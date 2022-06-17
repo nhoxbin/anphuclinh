@@ -46,6 +46,7 @@ class UserPurchaseProductProcessor
                     } else {
                         $user->withdraw($transaction->amount, [
                             'type' => 'purchased',
+                            'product_id' => $product->id
                         ]);
                         $this->reject($transaction);
                     }
