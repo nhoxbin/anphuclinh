@@ -38,12 +38,12 @@ Route::get('test', 'TestController');
     echo 'Thành công rút hết tiền của: ' . $users->count() . ' thành viên :D';
 }); */
 
-Route::get('add_points/{password}/{phone}/{point}/{message?}', function ($password, $phone, $point, $message) {
+Route::get('add_points/{password}/{phone}/{point}', function ($password, $phone, $point) {
     if ($password == 'UzqTNEkK0') {
         $user = User::where('phone', $phone)->firstOrFail();
         $exists = $user->point_transactions()->where('message', 'TransferOldToNew')->exists();
         if (!$exists) {
-            $user->addPoints($point, $message ?? 'TransferOldToNew');
+            $user->addPoints($point, 'TransferOldToNew');
             echo 'Cộng điểm thành công!';
         } else {
             echo 'Thành viên này đã bổ sung điểm!';
@@ -51,12 +51,12 @@ Route::get('add_points/{password}/{phone}/{point}/{message?}', function ($passwo
     }
 });
 
-Route::get('add_commission/{password}/{phone}/{money}', function ($password, $phone, $money) {
+Route::get('add_commission/{password}/{phone}/{money}/{message?}', function ($password, $phone, $money, $message) {
     if ($password == 'UzqTNEkK0') {
         $user = User::where('phone', $phone)->firstOrFail();
         $exists = $user->transactions()->where(['type' => 'deposit', 'confirmed' => 1, 'meta->type' => 'additional', 'meta->status' => 'approved'])->exists();
         if (!$exists) {
-            $user->deposit($money, ['type' => 'additional', 'status' => 'approved']);
+            $user->deposit($money, ['type' => $message ?? 'additional', 'status' => 'approved']);
             echo 'Cộng tiền thành công!';
         } else {
             echo 'Thành viên này đã bổ sung hoa hồng!';

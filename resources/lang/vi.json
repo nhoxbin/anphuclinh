@@ -646,7 +646,7 @@
     "Posts": "Bài viết",
     "wallet::errors.wallet_empty": "Ví rỗng!",
     "wallet::errors.insufficient_funds": "Số tiền không đủ!",
-    "wallet::errors.confirmed_invalid": "Không thể xác nhận!",
+    "wallet::errors.confirmed_invalid": "Đơn đã được xác nhận!",
     "Bonuses": "Thưởng",
     "Withdraw": "Rút tiền",
     "No transaction found!": "Không có giao dịch nào!",
