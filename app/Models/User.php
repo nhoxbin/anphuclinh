@@ -186,6 +186,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function sales($type = 'combo', $date = null)    {
         $transaction = Transaction::query();
+        $transaction1 = Transaction::query();
         // Tổng doanh số
         $transaction_ids = collect([]);
         $transaction_ids->push($this->id);
@@ -197,19 +198,29 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                 'confirmed' => 1,
             ])->where('meta->status', '<>', 'refunded');
 
+        $transaction1->whereIn('payable_id', $transaction_ids)
+            ->where([
+                'type' => 'withdraw',
+                'meta->status' => 'purchased',
+                'confirmed' => 1,
+            ]);
+
         if (is_null($date)) {
             $transaction->whereYear('created_at', now()->year);
+            $transaction1->whereYear('created_at', now()->year);
         } else {
             $transaction->whereDate('created_at', $date);
+            $transaction1->whereDate('created_at', $date);
         }
         $combo_id = Product::where('is_combo', 1)->first()->id;
         if ($type == 'combo') {
             $transaction->where('meta->product_id', $combo_id);
+            $transaction1->where('meta->product_id', $combo_id);
         } elseif ($type == 'reorder') {
             $transaction->where('meta->product_id', '<>', $combo_id);
+            $transaction1->where('meta->product_id', '<>', $combo_id);
         }
-
-        return $transaction->sum('amount');
+        return $transaction->sum('amount')-$transaction1->sum('amount');
     }
 
     public function getSalesReachesLvAttribute()

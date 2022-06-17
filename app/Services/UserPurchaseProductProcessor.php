@@ -12,14 +12,19 @@ use Illuminate\Support\Facades\Log;
 
 class UserPurchaseProductProcessor
 {
-    public function pay($user, $transaction, $product)
+    public function pay($user, $transaction, $product, $type)
     {
-        $data = [
-            'type' => 'purchased',
-            'transaction_id' => $transaction->id
-        ];
-        $user->withdraw($transaction->amount, $data);
+        $data = ['type' => 'purchased', 'qty' => $transaction->meta['qty']];
+        if ($type == 'confirmation') {
+            $data['transaction_id'] = $transaction->id;
+        } elseif ($type == 'directly') {
+            $data = $transaction->meta;
+            $data['status'] = 'purchased';
+            unset($data['description']);
+        }
+        $tnx = $user->withdraw($transaction->amount, $data);
         $product->deposit($transaction->amount, $data);
+        return $tnx->id;
     }
 
     public function handle(User $user, $transaction, Product $product, $force = 0)
@@ -42,12 +47,9 @@ class UserPurchaseProductProcessor
             try {
                 if ((count($history) || $force)) {
                     if ($user->balance < $transaction->amount && $user->confirm($transaction)) {
-                        $this->pay($user, $transaction, $product);
+                        $this->pay($user, $transaction, $product, 'confirmation');
                     } else {
-                        $user->withdraw($transaction->amount, [
-                            'type' => 'purchased',
-                            'product_id' => $product->id
-                        ]);
+                        $tnx_id = $this->pay($user, $transaction, $product, 'directly');
                         $this->reject($transaction);
                     }
 
@@ -63,7 +65,7 @@ class UserPurchaseProductProcessor
                         $ref2 = $qty*10000; // tầng 2: 10000*số lượng
                     }
 
-                    $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
+                    $purchased_data = ['transaction_id' => $tnx_id ?? $transaction->id, 'type' => 'bonus'];
                     $user->ref_by->deposit($ref1, $purchased_data);
 
                     if ($user->ref_by->ref_by) {
