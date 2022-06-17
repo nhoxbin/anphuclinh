@@ -14,9 +14,8 @@ class UserPurchaseProductProcessor
 {
     public function pay($user, $transaction, $product, $type)
     {
-        $data = ['type' => 'purchased', 'qty' => $transaction->meta['qty']];
         if ($type == 'confirmation') {
-            $data['transaction_id'] = $transaction->id;
+            $data = ['type' => 'purchased', 'transaction_id' => $transaction->id];
         } elseif ($type == 'directly') {
             $data = $transaction->meta;
             $data['status'] = 'purchased';

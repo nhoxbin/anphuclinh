@@ -214,7 +214,7 @@
             <div class="section-header">
                 <h2>Tin tức</h2>
                 <div class="view-all">
-                    <a href="blogs.html">View All</a>
+                    <a href="#">View All</a>
                 </div>
             </div>
             <div class="row gx-3">
@@ -225,7 +225,7 @@
                 <div class="col-6 col-sm-3 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
-                            <a href="#">
+                            <a href="/posts/{{ $post->slug }}">
                                 <img src="{{ asset('storage/' . $post->image) }}" alt="Bài viết">
                             </a>
                         </div>
