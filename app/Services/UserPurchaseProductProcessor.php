@@ -41,11 +41,12 @@ class UserPurchaseProductProcessor
 
             try {
                 if ((count($history) || $force)) {
-                    if ($user->balance < $transaction->amount) {
-                        $user->confirm($transaction);
+                    if ($user->balance < $transaction->amount && $user->confirm($transaction)) {
                         $this->pay($user, $transaction, $product);
                     } else {
-                        $this->pay($user, $transaction, $product);
+                        $user->withdraw($transaction->amount, [
+                            'type' => 'purchased',
+                        ]);
                         $this->reject($transaction);
                     }
 
