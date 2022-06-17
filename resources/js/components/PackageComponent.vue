@@ -80,7 +80,7 @@ function confirm() {
         confirmButtonText: 'Tôi đã thanh toán!'
     }).then(async result => {
         if (result.isConfirmed) {
-            await this.confirmed()
+            await confirmed()
         }
     });
 }

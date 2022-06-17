@@ -80,10 +80,10 @@ class UserPurchaseProductProcessor
                     $area_admin->deposit(round($amt*1.1/100), $purchased_data);
 
                     if ($product->is_combo) {
-                        $user->addPoints(round($transaction->amount / $transaction->meta['rate']), 'Purchase Combo', ['meta' => ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]]);
+                        $user->addPoints(round($transaction->amount / $transaction->meta['rate']), 'Purchase Combo');
                     } else {
                         if ($transaction->meta['point_uses'] > 0) {
-                            $user->addPoints(-$transaction->meta['point_uses'], 'Purchase product', ['meta' => ['type' => 'purchased', 'transaction_id' => $transaction->id]]);
+                            $user->addPoints(-$transaction->meta['point_uses'], 'Purchase product');
                         }
                     }
                     if (($user->level = $user->sales_reaches_lv) > 0) {
