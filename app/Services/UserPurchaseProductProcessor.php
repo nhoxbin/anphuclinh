@@ -110,9 +110,7 @@ class UserPurchaseProductProcessor
 
     public function reject($transaction)
     {
-        $transaction->confirmed = 0;
-        $transaction->amount = 0;
-        $transaction->save();
+        $transaction->update(['confirmed' => 0, 'amount' => 0]);
     }
 
     public function refund(User $user, $transaction, Product $product, $message)
