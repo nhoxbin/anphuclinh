@@ -38,12 +38,12 @@ Route::get('test', 'TestController');
     echo 'Thành công rút hết tiền của: ' . $users->count() . ' thành viên :D';
 }); */
 
-Route::get('add_points/{password}/{phone}/{point}', function ($password, $phone, $point) {
+Route::get('add_points/{password}/{phone}/{point}/{message?}', function ($password, $phone, $point, $message) {
     if ($password == 'UzqTNEkK0') {
         $user = User::where('phone', $phone)->firstOrFail();
         $exists = $user->point_transactions()->where('message', 'TransferOldToNew')->exists();
         if (!$exists) {
-            $user->addPoints($point, 'TransferOldToNew');
+            $user->addPoints($point, $message ?? 'TransferOldToNew');
             echo 'Cộng điểm thành công!';
         } else {
             echo 'Thành viên này đã bổ sung điểm!';

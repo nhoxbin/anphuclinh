@@ -54,7 +54,9 @@ class PointCalc {
             if ($is_uses_point && $max_point_discount > $currentPoints) $max_point_discount = $currentPoints;
             if ($max_price_discount > $max_point_discount*$rate) $max_price_discount = $max_point_discount*$rate;
 
-            $vat = round(($price-$max_price_discount)*10/100);
+            if ($is_uses_point) $vat = round(($price-$max_price_discount)*10/100);
+            else $vat = 0;
+
             $price -= ($max_price_discount-$vat);
         }
         return [

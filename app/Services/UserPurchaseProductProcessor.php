@@ -15,7 +15,7 @@ class UserPurchaseProductProcessor
     public function pay($user, $transaction, $product)
     {
         $data = [
-            "type" => "purchased",
+            'type' => 'purchased',
             'transaction_id' => $transaction->id
         ];
         $user->withdraw($transaction->amount, $data);
@@ -24,6 +24,9 @@ class UserPurchaseProductProcessor
 
     public function handle(User $user, $transaction, Product $product, $force = 0)
     {
+        if ($transaction->confirmed) {
+            return;
+        }
         /* $object = (object) [
             "amount" => 3000000,
             "description" => "MBVCB.2087406873.013982.apl1810.CT tu 0181001370543 TRUONG KIM TAI toi 12226668888 DO VAN HA (ACB) A Chau GD 013982-060522 10:11:38",
@@ -33,13 +36,13 @@ class UserPurchaseProductProcessor
         $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
         // $curl->transactions = [$object];
         if ($curl->status == true || $force) {
-            $amount = $transaction->amount;
             $histories = $curl->transactions;
-            $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
+            $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
 
             try {
                 if ((count($history) || $force)) {
-                    if ($user->balance < $amount && $user->confirm($transaction)) {
+                    if ($user->balance < $transaction->amount) {
+                        $user->confirm($transaction);
                         $this->pay($user, $transaction, $product);
                     } else {
                         $this->pay($user, $transaction, $product);
@@ -74,7 +77,7 @@ class UserPurchaseProductProcessor
                     $area_admin->deposit(round($amt*1.1/100), $purchased_data);
 
                     if ($product->is_combo) {
-                        $user->addPoints(round($amount / $transaction->meta['rate']), 'Purchase Combo', ['meta' => ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]]);
+                        $user->addPoints(round($transaction->amount / $transaction->meta['rate']), 'Purchase Combo', ['meta' => ['type' => 'combo-purchased', 'transaction_id' => $transaction->id]]);
                     } else {
                         if ($transaction->meta['point_uses'] > 0) {
                             $user->addPoints(-$transaction->meta['point_uses'], 'Purchase product', ['meta' => ['type' => 'purchased', 'transaction_id' => $transaction->id]]);
@@ -93,10 +96,10 @@ class UserPurchaseProductProcessor
                 }
             } catch (\Exception $e) {
                 if ($transaction->confirmed) {
-                    $user->wallet->balance -= $amount;
+                    $user->wallet->balance -= $transaction->amount;
                     $user->wallet->save();
-                    $this->reject($transaction);
                 }
+                $this->reject($transaction);
 
                 Log::error($e->getMessage());
             }
