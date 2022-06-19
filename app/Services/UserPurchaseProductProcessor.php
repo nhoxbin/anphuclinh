@@ -15,12 +15,12 @@ class UserPurchaseProductProcessor
     public function pay($user, $transaction, $product, $type)
     {
         if ($type == 'confirmation') {
-            $data = ['type' => 'purchased', 'transaction_id' => $transaction->id];
+            $data = ['type' => $product->is_combo ? 'combo' : 'reorder', 'transaction_id' => $transaction->id];
         } elseif ($type == 'directly') {
             $data = $transaction->meta;
-            $data['status'] = 'purchased';
             unset($data['description']);
         }
+        $data['status'] = 'purchased';
         $tnx = $user->withdraw($transaction->amount, $data);
         $product->deposit($transaction->amount, $data);
         return $tnx->id;
@@ -91,6 +91,7 @@ class UserPurchaseProductProcessor
                         $user->save();
                     }
                     $meta = $transaction->meta;
+                    $meta['type'] = $product->is_combo ? 'combo' : 'reorder';
                     $meta['status'] = 'purchased';
                     $transaction->meta = $meta;
                     $transaction->save();

@@ -245,7 +245,7 @@
                                 <span class="sub sub-symbol">{{ $trnx->payable->phone }}</span>
                             </td>
                             <td class="data-col dt-product-type">
-                                @if ($trnx->type == 'withdraw')
+                                @if ($trnx->type == 'withdraw' && $trnx->meta['type'] == 'withdraw')
                                     @php
                                         $type = App\Models\UserBank::find($trnx->meta['ubank_id']);
                                     @endphp
@@ -254,13 +254,11 @@
                                 @else
                                     @php
                                     $type = null;
-                                    if ($trnx->meta['type'] == 'purchase') {
-                                        if (isset($trnx->meta['product_id'])) {
-                                            $type = App\Models\Product::find($trnx->meta['product_id']);
-                                        } elseif (isset($trnx->meta['package_id'])) {
-                                            $type = App\Models\Package::find($trnx->meta['package_id']);
-                                        }
-                                    } elseif ($trnx->meta['type'] == 'bonus') {
+                                    if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder') {
+                                        $type = App\Models\Product::find($trnx->meta['product_id']);
+                                    } elseif ($trnx->meta['type'] == 'package') {
+                                        $type = App\Models\Package::find($trnx->meta['package_id']);
+                                    }elseif ($trnx->meta['type'] == 'bonus') {
                                         $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
                                         $type = App\Models\Product::find($product_id);
                                     }
@@ -273,7 +271,7 @@
                             </td>
                             <td class="data-col dt-amount">
                                 <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                <span class="sub sub-symbol">{{ $trnx->type == 'withdraw' ? __('Withdraw') : (isset($trnx->meta['status']) ? __($trnx->meta['status']) : ($trnx->meta['type'] == 'bonus' ? __('Bonus') : __('Purchase'))) }}</span>
+                                <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['type'])) }}</span>
                             </td>
                             {{-- <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">

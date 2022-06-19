@@ -142,6 +142,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return $this->belongsTo('App\Models\Province', 'province_code', 'code');
     }
 
+    public function gifts()
+    {
+        return $this->hasManyThrough('App\Models\Gift', 'App\Models\GiftTransaction');
+    }
+
     public function getCurrentLevelAttribute()
     {
         return ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
@@ -185,25 +190,25 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     }
 
     public function sales($type = 'combo', $date = null)    {
-        $transaction = Transaction::query();
-        $transaction1 = Transaction::query();
         // Tổng doanh số
         $transaction_ids = collect([]);
         $transaction_ids->push($this->id);
         $this->refs_sale($this, $transaction_ids);
 
-        $transaction->whereIn('payable_id', $transaction_ids)
-            ->where([
-                'type' => 'deposit',
-                'confirmed' => 1,
-            ])->where('meta->status', '<>', 'refunded');
+        $data = [
+            'payable_type' => 'App\\Models\\User',
+            'confirmed' => 1,
+            'meta->status' => 'purchased',
+            'meta->type' => $type,
+        ];
 
-        $transaction1->whereIn('payable_id', $transaction_ids)
-            ->where([
-                'type' => 'withdraw',
-                'meta->status' => 'purchased',
-                'confirmed' => 1,
-            ]);
+        $data['type'] = 'deposit';
+        $transaction = Transaction::query();
+        $transaction->whereIn('payable_id', $transaction_ids)->where($data);
+
+        $data['type'] = 'withdraw';
+        $transaction1 = Transaction::query();
+        $transaction1->whereIn('payable_id', $transaction_ids)->where($data)->where('meta->qty', '>', 0);
 
         if (is_null($date)) {
             $transaction->whereYear('created_at', now()->year);
@@ -212,18 +217,10 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             $transaction->whereDate('created_at', $date);
             $transaction1->whereDate('created_at', $date);
         }
-        $combo_id = Product::where('is_combo', 1)->first()->id;
-        if ($type == 'combo') {
-            $transaction->where('meta->product_id', $combo_id);
-            $transaction1->where('meta->product_id', $combo_id);
-        } elseif ($type == 'reorder') {
-            $transaction->where('meta->product_id', '<>', $combo_id);
-            $transaction1->where('meta->product_id', '<>', $combo_id);
-        }
         return $transaction->sum('amount')-$transaction1->sum('amount');
     }
 
-    public function getSalesReachesLvAttribute()
+    public function getSalesBranchesAttribute()
     {
         $strong = $weak = 0;
 
@@ -237,7 +234,12 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                 $weak = $amount;
             }
         }
+        return [$strong, $weak];
+    }
 
+    public function getSalesReachesLvAttribute()
+    {
+        list($strong, $weak) = $this->sales_branches;
         $lv = -1;
         $levels = Level::all();
         foreach ($levels as $level) {
@@ -248,6 +250,24 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return $lv;
     }
 
+    public function box_sale($subject = 'personal')
+    {
+        if ($subject == 'personal') {
+            $transaction = $this->transactions()->where([
+                'type' => 'deposit',
+                'confirmed' => 1,
+                'meta->type' => 'reorder',
+                'meta->status' => 'purchased',
+            ])->groupBy('meta->product_id')->whereYear('updated_at', now()->year);
+            $qty = $transaction->sum('meta->qty');
+        } elseif ($subject == 'group') {
+            // chỉ tính F1
+            $qty = 0;
+
+        }
+        return $qty;
+    }
+
     public function getHasComboAttribute()
     {
         return $this->transactions()->where([
@@ -256,11 +276,6 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             'meta->type' => 'purchase',
             'meta->product_id' => Product::where('is_combo', 1)->first()->id
         ])->exists();
-    }
-
-    public function getCommissionAttribute()
-    {
-        return 0;
     }
 
     /**

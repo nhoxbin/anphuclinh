@@ -129,6 +129,28 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-6 col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-invoice"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Doanh số cá nhân (Thùng)</p>
+                            <h3>{{ number_format($user->box_sale('personal')) }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-6 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-invoice"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Doanh số nhóm (Thùng)</p>
+                            <h3>{{ number_format($user->box_sale('group')) }}</h3>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-12 col-sm-6 pb-15" >
                     <a href="{{route('user.referral')}}" class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }});cursor:pointer">
                         <div class="feature-card-thumb">

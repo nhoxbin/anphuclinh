@@ -34,7 +34,8 @@ class Product extends Model implements ProductInterface
     {
         return [
             'title' => $this->name,
-            'type' => 'purchased',
+            'type' => 'purchase',
+            'status' => 'purchased',
             'description' => 'Purchase of Product #' . $this->id,
         ];
     }

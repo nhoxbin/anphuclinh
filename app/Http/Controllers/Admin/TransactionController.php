@@ -37,20 +37,19 @@ class TransactionController extends Controller
         $ordered  = 'DESC';
 
         if ($status == 'approved') {
-            $trnxs = Transaction::with('payable')->where('confirmed', 1)->whereIn('meta->type', ['purchase', 'withdraw', 'bonus'])->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs = Transaction::with('payable')->where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1, 'type' => 'deposit'])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])->orderBy($order_by, $ordered)->paginate($per_page);
         }  elseif ($status == 'pending') {
-            $trnxs = Transaction::where(['confirmed' => 0])
-                ->whereIn('meta->type', ['withdraw', 'purchase', 'package'])
-                // ->whereIn('type', ['deposit', 'withdraw'])
+            $trnxs = Transaction::where(['confirmed' => 0, 'meta->status' => 'pending'])
+                // ->whereIn() //, ['withdraw', 'combo', 'reorder', 'package']
                 ->where('amount', '<>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         } elseif ($status != null) {
-            $trnxs = Transaction::where(['type' => 'deposit', 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         } else {
-            $trnxs = Transaction::where(['type' => 'deposit', 'meta->type' => 'purchase'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
         }
 
         if ($request->s) {
-            $trnxs = Transaction::where(['type' => 'deposit', 'meta->type' => 'purchase'])
+            $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])
                 ->where('amount', '>', 0)
                 ->where(function($q) use ($request) {
                     $q->orWhere('id', $request->s);

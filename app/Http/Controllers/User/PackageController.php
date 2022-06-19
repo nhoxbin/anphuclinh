@@ -17,10 +17,11 @@ class PackageController extends Controller
             'confirmed' => 0,
             'type' => 'deposit',
             'meta->package_id' => $package->id,
-            'meta->type' => 'package'
+            'meta->type' => 'package',
+            'meta->status' => 'pending'
         ])->first();
         if (is_null($transaction)) {
-            $transaction = $user->deposit(0, ['package_id' => $package->id, 'type' => 'package'], false);
+            $transaction = $user->deposit(0, ['package_id' => $package->id, 'type' => 'package', 'status' => 'pending'], false);
         }
         return view('user.package.index', compact('transaction', 'package', 'rate'));
     }

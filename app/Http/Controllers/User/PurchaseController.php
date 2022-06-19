@@ -24,8 +24,9 @@ class PurchaseController extends Controller
 
         $calc = PointCalc::getPrice($user, $product, $validated['qty']);
         $meta = $transaction->meta;
-        $meta['description'] = 'apl' . $transaction->id;
+        $meta['status'] = 'pending';
         $meta['rate'] = PointCalc::getPoint('current');
+        $meta['description'] = 'apl' . $transaction->id;
         $meta['point_uses'] = $calc['max_point_discount'];
         $transaction->update([
             'amount' => $calc['price'],
@@ -44,8 +45,9 @@ class PurchaseController extends Controller
         $user = $request->user();
 
         $meta = $transaction->meta;
-        $meta['title'] = 'Gói đầu tư ' . number_format($package->amount);
+        $meta['status'] = 'pending';
         $meta['rate'] = PointCalc::getPoint('current');
+        $meta['title'] = 'Gói đầu tư ' . number_format($package->amount);
         $meta['description'] = 'apl' . $transaction->id;
         $transaction->update([
             'amount' => $package->amount,
