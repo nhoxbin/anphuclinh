@@ -15,7 +15,7 @@ class CreateGiftsTable extends Migration
     {
         Schema::create('gifts', function (Blueprint $table) {
             $table->id();
-            $table->name('name');
+            $table->string('name');
             $table->unsignedInteger('box');
             $table->string('bonus');
         });
