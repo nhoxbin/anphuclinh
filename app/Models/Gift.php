@@ -10,7 +10,7 @@ class Gift extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'box', 'bonus'];
-    protected $timestamps = false;
+    public $timestamps = false;
 
     /* public function transactions()
     {
