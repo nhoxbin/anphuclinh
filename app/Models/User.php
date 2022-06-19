@@ -152,6 +152,14 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
     }
 
+    public function getHasComboAttribute()
+    {
+        return $this->transactions()->where([
+            'confirmed' => 1,
+            'meta->type' => 'combo'
+        ])->exists();
+    }
+
     public function reward_amount($tnx_current)
     {
         $tnx = Transaction::find($tnx_current->meta['transaction_id']);
@@ -189,12 +197,17 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         }
     }
 
+    public function getGroupIdsAttribute()
+    {
+        $group_ids = collect([]);
+        $group_ids->push($this->id);
+        $this->refs_sale($this, $group_ids);
+        return $group_ids;
+    }
+
     public function sales($type = 'combo', $date = null)    {
         // Tổng doanh số
-        $transaction_ids = collect([]);
-        $transaction_ids->push($this->id);
-        $this->refs_sale($this, $transaction_ids);
-
+        $group_ids = $this->group_ids;
         $data = [
             'payable_type' => 'App\\Models\\User',
             'confirmed' => 1,
@@ -204,11 +217,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
         $data['type'] = 'deposit';
         $transaction = Transaction::query();
-        $transaction->whereIn('payable_id', $transaction_ids)->where($data);
+        $transaction->whereIn('payable_id', $group_ids)->where($data);
 
         $data['type'] = 'withdraw';
         $transaction1 = Transaction::query();
-        $transaction1->whereIn('payable_id', $transaction_ids)->where($data)->where('meta->qty', '>', 0);
+        $transaction1->whereIn('payable_id', $group_ids)->where($data)->where('meta->qty', '>', 0);
 
         if (is_null($date)) {
             $transaction->whereYear('created_at', now()->year);
@@ -252,30 +265,42 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function box_sale($subject = 'personal')
     {
+        // tính từ lúc mua combo
+        /* $since = $this->transactions()->where([
+            'confirmed' => 1,
+            'meta->type' => 'combo'
+        ])->first();
+        if (is_null($since)) {
+            return 0;
+        }
         if ($subject == 'personal') {
-            $transaction = $this->transactions()->where([
-                'type' => 'deposit',
-                'confirmed' => 1,
-                'meta->type' => 'reorder',
-                'meta->status' => 'purchased',
-            ])->groupBy('meta->product_id')->whereYear('updated_at', now()->year);
-            $qty = $transaction->sum('meta->qty');
+            $transaction = $this->transactions();
         } elseif ($subject == 'group') {
             // chỉ tính F1
-            $qty = 0;
-
+            $transaction = Transaction::query();
+            $transaction->whereIn('payable_id', $this->group_ids);
         }
-        return $qty;
-    }
-
-    public function getHasComboAttribute()
-    {
-        return $this->transactions()->where([
-            'type' => 'deposit',
+        $transaction->where([
             'confirmed' => 1,
-            'meta->type' => 'purchase',
-            'meta->product_id' => Product::where('is_combo', 1)->first()->id
-        ])->exists();
+            'meta->type' => 'reorder',
+            'meta->status' => 'purchased',
+        ])->where('meta->qty', '>', 0)
+            ->whereDate('updated_at', '>=', $since->created_at)
+            ->whereYear('updated_at', now()->year)
+            ->select('meta->product_id as product_id', 'meta->qty as qty');
+        $total_box = $transaction->get()->toArray();
+        $result = [];
+        $product_ids = array_column($total_box, 'product_id');
+        $qty = array_column($total_box, 'qty');
+        foreach ($product_ids as $key => $product_id) {
+            if (!isset($result[$product_id])) {
+                $result[$product_id] = $qty[$key];
+                continue;
+            }
+            $result[$product_id] += $qty[$key];
+        }
+        return $result; */
+        return 0;
     }
 
     /**

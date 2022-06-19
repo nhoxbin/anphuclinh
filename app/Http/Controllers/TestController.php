@@ -22,6 +22,6 @@ class TestController extends Controller
         // Transaction::where(['type' => 'withdraw', 'meta->type' => 'withdraw', 'confirmed' => 0])->delete();
         // Transaction::where(['type' => 'withdraw', 'meta->type' => 'withdraw', 'confirmed' => 1])->update(['meta->status' => 'approved']);
         // Transaction::where(['confirmed' => 0])->where('amount', '<>', 0)->update(['meta->status' => 'pending']);
-        Transaction::where(['meta->type' => 'purchase', 'confirmed' => 0])->where('meta->product_id', '<>', 1)->update(['meta->type' => 'reorder', 'meta->status' => 'pending']);
+        // Transaction::where(['meta->type' => 'purchase', 'confirmed' => 0])->where('meta->product_id', '<>', 1)->update(['meta->type' => 'reorder', 'meta->status' => 'pending']);
     }
 }
