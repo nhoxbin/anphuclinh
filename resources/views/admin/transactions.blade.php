@@ -262,6 +262,9 @@
                                         $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
                                         $type = App\Models\Product::find($product_id);
                                     }
+                                    if (!isset($trnx->meta['title'])) {
+                                        dd($trnx);
+                                    }
                                     @endphp
                                     <span class="lead token-amount{{ $text_danger }}">{!! $type->name ?? $trnx->meta['title'] . '<sup>đ</sup>' !!}</span>
                                     @if ($trnx->meta['type'] != 'bonus')
