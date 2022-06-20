@@ -86,15 +86,19 @@ class UserPurchaseProductProcessor
                             $user->addPoints(-$transaction->meta['point_uses'], 'Purchase product');
                         }
                     }
-                    if (($user->level = $user->sales_reaches_lv) > 0) {
-                        $user->lv_up = now();
-                        $user->save();
-                    }
                     $meta = $transaction->meta;
                     $meta['type'] = $product->is_combo ? 'combo' : 'reorder';
                     $meta['status'] = 'purchased';
                     $transaction->meta = $meta;
                     $transaction->save();
+
+                    if ($this->hasRole('area_admin') || $this->hasRole('provincial_admin')) {
+                        return;
+                    }
+                    /* if (($user->level = $user->sales_reaches_lv) > 0) {
+                        $user->lv_up = now();
+                        $user->save();
+                    } */
                 } else {
                     // Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);
                 }

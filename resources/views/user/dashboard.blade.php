@@ -129,6 +129,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-sm-6 pb-15" >
+                    <a href="{{ route('user.referral') }}" class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }});cursor:pointer">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-menu-1"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p style="height: 45px;display: flex;align-items: center;">Xem danh sách đại lý</p>
+                        </div>
+                    </a>
+                </div>
                 <div class="col-6 col-sm-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
@@ -136,7 +146,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Doanh số cá nhân (Thùng)</p>
-                            <h3>{{ number_format($user->box_sale('personal')) }}</h3>
+                            <h3>{{ $user->box_sale('personal') }}</h3>
                         </div>
                     </div>
                 </div>
@@ -147,19 +157,9 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Doanh số nhóm (Thùng)</p>
-                            <h3>{{ number_format($user->box_sale('group')) }}</h3>
+                            <h3>{{ $user->box_sale('group') }}</h3>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-sm-6 pb-15" >
-                    <a href="{{route('user.referral')}}" class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }});cursor:pointer">
-                        <div class="feature-card-thumb">
-                            <i class="flaticon-menu-1"></i>
-                        </div>
-                        <div class="feature-card-details">
-                            <p style="height: 45px;display: flex;align-items: center;">Xem danh sách đại lý</p>
-                        </div>
-                    </a>
                 </div>
             </div>
         </div>

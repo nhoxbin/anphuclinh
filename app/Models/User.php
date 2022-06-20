@@ -189,23 +189,31 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return [$product->name, $amount, $tnx];
     }
 
-    public function refs_sale($user, &$transaction_ids)
+    public function refs_ids($user, &$transaction_ids)
     {
         foreach ($user->refs as $ref) {
             $transaction_ids->push($ref->id);
-            $this->refs_sale($ref, $transaction_ids);
+            $this->refs_ids($ref, $transaction_ids);
         }
     }
 
     public function getGroupIdsAttribute()
     {
         $group_ids = collect([]);
-        $group_ids->push($this->id);
-        $this->refs_sale($this, $group_ids);
+        if ($this->hasRole('area_admin')) {
+            $group_ids = User::whereHas('province', fn($q) => $q->where('area', $this->province->area))->pluck('id');
+        } elseif ($this->hasRole('provincial_admin')) {
+            $group_ids = User::where('province_code', $this->province_code)->pluck('id');
+        } else {
+            $group_ids->push($this->id);
+            $this->refs_ids($this, $group_ids);
+        }
+
         return $group_ids;
     }
 
-    public function sales($type = 'combo', $date = null)    {
+    public function sales($type = 'combo', $date = null)
+    {
         // Tổng doanh số
         $group_ids = $this->group_ids;
         $data = [
@@ -265,12 +273,12 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function box_sale($subject = 'personal')
     {
-        // tính từ lúc mua combo
-        /* $since = $this->transactions()->where([
+        // tính từ lúc mua combo đến hết năm
+        $has_combo = $this->transactions()->where([
             'confirmed' => 1,
             'meta->type' => 'combo'
         ])->first();
-        if (is_null($since)) {
+        if (is_null($has_combo)) {
             return 0;
         }
         if ($subject == 'personal') {
@@ -285,22 +293,30 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             'meta->type' => 'reorder',
             'meta->status' => 'purchased',
         ])->where('meta->qty', '>', 0)
-            ->whereDate('updated_at', '>=', $since->created_at)
+            ->whereDate('updated_at', '>=', $has_combo->created_at)
             ->whereYear('updated_at', now()->year)
             ->select('meta->product_id as product_id', 'meta->qty as qty');
-        $total_box = $transaction->get()->toArray();
-        $result = [];
-        $product_ids = array_column($total_box, 'product_id');
-        $qty = array_column($total_box, 'qty');
+        $query = $transaction->get()->toArray();
+
+        $boxes = [];
+        $product_ids = array_column($query, 'product_id');
+        $qty = array_column($query, 'qty');
         foreach ($product_ids as $key => $product_id) {
-            if (!isset($result[$product_id])) {
-                $result[$product_id] = $qty[$key];
+            if (!isset($boxes[$product_id])) {
+                $product = Product::find($product_id);
+                $boxes[$product_id] = [
+                    'name' => $product->name,
+                    'unit' => $product->unit,
+                    'box' => $product->box,
+                    'qty' => $qty[$key]
+                ];
                 continue;
             }
-            $result[$product_id] += $qty[$key];
+            $boxes[$product_id]['qty'] += $qty[$key];
         }
-        return $result; */
-        return 0;
+        foreach ($boxes as $product_id => $product) {
+            echo $product['name'] . ': ' . ((int) ($product['qty']/$product['box'])) . ' thùng, ' . $product['qty']%$product['box'] . ' ' . $product['unit'] . '<br />';
+        }
     }
 
     /**
