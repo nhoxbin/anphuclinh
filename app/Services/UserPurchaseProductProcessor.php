@@ -92,7 +92,7 @@ class UserPurchaseProductProcessor
                     $transaction->meta = $meta;
                     $transaction->save();
 
-                    if ($this->hasRole('area_admin') || $this->hasRole('provincial_admin')) {
+                    if ($user->hasRole('area_admin') || $user->hasRole('provincial_admin')) {
                         return;
                     }
                     /* if (($user->level = $user->sales_reaches_lv) > 0) {
