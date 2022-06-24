@@ -75,7 +75,7 @@
             <tbody>
                 @foreach($trnxs as $trnx)
                 @php
-                    $text_danger = ( $trnx->tnx_type=='refund' || ($trnx->tnx_type=='transfer' && $trnx->extra=='sent') ) ? ' text-danger' : '';
+                    $text_danger = $trnx->tnx_type == 'pending' ? ' text-danger' : '';
                 @endphp
                 <tr class="data-item tnx-item-{{ $trnx->id }}">
                     <td class="data-col dt-tnxno">
@@ -92,19 +92,14 @@
                     <td class="data-col dt-token">
                         @php
                         $type = null;
-                        if ($trnx->meta['type'] == 'purchase') {
-                            if (isset($trnx->meta['product_id'])) {
-                                $type = App\Models\Product::find($trnx->meta['product_id']);
-                            } elseif (isset($trnx->meta['package_id'])) {
-                                $type = App\Models\Package::find($trnx->meta['package_id']);
-                            }
-                        } elseif ($trnx->meta['type'] == 'bonus') {
-                            $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
-                            $type = App\Models\Product::find($product_id);
+                        if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder') {
+                            $type = App\Models\Product::find($trnx->meta['product_id']);
+                        } elseif (isset($trnx->meta['package_id'])) {
+                            $type = App\Models\Package::find($trnx->meta['package_id']);
                         }
                         @endphp
-                        <span class="lead token-amount{{ $text_danger }}">{{ $type->name }}</span>
-                        @if ($trnx->meta['type'] != 'bonus')
+                        <span class="lead token-amount{{ $text_danger }}">{{ $type->name ?? 'Gói đầu tư' }}</span>
+                        @if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder')
                         <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] . (isset($trnx->meta['address']) ? ', Địa chỉ: ' . $trnx->meta['address'] : null) }}</span>
                         @endif
                     </td>

@@ -15,10 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('queue:work', ['--queue=emails,kycs,purchases,default', '--stop-when-empty'])
+        $schedule->command('queue:work', ['--queue=emails,kycs,purchases,default', '--max-time=3600'])
             ->withoutOverlapping()
-            ->everyMinute();
+            ->hourly();
 
+        $schedule->command('queue:retry', ['all'])->everyFiveMinutes();
         $schedule->command('user:payment')->daily();
         // $schedule->command('point:increase')->monthly();
     }

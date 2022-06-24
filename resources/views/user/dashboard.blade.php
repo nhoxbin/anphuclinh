@@ -61,7 +61,7 @@
         <!-- Feature-section -->
         <div class="feature-section mb-15">
             <div class="row gx-3">
-                @if (!$user->hasRole('member'))
+                {{-- @if (!$user->hasRole('member'))
                 <div class="col-6 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                @endif
+                @endif --}}
                 <div class="col-6 pb-15">
                     <div class="feature-card feature-card-green pd" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
@@ -114,7 +114,7 @@
                         </div>
                         <div class="feature-card-details">
                             <p>Cấp</p>
-                            <h3>{{ $user->current_level }}</h3>
+                            <h3>{!! $user->current_level !!}</h3>
                         </div>
                     </div>
                 </div>
@@ -145,8 +145,8 @@
                             <i class="flaticon-invoice"></i>
                         </div>
                         <div class="feature-card-details">
-                            <p>Doanh số cá nhân (Thùng)</p>
-                            <h3>{{ $user->box_sale('personal') }}</h3>
+                            <p>Doanh số cá nhân</p>
+                            <h3>{{ $user->box_sale() }}</h3>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                             <i class="flaticon-invoice"></i>
                         </div>
                         <div class="feature-card-details">
-                            <p>Doanh số nhóm (Thùng)</p>
+                            <p>Doanh số nhóm</p>
                             <h3>{{ $user->box_sale('group') }}</h3>
                         </div>
                     </div>

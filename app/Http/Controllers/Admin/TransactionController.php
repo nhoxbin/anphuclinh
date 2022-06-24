@@ -36,34 +36,34 @@ class TransactionController extends Controller
         $order_by = 'updated_at';
         $ordered  = 'DESC';
 
+        $trnxs = Transaction::query();
+        $trnxs->with('payable')->where(['payable_type' => 'App\\Models\\User'])
+            ->whereIn('meta->type', ['combo', 'reorder', 'withdraw', 'package']);
+
         if ($status == 'approved') {
-            $trnxs = Transaction::with('payable')->where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1, 'type' => 'deposit'])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs->where(['confirmed' => 1, 'type' => 'deposit']);
         }  elseif ($status == 'pending') {
-            $trnxs = Transaction::where(['confirmed' => 0, 'meta->status' => 'pending'])
-                // ->whereIn() //, ['withdraw', 'combo', 'reorder', 'package']
-                ->where('amount', '<>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
-        } elseif ($status != null) {
-            $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs->where(['confirmed' => 0, 'meta->status' => 'pending'])->where('amount', '<>', 0);
         } else {
-            $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])->where('amount', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs->where(['type' => 'deposit'])->where('amount', '>', 0);
         }
 
         if ($request->s) {
-            $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User', 'confirmed' => 1])->whereIn('meta->type', ['combo', 'reorder', 'withdraw'])
-                ->where('amount', '>', 0)
-                ->where(function($q) use ($request) {
-                    $q->orWhere('id', $request->s);
-                })->orderBy($order_by, $ordered)->paginate($per_page);
+            $trnxs->where(['confirmed' => 1])->where('amount', '>', 0)->where(function($q) use ($request) {
+                $q->orWhere('id', $request->s);
+            });
         }
-        if ($request->filter) {
+        $trnxs = $trnxs->orderBy($order_by, $ordered)->paginate($per_page);
+
+        /* if ($request->filter) {
             $trnxs = Transaction::AdvancedFilter($request)
                                 ->orderBy($order_by, $ordered)->paginate($per_page);
-        }
+        } */
 
         $is_page = (empty($status) ? 'all' : $status);
-        $users = User::whereRelation('roles', 'name', '<>', 'super_admin')->get();
+        // $users = User::whereRelation('roles', 'name', '<>', 'super_admin')->get();
         $pagi = $trnxs->appends(request()->all());
-        return view('admin.transactions', compact('trnxs', 'users', 'is_page', 'pagi'));
+        return view('admin.transactions', compact('trnxs', 'is_page', 'pagi'));
     }
 
     public function show($trnx_id = '')

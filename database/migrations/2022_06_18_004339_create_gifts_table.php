@@ -17,7 +17,8 @@ class CreateGiftsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('box');
-            $table->string('bonus');
+            $table->integer('bonus');
+            $table->string('extra')->nullable();
         });
     }
 

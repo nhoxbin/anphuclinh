@@ -31,9 +31,8 @@ class TransactionController extends Controller
     {
         // Transaction::where(['user' => auth()->id(), 'status' => 'new'])->delete();
         $trnxs = $request->user()->transactions()
-            ->where(['type' => 'deposit'])
+            ->where(['meta->status' => 'purchased', 'type' => 'deposit'])
             ->where('amount', '>', 0)
-            ->whereIn('meta->type', ['purchase', 'bonus'])
             ->orderBy('created_at', 'DESC')
             ->get();
         // $transfers = Transaction::get_by_own(['tnx_type' => 'deposit'])->get()->count();

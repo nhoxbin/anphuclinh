@@ -16,11 +16,10 @@ class CreateGiftTransactionsTable extends Migration
         Schema::create('gift_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('gift_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->json('meta');
             $table->timestamps();
-
-            $table->unique(['user_id', 'gift_id']);
         });
     }
 

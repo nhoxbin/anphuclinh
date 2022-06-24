@@ -28,12 +28,13 @@ class ProductController extends Controller
         if (is_null($transaction)) {
             $transaction = $user->deposit(0, ['product_id' => $product->id, 'type' => $type], false);
         }
-
+        $box_bonus = $user->box_bonus($product->id);
         $provinces = Province::all();
         $bank = json_encode(config('bank'));
         $info = $user->transactions()->where(['confirmed' => 1, 'meta->status' => 'purchased'])->where('meta->address', '<>', null)->latest()->first();
         $meta = !is_null($info) ? json_encode($info->meta) : '{}';
         return view('user.purchase.show', compact(
+            'box_bonus',
             'product',
             'provinces',
             'user',

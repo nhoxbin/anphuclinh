@@ -12,13 +12,18 @@ class GiftTransaction extends Model
     protected $fillable = ['user_id', 'gift_id', 'meta'];
     protected $casts = ['meta' => 'json'];
 
-    /* public function user()
+    public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product');
     }
 
     public function gift()
     {
         return $this->belongsTo('App\Models\Gift');
-    } */
+    }
 }

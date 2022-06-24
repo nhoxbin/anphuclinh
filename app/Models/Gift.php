@@ -12,8 +12,8 @@ class Gift extends Model
     protected $fillable = ['name', 'box', 'bonus'];
     public $timestamps = false;
 
-    /* public function transactions()
+    public function transactions()
     {
         return $this->hasMany('App\Models\GiftTransaction', 'gift_id');
-    } */
+    }
 }

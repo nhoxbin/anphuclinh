@@ -32,9 +32,9 @@
                                 <span class="woocommerce-input-wrapper">
                                     <select id="billing_svw_province"
                                         class="select wc-enhanced-select svw-select-province"
-                                        data-placeholder=""
                                         v-model="selectedProvince"
                                         @change="onChange($event, 'p', 'selectedProvince', 'districts')">
+                                        <option value="0">Chọn Tỉnh/Thành Phố</option>
                                         <option v-for="province in provinces" :value="province.code">{{ province.name }}</option>
                                     </select>
                                 </span>
@@ -45,9 +45,10 @@
                                 <span class="woocommerce-input-wrapper">
                                     <select id="billing_svw_district"
                                         class="select wc-enhanced-select svw-select-district"
-                                        data-allow_clear="true" data-placeholder="Chọn Quận/ Huyện"
+                                        data-allow_clear="true"
                                         v-model="selectedDistrict"
                                         @change="onChange($event, 'd', 'selectedDistricts', 'wards')">
+                                        <option value="0">Chọn Quận/Huyện</option>
                                         <option v-for="district in districts" :value="district.code">{{ district.name }}</option>
                                     </select>
                                 </span>
@@ -59,7 +60,8 @@
                                     <select id="billing_svw_ward"
                                         class="select wc-enhanced-select svw-select-ward"
                                         v-model="selectedWard"
-                                        data-allow_clear="true" data-placeholder="Chọn Phường/ Xã">
+                                        data-allow_clear="true">
+                                        <option value="0">Chọn Phường/Xã</option>
                                         <option v-for="ward in wards" :value="ward.code">{{ ward.name }}</option>
                                     </select>
                                 </span>
@@ -105,6 +107,18 @@
                                 Sử dụng điểm để thanh khoản
                             </label>
                         </div>
+                        <div v-if="Object.keys(box_bonus.personal).length && box_bonus.personal.remain > 0" class="form-check" style="font-size: 20px;">
+                            <input class="form-check-input" type="checkbox" v-model="personal_bonus_require" id="personalCheckChecked" checked>
+                            <label class="form-check-label" for="personalCheckChecked">
+                                Thưởng cá nhân: Tặng {{ total_bonus(box_bonus.personal) }}
+                            </label>
+                        </div>
+                        <div v-if="Object.keys(box_bonus.group).length && box_bonus.group.remain > 0" class="form-check" style="font-size: 20px;">
+                            <input class="form-check-input" type="checkbox" v-model="group_bonus_require" id="groupCheckChecked" checked>
+                            <label class="form-check-label" for="groupCheckChecked">
+                                Thưởng nhóm: Tặng {{ total_bonus(box_bonus.group) }}
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,7 +126,7 @@
 
         <h3 id="order_review_heading">Đơn hàng của bạn</h3>
         <div id="order_review" class="woocommerce-checkout-review-order">
-            <table class="shop_table woocommerce-checkout-review-order-table">
+            <table v-if="!personal_bonus_require && !group_bonus_require" class="shop_table woocommerce-checkout-review-order-table">
                 <thead>
                     <tr>
                         <th class="product-name">Sản phẩm</th>
@@ -165,7 +179,7 @@
             </table>
 
             <div id="payment" class="woocommerce-checkout-payment">
-                <ul class="wc_payment_methods payment_methods methods">
+                <ul v-if="!personal_bonus_require && !group_bonus_require" class="wc_payment_methods payment_methods methods">
                     <li class="wc_payment_method payment_method_tpb-gateway-mh">
                         <input id="payment_method_tpb-gateway-mh" type="radio"
                             class="input-radio" name="payment_method" value="tpb-gateway-mh"
@@ -193,14 +207,14 @@
                 </ul>
 
                 <div class="form-row place-order">
-                    <noscript>
+                    <!-- <noscript>
                         Trình duyệt của bạn không hỗ trợ JavaScript, hoặc nó bị vô hiệu hóa, hãy
                         đảm bảo bạn nhấp vào <em>Cập nhật giỏ hàng</em> trước khi bạn thanh
                         toán. Bạn có thể phải trả nhiều hơn số tiền đã nói ở trên, nếu bạn không
                         làm như vậy. <br /><button type="submit" class="button alt"
                             name="woocommerce_checkout_update_totals" value="Cập nhật tổng">Cập
                             nhật tổng</button>
-                    </noscript>
+                    </noscript> -->
 
                     <div class="woocommerce-terms-and-conditions-wrapper">
                         <div class="woocommerce-privacy-policy-text"></div>
@@ -225,7 +239,7 @@
 import axios from 'axios'
 
 export default {
-    props: ['meta', 'provinces', 'product', 'user', 'bank', 'transaction'],
+    props: ['meta', 'provinces', 'product', 'user', 'bank', 'transaction', 'box_bonus'],
     data() {
         return {
             endpoint: 'https://provinces.open-api.vn/api/',
@@ -239,10 +253,12 @@ export default {
             },
             districts: [],
             wards: [],
-            selectedProvince: 1,
-            selectedDistrict: 1,
-            selectedWard: null,
+            selectedProvince: 0,
+            selectedDistrict: 0,
+            selectedWard: 0,
             use_old_address: false,
+            personal_bonus_require: false,
+            group_bonus_require: false,
             calculated_product: {},
         }
     },
@@ -301,6 +317,13 @@ export default {
                 this[getProp] = data[getProp];
             })
         },
+        total_bonus(arr) {
+            let newArr = [arr['remain'] + ' thùng'];
+            if (arr['extend']) {
+                newArr.push(arr['extend'])
+            }
+            return newArr.join(' + ')
+        },
         orderSubmit(e) {
             e.preventDefault();
             this.$swal.fire({
@@ -319,29 +342,45 @@ export default {
         },
         async order() {
             let loader = this.$loading.show({});
+            if (this.selectedProvince > 0 && this.selectedDistrict > 0 && this.selectedWard > 0) {
+                var province = this.provinces.filter(p => p.code == this.selectedProvince)
+                var district = this.districts.filter(d => d.code == this.selectedDistrict)
+                var ward = this.wards.filter(w => w.code == this.selectedWard)
+                var addresses = [this.order_info.address, ward[0].name, district[0].name, province[0].name];
+                this.order_info.address = addresses.join(', ');
+            }
+            if (this.use_old_address) {
+                this.order_info.address = this.meta.address;
+            }
+            if (this.order_info.name.length && this.order_info.phone.length && this.order_info.address.length) {
+                let url;
+                if (this.personal_bonus_require || this.group_bonus_require) {
+                    var subject = this.personal_bonus_require ? 'personal' : (this.group_bonus_require ? 'group' : null);
+                    this.order_info.subject = subject;
 
-            var province = this.provinces.filter(p => p.code == this.selectedProvince)
-            var district = this.districts.filter(d => d.code == this.selectedDistrict)
-            var ward = this.wards.filter(w => w.code == this.selectedWard)
-
-            if (this.use_old_address || (province.length && district.length && ward.length)) {
-                if (this.use_old_address) {
-                    this.order_info.address = this.meta.address;
+                    url = route('user.ajax.gifts.store', {
+                        product: this.product.id
+                    })
                 } else {
-                    var addresses = [this.order_info.address, ward[0].name, district[0].name, province[0].name];
-                    this.order_info.address = addresses.join(', ');
+                    url = route('user.ajax.purchases.products.store', {
+                        product: this.product.id,
+                        transaction: this.transaction.id
+                    })
                 }
-
-                await axios.post(route('user.ajax.purchases.products.store', {
-                    product: this.product.id,
-                    transaction: this.transaction.id
-                }), this.order_info).then(({data}) => {
+                await axios.post(url, this.order_info).then(({data}) => {
                     this.$swal.fire(data.data.title, data.data.msg, data.type).then(async (result) => {
                         if (result.isConfirmed) {
                             location.href = '/';
                         }
                     });
-                }).catch(error => this.$swal.fire(error.response.title, error.response.msg, error.response.type))
+                }).catch(({response}) => {
+                    loader.hide();
+                    this.$swal.fire(response.data.title, response.data.msg, response.data.type).then(async (result) => {
+                        if (result.isConfirmed) {
+                            location.reload()
+                        }
+                    })
+                })
             } else {
                 this.$swal.fire('Lỗi!', 'Vui lòng điền đầy đủ thông tin.', 'error')
             }

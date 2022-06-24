@@ -39,7 +39,7 @@ class UserPurchaseProductProcessor
 
         $curl = Curl::to(config('bank.endpoint'))->asJsonResponse()->get();
         // $curl->transactions = [$object];
-        if ($curl->status == true || $force) {
+        if (isset($curl->status) && $curl->status == true || $force) {
             $histories = $curl->transactions;
             $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
 

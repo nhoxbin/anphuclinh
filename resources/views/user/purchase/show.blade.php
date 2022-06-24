@@ -33,6 +33,7 @@
                                 <div class="woocommerce-notices-wrapper"></div>
 
                                 <purchase-component :product="{{ $product }}"
+                                                    :box_bonus="{{ $box_bonus }}"
                                                     :provinces="{{ $provinces }}"
                                                     :user="{{ $user }}"
                                                     :meta="{{ $meta }}"

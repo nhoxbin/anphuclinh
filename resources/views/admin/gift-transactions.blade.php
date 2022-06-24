@@ -9,17 +9,17 @@
         <div class="card content-area content-area-mh">
             <div class="card-innr">
                 <div class="card-head has-aside">
-                    <h4 class="card-title">{{ ucfirst($is_page) }} Transactions</h4>
+                    <h4 class="card-title">{{ __('Gift Transactions') }}</h4>
                 </div>
 
                 <div class="page-nav-wrap">
                     <div class="page-nav-bar justify-content-between bg-lighter">
                         <div class="page-nav w-100 w-lg-auto">
                             <ul class="nav">
-                                <li class="nav-item {{ (request()->route('state') == 'pending' ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'pending') }}">{{ __('Pending') }}</a></li>
-                                <li class="nav-item {{ (request()->route('state') == 'approved' ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions', 'approved') }}">{{ __('Approved') }}</a></li>
-                                <li class="nav-item {{ (empty(request()->route('state')) ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.transactions') }}">{{ __('All') }}</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('admin.gift_transactions.index', 'pending') }}">{{ __('Gift') }}</a></li>
+                                <li class="nav-item {{ (request()->status == 'rewarded' ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.gift_transactions.index', 'rewarded') }}">{{ __('Rewarded') }}</a></li>
+                                <li class="nav-item {{ (request()->status == 'pending' ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.gift_transactions.index', 'pending') }}">{{ __('Pending') }}</a></li>
+                                <li class="nav-item {{ (empty(request()->status) ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.gift_transactions.index') }}">{{ __('All') }}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('admin.transactions', 'pending') }}">{{ __('Transactions') }}</a></li>
                             </ul>
                         </div>
                         <div class="search flex-grow-1 pl-lg-4 w-100 w-sm-auto">
@@ -178,18 +178,6 @@
                                 <li><a href="{{ qs_url( qs_filter('state')) }}">Status: <span>{{ ucfirst(request()->get('state')) }}</span></a></li>
                             @endif
 
-                            @if(request()->get('stg'))
-                                <li><a href="{{ qs_url( qs_filter('stg')) }}">Stage: <span>{{ ucfirst(request()->get('stg')) }}</span></a></li>
-                            @endif
-
-                            @if(request()->get('pmg'))
-                                <li><a href="{{ qs_url( qs_filter('pmg')) }}">Pay Method: <span>{{ ucfirst(request()->get('pmg')) }}</span></a></li>
-                            @endif
-
-                            @if(request()->get('pmc'))
-                                <li><a href="{{ qs_url( qs_filter('pmc')) }}">Currency: <span>{{ strtoupper(request()->get('pmc')) }}</span></a></li>
-                            @endif
-
                             @if (request()->get('date') == 'today')
                                 <li><a href="{{ qs_url( qs_filter('date')) }}">In today</span></a></li>
                             @endif
@@ -217,17 +205,18 @@
                         <tr class="data-item data-head">
                             <th class="data-col tnx-status dt-tnxno">{{ __('Tranx ID') }}</th>
                             <th class="data-col dt-name">{{ __('Name') }}</th>
+                            <th class="data-col dt-bonus">{{ __('Bonus') }}</th>
                             <th class="data-col dt-product-type">{{ __('Product Type') }}</th>
-                            <th class="data-col dt-amount">{{ __('Amount') }}</th>
-                            <th class="data-col dt-type tnx-type">{{ __('Type') }}</th>
+                            <th class="data-col dt-describe">{{ __('Describe') }}</th>
+                            {{-- <th class="data-col dt-type tnx-type">{{ __('Type') }}</th> --}}
                             <th class="data-col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($trnxs as $trnx)
                         @php
-                            $status = !$trnx->confirmed ? 'pending' : 'approved';
-                            $text_danger = ( $status == 'pending') ? ' text-danger' : '';
+                            $status = $trnx->meta['status'] == 'pending' ? 'pending' : 'approved';
+                            $text_danger = ( $trnx->meta['status'] == 'pending') ? ' text-danger' : '';
                         @endphp
                         <tr class="data-item" id="tnx-item-{{ $trnx->id }}">
                             <td class="data-col dt-tnxno">
@@ -241,12 +230,23 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="data-col dt-name">
-                                <span class="lead amount-pay{{ $text_danger }}">{{ $trnx->payable->name }}</span>
-                                <span class="sub sub-symbol">{{ $trnx->payable->phone }}</span>
+                            <td class="data-col dt-order_info">
+                                <span class="lead amount-pay{{ $text_danger }}">{{ $trnx->meta['order_info']['name'] }}</span>
+                                <span class="sub sub-symbol">{{ $trnx->meta['order_info']['phone'] }}</span>
+                            </td>
+                            <td class="data-col dt-bonus">
+                                <span class="lead amount-pay{{ $text_danger }}">{{ $trnx->gift->name }}</span>
+                                <span class="sub sub-symbol">{!! __('Bonus') . ' ' . $trnx->meta['amount'] . ($trnx->gift->extra ? (' + ' . $trnx->gift->extra) : null) . '<br /> Địa chỉ: ' . $trnx->meta['order_info']['address'] !!}</span>
                             </td>
                             <td class="data-col dt-product-type">
-                                @if ($trnx->type == 'withdraw' && $trnx->meta['type'] == 'withdraw')
+                                <span class="lead amount-pay{{ $text_danger }}">{{ $trnx->product->name }}</span>
+                                {{-- <span class="sub sub-symbol">{!! __('Bonus') . ' ' . $trnx->gift->bonus . '<br /> Địa chỉ: ' . $trnx->meta['order_info']['address'] !!}</span> --}}
+                            </td>
+                            <td class="data-col dt-describe">
+                                @if ($trnx->meta['status'] == 'rewarded')
+                                    <span class="lead token-amount{{ $text_danger }}">{{ $trnx->meta['message'] }}</span>
+                                @endif
+                                {{-- @if ($trnx->meta['status'] == '')
                                     @php
                                         $type = App\Models\UserBank::find($trnx->meta['ubank_id']);
                                     @endphp
@@ -268,11 +268,7 @@
                                     @if ($trnx->meta['type'] != 'bonus')
                                     <span class="sub sub-symbol">{{ __('Quantity') . ': ' . ($trnx->meta['qty'] ?? 1) . (isset($trnx->meta['address']) ? ', Địa chỉ: ' . $trnx->meta['address'] : null) }}</span>
                                     @endif
-                                @endif
-                            </td>
-                            <td class="data-col dt-amount">
-                                <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['type'])) }}</span>
+                                @endif --}}
                             </td>
                             {{-- <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">
@@ -298,18 +294,22 @@
                                     <span class="sub sub-email">{{ set_id($trnx->user) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '' }}"></em></span>
                                 @endif
                             </td> --}}
-                            <td class="data-col data-type">
-                                <span class="dt-type-md badge badge-outline badge-md badge-{{$trnx->id}} badge-{{__status($trnx->tnx_type,'status')}}">{{ ucfirst($trnx->tnx_type) }}</span>
-                                <span class="dt-type-sm badge badge-sq badge-outline badge-md badge-{{$trnx->id}} badge-{{__status($trnx->tnx_type,'status')}}">{{ ucfirst(substr($trnx->tnx_type, 0, 1)) }}</span>
-                            </td>
+                            {{-- <td class="data-col data-type">
+                                <span class="dt-type-md badge badge-outline badge-md badge-{{$trnx->id}} badge-success">{{ 'Successfully' }}</span>
+                                <span class="dt-type-sm badge badge-sq badge-outline badge-md badge-{{$trnx->id}} badge-warning">{{ 'Warning' }}</span>
+                            </td> --}}
                             <td class="data-col text-right">
                                 <div class="relative d-inline-block">
                                     <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a>
                                     <div class="toggle-class dropdown-content dropdown-content-top-left">
                                         <ul id="more-menu-{{ $trnx->id }}" class="dropdown-list">
-                                            <li><a href="{{ route('admin.transactions.view', $trnx->id) }}">
-                                                <em class="ti ti-eye"></em> View Details</a></li>
-                                            @if (!$trnx->confirmed)
+                                            {{-- <li><a href="{{ route('admin.transactions.view', $trnx->id) }}">
+                                                <em class="ti ti-eye"></em> View Details</a></li> --}}
+                                            @if ($trnx->meta['status'] == 'pending')
+                                            <li><a href="javascript:void(0)" onclick="tnx_reward_confirm({{ $trnx->id }})">
+                                                <em class="far fa-check-square"></em> {{ __('Approve') }}</a></li>
+                                            @endif
+                                            {{-- @if (!$trnx->confirmed)
                                                 <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="approved" data-tnx_id="{{ $trnx->id }}">
                                                     <em class="far fa-check-square"></em> {{ __('Approve') }}</a></li>
                                                 <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="rejected" data-tnx_id="{{ $trnx->id }}">
@@ -321,7 +321,7 @@
                                                 @endif
                                                 <li><a href="javascript:void(0)" class="tnx-action" data-type="delete" data-id="{{ $trnx->id }}">
                                                     <em class="far fa-check-square"></em> {{ __('Delete') }}</a></li>
-                                            @endif
+                                            @endif --}}
                                             {{-- @if($trnx->status == 'pending' || $trnx->status == 'onhold')
                                                 @if($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual')
                                                 <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
@@ -391,3 +391,46 @@
     </div>{{-- .container --}}
 </div>{{-- .page-content --}}
 @endsection
+@push('footer')
+    <script>
+        function tnx_reward_confirm(id) {
+            swal({
+                title: "Xác nhận?",
+                text: "Xác nhận rằng quà tặng đã được chuyển đi.",
+                icon: 'info',
+                buttons: {
+                    cancel: {
+                        text: "Hủy",
+                        visible: !0
+                    },
+                    confirm: {
+                        text: 'Xác nhận',
+                        className: 'danger'
+                    }
+                },
+                content: {
+                    element: "input",
+                    attributes: {
+                        placeholder: "Nhập tin nhắn...",
+                        type: "text"
+                    }
+                },
+                dangerMode: !1
+            }).then(t => {
+                $.post(route('admin.ajax.gift_transactions.update', id), {
+                    _method: 'put',
+                    message: t
+                }).done(t => {
+                    show_toast(t.type, t.data.message)
+                    if (t.data.reload) {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2e3);
+                    }
+                }).fail(function (t, e, a) {
+                    show_toast("error", "Something is wrong!\n" + a)
+                })
+            })
+        }
+    </script>
+@endpush

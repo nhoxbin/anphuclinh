@@ -161,6 +161,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
             Route::post('product/{product}/transaction/{transaction}', 'PurchaseController@product')->name('products.store');
             Route::post('package/{package}/transaction/{transaction}', 'PurchaseController@package')->name('packages.store');
         });
+        Route::post('gifts/{product}', 'GiftTransactionController@store')->name('gifts.store');
     });
 });
 
@@ -195,6 +196,7 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->g
     Route::get('/languages/translate/{code}', 'Admin\LanguageController@translator')->name('lang.translate'); // v1.1.3
 
     Route::resource('posts', 'Admin\PostController')->except(['show']);
+    Route::get('gift-transactions/{status?}', 'Admin\GiftTransactionController@index')->name('gift_transactions.index');
 
     /* Admin Ajax Route */
     Route::name('ajax.')->prefix('ajax')->group(function () {
@@ -235,14 +237,13 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'g2fa'])->name('admin.')->g
         Route::post('/settings/email/template/update', 'Admin\EmailSettingController@update_template')->middleware(['super_admin'])->name('settings.email.template.update');
         Route::post('/languages', 'Admin\LanguageController@language_action')->middleware(['demo_user'])->name('lang.action'); // v1.1.3
         Route::post('/languages/translate', 'Admin\LanguageController@language_action')->middleware(['demo_user'])->name('lang.translate.action'); // v1.1.3
+
+        Route::put('gift-transactions/{gift_transaction}', 'Admin\GiftTransactionController@update')->name('gift_transactions.update');
     });
 
     //Clear Cache facade value:
     Route::get('/clear', function () {
-        $exitCode = Artisan::call('cache:clear');
-        $exitCode = Artisan::call('config:clear');
-        $exitCode = Artisan::call('route:clear');
-        $exitCode = Artisan::call('view:clear');
+        $exitCode = Artisan::call('optimize:clear');
 
         $data = ['msg' => 'success', 'message' => 'Cache Cleared and Optimized!'];
 

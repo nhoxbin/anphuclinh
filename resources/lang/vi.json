@@ -425,7 +425,7 @@
     "Amount of contribute": "Amount of contribute",
     "Enter the amount you would like to contribute in order to calculate the amount of tokens you will receive. The calculator below helps to convert the required quantity of tokens into the amount of your selected currency.": "Enter the amount you would like to contribute in order to calculate the amount of tokens you will receive. The calculator below helps to convert the required quantity of tokens into the amount of your selected currency.",
     "Minimum contribution amount is required.": "Minimum contribution amount is required.",
-    "Bonus": "Hoa hồng",
+    "Bonus": "Thưởng",
     "On Sale": "On Sale",
     "Sale Bonus": "Sale Bonus",
     "Amount Bonus": "Amount Bonus",
@@ -669,5 +669,11 @@
     "Image cannot be null!": "Hình ảnh không được bỏ trống!",
     "Posted on :time": "Đăng lúc :time",
     "You have 1 pending order, cannot withdraw now!": "Bạn đang có 1 giao dịch đang chờ xử lý, không thể thao tác!",
-    "Reorder": "Tái đơn"
+    "Reorder": "Tái đơn",
+    "Bonus messages": "Hệ thống đã tiếp nhận yêu cầu của bạn! Quà tặng sẽ đến tay bạn trong vòng 3-5 ngày. Cảm ơn bạn đã sử dụng hệ thống của chúng tôi, chúc bạn 1 ngày làm việc vui vẻ!",
+    "Gift Transactions": "Lịch sử quà tặng",
+    "Gift": "Quà",
+    "Rewarded": "Đã tặng",
+    "Reward confirmed! :message": "Xác nhận đã chuyển quà tặng với nội dung :message",
+    "This gift has been confirmed!": "Quà tặng đã được xác nhận!"
 }

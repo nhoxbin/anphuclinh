@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use Outhebox\Pointable\Contracts\Pointable;
 use Outhebox\Pointable\Traits\Pointable as PointableTrait;
+use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class User extends Authenticatable implements Customer, Confirmable, Pointable // implements MustVerifyEmail
 {
@@ -30,6 +31,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     use CanConfirm;
     use HasRoles;
     use Notifiable;
+    use HasPushSubscriptions;
 
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'lastLogin', 'province_code', 'level', 'is_uses_point', 'lv_up'
@@ -144,12 +146,26 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function gifts()
     {
-        return $this->hasManyThrough('App\Models\Gift', 'App\Models\GiftTransaction');
+        return $this->hasManyThrough('App\Models\Gift', 'App\Models\GiftTransaction', 'user_id', 'id', 'id', 'gift_id');
+    }
+
+    public function gift_transactions()
+    {
+        return $this->hasMany('App\Models\GiftTransaction', 'user_id');
     }
 
     public function getCurrentLevelAttribute()
     {
-        return ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
+        $lv = ($this->level == 0 && $this->has_combo) ? 'Đại lý' : $this->lv->name;
+        $package_purchased_amt = $this->transactions()->where([
+            'type' => 'deposit',
+            'meta->type' => 'package',
+            'meta->status' => 'purchased'
+        ])->sum('amount');
+        if ($package_purchased_amt > 0) {
+            $lv .= ' + Đã đầu tư: ' . number_format($package_purchased_amt) . '<sup>đ</sup>';
+        }
+        return $lv;
     }
 
     public function getHasComboAttribute()
@@ -271,7 +287,55 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return $lv;
     }
 
-    public function box_sale($subject = 'personal')
+    public function box_bonus($product_id)
+    {
+        $boxes_personal = $this->user_boxes();
+        $boxes_group = $this->user_boxes('group');
+
+        $gifts_personal = $gifts_group = 0;
+        $personal_bonus_extra = $group_bonus_extra = null;
+
+        $data = ['personal' => [], 'group' => []];
+        if (isset($boxes_personal[$product_id]) || isset($boxes_group[$product_id])) {
+            if (!empty($boxes_personal)) {
+                $product = $boxes_personal[$product_id];
+                $total_buy_box = (int) ($product['qty']/$product['box']);
+                $gTnxs = $this->gift_transactions()->with('gift')->where(['product_id' => $product_id])->get();
+                $received = $gTnxs->map(fn($t) => $t->meta['amount'])->sum();
+
+                $gifts = $this->gifts()->where(['product_id' => $product_id])->pluck('gifts.id');
+                $bonus = Gift::where('box', '<=', $total_buy_box)->whereDoesntHave('transactions', function($q) use ($gifts) {
+                    $q->whereIn('gift_id', $gifts);
+                })->max('bonus');
+                $extra = Gift::where('bonus', $bonus)->first();
+
+                $bonus -= $received;
+                $data['personal'] = [
+                    'remain' => $bonus,
+                    'extend' => $extra->extra ?? null,
+                    'total_buy_box' => $total_buy_box
+                ];
+            }
+            /* if (!empty($boxes_group)) {
+                $product = $boxes_group[$product_id];
+                $total_buy_box = (int) ($product['qty']/$product['box']);
+                $gifts = GiftTransaction::where('product_id', $product_id)->whereIn('user_id', $product['ids'])->pluck('id');
+                $gifts_group = Gift::where('box', '<=', $total_buy_box)->whereDoesntHave('transactions', function($q) use ($gifts) {
+                    $q->whereIn('gift_id', $gifts);
+                })->get();
+                $gifts_group = [];
+                $data['group'] = [
+                    'remain' => $gifts_group,
+                    'extend' => $group_bonus_extra,
+                    'total_buy_box' => $total_buy_box
+                ];
+                // dd($gifts_group);
+            } */
+        }
+        return collect($data);
+    }
+
+    public function user_boxes($subject = 'personal')
     {
         // tính từ lúc mua combo đến hết năm
         $has_combo = $this->transactions()->where([
@@ -279,42 +343,54 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             'meta->type' => 'combo'
         ])->first();
         if (is_null($has_combo)) {
-            return 0;
+            return [];
         }
+
+        $group_ids = collect([]);
+        $group_ids->push($this->id);
         if ($subject == 'personal') {
             $transaction = $this->transactions();
         } elseif ($subject == 'group') {
             // chỉ tính F1
+            foreach ($this->refs as $ref) {
+                $group_ids->push($ref->id);
+            }
             $transaction = Transaction::query();
-            $transaction->whereIn('payable_id', $this->group_ids);
+            $transaction->whereIn('payable_id', $group_ids);
         }
         $transaction->where([
             'confirmed' => 1,
             'meta->type' => 'reorder',
             'meta->status' => 'purchased',
+            'meta->point_uses' => 0
         ])->where('meta->qty', '>', 0)
-            ->whereDate('updated_at', '>=', $has_combo->created_at)
+            ->where('updated_at', '>=', $has_combo->updated_at->toDateTimeString())
             ->whereYear('updated_at', now()->year)
-            ->select('meta->product_id as product_id', 'meta->qty as qty');
+            ->select('meta->product_id as product_id', 'meta->qty as qty', 'updated_at');
         $query = $transaction->get()->toArray();
 
         $boxes = [];
-        $product_ids = array_column($query, 'product_id');
-        $qty = array_column($query, 'qty');
-        foreach ($product_ids as $key => $product_id) {
-            if (!isset($boxes[$product_id])) {
-                $product = Product::find($product_id);
-                $boxes[$product_id] = [
+        foreach ($query as $value) {
+            if (!isset($boxes[$value['product_id']])) {
+                $product = Product::find($value['product_id']);
+                $boxes[$value['product_id']] = [
                     'name' => $product->name,
+                    'ids' => $group_ids,
                     'unit' => $product->unit,
                     'box' => $product->box,
-                    'qty' => $qty[$key]
+                    'qty' => $value['qty']
                 ];
                 continue;
             }
-            $boxes[$product_id]['qty'] += $qty[$key];
+            $boxes[$value['product_id']]['qty'] += $value['qty'];
         }
-        foreach ($boxes as $product_id => $product) {
+        return $boxes;
+    }
+
+    public function box_sale($subject = 'personal')
+    {
+        $boxes = $this->user_boxes($subject);
+        foreach ($boxes as $product) {
             echo $product['name'] . ': ' . ((int) ($product['qty']/$product['box'])) . ' thùng, ' . $product['qty']%$product['box'] . ' ' . $product['unit'] . '<br />';
         }
     }
