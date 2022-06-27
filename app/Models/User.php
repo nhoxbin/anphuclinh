@@ -243,18 +243,12 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $transaction = Transaction::query();
         $transaction->whereIn('payable_id', $group_ids)->where($data);
 
-        $data['type'] = 'withdraw';
-        $transaction1 = Transaction::query();
-        $transaction1->whereIn('payable_id', $group_ids)->where($data)->where('meta->qty', '>', 0);
-
         if (is_null($date)) {
             $transaction->whereYear('created_at', now()->year);
-            $transaction1->whereYear('created_at', now()->year);
         } else {
             $transaction->whereDate('created_at', $date);
-            $transaction1->whereDate('created_at', $date);
         }
-        return $transaction->sum('amount')-$transaction1->sum('amount');
+        return $transaction->sum('amount');
     }
 
     public function getSalesBranchesAttribute()
@@ -292,45 +286,95 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $boxes_personal = $this->user_boxes();
         $boxes_group = $this->user_boxes('group');
 
-        $gifts_personal = $gifts_group = 0;
-        $personal_bonus_extra = $group_bonus_extra = null;
-
         $data = ['personal' => [], 'group' => []];
         if (isset($boxes_personal[$product_id]) || isset($boxes_group[$product_id])) {
             if (!empty($boxes_personal)) {
                 $product = $boxes_personal[$product_id];
                 $total_buy_box = (int) ($product['qty']/$product['box']);
-                $gTnxs = $this->gift_transactions()->with('gift')->where(['product_id' => $product_id])->get();
-                $received = $gTnxs->map(fn($t) => $t->meta['amount'])->sum();
 
-                $gifts = $this->gifts()->where(['product_id' => $product_id])->pluck('gifts.id');
-                $bonus = Gift::where('box', '<=', $total_buy_box)->whereDoesntHave('transactions', function($q) use ($gifts) {
+                $received = $this->gift_transactions()->where([
+                    'product_id' => $product_id,
+                    'meta->type' => 'personal',
+                ])->sum('meta->amount');
+
+                $gifts = $this->gifts()->where([
+                    'product_id' => $product_id,
+                    'meta->type' => 'personal'
+                ])->pluck('gifts.id');
+                $gift = Gift::where('box', '<=', $total_buy_box)->whereDoesntHave('transactions', function($q) use ($gifts) {
                     $q->whereIn('gift_id', $gifts);
-                })->max('bonus');
-                $extra = Gift::where('bonus', $bonus)->first();
-
-                $bonus -= $received;
-                $data['personal'] = [
-                    'remain' => $bonus,
-                    'extend' => $extra->extra ?? null,
-                    'total_buy_box' => $total_buy_box
-                ];
+                })->orderBy('bonus', 'desc')->first();
+                if (!is_null($gift)) {
+                    $data['personal'] = [
+                        'remain' => $gift->bonus - $received,
+                        'gift_id' => $gift->id,
+                        'extra' => $gift->extra,
+                        'total_buy_box' => $total_buy_box
+                    ];
+                }
             }
-            /* if (!empty($boxes_group)) {
+            if (!empty($boxes_group)) {
                 $product = $boxes_group[$product_id];
                 $total_buy_box = (int) ($product['qty']/$product['box']);
-                $gifts = GiftTransaction::where('product_id', $product_id)->whereIn('user_id', $product['ids'])->pluck('id');
-                $gifts_group = Gift::where('box', '<=', $total_buy_box)->whereDoesntHave('transactions', function($q) use ($gifts) {
-                    $q->whereIn('gift_id', $gifts);
-                })->get();
-                $gifts_group = [];
-                $data['group'] = [
-                    'remain' => $gifts_group,
-                    'extend' => $group_bonus_extra,
-                    'total_buy_box' => $total_buy_box
-                ];
-                // dd($gifts_group);
-            } */
+
+                if ($total_buy_box >= 3) {
+                    $received = GiftTransaction::where([
+                        'user_id' => $this->id,
+                        'product_id' => $product_id,
+                        'meta->type' => 'group'
+                    ])->sum('meta->amount');
+
+                    // tính ra doanh số sẽ thưởng cho các user để trừ vào tổng thưởng
+                    $sale_boxes = $total_user_bonus = 0;
+                    foreach ($this->refs as $ref) {
+                        $transaction = $ref->transactions()
+                            ->where([
+                                'confirmed' => 1,
+                                'meta->type' => 'reorder',
+                                'meta->status' => 'purchased',
+                                'meta->point_uses' => 0,
+                                'meta->product_id' => $product_id
+                            ])->where('meta->qty', '>', 0)
+                            ->where('updated_at', '>=', $product['has_combo_since']->updated_at->toDateTimeString())
+                            ->whereYear('updated_at', now()->year)
+                            ->select('meta->product_id as product_id', 'meta->qty as qty', 'updated_at')
+                            ->get()->toArray();
+
+                        $boxes = (int) (array_sum(array_column($transaction, 'qty'))/$product['box']);
+                        $sale_boxes += $boxes;
+                        if ($boxes >= 3) {
+                            $bonus = Gift::where('box', '<=', $boxes)->max('bonus');
+                            $total_user_bonus += $bonus;
+                        }
+                    }
+
+                    // $gift = Gift::where('box', $total_buy_box)->orderBy('box', 'desc')->first();
+                    $available_gifts = Gift::where('box', '<=', $total_buy_box)->orderBy('box', 'desc')->get();
+                    if (!is_null($available_gifts) && $available_gifts[0]->box == $total_buy_box) {
+                        $total_bonus = $available_gifts[0]->bonus;
+                    } else {
+                        $gifts = collect([]);
+                        // tính tổng doanh số nhóm => tổng thưởng
+                        for ($i=0; $i < $available_gifts->count(); $i++) {
+                            $sale_boxes -= $available_gifts[$i]->box;
+                            if ($sale_boxes > 0) {
+                                $gifts->push($available_gifts[$i]);
+                            } else {
+                                $sale_boxes += $available_gifts[$i]->box;
+                            }
+                        }
+                        $total_bonus = $gifts->map(fn($g) => $g->bonus)->sum() - $total_bonus;
+                    }
+                    $remain = (int) ((($total_bonus-$total_user_bonus)*0.2)-$received);
+                    $gift = $available_gifts->first();
+                    $data['group'] = [
+                        'remain' => $remain,
+                        'gift_id' => $gift->id,
+                        'extra' => $gift->extra,
+                        'total_buy_box' => $total_buy_box
+                    ];
+                }
+            }
         }
         return collect($data);
     }
@@ -348,33 +392,31 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
         $group_ids = collect([]);
         $group_ids->push($this->id);
-        if ($subject == 'personal') {
-            $transaction = $this->transactions();
-        } elseif ($subject == 'group') {
+        if ($subject == 'group') {
             // chỉ tính F1
             foreach ($this->refs as $ref) {
                 $group_ids->push($ref->id);
             }
-            $transaction = Transaction::query();
-            $transaction->whereIn('payable_id', $group_ids);
         }
-        $transaction->where([
-            'confirmed' => 1,
-            'meta->type' => 'reorder',
-            'meta->status' => 'purchased',
-            'meta->point_uses' => 0
-        ])->where('meta->qty', '>', 0)
+        $transaction = Transaction::whereIn('payable_id', $group_ids)
+            ->where([
+                'confirmed' => 1,
+                'meta->type' => 'reorder',
+                'meta->status' => 'purchased',
+                'meta->point_uses' => 0
+            ])->where('meta->qty', '>', 0)
             ->where('updated_at', '>=', $has_combo->updated_at->toDateTimeString())
             ->whereYear('updated_at', now()->year)
-            ->select('meta->product_id as product_id', 'meta->qty as qty', 'updated_at');
-        $query = $transaction->get()->toArray();
+            ->select('meta->product_id as product_id', 'meta->qty as qty', 'updated_at')
+            ->get()->toArray();
 
         $boxes = [];
-        foreach ($query as $value) {
+        foreach ($transaction as $value) {
             if (!isset($boxes[$value['product_id']])) {
                 $product = Product::find($value['product_id']);
                 $boxes[$value['product_id']] = [
                     'name' => $product->name,
+                    'has_combo_since' => $has_combo,
                     'ids' => $group_ids,
                     'unit' => $product->unit,
                     'box' => $product->box,
@@ -391,7 +433,9 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     {
         $boxes = $this->user_boxes($subject);
         foreach ($boxes as $product) {
-            echo $product['name'] . ': ' . ((int) ($product['qty']/$product['box'])) . ' thùng, ' . $product['qty']%$product['box'] . ' ' . $product['unit'] . '<br />';
+            $box = (int) ($product['qty']/$product['box']);
+            $pieces = $product['qty']%$product['box'];
+            echo "{$product['name']}: $box thùng, $pieces {$product['unit']}<br />";
         }
     }
 

@@ -16,14 +16,12 @@
                     <div class="page-nav-bar justify-content-between bg-lighter">
                         <div class="page-nav w-100 w-lg-auto">
                             <ul class="nav">
-                                <li class="nav-item {{ (request()->status == 'rewarded' ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.gift_transactions.index', 'rewarded') }}">{{ __('Rewarded') }}</a></li>
-                                <li class="nav-item {{ (request()->status == 'pending' ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.gift_transactions.index', 'pending') }}">{{ __('Pending') }}</a></li>
-                                <li class="nav-item {{ (empty(request()->status) ? 'active' : '') }}"><a class="nav-link" href="{{ route('admin.gift_transactions.index') }}">{{ __('All') }}</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('admin.transactions', 'pending') }}">{{ __('Transactions') }}</a></li>
+                                <li class="nav-item {{ (\Route::currentRouteName() == 'user.transactions' ? 'active' : '') }}""><a class="nav-link" href="{{ route('user.transactions') }}">{{ __('Transactions') }}</a></li>
+                                <li class="nav-item {{ (\Route::currentRouteName() == 'user.gift_transactions' ? 'active' : '') }}""><a class="nav-link" href="{{ route('user.gift_transactions') }}">{{ __('Gift Transactions') }}</a></li>
                             </ul>
                         </div>
                         <div class="search flex-grow-1 pl-lg-4 w-100 w-sm-auto">
-                            <form action="{{ route('admin.transactions') }}" method="GET" autocomplete="off">
+                            <form action="{{ route('user.transactions') }}" method="GET" autocomplete="off">
                                 <div class="input-wrap">
                                     <span class="input-icon input-icon-left"><em class="ti ti-search"></em></span>
                                     <input type="search" class="input-solid input-transparent" placeholder="Tranx ID to quick search" value="{{ request()->get('s', '') }}" name="s">
@@ -33,7 +31,6 @@
                         <div class="tools w-100 w-sm-auto">
                             <ul class="btn-grp guttar-8px">
                                 <li><a href="#" class="btn btn-light btn-sm btn-icon btn-outline bg-white advsearch-opt"> <em class="ti ti-panel"></em> </a></li>
-
                                 <li>
                                     <div class="relative">
                                         <a href="#" class="btn btn-light bg-white btn-sm btn-icon toggle-tigger btn-outline"><em class="ti ti-settings"></em> </a>
@@ -57,7 +54,7 @@
                         </div>
                     </div>
                     <div class="search-adv-wrap hide">
-                        <form class="adv-search" id="adv-search" action="{{ route('admin.transactions') }}" method="GET" autocomplete="off">
+                        <form class="adv-search" id="adv-search" action="{{ route('user.transactions') }}" method="GET" autocomplete="off">
                             <div class="row align-items-end guttar-20px guttar-vr-15px">
                                 <div class="col-lg-6">
                                     <div class="input-grp-wrap">
@@ -179,7 +176,7 @@
                             @if (request()->get('date') == '90day')
                                 <li><a href="{{ qs_url( qs_filter('date')) }}"><span>In last 90 days</span></a></li>
                             @endif
-                            <li><a href="{{ route('admin.transactions') }}" class="link link-underline">Clear All</a></li>
+                            <li><a href="{{ route('user.transactions') }}" class="link link-underline">Clear All</a></li>
                         </ul>
                     </div>
                     @endif
@@ -275,7 +272,7 @@
                                     @php
                                     $extra = (is_json($trnx->extra, true) ?? $trnx->extra);
                                     @endphp
-                                    <span class="sub sub-email"><a href="{{ route('admin.transactions.view', ($extra->trnx ?? $trnx->id)) }}">View Transaction</a></span>
+                                    <span class="sub sub-email"><a href="{{ route('user.transactions.view', ($extra->trnx ?? $trnx->id)) }}">View Transaction</a></span>
                                 @else
                                     <span class="sub sub-email">{{ set_id($trnx->user) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '' }}"></em></span>
                                 @endif
@@ -289,7 +286,7 @@
                                     <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a>
                                     <div class="toggle-class dropdown-content dropdown-content-top-left">
                                         <ul id="more-menu-{{ $trnx->id }}" class="dropdown-list">
-                                            {{-- <li><a href="{{ route('admin.transactions.view', $trnx->id) }}">
+                                            {{-- <li><a href="{{ route('user.transactions.view', $trnx->id) }}">
                                                 <em class="ti ti-eye"></em> View Details</a></li> --}}
                                             @if ($trnx->meta['status'] == 'pending')
                                             <li><a href="javascript:void(0)" onclick="tnx_reward_confirm({{ $trnx->id }})">
@@ -339,7 +336,7 @@
                 @else
                     <div class="bg-light text-center rounded pdt-5x pdb-5x">
                         <p><em class="ti ti-server fs-24"></em><br>{{ ($is_page=='all') ? __('No transaction found!') : 'No '.$is_page.' transaction here!' }}</p>
-                        <p><a class="btn btn-primary btn-auto" href="{{ route('admin.transactions') }}">{{ __('View All Transactions') }}</a></p>
+                        <p><a class="btn btn-primary btn-auto" href="{{ route('user.transactions') }}">{{ __('View All Transactions') }}</a></p>
                     </div>
                 @endif
 
@@ -377,46 +374,3 @@
     </div>{{-- .container --}}
 </div>{{-- .page-content --}}
 @endsection
-@push('footer')
-    <script>
-        function tnx_reward_confirm(id) {
-            swal({
-                title: "Xác nhận?",
-                text: "Xác nhận rằng quà tặng đã được chuyển đi.",
-                icon: 'info',
-                buttons: {
-                    cancel: {
-                        text: "Hủy",
-                        visible: !0
-                    },
-                    confirm: {
-                        text: 'Xác nhận',
-                        className: 'danger'
-                    }
-                },
-                content: {
-                    element: "input",
-                    attributes: {
-                        placeholder: "Nhập tin nhắn...",
-                        type: "text"
-                    }
-                },
-                dangerMode: !1
-            }).then(t => {
-                $.post(route('admin.ajax.gift_transactions.update', id), {
-                    _method: 'put',
-                    message: t
-                }).done(t => {
-                    show_toast(t.type, t.data.message)
-                    if (t.data.reload) {
-                        setTimeout(() => {
-                            location.reload();
-                        }, 2e3);
-                    }
-                }).fail(function (t, e, a) {
-                    show_toast("error", "Something is wrong!\n" + a)
-                })
-            })
-        }
-    </script>
-@endpush

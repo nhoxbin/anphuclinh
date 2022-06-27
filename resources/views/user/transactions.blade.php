@@ -14,6 +14,16 @@
         <div class="card-head">
             <h4 class="card-title">{{__('Transactions list')}}</h4>
         </div>
+        <div class="page-nav-wrap">
+            <div class="page-nav-bar justify-content-between bg-lighter">
+                <div class="page-nav w-100 w-lg-auto">
+                    <ul class="nav">
+                        <li class="nav-item {{ (\Route::currentRouteName() == 'user.transactions' ? 'active' : '') }}""><a class="nav-link" href="{{ route('user.transactions') }}">{{ __('Transactions') }}</a></li>
+                        <li class="nav-item {{ (\Route::currentRouteName() == 'user.gift_transactions' ? 'active' : '') }}""><a class="nav-link" href="{{ route('user.gift_transactions') }}">{{ __('Gift Transactions') }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="gaps-1x"></div>
         <div class="row">
             <div class="col-md-12">
@@ -30,14 +40,14 @@
                                 <input class="data-filter input-checkbox input-checkbox-sm" type="radio" name="tnx-type" id="type-purchase" value="Purchase">
                                 <label for="type-purchase">{{ __('Purchase') }}</label>
                             </li>
-                            @foreach($has_trnxs as $name => $has)
+                            {{-- @foreach($has_trnxs as $name => $has)
                             @if($has==1)
                             <li>
                                 <input class="data-filter input-checkbox input-checkbox-sm" type="radio" name="tnx-type" id="type-{{ $name }}" value="{{ ucfirst($name) }}">
                                 <label for="type-{{ $name }}">{{ ucfirst($name) }}</label>
                             </li>
                             @endif
-                            @endforeach
+                            @endforeach --}}
                         </ul>
                         <ul class="dropdown-list dropdown-list-s2">
                             <li><h6 class="dropdown-title">{{ __('Status') }}</h6></li>

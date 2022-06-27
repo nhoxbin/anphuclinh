@@ -121,6 +121,7 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
     Route::get('/contribute/cancel/{gateway?}', 'TokenController@payment_cancel')->name('payment.cancel');
 
     Route::get('/transactions', 'TransactionController@index')->name('transactions');
+    Route::get('/gift_transactions', 'GiftTransactionController@index')->name('gift_transactions');
 
     Route::get('/kyc', 'KycController@index')->name('kyc');
     Route::get('/kyc/application', 'KycController@application')->name('kyc.application');
@@ -132,7 +133,6 @@ Route::prefix('user')->middleware(['auth', 'g2fa'])->name('user.')->namespace('U
     // My Token v1.1.2
     // Route::get('/account/balance', 'UserController@mytoken_balance')->name('token.balance');
 
-    // Route::get('transactions', 'TransactionController')->name('transactions.index');
     Route::resource('banks', 'BankController')->only('index');
     Route::resource('packages', 'PackageController');
 

@@ -675,5 +675,7 @@
     "Gift": "Quà",
     "Rewarded": "Đã tặng",
     "Reward confirmed! :message": "Xác nhận đã chuyển quà tặng với nội dung :message",
-    "This gift has been confirmed!": "Quà tặng đã được xác nhận!"
+    "This gift has been confirmed!": "Quà tặng đã được xác nhận!",
+    "Bonus personal": "Thưởng cá nhân",
+    "Bonus group": "Thưởng nhóm"
 }

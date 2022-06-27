@@ -12,18 +12,13 @@ use Illuminate\Support\Facades\Log;
 
 class UserPurchaseProductProcessor
 {
-    public function pay($user, $transaction, $product, $type)
+    public function pay($user, $transaction, $product, $tnx_id, $force)
     {
-        if ($type == 'confirmation') {
-            $data = ['type' => $product->is_combo ? 'combo' : 'reorder', 'transaction_id' => $transaction->id];
-        } elseif ($type == 'directly') {
-            $data = $transaction->meta;
-            unset($data['description']);
-        }
+        $data = ['type' => $product->is_combo ? 'combo' : 'reorder', 'transaction_id' => $tnx_id];
         $data['status'] = 'purchased';
-        $tnx = $user->withdraw($transaction->amount, $data);
-        $product->deposit($transaction->amount, $data);
-        return $tnx->id;
+        $data['is_auto'] = !$force;
+        $amount = ($user->balance >= $transaction->amount) ? $transaction->amount*2 : $transaction->amount;
+        $user->withdraw($amount, $data);
     }
 
     public function handle(User $user, $transaction, Product $product, $force = 0)
@@ -45,12 +40,8 @@ class UserPurchaseProductProcessor
 
             try {
                 if ((count($history) || $force)) {
-                    if ($user->balance < $transaction->amount && $user->confirm($transaction)) {
-                        $this->pay($user, $transaction, $product, 'confirmation');
-                    } else {
-                        $tnx_id = $this->pay($user, $transaction, $product, 'directly');
-                        $this->reject($transaction);
-                    }
+                    $user->confirm($transaction);
+                    $this->pay($user, $transaction, $product, $transaction->id, $force);
 
                     $qty = $transaction->meta['qty'];
                     $calc = PointCalc::getPrice($user, $product, $qty);
@@ -64,7 +55,7 @@ class UserPurchaseProductProcessor
                         $ref2 = $qty*10000; // tầng 2: 10000*số lượng
                     }
 
-                    $purchased_data = ['transaction_id' => $tnx_id ?? $transaction->id, 'type' => 'bonus'];
+                    $purchased_data = ['transaction_id' => $transaction->id, 'type' => 'bonus'];
                     $user->ref_by->deposit($ref1, $purchased_data);
 
                     if ($user->ref_by->ref_by) {
@@ -89,6 +80,7 @@ class UserPurchaseProductProcessor
                     $meta = $transaction->meta;
                     $meta['type'] = $product->is_combo ? 'combo' : 'reorder';
                     $meta['status'] = 'purchased';
+                    $meta['is_auto'] = !$force;
                     $transaction->meta = $meta;
                     $transaction->save();
 
@@ -98,7 +90,8 @@ class UserPurchaseProductProcessor
                     /* if (($user->level = $user->sales_reaches_lv) > 0) {
                         $user->lv_up = now();
                         $user->save();
-                    } */
+                    }
+                    $user->ref_by() */
                 } else {
                     // Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);
                 }

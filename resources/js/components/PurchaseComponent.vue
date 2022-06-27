@@ -320,7 +320,7 @@ export default {
         total_bonus(arr) {
             let newArr = [arr['remain'] + ' thùng'];
             if (arr['extend']) {
-                newArr.push(arr['extend'])
+                newArr.push(arr['extra'])
             }
             return newArr.join(' + ')
         },

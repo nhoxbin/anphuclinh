@@ -25,7 +25,7 @@
         <!-- Option-section -->
         <div class="option-section mb-15">
             <div class="row gx-3">
-                <div class="col-6 pb-15 ">
+                <div class="col-md-6 col-sm-12 pb-15 ">
                     <div class="option-card option-card-violet" style="background-image: url({{ asset('images/button.png')}});padding: 0;
                     max-height: 136px;
                     display: flex;
@@ -35,7 +35,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-md-3 col-sm-6 pb-15">
                     <div class="option-card option-card-blue" style="background-image: url({{ asset('images/button.png') }})">
                         <a href="my-cards.html">
                             <div class="option-card-icon">
@@ -45,7 +45,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-3 pb-15">
+                <div class="col-md-3 col-sm-6 pb-15">
                     <div class="option-card option-card-red" style="background-image: url({{ asset('images/button.png') }})">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exchange">
                             <div class="option-card-icon">
@@ -102,7 +102,7 @@
                             <i class="flaticon-invoice"></i>
                         </div>
                         <div class="feature-card-details">
-                            <p>Doanh số</p>
+                            <p>Doanh số Combo</p>
                             <h3>{{ number_format($user->sales()) }}<sup>đ</sup></h3>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-sm-6 pb-15">
+                <div class="col-md-6 col-sm-12 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-invoice"></i>
@@ -150,7 +150,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-sm-6 pb-15">
+                <div class="col-md-6 col-sm-12 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
                             <i class="flaticon-invoice"></i>
@@ -179,13 +179,10 @@
         <div class="send-money-section pb-15">
             <div class="section-header">
                 <h2>Sản phẩm</h2>
-                {{-- <div class="view-all">
-                    <a href="#">Add New</a>
-                </div> --}}
             </div>
             <div class="row gx-3">
                 @foreach ($products as $product)
-                    <div class="col-12 col-sm-6 pb-15">
+                    <div class="col-md-3 col-sm-6 col-xs-12 pb-15">
                         <div class="user-card first" style="background-image: url({{ asset('images/button.png') }})">
                             <div class="user-card-thumb" style="background: unset">
                                 <img src="/{{ $product->image }}" alt="user">
@@ -244,7 +241,7 @@
                 @if ($key+1 > 8)
                     @break
                 @endif
-                <div class="col-6 col-sm-3 pb-15">
+                <div class="col-md-3 col-sm-4 col-xs-2 pb-15">
                     <div class="blog-card">
                         <div class="blog-card-thumb">
                             <a href="/posts/{{ $post->slug }}">

@@ -29,7 +29,6 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        // Transaction::where(['user' => auth()->id(), 'status' => 'new'])->delete();
         $trnxs = $request->user()->transactions()
             ->where(['meta->status' => 'purchased', 'type' => 'deposit'])
             ->where('amount', '>', 0)
@@ -45,7 +44,7 @@ class TransactionController extends Controller
             // 'bonus' => 10, // ($bonuses > 0) ? true : false,
             // 'refund' => 10, // ($refunds > 0) ? true : false
         ];
-        return view('user.transactions', compact('trnxs', 'has_trnxs'));
+        return view('user.transactions', compact('trnxs'));
     }
 
     /**
