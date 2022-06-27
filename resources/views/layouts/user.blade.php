@@ -56,9 +56,7 @@
             <div class="container">
                 <div class="navbar-innr">
                     <ul class="navbar-menu" id="main-nav">
-                        @if(gws('main_website_url') != NULL)
-                            <li><a href="{{ gws('main_website_url') }}" target="_blank"><em class="ikon ikon-home-link"></em> {{ __('Main Site') }}</a></li>
-                        @endif
+                        <li><a href="/" target="_blank"><em class="ikon ikon-home-link"></em> {{ __('Main Site') }}</a></li>
                         @if (Auth::user()->hasRole('super_admin'))
                             <li><a href="{{ route('admin.home') }}"><em class="ikon ikon-dashboard"></em> {{__('Dashboard')}}</a></li>
                             {{-- <li {!! Route::is('admin.withdrawals.*') ? ' class="active"' : '' !!}>

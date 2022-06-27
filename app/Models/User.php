@@ -326,8 +326,9 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
                     // tính ra doanh số sẽ thưởng cho các user để trừ vào tổng thưởng
                     $sale_boxes = $total_user_bonus = 0;
-                    foreach ($this->refs as $ref) {
-                        $transaction = $ref->transactions()
+                    $total_user = collect([$this, ...$this->refs]);
+                    foreach ($total_user as $user) {
+                        $transaction = $user->transactions()
                             ->where([
                                 'confirmed' => 1,
                                 'meta->type' => 'reorder',
