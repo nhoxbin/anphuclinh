@@ -21,6 +21,17 @@ class UserPurchaseProductProcessor
         $user->withdraw($amount, $data);
     }
 
+    public function find_ref_by_reaches_lv($user)
+    {
+        if (($user->level = $user->sales_reaches_lv) > 0) {
+            $user->lv_up = now();
+            $user->save();
+            if ($user->ref_by) {
+                $this->find_ref_by_reaches_lv($user->ref_by);
+            }
+        }
+    }
+
     public function handle(User $user, $transaction, Product $product, $force = 0)
     {
         if ($transaction->confirmed) {
@@ -87,11 +98,7 @@ class UserPurchaseProductProcessor
                     if ($user->hasRole('area_admin') || $user->hasRole('provincial_admin')) {
                         return;
                     }
-                    /* if (($user->level = $user->sales_reaches_lv) > 0) {
-                        $user->lv_up = now();
-                        $user->save();
-                    }
-                    $user->ref_by() */
+                    $this->find_ref_by_reaches_lv($user);
                 } else {
                     // Log::error('Không tìm thấy giao dịch. Cần xác nhận bằng tay! ID: ' . $transaction->id);
                 }
