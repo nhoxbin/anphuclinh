@@ -17,7 +17,7 @@ class UserPurchaseProductProcessor
         $data = ['type' => $product->is_combo ? 'combo' : 'reorder', 'transaction_id' => $tnx_id];
         $data['status'] = 'purchased';
         $data['is_auto'] = !$force;
-        $amount = ($user->balance >= $transaction->amount) ? $transaction->amount*2 : $transaction->amount;
+        $amount = ($user->balance >= $transaction->amount*2) ? $transaction->amount*2 : $transaction->amount;
         $user->withdraw($amount, $data);
     }
 
