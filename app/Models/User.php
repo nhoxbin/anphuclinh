@@ -337,7 +337,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                             ])->where('meta->qty', '>', 0)
                             ->where('updated_at', '>=', $product['has_combo_since']->updated_at->toDateTimeString())
                             ->whereYear('updated_at', now()->year)
-                            ->select('meta->product_id as product_id', 'meta->qty as qty', 'updated_at')
+                            ->select('meta->qty as qty')
                             ->get()->toArray();
 
                         $boxes = (int) (array_sum(array_column($transaction, 'qty'))/$product['box']);
