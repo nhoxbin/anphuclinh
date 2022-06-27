@@ -177,17 +177,11 @@ class UserController extends Controller
                 $ret['message'] = $msg;
                 return response()->json($ret);
             } else {
-                $user = User::FindOrFail(Auth::id());
-                $user->name = strip_tags($request->input('name'));
-                $user->email = $request->input('email');
-                $user->phone = strip_tags($request->input('phone'));
-                $user->dateOfBirth = $request->input('dateOfBirth');
-                $user_saved = $user->save();
-
-                if ($user) {
+                try {
+                    $request->user()->update($validator->validated());
                     $ret['msg'] = 'success';
                     $ret['message'] = __('messages.update.success', ['what' => 'Account']);
-                } else {
+                } catch (\Exception $e) {
                     $ret['msg'] = 'warning';
                     $ret['message'] = __('messages.update.warning');
                 }
