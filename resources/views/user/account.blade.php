@@ -140,7 +140,7 @@
         </div>{{-- .tab-content --}}
     </div>{{-- .card-innr --}}
 </div>{{-- .card --}}
-<div class="content-area card">
+{{-- <div class="content-area card">
     <div class="card-innr">
         <div class="card-head">
             <h4 class="card-title">{!! __('Two-Factor Verification') !!}</h4>
@@ -151,14 +151,14 @@
             <div class="gaps-2x d-sm-none"></div>
             <button type="button" data-toggle="modal" data-target="#g2fa-modal" class="order-sm-first btn btn-{{ $user->google2fa == 1 ? 'warning' : 'primary' }}">{{ ($user->google2fa != 1) ? __('Enable 2FA') : __('Disable 2FA') }}</button>
         </div>
-    </div>{{-- .card-innr --}}
-</div>
+    </div>
+</div> --}}
 @endsection
 
 
 @push('footer')
 {{-- Modal Medium --}}
-<div class="modal fade" id="g2fa-modal" tabindex="-1">
+{{-- <div class="modal fade" id="g2fa-modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-md modal-dialog-centered">
         <div class="modal-content">
             <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
@@ -201,16 +201,16 @@
                     @endif
                 </form>
             </div>
-        </div>{{-- .modal-content --}}
-    </div>{{-- .modal-dialog --}}
-</div>
+        </div>
+    </div>
+</div> --}}
 {{-- Modal End --}}
-<script type="text/javascript">
+{{-- <script type="text/javascript">
     (function($){
         var $nio_user_2fa = $('#nio-user-2fa');
         if ($nio_user_2fa.length > 0) {
             ajax_form_submit($nio_user_2fa);
         }
     })(jQuery);
-</script>
+</script> --}}
 @endpush
