@@ -11,10 +11,25 @@ use Illuminate\Http\Request;
 
 class GiftTransactionController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $status = '')
     {
-        $trnxs = $request->user()->gift_transactions()->get();
-        return view('user.transactions', compact('trnxs'));
+        $per_page = 20;
+        $order_by = 'updated_at';
+        $ordered  = 'DESC';
+
+        $statuses = [];
+        array_push($statuses, $status);
+        if (empty($status)) {
+            $statuses = ['pending', 'rewarded'];
+        }
+        $trnxs = $request->user()->gift_transactions()->with('user', 'product', 'gift')
+            ->whereIn('meta->status', $statuses)
+            ->orderBy($order_by, $ordered)
+            ->paginate($per_page);
+
+        $is_page = (empty($status) ? 'all' : $status);
+        $pagi = $trnxs->appends(request()->all());
+        return view('user.gift-transactions', compact('trnxs', 'is_page', 'pagi'));
     }
 
     public function store(GiftRequest $request, Product $product)
