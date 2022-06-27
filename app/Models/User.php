@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use Outhebox\Pointable\Contracts\Pointable;
@@ -242,16 +243,15 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $data['type'] = 'deposit';
         $transaction = Transaction::query();
         $transaction->whereIn('payable_id', $group_ids)->where($data);
-
         if (is_null($date)) {
             $transaction->whereYear('created_at', now()->year);
         } else {
-            $transaction->whereDate('created_at', $date);
+            $transaction->where('created_at', $date);
         }
         return $transaction->sum('amount');
     }
 
-    public function getSalesBranchesAttribute()
+    public function sales_branches()
     {
         $strong = $weak = 0;
 
@@ -259,22 +259,22 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             $amount = $ref->sales();
 
             if ($strong < $amount) {
-                $strong = $weak = $amount;
-            }
-            if ($weak > $amount && $amount < $strong) {
+                $strong = $weak;
+                $weak = $amount;
+            } elseif ($weak < $amount && $amount != $weak) {
                 $weak = $amount;
             }
         }
-        return [$strong, $weak];
+        return [(int) $strong, (int) $weak];
     }
 
     public function getSalesReachesLvAttribute()
     {
-        list($strong, $weak) = $this->sales_branches;
+        list($strong, $weak) = $this->sales_branches();
         $lv = -1;
         $levels = Level::all();
         foreach ($levels as $level) {
-            if ($level->strong > 0 && $strong >= $level->strong && $weak >= $level->strong*50/100) {
+            if ($level->strong > 0 && $strong >= ((int) $level->strong) && $weak >= $level->strong*0.5) {
                 $lv = $level->lv;
             }
         }

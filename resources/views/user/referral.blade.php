@@ -37,21 +37,24 @@
         <table class="data-table dt-init refferal-table" data-items="10">
             <thead>
                 <tr class="data-item data-head">
+                    <th class="data-col refferal-name"><span>{{ __('STT') }}</span></th>
                     <th class="data-col refferal-name"><span>{{ __('Full Name') }}</span></th>
                     <th class="data-col refferal-tokens"><span>{{ __('Phone Number') }}</span></th>
                     <th class="data-col refferal-sales"><span>{{ __('Sales') }}</span></th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($reffered as $refer)
+                @forelse($reffered as $key => $refer)
                     <tr class="data-item">
+                        <td class="data-col refferal-stt">{{ $key+1 }}</td>
                         <td class="data-col refferal-name">{{ $refer->name }}</td>
                         <td class="data-col refferal-phone">{{ $refer->phone }}</td>
                         <td class="data-col refferal-sales">{{ number_format($refer->sales()) }}<sup>đ</sup></td>
                     </tr>
-                    @foreach ($refer->refs as $key => $ref)
+                    @foreach ($refer->refs as $keyref => $ref)
                     <tr class="data-item">
-                        <td class="data-col refferal-name" style="padding-left: 20px;">{{ $ref->name }}</td>
+                        <td class="data-col refferal-stt">{{ ($key+1).'.'.($keyref+1) }}</td>
+                        <td class="data-col refferal-name">{{ $ref->name }}</td>
                         <td class="data-col refferal-phone">{{ $ref->phone }}</td>
                         <td class="data-col refferal-sales">{{ number_format($ref->sales()) }}<sup>đ</sup></td>
                     </tr>

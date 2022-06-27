@@ -53,11 +53,12 @@ class UserPayment extends Command
                 // đếm số lần trả lương cho thành viên
                 $pay_income = $user->transactions()->where([
                     'meta->type' => 'income',
+                    'meta->status' => 'paid',
                     'meta->level' => $user->level,
                 ])->count();
                 if (($cond[0] && $pay_income == 0) || ($cond[1] && $pay_income == 1) || $cond[2]) {
                     // đkiện 1 trả lần 1, đkiện 2 trả lần 2, đkiện 3 trả lần 3
-                    $user->deposit((($user->lv->strong + $user->lv->strong*0.5)*0.1)/3, ['type' => 'income', 'level' => $user->level]);
+                    $user->deposit((($user->lv->strong + $user->lv->strong*0.5)*0.1)/3, ['type' => 'income', 'status' => 'paid', 'level' => $user->level]);
                     if ($cond[2]) {
                         $user->level = 0;
                         $user->lv_up = null;

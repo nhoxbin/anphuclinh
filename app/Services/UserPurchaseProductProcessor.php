@@ -26,9 +26,9 @@ class UserPurchaseProductProcessor
         if (($user->level = $user->sales_reaches_lv) > 0) {
             $user->lv_up = now();
             $user->save();
-            if ($user->ref_by) {
-                $this->find_ref_by_reaches_lv($user->ref_by);
-            }
+        }
+        if ($user->ref_by) {
+            $this->find_ref_by_reaches_lv($user->ref_by);
         }
     }
 
