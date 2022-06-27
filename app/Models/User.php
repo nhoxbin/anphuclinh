@@ -341,7 +341,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                             ->get()->toArray();
 
                         $boxes = (int) (array_sum(array_column($transaction, 'qty'))/$product['box']);
-                        $sale_boxes += $boxes;
+                        // $sale_boxes += $boxes;
                         if ($boxes >= 3) {
                             $bonus = Gift::where('box', '<=', $boxes)->max('bonus');
                             $total_user_bonus += $bonus;
@@ -356,14 +356,14 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                         $gifts = collect([]);
                         // tính tổng doanh số nhóm => tổng thưởng
                         for ($i=0; $i < $available_gifts->count(); $i++) {
-                            $sale_boxes -= $available_gifts[$i]->box;
-                            if ($sale_boxes > 0) {
+                            $total_buy_box -= $available_gifts[$i]->box;
+                            if ($total_buy_box >= 0) {
                                 $gifts->push($available_gifts[$i]);
                             } else {
-                                $sale_boxes += $available_gifts[$i]->box;
+                                $total_buy_box += $available_gifts[$i]->box;
                             }
                         }
-                        $total_bonus = $gifts->map(fn($g) => $g->bonus)->sum() - $total_bonus;
+                        $total_bonus = $gifts->sum('bonus');
                     }
                     $remain = (int) ((($total_bonus-$total_user_bonus)*0.2)-$received);
                     $gift = $available_gifts->first();
