@@ -14,19 +14,19 @@
                 <div class="data-details d-md-flex">
                     <div class="fake-class">
                         <span class="data-details-title">Transaction Date</span>
-                        <span class="data-details-info">{{ _date($trnx->tnx_time) }}</span>
+                        <span class="data-details-info">{{ $trnx->updated_at }}</span>
                     </div>
                     <div class="fake-class">
                         <span class="data-details-title">Transaction Status</span>
                         <span class="badge badge-{{ __status($trnx->status, 'status') }} ucap">{{ $trnx->status }}</span>
                     </div>
-                    <div class="fake-class">
+                    {{-- <div class="fake-class">
                         <span class="data-details-title">Transaction by</span>
 
                         <span class="data-details-info"><strong>{{ transaction_by($trnx->added_by) }}</strong></span>
-                    </div>
-                    <div class="fake-class">
-                        @if($trnx->tnx_type=='refund')
+                    </div> --}}
+                    {{-- <div class="fake-class">
+                        @if($trnx->meta['type'] =='refund')
                             @php
                             $trnx_extra = (is_json($trnx->extra, true) ?? $trnx->extra);
                             @endphp
@@ -42,16 +42,16 @@
                             <span class="data-details-info">Not Reviewed yet.</span>
                             @endif
                         @endif
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="gaps-3x"></div>
                 <h6 class="card-sub-title">Transaction Info</h6>
                 <ul class="data-details-list">
                     <li>
                         <div class="data-details-head">Transaction Type</div>
-                        <div class="data-details-des"><strong>{{ ucfirst($trnx->tnx_type) }}</strong></div>
+                        <div class="data-details-des"><strong>{{ ucfirst($trnx->meta['type']) }}</strong></div>
                     </li>
-                    @if(($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus') && $trnx->added_by==set_added_by('0'))
+                    @if (($trnx->tnx_type=='referral'||$trnx->tnx_type=='bonus') && $trnx->added_by==set_added_by('0'))
                     <li>
                         <div class="data-details-head">{{ ($trnx->tnx_type=='bonus') ? 'Referred By' : 'Referral Bonus For' }}</div>
                         <div class="data-details-des">

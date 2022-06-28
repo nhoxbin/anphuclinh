@@ -324,10 +324,10 @@
                                                     <em class="far fa-check-square"></em>Approve</a></li>
                                                 @endif
                                             @endif --}}
-                                            {{-- @if( !empty($trnx->checked_by) && ($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual'))
+                                            @if($trnx->meta['status'] == 'rewarded')
                                             <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
                                                 <em class="far fa-check-square"></em>Delete</a></li>
-                                            @endif --}}
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -406,6 +406,38 @@
                 $.post(route('admin.ajax.gift_transactions.update', id), {
                     _method: 'put',
                     message: t
+                }).done(t => {
+                    show_toast(t.type, t.data.message)
+                    if (t.data.reload) {
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2e3);
+                    }
+                }).fail(function (t, e, a) {
+                    show_toast("error", "Something is wrong!\n" + a)
+                })
+            })
+        }
+
+        function tnx_delete() {
+            swal({
+                title: "Xác nhận?",
+                text: "Xác nhận rằng quà tặng đã được chuyển đi.",
+                icon: 'danger',
+                buttons: {
+                    cancel: {
+                        text: "Hủy",
+                        visible: !0
+                    },
+                    confirm: {
+                        text: 'Xác nhận',
+                        className: 'danger'
+                    }
+                },
+                dangerMode: !1
+            }).then(t => {
+                $.delete(route('admin.ajax.gift_transactions.delete', id), {
+                    _method: 'delete',
                 }).done(t => {
                     show_toast(t.type, t.data.message)
                     if (t.data.reload) {

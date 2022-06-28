@@ -30,7 +30,8 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $trnxs = $request->user()->transactions()
-            ->where(['meta->status' => 'purchased', 'type' => 'deposit'])
+            ->where('type', 'deposit')
+            ->where('meta->status', '<>', null)
             ->where('amount', '>', 0)
             ->orderBy('created_at', 'DESC')
             ->get();

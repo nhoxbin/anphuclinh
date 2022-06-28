@@ -106,6 +106,8 @@
                             $type = App\Models\Product::find($trnx->meta['product_id']);
                         } elseif (isset($trnx->meta['package_id'])) {
                             $type = App\Models\Package::find($trnx->meta['package_id']);
+                        } elseif ($trnx->meta['type'] == 'income') {
+                            $type = App\Models\Level::find($trnx->meta['level']);
                         }
                         @endphp
                         <span class="lead token-amount{{ $text_danger }}">{{ $type->name ?? 'Gói đầu tư' }}</span>
@@ -118,7 +120,7 @@
                             <span class="lead amount-pay">{{ '~' }}</span>
                         @else --}}
                         <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                        <span class="sub sub-symbol">{{ $trnx->meta['type'] == 'bonus' ? 'Hoa hồng' : 'Mua' }}</span>
+                        <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['type'])) }}</span>
                         {{-- @endif --}}
                     </td>
                     {{-- <td class="data-col dt-usd-amount">

@@ -219,7 +219,7 @@
                             <th class="data-col dt-name">{{ __('Name') }}</th>
                             <th class="data-col dt-product-type">{{ __('Product Type') }}</th>
                             <th class="data-col dt-amount">{{ __('Amount') }}</th>
-                            <th class="data-col dt-type tnx-type">{{ __('Type') }}</th>
+                            {{-- <th class="data-col dt-type tnx-type">{{ __('Type') }}</th> --}}
                             <th class="data-col"></th>
                         </tr>
                     </thead>
@@ -259,9 +259,11 @@
                                         $type = App\Models\Product::find($trnx->meta['product_id']);
                                     } elseif ($trnx->meta['type'] == 'package') {
                                         $type = App\Models\Package::find($trnx->meta['package_id']);
-                                    }elseif ($trnx->meta['type'] == 'bonus') {
+                                    } elseif ($trnx->meta['type'] == 'bonus') {
                                         $product_id = App\Models\Transaction::find($trnx->meta['transaction_id'])->meta['product_id'];
                                         $type = App\Models\Product::find($product_id);
+                                    } elseif ($trnx->meta['type'] == 'income') {
+                                        $type = App\Models\Level::find($trnx->meta['level']);
                                     }
                                     @endphp
                                     <span class="lead token-amount{{ $text_danger }}">{!! $type->name ?? $trnx->meta['title'] . '<sup>đ</sup>' !!}</span>
@@ -272,7 +274,7 @@
                             </td>
                             <td class="data-col dt-amount">
                                 <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['type'])) }}</span>
+                                <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['status'] == 'refunded' ? $trnx->meta['status'] : $trnx->meta['type'])) }}</span>
                             </td>
                             {{-- <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">
@@ -298,10 +300,10 @@
                                     <span class="sub sub-email">{{ set_id($trnx->user) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '' }}"></em></span>
                                 @endif
                             </td> --}}
-                            <td class="data-col data-type">
+                            {{-- <td class="data-col data-type">
                                 <span class="dt-type-md badge badge-outline badge-md badge-{{$trnx->id}} badge-{{__status($trnx->tnx_type,'status')}}">{{ ucfirst($trnx->tnx_type) }}</span>
                                 <span class="dt-type-sm badge badge-sq badge-outline badge-md badge-{{$trnx->id}} badge-{{__status($trnx->tnx_type,'status')}}">{{ ucfirst(substr($trnx->tnx_type, 0, 1)) }}</span>
-                            </td>
+                            </td> --}}
                             <td class="data-col text-right">
                                 <div class="relative d-inline-block">
                                     <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a>
@@ -315,7 +317,7 @@
                                                 <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="rejected" data-tnx_id="{{ $trnx->id }}">
                                                     <em class="fas fa-ban"></em> {{ __('Reject') }}</a></li>
                                             @else
-                                                @if (!isset($trnx->meta['status']))
+                                                @if ($trnx->meta['status'] == 'purchased')
                                                 <li><a href="javascript:void(0)" class="tnx-action" data-type="refund" data-id="{{ $trnx->id }}">
                                                     <em class="fas fa-reply"></em> {{ __('Refund') }}</a></li>
                                                 @endif

@@ -1,20 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-/**
- * Transactions Controller
- *
- * @package TokenLite
- * @author Softnio
- * @version 1.1.0
- */
+
 use Auth;
 use Validator;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\IcoStage;
-// use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use App\Helpers\ReferralHelper;
@@ -38,7 +31,7 @@ class TransactionController extends Controller
 
         $trnxs = Transaction::query();
         $trnxs->with('payable')->where(['payable_type' => 'App\\Models\\User'])
-            ->whereIn('meta->type', ['combo', 'reorder', 'withdraw', 'package']);
+            ->whereIn('meta->type', ['combo', 'reorder', 'withdraw', 'package', 'income']);
 
         if ($status == 'approved') {
             $trnxs->where(['confirmed' => 1, 'type' => 'deposit']);
@@ -66,14 +59,10 @@ class TransactionController extends Controller
         return view('admin.transactions', compact('trnxs', 'is_page', 'pagi'));
     }
 
-    public function show($trnx_id = '')
+    public function show(Transaction $transaction)
     {
-        if ($trnx_id == '') {
-            return __('messages.wrong');
-        } else {
-            $trnx = Transaction::FindOrFail($trnx_id);
-            return view('admin.trnx_details', compact('trnx'))->render();
-        }
+        $trnx = $transaction;
+        return view('admin.trnx_details', compact('trnx'));
     }
 
     public function update(Request $request, Transaction $transaction)

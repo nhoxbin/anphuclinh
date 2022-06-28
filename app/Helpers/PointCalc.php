@@ -14,14 +14,13 @@ class PointCalc {
 
     public static function getPoint($type)
     {
-        $increase_percent = 5; // %
         $refer_bonus = 500000;
 
         $rate = (float) file_get_contents(self::getFile());
         $points = [
             'current' => ['amount' => $rate],
             'refer' => ['amount' => $refer_bonus / $rate],
-            'increase' => ['amount' => $rate * ($increase_percent / 100)],
+            'increase' => ['amount' => round($rate + ($rate * 0.05))],
         ];
         if (in_array($type, array_keys($points))) {
             return round($points[$type]['amount']);

@@ -125,7 +125,7 @@ class UserPurchaseProductProcessor
     {
         try {
             // if re-order => + points
-            $rate = $transaction->meta['rate'];
+            $rate = $transaction->meta['rate'] ?? 2778;
             $point = $transaction->meta['point_uses'];
             if ($product->is_combo) {
                 // if combo => - points
@@ -134,7 +134,6 @@ class UserPurchaseProductProcessor
                     throw new \Exception("Số điểm hiện tại không đủ để hoàn tiền!");
                 }
             }
-            $user->addPoints($point, 'Refund Transaction');
 
             $data = [
                 'type' => 'refund',
@@ -143,12 +142,19 @@ class UserPurchaseProductProcessor
             ];
 
             // trừ hoa hồng (bonus)
-            $sales = Transaction::where('meta->transaction_id', $transaction->id)->get();
-            $sales->map(fn($t) => $t->payable->forceWithdraw($t->amount, $data));
-
+            $sales = Transaction::with('payable')->where('meta->transaction_id', $transaction->id)->get();
+            $sales->map(function($t) use ($data) {
+                if ($t->payable->balance >= $t->amount) {
+                    $t->payable->withdraw($t->amount, $data);
+                } elseif ($t->payable->balance > 0) {
+                    $t->payable->forceWithdraw($t->amount, $data);
+                }
+            });
             // refund
             $user->deposit($transaction->amount, $data);
-            $product->withdraw($transaction->amount, $data);
+
+            // trừ điểm
+            $user->addPoints($point, 'Refund Transaction');
 
             // thêm trạng thái refunded
             $meta = $transaction->meta;

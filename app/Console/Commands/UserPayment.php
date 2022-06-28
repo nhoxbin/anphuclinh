@@ -42,9 +42,9 @@ class UserPayment extends Command
             $users = User::where('level', '>', 0)->where('lv_up', '<>', null)->get();
             $now = now();
             foreach ($users as $user) {
-                $first_income = $user->lv_up->addMonth();
-                $second_income = $user->lv_up->addMonths(2);
-                $third_income = $user->lv_up->addMonths(3);
+                $first_income = $user->lv_up;
+                $second_income = $user->lv_up->addMonths(1);
+                $third_income = $user->lv_up->addMonths(2);
                 $cond = [
                     $now >= $first_income && $now < $second_income,
                     $now >= $second_income && $now < $third_income,
@@ -58,7 +58,7 @@ class UserPayment extends Command
                 ])->count();
                 if (($cond[0] && $pay_income == 0) || ($cond[1] && $pay_income == 1) || $cond[2]) {
                     // đkiện 1 trả lần 1, đkiện 2 trả lần 2, đkiện 3 trả lần 3
-                    $user->deposit((($user->lv->strong + $user->lv->strong*0.5)*0.1)/3, ['type' => 'income', 'status' => 'paid', 'level' => $user->level]);
+                    $user->deposit((($user->lv->strong + $user->lv->strong/2)*0.1)/3, ['type' => 'income', 'status' => 'paid', 'level' => $user->level]);
                     if ($cond[2]) {
                         $user->level = 0;
                         $user->lv_up = null;

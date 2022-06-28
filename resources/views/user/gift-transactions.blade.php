@@ -191,8 +191,6 @@
                             <th class="data-col dt-bonus">{{ __('Bonus') }}</th>
                             <th class="data-col dt-product-type">{{ __('Product Type') }}</th>
                             <th class="data-col dt-describe">{{ __('Describe') }}</th>
-                            {{-- <th class="data-col dt-type tnx-type">{{ __('Type') }}</th> --}}
-                            <th class="data-col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -277,59 +275,7 @@
                                     <span class="sub sub-email">{{ set_id($trnx->user) }} <em class="fas fa-info-circle" data-toggle="tooltip" data-placement="bottom" title="{{ isset($trnx->tnxUser) ? explode_user_for_demo($trnx->tnxUser->email, auth()->user()->type) : '' }}"></em></span>
                                 @endif
                             </td> --}}
-                            {{-- <td class="data-col data-type">
-                                <span class="dt-type-md badge badge-outline badge-md badge-{{$trnx->id}} badge-success">{{ 'Successfully' }}</span>
-                                <span class="dt-type-sm badge badge-sq badge-outline badge-md badge-{{$trnx->id}} badge-warning">{{ 'Warning' }}</span>
-                            </td> --}}
-                            <td class="data-col text-right">
-                                <div class="relative d-inline-block">
-                                    <a href="#" class="btn btn-light-alt btn-xs btn-icon toggle-tigger"><em class="ti ti-more-alt"></em></a>
-                                    <div class="toggle-class dropdown-content dropdown-content-top-left">
-                                        <ul id="more-menu-{{ $trnx->id }}" class="dropdown-list">
-                                            {{-- <li><a href="{{ route('user.transactions.view', $trnx->id) }}">
-                                                <em class="ti ti-eye"></em> View Details</a></li> --}}
-                                            @if ($trnx->meta['status'] == 'pending')
-                                            <li><a href="javascript:void(0)" onclick="tnx_reward_confirm({{ $trnx->id }})">
-                                                <em class="far fa-check-square"></em> {{ __('Approve') }}</a></li>
-                                            @endif
-                                            {{-- @if (!$trnx->confirmed)
-                                                <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="approved" data-tnx_id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em> {{ __('Approve') }}</a></li>
-                                                <li><a href="javascript:void(0)" class="tnx-transfer-action" data-status="rejected" data-tnx_id="{{ $trnx->id }}">
-                                                    <em class="fas fa-ban"></em> {{ __('Reject') }}</a></li>
-                                            @else
-                                                @if (!isset($trnx->meta['status']))
-                                                <li><a href="javascript:void(0)" class="tnx-action" data-type="refund" data-id="{{ $trnx->id }}">
-                                                    <em class="fas fa-reply"></em> {{ __('Refund') }}</a></li>
-                                                @endif
-                                                <li><a href="javascript:void(0)" class="tnx-action" data-type="delete" data-id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em> {{ __('Delete') }}</a></li>
-                                            @endif --}}
-                                            {{-- @if($trnx->status == 'pending' || $trnx->status == 'onhold')
-                                                @if($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual')
-                                                <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em>Approve</a></li>
-                                                @endif
-                                                @if($trnx->tnx_type != 'transfer')
-                                                <li id="canceled"><a href="javascript:void(0)" class="tnx-action" data-type="canceled" data-id="{{ $trnx->id }}">
-                                                    <em class="fas fa-ban"></em>Cancel</a></li>
-                                                @endif
-                                            @endif
-                                            @if($trnx->status == 'canceled')
-                                                @if( !empty($trnx->checked_by) && ($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual'))
-                                                <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
-                                                    <em class="far fa-check-square"></em>Approve</a></li>
-                                                @endif
-                                            @endif --}}
-                                            {{-- @if( !empty($trnx->checked_by) && ($trnx->payment_method == 'bank' || $trnx->payment_method == 'manual'))
-                                            <li><a href="javascript:void(0)" id="adjust_token" data-id="{{ $trnx->id }}">
-                                                <em class="far fa-check-square"></em>Delete</a></li>
-                                            @endif --}}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>{{-- .data-item --}}
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>

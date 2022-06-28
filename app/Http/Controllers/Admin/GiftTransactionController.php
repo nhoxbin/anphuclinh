@@ -45,4 +45,10 @@ class GiftTransactionController extends Controller
 
         return response()->success(['reload' => true, 'title' => 'Thành công!', 'message' => __('Reward confirmed! :message', ['message' => $meta['message']])]);
     }
+
+    public function destroy(GiftTransaction $gift_transaction)
+    {
+        $gift_transaction->delete();
+        return response()->success(['title' => 'Thành công!', 'msg' => __('Transaction deleted!')]);
+    }
 }
