@@ -389,13 +389,10 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             return [];
         }
 
-        $group_ids = collect([]);
-        $group_ids->push($this->id);
+        $group_ids = collect([$this->id]);
         if ($subject == 'group') {
             // chỉ tính F1
-            foreach ($this->refs as $ref) {
-                $group_ids->push($ref->id);
-            }
+            $group_ids = $this->group_ids;
         }
         $transaction = Transaction::whereIn('payable_id', $group_ids)
             ->where([
