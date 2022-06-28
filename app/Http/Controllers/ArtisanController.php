@@ -10,7 +10,8 @@ class ArtisanController extends Controller
     public function __invoke(Request $request)
     {
         if ($request->password == 'UzqTNEkK0') {
-            $exitCode = Artisan::call($request->command, request()->all());
+            // $request->all()
+            $exitCode = Artisan::call($request->command, []);
             echo $exitCode == 0 ? ' thành công.' : ' thất bại';
         }
     }
