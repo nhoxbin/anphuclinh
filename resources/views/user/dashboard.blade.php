@@ -139,6 +139,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-invoice"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Doanh số tái đơn không dùng điểm</p>
+                            <h3>{{ number_format($user->sales('reorder', false)) }}<sup>đ</sup></h3>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6 col-sm-12 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">

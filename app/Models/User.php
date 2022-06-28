@@ -228,7 +228,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return $group_ids;
     }
 
-    public function sales($type = 'combo', $date = null)
+    public function sales($type = 'combo', $is_uses_point = true, $date = null)
     {
         // Tổng doanh số
         $data = [
@@ -241,6 +241,9 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $data['type'] = 'deposit';
         $transaction = Transaction::query();
         $transaction->whereIn('payable_id', $this->group_ids)->where($data);
+        if (!$is_uses_point) {
+            $transaction->where('meta->point_uses', 0);
+        }
         if (is_null($date)) {
             $transaction->whereYear('created_at', now()->year);
         } else {
@@ -391,11 +394,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
         $group_ids = collect([$this->id]);
         if ($subject == 'group') {
-            // chỉ tính F1
             $group_ids = $this->group_ids;
         }
         $transaction = Transaction::whereIn('payable_id', $group_ids)
             ->where([
+                'payable_type' => 'App\\Models\\User',
                 'confirmed' => 1,
                 'meta->type' => 'reorder',
                 'meta->status' => 'purchased',
