@@ -1,5 +1,5 @@
-<?php 
-/** 
+<?php
+/**
  * Here is the permissions control
  *
  * uses: 'manage_user' => ['ControllerName'] @array

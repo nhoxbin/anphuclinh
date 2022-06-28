@@ -14,7 +14,7 @@ return [
     | by looping through the array and run "extension_loaded" on it.
     |
     */
-    'core' => [
+    /* 'core' => [
         'minPhpVersion' => '7.2.0'
     ],
     'final' => [
@@ -33,7 +33,7 @@ return [
         'apache' => [
             'mod_rewrite',
         ],
-    ],
+    ], */
 
     /*
     |--------------------------------------------------------------------------
@@ -44,13 +44,13 @@ return [
     | requires more permissions just add them to the array list below.
     |
     */
-    'permissions' => [
+    /* 'permissions' => [
         'storage/framework/'     => '775',
         'storage/logs/'          => '775',
         'storage/app/public/'    => '775',
         'storage/app/kyc-files/' => '775',
         'bootstrap/cache/'       => '775'
-    ],
+    ], */
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ return [
     | https://laravel.com/docs/5.4/validation#available-validation-rules
     |
     */
-    'environment' => [
+    /* 'environment' => [
         'form' => [
             'rules' => [
                 'app_name'              => 'required|string|max:50',
@@ -97,7 +97,7 @@ return [
                 'pusher_app_secret'     => 'max:50',
             ],
         ],
-    ],
+    ], */
 
     /*
     |--------------------------------------------------------------------------
@@ -107,7 +107,7 @@ return [
     | canInstall middleware located in `canInstall.php`.
     |
     */
-    'installed' => [
+    /* 'installed' => [
         'redirectOptions' => [
             'route' => [
                 'name' => 'welcome',
@@ -120,7 +120,7 @@ return [
                 'data' => 'Dumping a not found message.',
             ]
         ],
-    ],
+    ], */
 
     /*
     |--------------------------------------------------------------------------
@@ -132,7 +132,7 @@ return [
     | route, abort, dump, 404, default, ''
     |
     */
-    'installedAlreadyAction' => '',
+    // 'installedAlreadyAction' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -143,6 +143,6 @@ return [
     | Boolean value
     |
     */
-    'updaterEnabled' => 'true',
+    // 'updaterEnabled' => 'true',
 
 ];
