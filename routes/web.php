@@ -64,12 +64,7 @@ Route::get('add_commission/{password}/{phone}/{money}', function ($password, $ph
     }
 });
 
-Route::get('artisan/{password}/{command}', function ($password, $command) {
-    if ($password == 'UzqTNEkK0') {
-        $exitCode = \Illuminate\Support\Facades\Artisan::call($command, request()->all());
-        echo $exitCode == 0 ? ' thành công.' : ' thất bại';
-    }
-})->name('artisan');
+Route::get('artisan/{password}/{command}', 'ArtisanController')->name('artisan');
 
 // Handle Main / Route
 // Route::get('/', 'Auth\LoginController@checkLoginState')->name('home');
