@@ -386,7 +386,8 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         // tính từ lúc mua combo đến hết năm
         $has_combo = $this->transactions()->where([
             'confirmed' => 1,
-            'meta->type' => 'combo'
+            'meta->type' => 'combo',
+            'meta->status' => 'purchased'
         ])->first();
         if (is_null($has_combo)) {
             return [];
