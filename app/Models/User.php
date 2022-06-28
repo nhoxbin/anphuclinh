@@ -265,11 +265,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                 $weak = $amount;
             }
         }
-        $swap = 0;
+        $temp = 0;
         if ($strong < $weak) {
-            $swap = $strong;
+            $temp = $strong;
             $strong = $weak;
-            $weak = $swap;
+            $weak = $temp;
         }
         return [(int) $strong, (int) $weak];
     }

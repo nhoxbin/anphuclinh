@@ -26,7 +26,7 @@ class EmailSettingController extends Controller
     {
         // var_dump(config('mail'));
         $templates = EmailTemplate::orderBy('slug', 'ASC')->get();
-        $admins = User::where('role', 'admin')->get();
+        $admins = User::whereRelation('roles', 'name', '=', 'super_admin')->get();
         return view('admin.settings-email', compact('templates', 'admins'));
     }
 
