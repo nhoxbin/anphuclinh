@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 
 class ArtisanController extends Controller
 {
@@ -11,8 +10,8 @@ class ArtisanController extends Controller
     {
         if ($request->password == 'UzqTNEkK0') {
             // $request->all()
-            // $exitCode = Artisan::call($request->command, []);
-            // echo $exitCode == 0 ? ' thành công.' : ' thất bại';
+            $exitCode = \Artisan::call($request->command, []);
+            echo $exitCode == 0 ? ' thành công.' : ' thất bại';
         }
     }
 }
