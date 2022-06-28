@@ -39,6 +39,7 @@ class UserPayment extends Command
     public function handle()
     {
         try {
+            $this->info('hihi');
             $users = User::where('level', '>', 0)->where('lv_up', '<>', null)->get();
             $now = now();
             foreach ($users as $user) {
