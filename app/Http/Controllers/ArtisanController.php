@@ -11,8 +11,8 @@ class ArtisanController extends Controller
     {
         if ($request->password == 'UzqTNEkK0') {
             // $request->all()
-            $exitCode = Artisan::call($request->command, []);
-            echo $exitCode == 0 ? ' thành công.' : ' thất bại';
+            // $exitCode = Artisan::call($request->command, []);
+            // echo $exitCode == 0 ? ' thành công.' : ' thất bại';
         }
     }
 }
