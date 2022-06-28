@@ -329,6 +329,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                     $sale_boxes = $total_user_bonus = 0;
                     $total_user = $this->group_ids;
                     foreach ($total_user as $user) {
+                        $user = User::find($user);
                         $transaction = $user->transactions()
                             ->where([
                                 'confirmed' => 1,
