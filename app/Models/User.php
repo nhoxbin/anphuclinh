@@ -241,7 +241,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $data['type'] = 'deposit';
         $transaction = Transaction::query();
         $transaction->whereIn('payable_id', $this->group_ids)->where($data);
-        if (!$is_uses_point) {
+        if (!$is_uses_point && $type != 'combo') {
             $transaction->where('meta->point_uses', 0);
         }
         if (is_null($date)) {
@@ -258,7 +258,6 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
         foreach ($this->refs as $ref) {
             $amount = $ref->sales();
-
             if ($strong < $amount) {
                 $strong = $weak;
                 $weak = $amount;
@@ -266,12 +265,19 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                 $weak = $amount;
             }
         }
+        $swap = 0;
+        if ($strong < $weak) {
+            $swap = $strong;
+            $strong = $weak;
+            $weak = $swap;
+        }
         return [(int) $strong, (int) $weak];
     }
 
     public function getSalesReachesLvAttribute()
     {
         list($strong, $weak) = $this->sales_branches();
+
         $lv = -1;
         $levels = Level::all();
         foreach ($levels as $level) {

@@ -15,7 +15,6 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $u = User::find(1048);
-        dd($u->sales_reaches_lv);
+
     }
 }
