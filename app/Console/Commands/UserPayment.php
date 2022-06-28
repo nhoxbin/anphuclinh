@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class UserPayment extends Command
 {
@@ -40,6 +41,7 @@ class UserPayment extends Command
     {
         try {
             $this->info('hihi');
+            Log::info('hihi');
             $users = User::where('level', '>', 0)->where('lv_up', '<>', null)->get();
             $now = now();
             foreach ($users as $user) {
@@ -57,7 +59,7 @@ class UserPayment extends Command
                     'meta->status' => 'paid',
                     'meta->level' => $user->level,
                 ])->count();
-                $this->info($cond);
+                Log::info($cond);
                 if (($cond[0] && $pay_income == 0) || ($cond[1] && $pay_income == 1) || $cond[2]) {
                     // đkiện 1 trả lần 1, đkiện 2 trả lần 2, đkiện 3 trả lần 3
                     $user->deposit((($user->lv->strong + $user->lv->strong/2)*0.1)/3, ['type' => 'income', 'status' => 'paid', 'level' => $user->level]);
@@ -69,7 +71,7 @@ class UserPayment extends Command
                 }
             }
         } catch (\Exception $e) {
-            $this->error($e);
+            Log::error($e);
         }
     }
 }
