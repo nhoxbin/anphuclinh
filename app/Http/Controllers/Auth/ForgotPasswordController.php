@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Log;
 
 class ForgotPasswordController extends Controller
 {
@@ -58,6 +59,7 @@ class ForgotPasswordController extends Controller
             ? $this->sendResetLinkResponse($request, $response)
             : $this->sendResetLinkFailedResponse($request, $response);
         } catch (\Exception $e) {
+            Log::error($e);
             return back()->withErrors(__('messages.email.reset',['email'=>get_setting('site_email')]));
         }
     }
