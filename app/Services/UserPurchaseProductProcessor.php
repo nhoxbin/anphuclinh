@@ -126,7 +126,12 @@ class UserPurchaseProductProcessor
         try {
             // if re-order => + points
             $rate = $transaction->meta['rate'] ?? 2778;
-            $point = $transaction->meta['point_uses'];
+            if (!isset($transaction->meta['point_uses'])) {
+                $calc = PointCalc::getPrice($user, $product, $transaction->meta['qty']);
+                $point = $calc['max_point_discount'];
+            } else {
+                $point = $transaction->meta['point_uses'];
+            }
             if ($product->is_combo) {
                 // if combo => - points
                 $point = -round($transaction->amount / $rate);
