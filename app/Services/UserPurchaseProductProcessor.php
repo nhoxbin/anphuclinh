@@ -123,6 +123,9 @@ class UserPurchaseProductProcessor
 
     public function refund(User $user, $transaction, Product $product, $message)
     {
+        if ($transaction->meta['status'] == 'refunded') {
+            return;
+        }
         try {
             // if re-order => + points
             $rate = $transaction->meta['rate'] ?? 2778;

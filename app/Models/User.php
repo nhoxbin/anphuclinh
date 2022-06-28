@@ -275,7 +275,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $lv = -1;
         $levels = Level::all();
         foreach ($levels as $level) {
-            if ($level->strong > 0 && $strong >= ((int) $level->strong) && $weak >= $level->strong*0.5) {
+            if ($level->strong > 0 && $strong >= ((int) $level->strong) && $weak >= $level->strong/2) {
                 $lv = $level->lv;
             }
         }
