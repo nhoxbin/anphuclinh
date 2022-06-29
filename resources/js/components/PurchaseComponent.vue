@@ -229,7 +229,7 @@
                             name="woocommerce_checkout_place_order" id="place_order"
                             value="Bạn đã đặt sản phẩm này, Vui lòng đợi xác nhận." data-value="Bạn đã đặt sản phẩm này, Vui lòng đợi xác nhận."
                             v-else>Bạn đã đặt sản phẩm này, Vui lòng đợi xác nhận.</button>&nbsp;
-                    <span>Tên/Số điện thoại tuyến trên: {{ user.ref_by.name + '/' + (user.ref_by.phone || '') }}</span>
+                    <span>Tên/Số điện thoại tuyến trên: {{ (user.ref_by.name || '') + '/' + (user.ref_by.phone || '') }}</span>
                 </div>
             </div>
         </div>

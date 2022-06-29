@@ -27,17 +27,17 @@
             <div class="row gx-3">
                 <div class="col-md-6 col-sm-12 pb-15 ">
                     <div class="option-card option-card-violet" style="background-image: url({{ asset('images/button.png')}});padding: 0;
-                    max-height: 136px;
-                    display: flex;
-                    align-items: center;">
+                        max-height: 136px;
+                        display: flex;
+                        align-items: center;">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#goidautu" style="padding: 14px 0">
                             <img src="{{ asset('images/dautu1-1.png') }}" alt="" style="width:90%;max-width:500px">
                         </a>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 pb-15">
+                <div class="col-md-3 col-6 pb-15">
                     <div class="option-card option-card-blue" style="background-image: url({{ asset('images/button.png') }})">
-                        <a href="my-cards.html">
+                        <a href="https://anphuclinh.net">
                             <div class="option-card-icon">
                                 <i class="flaticon-full-signal"></i>
                             </div>
@@ -45,7 +45,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 pb-15">
+                <div class="col-md-3 col-6 pb-15">
                     <div class="option-card option-card-red" style="background-image: url({{ asset('images/button.png') }})">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exchange">
                             <div class="option-card-icon">
