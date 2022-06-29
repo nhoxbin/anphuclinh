@@ -82,6 +82,11 @@ class TransactionController extends Controller
                     if ($request->status == 'approved') {
                         if ($transaction->type == 'withdraw') {
                             if ($transaction->payable->wallet->confirm($transaction)) {
+                                $meta = $transaction->meta;
+                                $meta['status'] = 'approved';
+                                $transaction->meta = $meta;
+                                $transaction->save();
+
                                 $ret['msg'] = 'success';
                                 $ret['message'] = __('messages.trnx.admin.approved');
                             } else {
