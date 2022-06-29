@@ -12,12 +12,11 @@ use Illuminate\Support\Facades\Log;
 
 class UserPurchaseProductProcessor
 {
-    public function pay($user, $transaction, $product, $tnx_id, $force)
+    public function pay($user, $amount, $product, $tnx_id, $force)
     {
         $data = ['type' => $product->is_combo ? 'combo' : 'reorder', 'transaction_id' => $tnx_id];
         $data['status'] = 'purchased';
         $data['is_auto'] = !$force;
-        $amount = ($user->balance >= $transaction->amount*2) ? $transaction->amount*2 : $transaction->amount;
         $user->withdraw($amount, $data);
     }
 
@@ -51,8 +50,9 @@ class UserPurchaseProductProcessor
 
             try {
                 if ((count($history) || $force)) {
+                    $amount = count($history) ? $transaction->amount : $transaction->amount*2;
                     $user->confirm($transaction);
-                    $this->pay($user, $transaction, $product, $transaction->id, $force);
+                    $this->pay($user, $amount, $product, $transaction->id, $force);
 
                     $qty = $transaction->meta['qty'];
                     $calc = PointCalc::getPrice($user, $product, $qty);
