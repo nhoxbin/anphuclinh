@@ -450,7 +450,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     {
         $boxes = $this->user_boxes($subject);
         foreach ($boxes as $product) {
-            dump($product['qty']);
+            echo $product['qty'] . '<br />';
             $box = (int) ($product['qty']/$product['box']);
             $pieces = $product['qty']%$product['box'];
             echo "{$product['name']}: $box thùng, $pieces {$product['unit']}<br />";
