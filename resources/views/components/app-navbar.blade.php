@@ -19,12 +19,12 @@
                     Rút tiền
                 </a>
             </div>
-                <div class="navbar-content-item">
+            {{-- <div class="navbar-content-item">
                 <a href="">
                     <i class="flaticon-bell"></i>
                     Thông báo
                 </a>
-            </div>
+            </div> --}}
             <div class="navbar-content-item">
                 <a href="{{ route('user.account') }}">
                     <i class="flaticon-settings"></i>
