@@ -154,7 +154,7 @@
                                 <img src="{{asset('assets1/images/logo-hover.png')}}" alt="logo" class="hover-logo"> --}}
                             </a>
                         </div>
-                        <div class="appbar-item appbar-options">
+                        {{-- <div class="appbar-item appbar-options">
                             <div class="appbar-option-item appbar-option-notification">
                                 <a href="/"><i class="flaticon-bell"></i></a>
                                 <span class="option-badge">5</span>
@@ -162,7 +162,7 @@
                             <div class="appbar-option-item appbar-option-profile">
                                 <a href="/"><img src="{{ asset('assets1/images/profile.jpg') }}" alt="profile"></a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
