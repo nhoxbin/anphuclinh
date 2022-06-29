@@ -450,21 +450,12 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     {
         $boxes = $this->user_boxes($subject);
         foreach ($boxes as $product) {
-            echo $product['qty'] . '<br />';
             $box = (int) ($product['qty']/$product['box']);
             $pieces = $product['qty']%$product['box'];
             echo "{$product['name']}: $box thùng, $pieces {$product['unit']}<br />";
         }
     }
 
-    /**
-     *
-     * Check user role
-     *
-     * @version 1.0.0
-     * @since 1.1.5
-     * @return boolean
-     */
     public function is($name)
     {
         return $this->role == $name;
