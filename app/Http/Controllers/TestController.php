@@ -15,7 +15,8 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $has_combo = $this->transactions()->where([
+        $user = $request->user();
+        $has_combo = $user->transactions()->where([
             'confirmed' => 1,
             'meta->type' => 'combo',
             'meta->status' => 'purchased'
@@ -31,7 +32,7 @@ class TestController extends Controller
 
         $data['type'] = 'deposit';
         $transaction = Transaction::query();
-        $transaction->whereIn('payable_id', $this->group_ids)->where($data);
+        $transaction->whereIn('payable_id', $user->group_ids)->where($data);
         $transaction->where('meta->point_uses', 0);
         $transaction->where('updated_at', '>=', $has_combo->updated_at->toDateTimeString());
         $transaction->whereYear('created_at', now()->year);
