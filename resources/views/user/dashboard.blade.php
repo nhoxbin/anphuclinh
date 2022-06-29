@@ -145,7 +145,7 @@
                             <i class="flaticon-invoice"></i>
                         </div>
                         <div class="feature-card-details">
-                            <p>Doanh số tái đơn không dùng điểm</p>
+                            <p>Doanh số tái đơn không dùng điểm (tính từ lúc mua combo)</p>
                             <h3>{{ number_format($user->sales('reorder', false)) }}<sup>đ</sup></h3>
                         </div>
                     </div>

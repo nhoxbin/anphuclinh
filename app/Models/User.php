@@ -230,6 +230,15 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function sales($type = 'combo', $is_uses_point = true, $date = null)
     {
+        $has_combo = $this->transactions()->where([
+            'confirmed' => 1,
+            'meta->type' => 'combo',
+            'meta->status' => 'purchased'
+        ])->first();
+        if (!$is_uses_point && $type != 'combo' && is_null($has_combo)) {
+            return 0;
+        }
+
         // Tổng doanh số
         $data = [
             'payable_type' => 'App\\Models\\User',
@@ -243,6 +252,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $transaction->whereIn('payable_id', $this->group_ids)->where($data);
         if (!$is_uses_point && $type != 'combo') {
             $transaction->where('meta->point_uses', 0);
+            $transaction->where('updated_at', '>=', $has_combo->updated_at->toDateTimeString());
         }
         if (is_null($date)) {
             $transaction->whereYear('created_at', now()->year);
