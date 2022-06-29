@@ -15,12 +15,27 @@ class WithdrawController extends Controller
             if ($request->amount == 0) {
                 throw new \Exception('Số tiền phải lớn hơn 0');
             } else {
-                $is_withdraw = $user->transactions()->where(['type' => 'withdraw', 'confirmed' => 0, 'meta->type' => 'withdraw'])->where('amount', '<>', 0)->exists();
+                $is_withdraw = $user->transactions()->where([
+                    'type' => 'withdraw',
+                    'confirmed' => 0,
+                    'meta->type' => 'withdraw'
+                ])->where('amount', '<>', 0)->exists();
                 if ($is_withdraw) {
                     throw new \Exception('You have 1 pending order, cannot withdraw now!');
+                } else {
+                    $withdraw = $user->transactions()->where([
+                        'type' => 'withdraw',
+                        'amount' => 0,
+                        'confirmed' => 0,
+                        'meta->type' => 'withdraw'
+                    ])->exists();
+                    if ($withdraw) {
+                        $withdraw->update(['amount' => $request->amount]);
+                    } else {
+                        $user->withdraw($request->amount, ['type' => 'withdraw', 'status' => 'pending', 'ubank_id' => $request->id], 0);
+                    }
                 }
             }
-            $user->withdraw($request->amount, ['type' => 'withdraw', 'status' => 'pending', 'ubank_id' => $request->id], 0);
             return response()->success(['title' => 'Thành công!', 'msg' => 'Yêu cầu rút tiền đã được gửi!']);
         } catch (\Exception $e) {
             return response()->error(__($e->getMessage()));
