@@ -170,16 +170,19 @@ class PublicController extends Controller
     public function referral(Request $request)
     {
         $key = $request->get('ref');
-        $expire = 5; // minutes
+        /* $expire = 5; // minutes
 
         if ($key != NULL && $key != 0) {
             $user = User::where('phone', $key)->first();
             if ($user) {
-                Cookie::queue(Cookie::make('apl_ref_by', $key, $expire));
+                $phone_ref = $user->phone;
+                return redirect()->route('register', ['ref' => $phone_ref]);
+                // return view('auth.register', compact('phone_ref'));
+                // Cookie::queue(Cookie::make('apl_ref_by', $key, $expire));
             }
         } else {
-            Cookie::queue(Cookie::forget('apl_ref_by'));
-        }
-        return redirect()->route('register');
+            // Cookie::queue(Cookie::forget('apl_ref_by'));
+        } */
+        return redirect()->route('register', ['ref' => $key]);
     }
 }

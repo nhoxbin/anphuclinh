@@ -41,7 +41,7 @@
                             <div class="option-card-icon">
                                 <i class="flaticon-full-signal"></i>
                             </div>
-                            <p>Mạng xã hội</p>
+                            <p>Trang chủ</p>
                         </a>
                     </div>
                 </div>

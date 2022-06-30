@@ -1,11 +1,11 @@
 var currentTab = 0;
-window.onload = function () {
-    $(document).on("keypress", function (e) {
+window.onload = function() {
+    $(document).on("keypress", function(e) {
         if (e.key == "Enter") {
             document.loginForm.nextTab.click();
         }
     });
-    $(".show-password").on("click", function () {
+    $(".show-password").on("click", function() {
         if ($("#password").prop("type") == "password") {
             $("#password").prop("type", "text");
         } else {
@@ -19,16 +19,16 @@ window.onload = function () {
 var coderesult;
 async function sendOTP(number) {
     var ok = false;
-    await window.recaptchaVerifier.verify().then(async function () {
+    await window.recaptchaVerifier.verify().then(async function() {
         await window
             .firebaseSignIn(number)
-            .then(function (confirmationResult) {
+            .then(function(confirmationResult) {
                 window.confirmationResult = confirmationResult;
                 coderesult = confirmationResult;
                 ok = true;
                 console.log("Message sent");
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log(error.message);
                 $("#alert-phone").show();
             });
@@ -42,11 +42,11 @@ async function verify() {
 
     await coderesult
         .confirm(code)
-        .then(function (result) {
+        .then(function(result) {
             var user = result.user;
             verifyok = true;
         })
-        .catch(function (error) {
+        .catch(function(error) {
             $("#alert-code").show();
         });
     return verifyok;
@@ -68,20 +68,20 @@ async function nextPrev(n) {
             document.getElementById("regForm").submit();
         }
     } else {
-        /* if (currentTab == 0) {
+        if (currentTab == 0) {
             var ok = false;
             if (route().current("login")) {
                 var email = $("#email").val();
-                ok = await new Promise(async (resolve, reject) => {
+                ok = await new Promise(async(resolve, reject) => {
                     await $.get(
                         route("ajax.phone.get", { email: email }),
-                        async function (resp) {
+                        async function(resp) {
                             resolve(await sendOTP(resp));
                         }
-                    ).fail(function (err) {
+                    ).fail(function(err) {
                         reject(err.responseJSON);
                     });
-                }).catch(function (err) {
+                }).catch(function(err) {
                     if (err.error) {
                         $("#login-alert").text(
                             "Tài khoản không có trong hệ thống! Vui lòng kiểm tra lại."
@@ -96,7 +96,7 @@ async function nextPrev(n) {
                 ok = await sendOTP(phone);
             }
             if (!ok) return ok;
-        } */
+        }
         x[currentTab++].style.display = "none";
         showTab(currentTab);
     }

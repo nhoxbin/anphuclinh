@@ -19,7 +19,6 @@
                 <input type="text" placeholder="{{ __('Số điện thoại') }}" id="phone" class="input-bordered{{ $errors->has('phone') ? ' input-error' : '' }}" name="phone" value="{{ old('phone') }}" minlength="10" data-msg-required="{{ __('Required.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 10]) }}" required>
             </div>
         </div>
-        @if (request()->otp == 1)
         <div class="tab">
             <div class="alert alert-primary" role="alert">
                 Vui lòng nhập mã OTP được gửi đến điện thoại của bạn.
@@ -29,7 +28,6 @@
                 <span id="alert-code" class="text-danger" style="display: none">{{ __('INVALID_CODE') }}</span>
             </div>
         </div>
-        @endif
         <div class="tab">
             <div class="input-item">
                 <input type="text" placeholder="{{ __('Tên') }}" class="input-bordered{{ $errors->has('name') ? ' input-error' : '' }}" name="name" value="{{ old('name') }}" minlength="3" data-msg-required="{{ __('Required.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 3]) }}" required>
@@ -52,9 +50,9 @@
                 <input type="password" placeholder="{{ __('Nhập lại mật khẩu') }}" class="input-bordered{{ $errors->has('password_confirmation') ? ' input-error' : '' }}" name="password_confirmation" data-rule-equalTo="#password" minlength="6" data-msg-required="{{ __('Required.') }}" data-msg-equalTo="{{ __('Enter the same value.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 6]) }}" required>
             </div>
         </div>
-        @if( gws('referral_info_show')==1 && get_refer_id() )
+        @if($phone_ref)
         <div class="input-item">
-            <input type="text" class="input-bordered" value="{{ __('Your were invited by :name', ['name' => get_refer_id(true)]) }}" disabled readonly>
+            <input type="text" class="input-bordered" name="phone_ref" value="{{ $phone_ref }}" disabled readonly>
         </div>
         @else
         <div class="input-item">

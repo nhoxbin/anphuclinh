@@ -40,8 +40,15 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
+        if (request()->ref) {
+            $user = User::where('phone', request()->ref)->first();
+            if ($user) {
+                $phone_ref = $user->phone;
+            }
+        }
         $provinces = Province::all();
-        return view('auth.register', compact('provinces'));
+        $phone_ref = $phone_ref ?? null;
+        return view('auth.register', compact('provinces', 'phone_ref'));
     }
 
     /**
