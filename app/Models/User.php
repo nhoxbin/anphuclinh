@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use Outhebox\Pointable\Contracts\Pointable;
@@ -215,6 +216,10 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function getGroupIdsAttribute()
     {
+        if (Cache::has('group_ids_'.$this->id)) {
+            return Cache::get('group_ids_'.$this->id);
+        }
+
         $group_ids = collect([]);
         if ($this->hasRole('area_admin')) {
             $group_ids = User::whereHas('province', fn($q) => $q->where('area', $this->province->area))->pluck('id');
@@ -224,17 +229,22 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             $group_ids->push($this->id);
             $this->refs_ids($this, $group_ids);
         }
-
+        Cache::put('group_ids_'.$this->id, $group_ids, 60*15);
         return $group_ids;
     }
 
     public function sales($type = 'combo', $is_uses_point = true, $date = null)
     {
-        $has_combo = $this->transactions()->where([
-            'confirmed' => 1,
-            'meta->type' => 'combo',
-            'meta->status' => 'purchased'
-        ])->first();
+        if (Cache::has('date_has_combo_'.$this->id)) {
+            $has_combo = Cache::get('date_has_combo_'.$this->id);
+        } else {
+            $has_combo = $this->transactions()->where([
+                'confirmed' => 1,
+                'meta->type' => 'combo',
+                'meta->status' => 'purchased'
+            ])->first();
+            Cache::put('date_has_combo_'.$this->id, $has_combo, 60*60*24);
+        }
         if (!$is_uses_point && $type != 'combo' && is_null($has_combo)) {
             return 0;
         }
@@ -306,18 +316,22 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             if (isset($box_bonus['group']['fund'])) {
                 echo "{$product['name']}: {$box_bonus['group']['fund']} thùng";
             }
-
-            /* echo '<pre>';
-            print_r($box_bonus);
-            echo '</pre>'; */
-            /* $box = (int) ($product['qty']/$product['box']);
-            $pieces = $product['qty']%$product['box'];
-            echo "{$product['name']}: $box thùng, $pieces {$product['unit']}<br />"; */
         }
     }
 
     public function box_bonus($product_id, $subject = null)
     {
+        $data = ['personal' => [], 'group' => []];
+        if (Cache::has('personal_box_bonus_'.$this->id)) {
+            $data['personal'] = Cache::get('personal_box_bonus_'.$this->id);
+        }
+        if (Cache::has('group_box_bonus_'.$this->id)) {
+            $data['group'] = Cache::get('group_box_bonus_'.$this->id);
+        }
+         if (($subject == 'personal' && !empty($data['personal'])) || ($subject == 'group' && !empty($data['group']))) {
+            return $data;
+        }
+
         if ($subject == 'personal') {
             $boxes_personal = $this->user_boxes();
         } elseif ($subject == 'group') {
@@ -327,7 +341,6 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             $boxes_group = $this->user_boxes('group');
         }
 
-        $data = ['personal' => [], 'group' => []];
         if (isset($boxes_personal[$product_id]) || isset($boxes_group[$product_id])) {
             if (!empty($boxes_personal)) {
                 $product = $boxes_personal[$product_id];
@@ -352,6 +365,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                         'extra' => $gift->extra,
                         'total_buy_box' => $total_buy_box
                     ];
+                    Cache::put('personal_box_bonus_'.$this->id, $data['personal']);
                 }
             }
             if (!empty($boxes_group)) {
@@ -417,6 +431,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                         'extra' => $gift->extra,
                         'total_buy_box' => $total_buy_box
                     ];
+                    Cache::put('group_box_bonus_'.$this->id, $data['group']);
                 }
             }
         }
@@ -425,6 +440,9 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
 
     public function user_boxes($subject = 'personal')
     {
+        if (Cache::has('user_boxes_'.$subject.'_'.$this->id)) {
+            return Cache::get('user_boxes_'.$this->id);
+        }
         // tính từ lúc mua combo đến hết năm
         $has_combo = $this->transactions()->where([
             'confirmed' => 1,
@@ -468,6 +486,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             }
             $boxes[$value['product_id']]['qty'] += $value['qty'];
         }
+        Cache::put('user_boxes_'.$subject.'_'.$this->id, $boxes, 60*15);
         return $boxes;
     }
 

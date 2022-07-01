@@ -23,6 +23,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Models\Post;
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
