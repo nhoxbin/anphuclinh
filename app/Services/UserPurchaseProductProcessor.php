@@ -49,8 +49,12 @@ class UserPurchaseProductProcessor
             $history = array_filter($histories, fn($h) => ($h->type == 'IN' && $h->amount == $transaction->amount && preg_match('/apl\d+/i', $h->description, $matches) && strtolower($matches[0]) == strtolower($transaction->meta['description'])));
 
             try {
-                if ((count($history) || $force)) {
-                    $amount = count($history) ? $transaction->amount : $transaction->amount*2;
+                if (count($history) || $force) {
+                    $amount = $transaction->amount;
+                    if (!$force && !count($history) && $user->balance >= $transaction->amount*2) {
+                        $amount = $transaction->amount*2;
+                    }
+                    // throw new \Exception('Đảm bảo khách hàng đã chuyển tiền hoặc số tiền trong tài khoản của khách hàng lớn hơn số tiền giao dịch!');
                     $user->confirm($transaction);
                     $this->pay($user, $amount, $product, $transaction->id, $force);
 
@@ -107,7 +111,7 @@ class UserPurchaseProductProcessor
                     $user->wallet->balance -= $transaction->amount;
                     $user->wallet->save();
                 }
-                $this->reject($transaction);
+                // $this->reject($transaction);
 
                 Log::error($e->getMessage());
             }
