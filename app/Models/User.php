@@ -303,6 +303,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $boxes = $this->user_boxes('group');
         foreach ($boxes as $product_id => $product) {
             $box_bonus = $this->box_bonus($product_id, 'group');
+            echo "{$product['name']}: {$box_bonus['group']['fund']} thùng";
 
             /* echo '<pre>';
             print_r($box_bonus);
