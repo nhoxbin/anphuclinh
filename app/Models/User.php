@@ -441,7 +441,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     public function user_boxes($subject = 'personal')
     {
         if (Cache::has('user_boxes_'.$subject.'_'.$this->id)) {
-            return Cache::get('user_boxes_'.$this->id);
+            return Cache::get('user_boxes_'.$subject.'_'.$this->id);
         }
         // tính từ lúc mua combo đến hết năm
         $has_combo = $this->transactions()->where([
