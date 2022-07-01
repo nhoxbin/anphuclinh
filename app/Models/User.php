@@ -314,7 +314,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         foreach ($boxes as $product_id => $product) {
             $box_bonus = $this->box_bonus($product_id, 'group');
             if (isset($box_bonus['group']['fund'])) {
-                echo "{$product['name']}: {$box_bonus['group']['fund']} thùng";
+                echo "{$product['name']}: {$box_bonus['group']['fund']} thùng<br />";
             }
         }
     }
@@ -322,11 +322,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     public function box_bonus($product_id, $subject = null)
     {
         $data = ['personal' => [], 'group' => []];
-        if (Cache::has('personal_box_bonus_'.$this->id)) {
-            $data['personal'] = Cache::get('personal_box_bonus_'.$this->id);
+        if (Cache::has('personal_box_bonus_'.$product_id.'_'.$this->id)) {
+            $data['personal'] = Cache::get('personal_box_bonus_'.$product_id.'_'.$this->id);
         }
-        if (Cache::has('group_box_bonus_'.$this->id)) {
-            $data['group'] = Cache::get('group_box_bonus_'.$this->id);
+        if (Cache::has('group_box_bonus_'.$product_id.'_'.$this->id)) {
+            $data['group'] = Cache::get('group_box_bonus_'.$product_id.'_'.$this->id);
         }
          if (($subject == 'personal' && !empty($data['personal'])) || ($subject == 'group' && !empty($data['group']))) {
             return $data;
