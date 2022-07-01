@@ -298,10 +298,32 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return $lv;
     }
 
-    public function box_bonus($product_id)
+    public function bonus_fund()
     {
-        $boxes_personal = $this->user_boxes();
-        $boxes_group = $this->user_boxes('group');
+        $boxes = $this->user_boxes('group');
+        foreach ($boxes as $product_id => $product) {
+            $box_bonus = $this->box_bonus($product_id, 'group');
+            dd($box_bonus);
+
+            /* echo '<pre>';
+            print_r($box_bonus);
+            echo '</pre>'; */
+            /* $box = (int) ($product['qty']/$product['box']);
+            $pieces = $product['qty']%$product['box'];
+            echo "{$product['name']}: $box thùng, $pieces {$product['unit']}<br />"; */
+        }
+    }
+
+    public function box_bonus($product_id, $subject = null)
+    {
+        if ($subject == 'personal') {
+            $boxes_personal = $this->user_boxes();
+        } elseif ($subject == 'group') {
+            $boxes_group = $this->user_boxes('group');
+        } else {
+            $boxes_personal = $this->user_boxes();
+            $boxes_group = $this->user_boxes('group');
+        }
 
         $data = ['personal' => [], 'group' => []];
         if (isset($boxes_personal[$product_id]) || isset($boxes_group[$product_id])) {
@@ -384,10 +406,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                         }
                         $total_bonus = $gifts->sum('bonus');
                     }
-                    $remain = (int) ((($total_bonus-$total_user_bonus)*0.2)-$received);
+                    $remain = (($total_bonus-$total_user_bonus)*0.2)-$received;
                     $gift = $available_gifts->first();
                     $data['group'] = [
-                        'remain' => $remain,
+                        'remain' => (int) $remain,
+                        'fund' => round($remain, 1),
                         'gift_id' => $gift->id,
                         'extra' => $gift->extra,
                         'total_buy_box' => $total_buy_box

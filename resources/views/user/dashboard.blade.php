@@ -150,6 +150,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 pb-15">
+                    <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
+                        <div class="feature-card-thumb">
+                            <i class="flaticon-invoice"></i>
+                        </div>
+                        <div class="feature-card-details">
+                            <p>Quỹ thưởng (nhóm)</p>
+                            <h3>{{ $user->bonus_fund() }}</h3>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6 col-sm-12 pb-15">
                     <div class="feature-card feature-card-green" style="background-image: url({{ asset('images/button.png') }})">
                         <div class="feature-card-thumb">
