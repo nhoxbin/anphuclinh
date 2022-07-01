@@ -15,6 +15,5 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
-        dd(config('mail'));
     }
 }
