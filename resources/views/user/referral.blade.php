@@ -1,7 +1,22 @@
 @extends('layouts.user')
 @section('title', ucfirst($page->title))
 @php
-($has_sidebar = true)
+($has_sidebar = true);
+function refs(string $key, $refs)
+{
+    foreach ($refs as $keyref => $ref) {
+        echo '<tr class="data-item">
+                <td class="data-col refferal-stt">'. ($key).'.'.($keyref+1) .'</td>
+                <td class="data-col refferal-name">'. $ref->name .'</td>
+                <td class="data-col refferal-phone">'. $ref->phone .'</td>
+                <td class="data-col refferal-sales">'. number_format($ref->sales()) .'<sup>đ</sup></td>
+            </tr>';
+        if (!($ref->refs->isEmpty())) {
+            $key = ($key).'.'.($keyref+1);
+            refs($key, $ref->refs);
+        }
+    }
+}
 @endphp
 
 @section('content')
@@ -34,7 +49,7 @@
         <div class="card-head">
             <h4 class="card-title card-title-sm">{{ __('Referral Lists') }}</h4>
         </div>
-        <table class="data-table dt-init refferal-table" data-items="10">
+        <table class="table table-hover table-striped refferal-table">
             <thead>
                 <tr class="data-item data-head">
                     <th class="data-col refferal-name"><span>{{ __('STT') }}</span></th>
@@ -44,21 +59,8 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($reffered as $key => $refer)
-                    <tr class="data-item">
-                        <td class="data-col refferal-stt">{{ $key+1 }}</td>
-                        <td class="data-col refferal-name">{{ $refer->name }}</td>
-                        <td class="data-col refferal-phone">{{ $refer->phone }}</td>
-                        <td class="data-col refferal-sales">{{ number_format($refer->sales()) }}<sup>đ</sup></td>
-                    </tr>
-                    @foreach ($refer->refs as $keyref => $ref)
-                    <tr class="data-item">
-                        <td class="data-col refferal-stt">{{ ($key+1).'.'.($keyref+1) }}</td>
-                        <td class="data-col refferal-name">{{ $ref->name }}</td>
-                        <td class="data-col refferal-phone">{{ $ref->phone }}</td>
-                        <td class="data-col refferal-sales">{{ number_format($ref->sales()) }}<sup>đ</sup></td>
-                    </tr>
-                    @endforeach
+                @forelse($refs as $key => $refer)
+                    {{ $refer->show_refs($user, $refer->refs) }}
                 @empty
                     <tr class="data-item">
                         <td class="data-col">{{ __('No one join yet!') }}</td>
@@ -68,6 +70,7 @@
                 @endforelse
             </tbody>
         </table>
+        {!! $refs->links('vendor.pagination.default') !!}
     </div>
 </div>
 @endsection

@@ -67,53 +67,21 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         $this->notify(new ResetPassword($token));
     }
 
-    /**
-     *
-     * Relation with kyc
-     *
-     * @version 1.0.0
-     * @since 1.0
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function kyc_info()
     {
         return $this->belongsTo('App\Models\KYC', 'id', 'userId')->orderBy('created_at', 'DESC');
     }
 
-    /**
-     *
-     * Relation with meta
-     *
-     * @version 1.0.0
-     * @since 1.0
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function meta()
     {
         return $this->belongsTo('App\Models\UserMeta', 'id', 'userId');
     }
 
-    /**
-     *
-     * Relation with meta
-     *
-     * @version 1.0.0
-     * @since 1.0
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function access()
     {
         return $this->belongsTo('App\Models\GlobalMeta', 'id', 'pid')->where(['name' => 'manage_access'])->withDefault(['name' => 'manage_access', 'value' => 'default', 'extra' => json_encode(['all'])]);
     }
 
-    /**
-     *
-     * Relation with Activity logs
-     *
-     * @version 1.0.0
-     * @since 1.0
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function logs()
     {
         return $this->belongsTo('App\Models\Activity', 'id', 'user_id');
@@ -204,6 +172,27 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             }
         }
         return [$product->name, $amount, $tnx];
+    }
+
+    public function show_refs($user, $refs)
+    {
+        echo '<tr class="data-item">
+                <td class="data-col refferal-stt">'. $this->id .'</td>
+                <td class="data-col refferal-name">'. $this->name .'</td>
+                <td class="data-col refferal-phone">'. $this->phone .'</td>
+                <td class="data-col refferal-sales">'. number_format($this->sales()) .'<sup>đ</sup></td>
+            </tr>';
+        foreach ($refs as $ref) {
+            echo '<tr class="data-item">
+                    <td class="data-col refferal-stt">'. $this->id . '.' . $ref->id .'</td>
+                    <td class="data-col refferal-name">'. $ref->name .'</td>
+                    <td class="data-col refferal-phone">'. $ref->phone .'</td>
+                    <td class="data-col refferal-sales">'. number_format($ref->sales()) .'<sup>đ</sup></td>
+                </tr>';
+            if ((auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('area_admin') || auth()->user()->hasRole('provincial_admin')) && !($ref->refs->isEmpty())) {
+                $this->refs($user, $ref->refs);
+            }
+        }
     }
 
     public function refs_ids($user, &$transaction_ids)

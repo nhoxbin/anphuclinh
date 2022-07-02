@@ -523,11 +523,24 @@ class UserController extends Controller
     public function referral()
     {
         $page = Page::where('slug', 'referral')->first();
-        $reffered = auth()->user()->refs;
-        return view('user.referral', compact('page', 'reffered'));
+        $user = auth()->user();
+        if ($user->hasRole('provincial_admin')) {
+            $refs = User::where('province_code', $user->province_code)->whereDoesntHave('roles', function($q) {
+                $q->where('name', 'area_admin');
+            })->paginate(5);
+        } elseif ($user->hasRole('area_admin')) {
+            $refs = User::whereRelation('province', 'area', '=', $user->province->area)->whereDoesntHave('roles', function($q) {
+                $q->where('name', 'super_admin');
+            })->paginate(5);
+        } elseif ($user->hasRole('super_admin')) {
+            $refs = User::paginate(5);
+        } else {
+            $refs = $user->refs()->paginate(5);
+        }
+        return view('user.referral', compact('user', 'page', 'refs'));
     }
 
-    public function package(){
+    public function package() {
         return view('user.package.index');
     }
 }
