@@ -78,7 +78,7 @@
                     <th class="data-col tnx-status dt-tnxno">{{ __('Tranx ID') }}</th>
                     <th class="data-col dt-product">{{ __('Product Type') }}</th>
                     <th class="data-col dt-amount">{{ __('Amount') }}</th>
-                    <th class="data-col dt-type tnx-type"><div class="dt-type-text">{{ __('Type') }}</div></th>
+                    {{-- <th class="data-col dt-type tnx-type"><div class="dt-type-text">{{ __('Type') }}</div></th> --}}
                     <th class="data-col"></th>
                 </tr>
             </thead>
@@ -101,16 +101,16 @@
                     </td>
                     <td class="data-col dt-token">
                         @php
-                        $type = null;
-                        if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder') {
-                            $type = App\Models\Product::find($trnx->meta['product_id']);
-                        } elseif (isset($trnx->meta['package_id'])) {
-                            $type = App\Models\Package::find($trnx->meta['package_id']);
-                        } elseif ($trnx->meta['type'] == 'income') {
-                            $type = App\Models\Level::find($trnx->meta['level']);
-                        }
+                            $type = null;
+                            if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder') {
+                                $type = App\Models\Product::find($trnx->meta['product_id']);
+                            } elseif ($trnx->meta['type'] == 'package') {
+                                $type = App\Models\Package::find($trnx->meta['package_id']);
+                            } elseif ($trnx->meta['type'] == 'income') {
+                                $type = App\Models\Level::find($trnx->meta['level']);
+                            }
                         @endphp
-                        <span class="lead token-amount{{ $text_danger }}">{{ $type->name ?? 'Gói đầu tư' }}</span>
+                        <span class="lead token-amount{{ $text_danger }}">{{ $type->name ?? 'Thưởng' }}</span>
                         @if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder')
                         <span class="sub sub-symbol">{{ __('Quantity') . ': ' . $trnx->meta['qty'] . (isset($trnx->meta['address']) ? ', Địa chỉ: ' . $trnx->meta['address'] : null) }}</span>
                         @endif
@@ -150,12 +150,12 @@
                             <span class="sub sub-date">{{ ($trnx->checked_time) ? _date($trnx->checked_time) : _date($trnx->created_at) }}</span>
                         @endif
                     </td> --}}
-                    <td class="data-col dt-type">
+                    {{-- <td class="data-col dt-type">
                         <span class="dt-type-md badge badge-outline badge-md badge-{{ __(__status($trnx->tnx_type,'status')) }}">{{ ucfirst($trnx->tnx_type) }}</span>
                         <span class="dt-type-sm badge badge-sq badge-outline badge-md badge-{{ __(__status($trnx->tnx_type, 'status')) }}">{{ ucfirst(substr($trnx->tnx_type, 0,1)) }}</span>
-                    </td>
+                    </td> --}}
                     <td class="data-col text-right">
-                        @if($trnx->meta['type'] == 'purchase')
+                        {{-- @if($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder')
                             @if ($trnx->confirmed)
                             <a href="javascript:void(0)" class="view-transaction btn btn-light-alt btn-xs btn-icon" data-id="{{ $trnx->id }}"><em class="ti ti-eye"></em></a>
                             @else
@@ -181,7 +181,7 @@
                             @if($trnx->checked_time == NUll && ($trnx->status == 'rejected' || $trnx->status == 'canceled'))
                             <a href="{{ route('user.ajax.transactions.delete', $trnx->id) }}" class="btn btn-danger-alt btn-xs btn-icon user_tnx_trash" data-tnx_id="{{ $trnx->id }}"><em class="ti ti-trash"></em></a>
                             @endif
-                        @endif
+                        @endif --}}
                     </td>
                 </tr>{{-- .data-item --}}
                 @endforeach

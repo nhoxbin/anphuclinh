@@ -29,12 +29,14 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $trnxs = $request->user()->transactions()
-            ->where('type', 'deposit')
-            ->where('meta->status', '<>', null)
-            ->where('amount', '>', 0)
-            ->orderBy('created_at', 'DESC')
-            ->get();
+        $payable_ids = $request->user()->group_ids;
+        $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User'])
+                            ->whereIn('payable_id', $payable_ids)
+                            ->where('type', 'deposit')
+                            ->where('meta->status', '<>', null)
+                            ->where('amount', '>', 0)
+                            ->orderBy('created_at', 'DESC')
+                            ->get();
         // $transfers = Transaction::get_by_own(['tnx_type' => 'deposit'])->get()->count();
         // $referrals = Transaction::get_by_own(['tnx_type' => 'referral'])->get()->count();
         // $bonuses   = Transaction::get_by_own(['tnx_type' => 'bonus'])->get()->count();
