@@ -144,6 +144,8 @@ Route::prefix('user')->middleware(['auth'])->name('user.')->namespace('User')->g
 
         Route::post('/transactions/delete/{id}', 'TransactionController@destroy')->name('transactions.delete');
         Route::post('/transactions/view', 'TransactionController@show')->name('transactions.view');
+        Route::put('/transactions/{transaction}/update', 'TransactionController@update')->name('transactions.update');
+
         Route::post('/kyc/submit', 'KycController@submit')->name('kyc.submit');
         Route::post('/account/activity', 'UserController@account_activity_delete')->name('account.activity.delete');
 

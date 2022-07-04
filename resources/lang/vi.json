@@ -531,13 +531,13 @@
     "Approved": "Đã duyệt",
     "Pending": "Chờ duyệt",
     "Progress": "Progress",
-    "Rejected": "Rejected",
-    "Warning": "Warning",
-    "Success": "Success",
+    "Rejected": "Từ chối",
+    "Warning": "Cảnh báo",
+    "Success": "Thành công",
     "Running": "Running",
     "Upcoming": "Upcoming",
-    "Completed": "Completed",
-    "Expired": "Expired",
+    "Completed": "Hoàn thành",
+    "Expired": "Hết hạn",
     "Pause": "Pause",
     "Inactive": "Inactive",
     "Edit": "Edit",
@@ -679,5 +679,6 @@
     "Bonus personal": "Thưởng cá nhân",
     "Bonus group": "Thưởng nhóm",
     "Income": "Lương thưởng",
-    "Refunded": "Đã hoàn tiền"
+    "Refunded": "Đã hoàn tiền",
+    "Order cancelled": "Đã hủy đơn hàng."
 }

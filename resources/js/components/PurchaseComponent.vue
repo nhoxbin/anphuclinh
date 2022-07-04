@@ -228,7 +228,11 @@
                     <button type="button" class="button alt"
                             name="woocommerce_checkout_place_order" id="place_order"
                             value="Bạn đã đặt sản phẩm này, Vui lòng đợi xác nhận." data-value="Bạn đã đặt sản phẩm này, Vui lòng đợi xác nhận."
-                            v-else>Bạn đã đặt sản phẩm này, Vui lòng đợi xác nhận.</button>&nbsp;
+                            v-else>Bạn đã đặt sản phẩm này, Vui lòng đợi xác nhận.</button>
+                    <button type="button" class="button alt" style="margin-left: 5px;"
+                            name="woocommerce_cancel_order" id="cancel_order"
+                            @click="cancelOrder($event)"
+                            v-if="transaction.amount > 0">Hủy đơn hàng.</button>&nbsp;
                     <span>Tên/Số điện thoại tuyến trên: {{ (user.ref_by.name || '') + '/' + (user.ref_by.phone || '') }}</span>
                 </div>
             </div>
@@ -386,6 +390,39 @@ export default {
             }
             loader.hide();
         },
+        cancelOrder(e) {
+            e.preventDefault();
+            this.$swal.fire({
+                title: 'Bạn muốn hủy đơn?',
+                text: "Xác nhận bạn rằng bạn muốn hủy đơn hàng?",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận hủy đơn!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let loader = this.$loading.show({});
+                    await axios.post(route('user.ajax.transactions.update', this.transaction.id), {
+                        _method: 'put'
+                    }).then(({data}) => {
+                        this.$swal.fire(data.data.title, data.data.msg, data.type).then(async (result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    }).catch(({response}) => {
+                        loader.hide();
+                        this.$swal.fire(response.data.title, response.data.msg, response.data.type).then(async (result) => {
+                            if (result.isConfirmed) {
+                                location.reload()
+                            }
+                        })
+                    })
+                    loader.hide();
+                }
+            });
+        }
     },
 }
 </script>

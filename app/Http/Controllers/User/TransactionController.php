@@ -19,14 +19,6 @@ use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     * @version 1.0.0
-     * @since 1.0
-     * @return void
-     */
     public function index(Request $request)
     {
         $payable_ids = $request->user()->group_ids;
@@ -50,17 +42,6 @@ class TransactionController extends Controller
         return view('user.transactions', compact('trnxs'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     * @version 1.0.0
-     * @since 1.0
-     * @return void
-     *
-     * @throws \Throwable
-     */
     public function show(Request $request, $id='')
     {
         $module = new Module();
@@ -73,15 +54,12 @@ class TransactionController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Request $request
-     * @param string $id
-     * @return \Illuminate\Http\Response
-     * @version 1.0.0
-     * @since 1.0
-     */
+    public function update(Transaction $transaction)
+    {
+        $transaction->update(['amount' => 0, 'confirmed' => 0]);
+        return response()->success(['title' => __('Success'), 'msg' => __('Order cancelled')]);
+    }
+
     public function destroy(Request $request, $id='')
     {
         $tid = ($id == '' ? $request->input('tnx_id') : $id);
