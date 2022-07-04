@@ -22,12 +22,17 @@ class PurchaseController extends Controller
         }
         $user = $request->user();
 
+        $withdraw = $user->transactions()->where(['type' => 'withdraw', 'confirmed' => 0, 'meta->type' => 'withdraw'])->where('amount', '<>', 0)->first();
+
         $calc = PointCalc::getPrice($user, $product, $validated['qty']);
         $meta = $transaction->meta;
         $meta['status'] = 'pending';
         $meta['rate'] = PointCalc::getPoint('current');
         $meta['description'] = 'apl' . $transaction->id;
         $meta['point_uses'] = $calc['max_point_discount'];
+        if (!is_null($withdraw) && ($withdraw->amount+$calc['price']) > $user->balance) {
+            return response()->error('Bạn đang có 1 đơn hàng chưa được xử lý, vui lòng đợi xác nhận trước khi mua sản phẩm khác!');
+        }
         $transaction->update([
             'amount' => $calc['price'],
             'meta' => array_merge($meta, $validated)
