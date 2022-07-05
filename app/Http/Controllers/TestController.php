@@ -25,6 +25,7 @@ class TestController extends Controller
             'meta' => [
                 'type' => 'reorder',
                 'status' => 'purchased',
+                'rate' => 2778,
                 'product_id' => 2,
                 'qty' => 1
             ],
