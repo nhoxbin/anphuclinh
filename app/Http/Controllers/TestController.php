@@ -6,7 +6,7 @@ use App\Helpers\PointCalc;
 use App\Models\Level;
 use App\Models\Product;
 use App\Models\User;
-use Bavix\Wallet\Models\Transaction;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,8 +28,7 @@ class TestController extends Controller
                 'rate' => 2778,
                 'product_id' => 2,
                 'qty' => 1
-            ],
-            'timestamps' => false
+            ]
         ]);
     }
 }

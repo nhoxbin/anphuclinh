@@ -45,7 +45,6 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     protected $appends = [
         'has_combo'
     ];
-    public $timestamps = false; // put this code
 
     protected $casts = [
         'lv_up' => 'date',
