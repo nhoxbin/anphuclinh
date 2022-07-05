@@ -17,8 +17,7 @@ class TestController extends Controller
     {
         Transaction::where([
             'payable_type' => 'App\\Models\\User',
-            'type' => 'deposit',
-            'meta->type' => 'purchase'
+            'type' => 'deposit'
         ])->where('meta', 'NOT LIKE', '%product_id%')
         ->where('meta', 'LIKE', '%Product #2%')->update([
             'meta' => [
