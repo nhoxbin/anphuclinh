@@ -104,16 +104,14 @@
                             $type = null;
                             if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder') {
                                 $type = App\Models\Product::find($trnx->meta['product_id']);
+                            } elseif ($trnx->meta['type'] == 'withdraw') {
+                                // $type = App\Models\Package::find($trnx->meta['package_id']);
                             } elseif ($trnx->meta['type'] == 'package') {
                                 $type = App\Models\Package::find($trnx->meta['package_id']);
                             } elseif ($trnx->meta['type'] == 'income') {
                                 $type = App\Models\Level::find($trnx->meta['level']);
-                            } elseif ($trnx->meta['type'] == 'income') {
-                                $type = App\Models\Level::find($trnx->meta['level']);
                             }
-                            if (!isset($trnx->meta['product_id']) && !$type) {
-                                dd($trnx);
-                            }
+
                         @endphp
                         <span class="lead token-amount{{ $text_danger }}">{{ $type->name ?? 'Thưởng' }}</span>
                         @if ($trnx->meta['type'] == 'combo' || $trnx->meta['type'] == 'reorder')
