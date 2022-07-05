@@ -15,5 +15,19 @@ class TestController extends Controller
 {
     public function __invoke(Request $request)
     {
+        Transaction::where([
+            'payable_type' => 'App\\Models\\User',
+            'type' => 'deposit',
+            'meta->type' => 'purchase',
+            'meta->description' => 'Purchase of Product #2',
+            'meta->status' => 'purchased',
+        ])->update([
+            'meta' => [
+                'type' => 'reorder',
+                'status' => 'purchased',
+                'product_id' => 2
+            ],
+            'timestamps' => false
+        ])
     }
 }

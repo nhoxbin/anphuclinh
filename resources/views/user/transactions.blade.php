@@ -108,6 +108,11 @@
                                 $type = App\Models\Package::find($trnx->meta['package_id']);
                             } elseif ($trnx->meta['type'] == 'income') {
                                 $type = App\Models\Level::find($trnx->meta['level']);
+                            } elseif ($trnx->meta['type'] == 'income') {
+                                $type = App\Models\Level::find($trnx->meta['level']);
+                            }
+                            if (!isset($trnx->meta['product_id']) && !$type) {
+                                dd($trnx);
                             }
                         @endphp
                         <span class="lead token-amount{{ $text_danger }}">{{ $type->name ?? 'Thưởng' }}</span>
