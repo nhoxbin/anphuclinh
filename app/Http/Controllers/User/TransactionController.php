@@ -22,9 +22,8 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $payable_ids = $request->user()->group_ids;
-        $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User'])
+        $trnxs = Transaction::where(['payable_type' => 'App\\Models\\User', 'type' => 'deposit'])
                             ->whereIn('payable_id', $payable_ids)
-                            ->where('type', 'deposit')
                             ->where('meta->status', '<>', null)
                             ->where('amount', '>', 0)
                             ->orderBy('created_at', 'DESC')

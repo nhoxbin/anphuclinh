@@ -2,21 +2,7 @@
 @section('title', ucfirst($page->title))
 @php
 ($has_sidebar = true);
-function refs(string $key, $refs)
-{
-    foreach ($refs as $keyref => $ref) {
-        echo '<tr class="data-item">
-                <td class="data-col refferal-stt">'. ($key).'.'.($keyref+1) .'</td>
-                <td class="data-col refferal-name">'. $ref->name .'</td>
-                <td class="data-col refferal-phone">'. $ref->phone .'</td>
-                <td class="data-col refferal-sales">'. number_format($ref->sales()) .'<sup>đ</sup></td>
-            </tr>';
-        if (!($ref->refs->isEmpty())) {
-            $key = ($key).'.'.($keyref+1);
-            refs($key, $ref->refs);
-        }
-    }
-}
+$checkRole = $user->hasRole('super_admin') || $user->hasRole('area_admin') || $user->hasRole('provincial_admin');
 @endphp
 
 @section('content')
@@ -52,15 +38,15 @@ function refs(string $key, $refs)
         <table class="table table-hover table-striped refferal-table">
             <thead>
                 <tr class="data-item data-head">
-                    <th class="data-col refferal-name"><span>{{ __('STT') }}</span></th>
+                    <th class="data-col refferal-stt"><span>{{ __('STT') }}</span></th>
                     <th class="data-col refferal-name"><span>{{ __('Full Name') }}</span></th>
-                    <th class="data-col refferal-tokens"><span>{{ __('Phone Number') }}</span></th>
+                    <th class="data-col refferal-phone"><span>{{ __('Phone Number') }}</span></th>
                     <th class="data-col refferal-sales"><span>{{ __('Sales') }}</span></th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($refs as $key => $refer)
-                    {{ $refer->show_refs($user, $refer->refs) }}
+                @forelse($refs as $refer)
+                    {!! $refer->show_refs($checkRole) !!}
                 @empty
                     <tr class="data-item">
                         <td class="data-col">{{ __('No one join yet!') }}</td>

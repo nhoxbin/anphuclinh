@@ -533,7 +533,9 @@ class UserController extends Controller
                 $q->where('name', 'super_admin');
             })->paginate(5);
         } elseif ($user->hasRole('super_admin')) {
-            $refs = User::paginate(5);
+            $refs = User::whereDoesntHave('roles', function($q) {
+                $q->where('name', 'super_admin');
+            })->paginate(5);
         } else {
             $refs = $user->refs()->paginate(5);
         }

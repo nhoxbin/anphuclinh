@@ -174,7 +174,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         return [$product->name, $amount, $tnx];
     }
 
-    public function show_refs($user, $refs)
+    public function show_refs($checkRole)
     {
         echo '<tr class="data-item">
                 <td class="data-col refferal-stt">'. $this->id .'</td>
@@ -182,15 +182,15 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
                 <td class="data-col refferal-phone">'. $this->phone .'</td>
                 <td class="data-col refferal-sales">'. number_format($this->sales()) .'<sup>đ</sup></td>
             </tr>';
-        foreach ($refs as $ref) {
+        foreach ($this->refs as $ref) {
             echo '<tr class="data-item">
                     <td class="data-col refferal-stt">'. $this->id . '.' . $ref->id .'</td>
                     <td class="data-col refferal-name">'. $ref->name .'</td>
                     <td class="data-col refferal-phone">'. $ref->phone .'</td>
                     <td class="data-col refferal-sales">'. number_format($ref->sales()) .'<sup>đ</sup></td>
                 </tr>';
-            if ((auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('area_admin') || auth()->user()->hasRole('provincial_admin')) && !($ref->refs->isEmpty())) {
-                $this->refs($user, $ref->refs);
+            if ($checkRole && !$ref->refs->isEmpty()) {
+                $ref->show_refs($checkRole);
             }
         }
     }
@@ -210,7 +210,9 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
         }
 
         $group_ids = collect([]);
-        if ($this->hasRole('area_admin')) {
+        if ($this->hasRole('super_admin')) {
+            $group_ids = User::pluck('id');
+        } elseif ($this->hasRole('area_admin')) {
             $group_ids = User::whereHas('province', fn($q) => $q->where('area', $this->province->area))->pluck('id');
         } elseif ($this->hasRole('provincial_admin')) {
             $group_ids = User::where('province_code', $this->province_code)->pluck('id');
@@ -234,7 +236,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             ])->first();
             Cache::put('date_has_combo_'.$this->id, $has_combo, 60*60*24);
         }
-        if (!$is_uses_point && $type != 'combo' && is_null($has_combo)) {
+        if ((!$is_uses_point && $type != 'combo') || is_null($has_combo)) {
             return 0;
         }
 

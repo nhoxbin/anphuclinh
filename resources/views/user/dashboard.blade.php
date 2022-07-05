@@ -21,8 +21,7 @@
             Vui lòng xác thực thông tin cá nhân (KYC), <a href="{{route('user.kyc')}}">nhấn vào đây</a> để xác thực
         </div>
         @endif
-        <!-- Add-card -->
-        <!-- Option-section -->
+
         <div class="option-section mb-15">
             <div class="row gx-3">
                 <div class="col-md-6 col-sm-12 pb-15 ">
@@ -57,8 +56,7 @@
                 </div>
             </div>
         </div>
-        <!-- Option-section -->
-        <!-- Feature-section -->
+
         <div class="feature-section mb-15">
             <div class="row gx-3">
                 {{-- @if (!$user->hasRole('member'))
@@ -185,8 +183,7 @@
                 </div>
             </div>
         </div>
-        <!-- Feature-section -->
-        <!-- Send-money-section -->
+
         <div class="payment-method">
             <div class="section-header">
                 <h2>Thông tin ngân hàng</h2>
@@ -250,7 +247,6 @@
             </div>
         </div>
 
-        <!-- Latest-news-section -->
         <div class="latest-news-section pb-15">
             <div class="section-header">
                 <h2>Tin tức</h2>
@@ -282,7 +278,6 @@
                 @endforeach
             </div>
         </div>
-        <!-- Latest-news-section -->
     </div>
 </div>
 @endsection

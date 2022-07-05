@@ -1,15 +1,5 @@
 <?php
 
-/**
- * Page Model
- *
- *  Manage the Pages
- *
- * @package TokenLite
- * @author Softnio
- * @version 1.0
- */
-
 namespace App\Models;
 
 use IcoData;
