@@ -28,7 +28,8 @@ class TestController extends Controller
                 'rate' => 2778,
                 'product_id' => 2,
                 'qty' => 1
-            ]
+            ],
+            'timestamps' => false
         ]);
     }
 }
