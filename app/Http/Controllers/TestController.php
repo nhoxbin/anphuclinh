@@ -25,9 +25,10 @@ class TestController extends Controller
             'meta' => [
                 'type' => 'reorder',
                 'status' => 'purchased',
-                'product_id' => 2
+                'product_id' => 2,
+                'qty' => 1
             ],
-            'timestamps' => false
-        ])
+            'updated_at' => false
+        ]);
     }
 }
