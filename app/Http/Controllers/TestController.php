@@ -19,8 +19,7 @@ class TestController extends Controller
             'payable_type' => 'App\\Models\\User',
             'type' => 'deposit',
             'meta->type' => 'purchase',
-            'meta->description' => 'Purchase of Product #2',
-            'meta->status' => 'purchased',
+            'meta->description' => 'Purchase of Product #2'
         ])->where('meta', 'NOT LIKE', '%product_id%')->update([
             'meta' => [
                 'type' => 'reorder',
