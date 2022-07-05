@@ -19,9 +19,8 @@ class TestController extends Controller
             'payable_type' => 'App\\Models\\User',
             'type' => 'deposit',
             'meta->type' => 'purchase',
-            'meta->description' => 'Purchase of Product #2',
             'meta->status' => 'purchased',
-        ])->update([
+        ])->where('meta->description', 'LIKE', '%#2%')->update([
             'meta' => [
                 'type' => 'reorder',
                 'status' => 'purchased',
