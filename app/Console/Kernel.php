@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('queue:retry', ['all'])->everyFiveMinutes();
         $schedule->command('user:payment')->hourly();
-        // $schedule->command('point:increase')->monthly();
+        $schedule->command('point:increase')->monthly();
     }
 
     /**

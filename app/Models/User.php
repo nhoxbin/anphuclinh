@@ -507,9 +507,11 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
     {
         if ($request->s) {
             $users = User::where(function ($q) use ($request) {
-                    $id_num = (int)(str_replace(config('icoapp.user_prefix'), '', $request->s));
-                    $q->orWhere('id', $id_num)->orWhere('email', 'like', '%' . $request->s . '%')->orWhere('name', 'like', '%' . $request->s . '%');
-                });
+                $q->orWhere('id', $request->s)
+                    ->orWhere('email', 'like', '%' . $request->s . '%')
+                    ->orWhere('name', 'like', '%' . $request->s . '%')
+                    ->orWhere('phone', 'like', '%' . $request->s . '%');
+            });
             return $users;
         }
 

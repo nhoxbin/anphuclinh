@@ -257,6 +257,7 @@
                         <tr class="data-item data-head">
                             <th class="data-col data-col-wd-md filter-data dt-user">{{ __('User') }}</th>
                             <th class="data-col data-col-wd-md dt-email">{{ __('Email') }}</th>
+                            <th class="data-col dt-balance">{{ __('Balance') }}</th>
                             <th class="data-col dt-sales">{{ __('Sales') }}</th>
                             <th class="data-col dt-verify">{{ __('Verified Status') }}</th>
                             <th class="data-col dt-login">{{ __('Last Login') }}</th>
@@ -281,6 +282,9 @@
                             </td>
                             <td class="data-col data-col-wd-md dt-email">
                                 <span class="sub sub-s2 sub-email text-wrap">{{ explode_user_for_demo($user->email, auth()->user()->type ) }}</span>
+                            </td>
+                            <td class="data-col dt-token">
+                                <span class="lead lead-btoken">{{ number_format($user->balance) }}</span>
                             </td>
                             <td class="data-col dt-token">
                                 <span class="lead lead-btoken">{{ number_format($user->sales()) }}</span>
