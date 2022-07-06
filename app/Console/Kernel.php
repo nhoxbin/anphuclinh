@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('queue:work', ['--queue=emails,kycs,purchases,default', '--max-time=3600'])
             ->withoutOverlapping()
-            ->hourly();
+            ->everyFiveMinutes();
 
         $schedule->command('queue:retry', ['all'])->everyFiveMinutes();
         $schedule->command('user:payment')->hourly();

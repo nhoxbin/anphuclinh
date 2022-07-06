@@ -28,8 +28,8 @@ class WithdrawController extends Controller
                         'amount' => 0,
                         'confirmed' => 0,
                         'meta->type' => 'withdraw'
-                    ])->exists();
-                    if ($withdraw) {
+                    ])->first();
+                    if (!is_null($withdraw)) {
                         $withdraw->update(['amount' => $request->amount]);
                     } else {
                         $user->withdraw($request->amount, ['type' => 'withdraw', 'status' => 'pending', 'ubank_id' => $request->id], 0);

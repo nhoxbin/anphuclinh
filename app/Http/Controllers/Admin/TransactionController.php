@@ -34,7 +34,7 @@ class TransactionController extends Controller
             ->whereIn('meta->type', ['combo', 'reorder', 'withdraw', 'package', 'income']);
 
         if ($status == 'approved') {
-            $trnxs->where(['confirmed' => 1, 'type' => 'deposit']);
+            $trnxs->where(['confirmed' => 1]);
         }  elseif ($status == 'pending') {
             $trnxs->where(['confirmed' => 0, 'meta->status' => 'pending'])->where('amount', '<>', 0);
         } else {
