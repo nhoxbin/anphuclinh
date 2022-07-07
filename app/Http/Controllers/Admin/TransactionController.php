@@ -31,22 +31,33 @@ class TransactionController extends Controller
 
         $trnxs = Transaction::query();
         $trnxs->with('payable')->where(['payable_type' => 'App\\Models\\User'])
-            ->whereIn('meta->type', ['combo', 'reorder', 'withdraw', 'package', 'income']);
-
-        if ($status == 'approved') {
-            $trnxs->where(['confirmed' => 1]);
-        }  elseif ($status == 'pending') {
-            $trnxs->where(['confirmed' => 0, 'meta->status' => 'pending'])->where('amount', '<>', 0);
-        } else {
-            $trnxs->where(['type' => 'deposit'])->where('amount', '>', 0);
-        }
+            ->where(function($q) use ($status) {
+                if ($status == 'approved') {
+                    $q->where(['confirmed' => 1]);
+                }  elseif ($status == 'pending') {
+                    $q->where(['confirmed' => 0, 'meta->status' => 'pending'])->where('amount', '<>', 0);
+                } else {
+                    $q->where(['type' => 'deposit'])->where('amount', '>', 0);
+                }
+                $q->where('type', 'deposit')->where('amount', '>', 0)->whereIn('meta->type', ['combo', 'reorder', 'package']);
+            })
+            ->orWhere(function($q) use ($status) {
+                if ($status == 'approved') {
+                    $q->where(['confirmed' => 1]);
+                }  elseif ($status == 'pending') {
+                    $q->where(['confirmed' => 0, 'meta->status' => 'pending'])->where('amount', '<>', 0);
+                } else {
+                    $q->where(['type' => 'deposit'])->where('amount', '>', 0);
+                }
+                $q->whereIn('meta->type', ['withdraw', 'income']);
+            });
 
         if ($request->s) {
             $trnxs->where(['confirmed' => 1])->where('amount', '>', 0)->where(function($q) use ($request) {
                 $q->orWhere('id', $request->s);
             });
         }
-        $trnxs = $trnxs->where('meta->qty', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
+        $trnxs = $trnxs->orderBy($order_by, $ordered)->paginate($per_page);
 
         /* if ($request->filter) {
             $trnxs = Transaction::AdvancedFilter($request)

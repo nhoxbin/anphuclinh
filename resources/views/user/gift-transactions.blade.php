@@ -24,7 +24,7 @@
                             <form action="{{ route('user.transactions') }}" method="GET" autocomplete="off">
                                 <div class="input-wrap">
                                     <span class="input-icon input-icon-left"><em class="ti ti-search"></em></span>
-                                    <input type="search" class="input-solid input-transparent" placeholder="Tranx ID to quick search" value="{{ request()->get('s', '') }}" name="s">
+                                    <input type="search" class="input-solid input-transparent" placeholder="{{ __('Search') }}" value="{{ request()->get('s', '') }}" name="s">
                                 </div>
                             </form>
                         </div>

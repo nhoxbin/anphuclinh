@@ -26,7 +26,7 @@
                             <form action="{{ route('admin.transactions') }}" method="GET" autocomplete="off">
                                 <div class="input-wrap">
                                     <span class="input-icon input-icon-left"><em class="ti ti-search"></em></span>
-                                    <input type="search" class="input-solid input-transparent" placeholder="Tranx ID to quick search" value="{{ request()->get('s', '') }}" name="s">
+                                    <input type="search" class="input-solid input-transparent" placeholder="{{ __('Search') }}" value="{{ request()->get('s', '') }}" name="s">
                                 </div>
                             </form>
                         </div>
@@ -265,7 +265,6 @@
                                     } elseif ($trnx->meta['type'] == 'income') {
                                         $type = App\Models\Level::find($trnx->meta['level']);
                                     }
-
                                     @endphp
                                     <span class="lead token-amount{{ $text_danger }}">{!! $type->name ?? $trnx->meta['title'] . '<sup>đ</sup>' !!}</span>
                                     @if ($trnx->meta['type'] != 'bonus')
