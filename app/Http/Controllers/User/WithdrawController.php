@@ -30,7 +30,7 @@ class WithdrawController extends Controller
                         'meta->type' => 'withdraw'
                     ])->first();
                     if (!is_null($withdraw)) {
-                        $withdraw->update(['amount' => $request->amount]);
+                        $withdraw->update(['amount' => -$request->amount]);
                     } else {
                         $user->withdraw($request->amount, ['type' => 'withdraw', 'status' => 'pending', 'ubank_id' => $request->id], 0);
                     }
