@@ -265,6 +265,7 @@
                                     } elseif ($trnx->meta['type'] == 'income') {
                                         $type = App\Models\Level::find($trnx->meta['level']);
                                     }
+
                                     @endphp
                                     <span class="lead token-amount{{ $text_danger }}">{!! $type->name ?? $trnx->meta['title'] . '<sup>đ</sup>' !!}</span>
                                     @if ($trnx->meta['type'] != 'bonus')

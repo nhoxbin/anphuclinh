@@ -46,7 +46,7 @@ class TransactionController extends Controller
                 $q->orWhere('id', $request->s);
             });
         }
-        $trnxs = $trnxs->orderBy($order_by, $ordered)->paginate($per_page);
+        $trnxs = $trnxs->where('meta->qty', '>', 0)->orderBy($order_by, $ordered)->paginate($per_page);
 
         /* if ($request->filter) {
             $trnxs = Transaction::AdvancedFilter($request)
