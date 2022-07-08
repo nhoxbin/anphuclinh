@@ -52,7 +52,7 @@ class UserPurchaseProductProcessor
                 if (count($history) || $force) {
                     $amount = $transaction->amount;
                     $user->confirm($transaction);
-                    if (!$force && !count($history) && $user->balance >= $transaction->amount*2) {
+                    if (!count($history) && $user->balance >= $transaction->amount*2) {
                         $amount = $transaction->amount*2;
                     }
                     // throw new \Exception('Đảm bảo khách hàng đã chuyển tiền hoặc số tiền trong tài khoản của khách hàng lớn hơn số tiền giao dịch!');
