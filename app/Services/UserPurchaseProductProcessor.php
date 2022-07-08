@@ -154,7 +154,7 @@ class UserPurchaseProductProcessor
             ];
 
             // trừ hoa hồng (bonus)
-            $sales = Transaction::with('payable')->where('meta->transaction_id', $transaction->id)->get();
+            $sales = Transaction::with('payable')->where(['type' => 'bonus', 'meta->transaction_id' => $transaction->id])->get();
             $sales->map(function($t) use ($data) {
                 if ($t->payable->balance > 0) {
                     $t->payable->forceWithdraw($t->amount, $data);
