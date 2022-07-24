@@ -274,7 +274,7 @@
                             </td>
                             <td class="data-col dt-amount">
                                 <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['status'] == 'refunded' ? $trnx->meta['status'] : $trnx->meta['type'])) }}</span>
+                                {{-- <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['status'] == 'refunded' ? $trnx->meta['status'] : $trnx->meta['type'])) }}</span> --}}
                             </td>
                             {{-- <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">

@@ -236,21 +236,18 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             ])->first();
             Cache::put('date_has_combo_'.$this->id, $has_combo, 60*60*24);
         }
-        if ((!$is_uses_point && $type != 'combo') || is_null($has_combo)) {
+        if (auth()->user()->hasRole('super_admin') || (!$is_uses_point && $type != 'combo') || is_null($has_combo)) {
             return 0;
         }
-
         // Tổng doanh số
-        $data = [
+        $transaction = Transaction::query();
+        $transaction->whereIn('payable_id', $this->group_ids)->where([
             'payable_type' => 'App\\Models\\User',
             'confirmed' => 1,
+            'type' => 'deposit',
             'meta->status' => 'purchased',
             'meta->type' => $type,
-        ];
-
-        $data['type'] = 'deposit';
-        $transaction = Transaction::query();
-        $transaction->whereIn('payable_id', $this->group_ids)->where($data);
+        ]);
         if (!$is_uses_point && $type != 'combo') {
             $transaction->where('meta->point_uses', 0);
             $transaction->where('updated_at', '>=', $has_combo->updated_at->toDateTimeString());
@@ -440,7 +437,7 @@ class User extends Authenticatable implements Customer, Confirmable, Pointable /
             'meta->type' => 'combo',
             'meta->status' => 'purchased'
         ])->first();
-        if (is_null($has_combo)) {
+        if (is_null($has_combo) || auth()->user()->hasRole('super_admin')) {
             return [];
         }
 

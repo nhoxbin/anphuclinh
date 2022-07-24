@@ -29,17 +29,17 @@ class TransactionController extends Controller
         $order_by = 'updated_at';
         $ordered  = 'DESC';
 
+        $types = ['combo', 'reorder', 'package', 'withdraw', 'income'];
         $trnxs = Transaction::query();
-        $trnxs->with('payable')->where('payable_type', 'App\\Models\\User')
-            ->where(function($q) use ($status) {
-                $types = ['combo', 'reorder', 'package', 'withdraw', 'bonus', 'income'];
-                if ($status == 'approved') {
-                    $q->where('confirmed', 1);
-                } elseif ($status == 'pending') {
-                    $q->where(['confirmed' => 0, 'meta->status' => 'pending']);
-                }
-                $q->where(['type' => 'deposit'])->where('amount', '>', 0)->whereIn('meta->type', $types);
-            });
+        $trnxs->with('payable')->where([
+            'payable_type' => 'App\\Models\\User',
+            'type' => 'deposit',
+            'confirmed' => $status == 'approved' ? 1 : 0,
+        ])->where('amount', '<>', 0)->whereIn('meta->type', $types);
+
+        if ($status == 'pending') {
+            $trnxs->where('meta->status', 'pending');
+        }
 
         if ($request->s) {
             $trnxs->where(['confirmed' => 1])->where('amount', '>', 0)->where(function($q) use ($request) {
@@ -50,7 +50,8 @@ class TransactionController extends Controller
 
         /* if ($request->filter) {
             $trnxs = Transaction::AdvancedFilter($request)
-                                ->orderBy($order_by, $ordered)->paginate($per_page);
+                ->orderBy($order_by, $ordered)
+                ->paginate($per_page);
         } */
 
         $is_page = (empty($status) ? 'all' : $status);

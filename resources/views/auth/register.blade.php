@@ -19,7 +19,7 @@
                 <input type="text" placeholder="{{ __('Số điện thoại') }}" id="phone" class="input-bordered{{ $errors->has('phone') ? ' input-error' : '' }}" name="phone" value="{{ old('phone') }}" minlength="10" data-msg-required="{{ __('Required.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 10]) }}" required>
             </div>
         </div>
-        <div class="tab">
+        {{-- <div class="tab">
             <div class="alert alert-primary" role="alert">
                 Vui lòng nhập mã OTP được gửi đến điện thoại của bạn.
             </div>
@@ -27,7 +27,7 @@
                 <input class="form-control" name="verification" id="verification" type="text" value="{{ old('verification') }}" placeholder="{{ __('Nhập mã xác minh') }}" required>
                 <span id="alert-code" class="text-danger" style="display: none">{{ __('INVALID_CODE') }}</span>
             </div>
-        </div>
+        </div> --}}
         <div class="tab">
             <div class="input-item">
                 <input type="text" placeholder="{{ __('Tên') }}" class="input-bordered{{ $errors->has('name') ? ' input-error' : '' }}" name="name" value="{{ old('name') }}" minlength="3" data-msg-required="{{ __('Required.') }}" data-msg-minlength="{{ __('At least :num chars.', ['num' => 3]) }}" required>

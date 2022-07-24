@@ -68,7 +68,7 @@ async function nextPrev(n) {
             document.getElementById("regForm").submit();
         }
     } else {
-        if (currentTab == 0) {
+        /* if (currentTab == 0) {
             var ok = false;
             if (route().current("login")) {
                 var email = $("#email").val();
@@ -96,7 +96,7 @@ async function nextPrev(n) {
                 ok = await sendOTP(phone);
             }
             if (!ok) return ok;
-        }
+        } */
         x[currentTab++].style.display = "none";
         showTab(currentTab);
     }
