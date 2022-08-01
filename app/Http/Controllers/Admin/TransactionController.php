@@ -29,17 +29,28 @@ class TransactionController extends Controller
         $order_by = 'updated_at';
         $ordered  = 'DESC';
 
-        $types = ['combo', 'reorder', 'package', 'withdraw', 'income'];
         $trnxs = Transaction::query();
-        $trnxs->with('payable')->where([
-            'payable_type' => 'App\\Models\\User',
-            'type' => 'deposit',
-            'confirmed' => $status == 'approved' ? 1 : 0,
-        ])->where('amount', '<>', 0)->whereIn('meta->type', $types);
-
-        if ($status == 'pending') {
-            $trnxs->where('meta->status', 'pending');
-        }
+        $trnxs->with('payable')->where(['payable_type' => 'App\\Models\\User'])
+            ->where(function($q) use ($status) {
+                if ($status == 'approved') {
+                    $q->where(['confirmed' => 1]);
+                }  elseif ($status == 'pending') {
+                    $q->where(['confirmed' => 0, 'meta->status' => 'pending'])->where('amount', '<>', 0);
+                } else {
+                    $q->where(['type' => 'deposit'])->where('amount', '>', 0);
+                }
+                $q->where('type', 'deposit')->where('amount', '>', 0)->whereIn('meta->type', ['combo', 'reorder', 'package']);
+            })
+            ->orWhere(function($q) use ($status) {
+                if ($status == 'approved') {
+                    $q->where(['confirmed' => 1]);
+                }  elseif ($status == 'pending') {
+                    $q->where(['confirmed' => 0, 'meta->status' => 'pending'])->where('amount', '<>', 0);
+                } else {
+                    $q->where(['type' => 'deposit'])->where('amount', '>', 0);
+                }
+                $q->whereIn('meta->type', ['withdraw', 'income']);
+            });
 
         if ($request->s) {
             $trnxs->where(['confirmed' => 1])->where('amount', '>', 0)->where(function($q) use ($request) {

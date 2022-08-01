@@ -250,8 +250,8 @@
                                     @php
                                         $type = App\Models\UserBank::find($trnx->meta['ubank_id']);
                                     @endphp
-                                    <span class="lead token-amount{{ $text_danger }}">{{ $type->user->name }}</span>
-                                    <span class="sub sub-symbol">{!! 'Bank: ' . $type->bank->name . "<br /> Chủ tk: " . $type->host . ', STK: ' . $type->number . ', Chi nhánh: ' . $type->branch !!}</span>
+                                    <span class="lead token-amount{{ $text_danger }}">{{ isset($type->user) ? $type->user->name : null }}</span>
+                                    <span class="sub sub-symbol">{!! !isset($type->user) ? null : ('Bank: ' . $type->bank->name . "<br /> Chủ tk: " . $type->host . ', STK: ' . $type->number . ', Chi nhánh: ' . $type->branch) !!}</span>
                                 @else
                                     @php
                                     $type = null;
@@ -270,11 +270,14 @@
                                     @if ($trnx->meta['type'] != 'bonus')
                                     <span class="sub sub-symbol">{{ __('Quantity') . ': ' . ($trnx->meta['qty'] ?? 1) . (isset($trnx->meta['address']) ? ', Địa chỉ: ' . $trnx->meta['address'] : null) }}</span>
                                     @endif
+                                    @if (!isset($trnx->meta['status']))
+                                        @dd($trnx)
+                                    @endif
                                 @endif
                             </td>
                             <td class="data-col dt-amount">
                                 <span class="lead amount-pay{{ $text_danger }}">{{ number_format($trnx->amount) }}<sup>đ</sup></span>
-                                {{-- <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['status'] == 'refunded' ? $trnx->meta['status'] : $trnx->meta['type'])) }}</span> --}}
+                                <span class="sub sub-symbol">{{ __(ucfirst($trnx->meta['status'] == 'refunded' ? $trnx->meta['status'] : $trnx->meta['type'])) }}</span>
                             </td>
                             {{-- <td class="data-col dt-account">
                                 <span class="sub sub-s2 pay-with">
